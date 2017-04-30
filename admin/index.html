@@ -29,30 +29,40 @@
 <script type="text/javascript">
    devices = [];
 
+    function setValue(id, value, onChange) {
+        // example: select elements with id=key and class=value and insert value
+        if ($('#' + id + '.value').attr('type') == 'checkbox') {
+            $('#' + id + '.value').prop('checked', value).change(function() {
+                onChange();
+            });
+        } else {
+            $('#' + id + '.value').val(value).change(function() {
+                onChange();
+            }).keyup(function() {
+                // Chack that only numbers entered
+                if ($(this).hasClass('number')) {
+                    var val = $(this).val();
+                    if (val) {
+                        var newVal = '';
+                        for (var i = 0; i < val.length; i++) {
+                            if (val[i] >= '0' && val[i] <= '9') {
+                                newVal += val[i];
+                            }
+                        }
+                        if (val != newVal) $(this).val(newVal);
+                    }
+                }
+                onChange();
+            });
+        }
+    }
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
-
-
-        if (!settings) return;
-
-        devices = settings.devices || [];
-
-        // example: select elements with id=key and class=value and insert value
-        for (var key in settings) {
-            // example: select elements with id=key and class=value and insert value
-			var $value = $('#' + key + '.value');
-            if (value.attr('type') === 'checkbox') {
-                value.prop('checked', settings[key]).change(function () {
-					onChange();
-				});
-            } else {
-                value.val(settings[key]).change(function () {
-					onChange();
-				}).keyup(function () {
-					$(this).trigger('change');
-				});
+            if (!settings) return;
+            sensors = settings.sensors || [];
+            for (var key in settings) {
+                setValue(key, settings[key], onChange);
             }
-        }
         editTable('devices', ['did', 'ip', 'type', 'uid ', 'name'], devices, 470);
         // Signal to admin, that no changes yet
         onChange(false);
