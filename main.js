@@ -11,9 +11,7 @@
 
 // you have to require the utils module and call adapter function
 var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
-
-var YamahaYXC = require('yamaha-yxc-nodejs');
-var yamaha = new YamahaYXC("192.168.178.52");
+var yamaha = null;
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
@@ -346,6 +344,8 @@ function main() {
     var obj = adapter.config.devices;  //quit adapter and restart with found config
 
     //check if something is not configured
+    var YamahaYXC = require('yamaha-yxc-nodejs');
+    
 
     for (var anz in obj){
 
@@ -354,7 +354,7 @@ function main() {
         //yamaha.getAnzRooms()
         //yamaha.getLoudspeakerSetting()
         //yamaha.getEqualizerSetting()
-
+        var yamaha = new YamahaYXC(obj[anz].ip);
         defineMusicDevice(obj[anz].type, obj[anz].uid); //contains also the structure to musiccast.0._id_type_.
         defineMusicZone(obj[anz].type, obj[anz].uid, 'main', '60'); //contains also the structure to musiccast.0._id_type_.
         defineMusicNetUsb(obj[anz].type, obj[anz].uid);
