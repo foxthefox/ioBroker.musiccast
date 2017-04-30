@@ -13,7 +13,7 @@
 var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
 
 var YamahaYXC = require('yamaha-yxc-nodejs');
-var yamaha = new YamahaYXC();
+var yamaha = new YamahaYXC("192.168.178.52");
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
@@ -86,8 +86,7 @@ adapter.on('stateChange', function (id, state) {
         var dp = tmp.pop(); //should always be "state"
         var idx = tmp.pop(); //is the name after musiccast.x.
             adapter.log.info('MusicCast: '+ id + ' identified for command');
-
-     var yamaha = new YamahaYXC("192.168.178.52")       
+      
         if (dp === 'power' && state === true){
 
             yamaha.powerOn().done(function(response) {
