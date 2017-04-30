@@ -358,7 +358,7 @@ function main() {
 
         defineMusicDevice(obj[anz].type, obj[anz].uid); //contains also the structure to musiccast.0._id_type_.
         defineMusicZone(obj[anz].type, obj[anz].uid, 'main', '60'); //contains also the structure to musiccast.0._id_type_.
-        defineMusicNetusb(obj[anz].type, obj[anz].uid);
+        defineMusicNetUsb(obj[anz].type, obj[anz].uid);
         defineMusicSystem(obj[anz].type, obj[anz].uid);
     }
 
