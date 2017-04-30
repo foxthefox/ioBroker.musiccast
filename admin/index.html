@@ -53,7 +53,7 @@
 				});
             }
         }
-        editTable('foundDevices', ['did', 'ip', 'type', 'uid ', 'name'], foundDevices, 470);
+        editTable('devices', ['did', 'ip', 'type', 'uid ', 'name'], devices, 470);
         // Signal to admin, that no changes yet
         onChange(false);
     }
@@ -85,12 +85,8 @@
     </tr></table>
 
     <p class="translate">on save adapter restarts with new config immediately</p>
-
-    <table id="devices"></table>
-    <div id="pager-devices">
-        <table id="foundDevices"></table>
-    </div>
-
+    <h4 class="translate">MusicCast configuration</h4>
+    <table id="devices"></table><div id="pager-devices"></div>
 </div>
 
 </html>
