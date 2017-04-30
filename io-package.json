@@ -33,8 +33,9 @@
                     "did": "1",
                     "ip": "192.168.178.52",
                     "type": "YSP-1600",
-                    "name": "Wohnzimmer",
-                    "uid": "0B587073"
+		    "uid": "0B587073",
+                    "name": "Wohnzimmer"
+
                 }
             ]
     },
