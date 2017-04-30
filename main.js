@@ -88,16 +88,21 @@ adapter.on('stateChange', function (id, state) {
         if (dp === 'power' && state === true){
 
             yamaha.powerOn().done(function(response) {
-                if (JSON.stringify(response).response_code === '0' ){adapter.setForeignState(id, true, true);}
+                if (JSON.stringify(response).response_code === '0' ){
+                    adapter.log.debug('sent power on succesfully');
+                    //adapter.setForeignState(id, true, true);
+                }
                 else responeFailLog(response);
             });
-        } else
+        } else {
             yamaha.powerOff().done(function(response) {
-                if (JSON.stringify(response).response_code === '0' ){adapter.setForeignState(id, false, true);}
+                if (JSON.stringify(response).response_code === '0' ){
+                    adapter.log.debug('sent power off succesfully');
+                    //adapter.setForeignState(id, false, true);
+                }
                 else responeFailLog(response);
             });
-
-        
+        }
     }//if status
 });
 
