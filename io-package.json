@@ -2,7 +2,7 @@
     "common": {
         "name":                     "musiccast",
         "version":                  "0.0.1",
-	    "news": {
+	 "news": {
 			"0.0.1": {
 			  "en": "initial adapter",
 			  "de": "Initiale Version",
@@ -19,12 +19,11 @@
         "mode":                     "daemon",
         "icon":                     "musiccast.png",
         "enabled":                  true,
-		"extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.musiccast/master/admin/musiccast.png",
-		"keywords":                 ["musiccast", "vis", "GUI", "graphical", "scada"],
+	"extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.musiccast/master/admin/musiccast.png",
+	"keywords":                 ["musiccast", "vis", "GUI", "graphical", "scada"],
         "readme":                   "https://github.com/ioBroker/ioBroker.musiccast/blob/master/README.md",
-		"loglevel":                 "info",
-        "type":                     "common adapters",
-        "restartAdapters":          ["vis"]
+	"loglevel":                 "debug",
+        "type":                     "media"
     },
     "native": {
         "test1": true,
