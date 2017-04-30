@@ -59,7 +59,7 @@
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
             if (!settings) return;
-            sensors = settings.sensors || [];
+            devices = settings.devices || [];
             for (var key in settings) {
                 setValue(key, settings[key], onChange);
             }
