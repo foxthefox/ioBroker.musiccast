@@ -19,11 +19,11 @@ var yamaha = null;
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.musiccast.0
 var adapter = utils.adapter('musiccast');
 
-function responeFailLog(result){
-    var errcode = 0;
-    switch (JSON.parse(result).response_code) {
+function responseFailLog(fail){
+    var errcode = "";
+    switch (JSON.parse(fail).response_code) {
         case 1: errcode = "Response : 1 Initializing"; break;
-        case 2: errcode = "Response : 2 Internal Error");break;
+        case 2: errcode = "Response : 2 Internal Error";break;
         case 3: errcode = "Response : 3 Invalid Request (A method did not exist, a method wasn’t appropriate etc.)"; break;
         case 4: errcode = "Response : 4 Invalid Parameter (Out of range, invalid characters etc.)";break;
         case 5: errcode = "Response : 5 Guarded (Unable to setup in current status etc.)"; break;
