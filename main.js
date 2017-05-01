@@ -107,7 +107,7 @@ adapter.on('stateChange', function (id, state) {
             });
         }
         if (dp === 'mute' && state.val === true){
-            yamaha.powerMuteOn().then(function(result) {
+            yamaha.muteOn().then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('sent mute on succesfully');
                     //adapter.setForeignState(id, true, true);
@@ -115,7 +115,7 @@ adapter.on('stateChange', function (id, state) {
                 else {adapter.log.debug('failure sending ON ' +  responseFailLog(result));}
             });
         } else {
-            yamaha.MuteOff().then(function(result) {
+            yamaha.muteOff().then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('sent power off succesfully');
                     //adapter.setForeignState(id, false, true);
