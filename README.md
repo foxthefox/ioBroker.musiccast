@@ -25,4 +25,5 @@ The adapter currently does not support discovery function.
 
 
 #### 0.0.1
-* initial release
+* initial release with setting of IP in config-page, 
+* available commands power, mute, volume
