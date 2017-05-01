@@ -21,7 +21,7 @@ var adapter = utils.adapter('musiccast');
 
 function responeFailLog(result){
     var errcode = 0;
-    switch (result.response_code) {
+    switch (JSON.parse(result).response_code) {
         case 1: errcode = "Response : 1 Initializing"; break;
         case 2: errcode = "Response : 2 Internal Error");break;
         case 3: errcode = "Response : 3 Invalid Request (A method did not exist, a method wasn’t appropriate etc.)"; break;
@@ -91,7 +91,7 @@ adapter.on('stateChange', function (id, state) {
         
         if (dp === 'power' && state.val === true){
             yamaha.powerOn().then(function(result) {
-                if (result.response_code === 0 ){
+                if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('sent power on succesfully');
                     //adapter.setForeignState(id, true, true);
                 }
@@ -99,7 +99,7 @@ adapter.on('stateChange', function (id, state) {
             });
         } else {
             yamaha.powerOff().then(function(result) {
-                if (result.response_code === 0 ){
+                if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('sent power off succesfully');
                     //adapter.setForeignState(id, false, true);
                 }
