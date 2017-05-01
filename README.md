@@ -10,7 +10,7 @@
 
 adapter for Yamaha MusicCast devices like WX-010/030, YSP-1600
 
-##Installation:
+## Installation:
 from npm
 * npm install iobroker.musiccast
 
