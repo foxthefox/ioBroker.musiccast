@@ -84,10 +84,17 @@ adapter.on('stateChange', function (id, state) {
     if (state && !state.ack) {
         var tmp = id.split('.');
         var dp = tmp.pop(); //is the instance we are working on
-        var idx = tmp.pop(); //is the name after musiccast.x.
+        var idx = tmp.pop(); //is zone, system or other item
+        var idy = tmp.pop(); // the device "type"_"uid"
         adapter.log.info('MusicCast: '+ id + ' identified for command with ' + state.val);
         
-        yamaha = new YamahaYXC("192.168.178.52");
+        //ermitteln der IP aus config
+        adapter.log.debug('device with uid = ' + idy.split("_")[1]);
+        var uid = idy.split("_")[1];
+        var IP = getConfigObjects(adapter.config.devices, 'uid', uid);
+        adapter.log.debug('IP configured : ' + IP[0].ip + ' for UID ' + uid);
+        
+        yamaha = new YamahaYXC(IP[0].ip);
         
         if (dp === 'power' && state.val === true){
             yamaha.powerOn().then(function(result) {
@@ -389,7 +396,7 @@ function main() {
         //yamaha.getAnzRooms()
         //yamaha.getLoudspeakerSetting()
         //yamaha.getEqualizerSetting()
-        //var yamaha = new YamahaYXC(obj[anz].ip);
+        
         defineMusicDevice(obj[anz].type, obj[anz].uid); //contains also the structure to musiccast.0._id_type_.
         defineMusicZone(obj[anz].type, obj[anz].uid, 'main', '60'); //contains also the structure to musiccast.0._id_type_.
         defineMusicNetUsb(obj[anz].type, obj[anz].uid);
