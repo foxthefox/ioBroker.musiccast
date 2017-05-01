@@ -19,9 +19,9 @@
         "mode":                     "daemon",
         "icon":                     "musiccast.png",
         "enabled":                  true,
-	"extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.musiccast/master/admin/musiccast.png",
+	"extIcon":                  "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
 	"keywords":                 ["musiccast", "sound", "audio"],
-        "readme":                   "https://github.com/ioBroker/ioBroker.musiccast/blob/master/README.md",
+        "readme":                   "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
 	"loglevel":                 "debug",
         "type":                     "media"
     },
