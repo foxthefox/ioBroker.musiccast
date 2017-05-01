@@ -19,9 +19,9 @@ var yamaha = null;
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.musiccast.0
 var adapter = utils.adapter('musiccast');
 
-function responeFailLog(response){
-    var errcode = "";
-    switch (JSON.stringify(response)) {
+function responeFailLog(result){
+    var errcode = 0;
+    switch (result.response_code) {
         case 1: errcode = "Response : 1 Initializing"; break;
         case 2: errcode = "Response : 2 Internal Error");break;
         case 3: errcode = "Response : 3 Invalid Request (A method did not exist, a method wasn’t appropriate etc.)"; break;
@@ -85,29 +85,29 @@ adapter.on('stateChange', function (id, state) {
         var tmp = id.split('.');
         var dp = tmp.pop(); //should always be "state"
         var idx = tmp.pop(); //is the name after musiccast.x.
-        adapter.log.info('MusicCast: '+ id + ' identified for command with' + state);
+        adapter.log.info('MusicCast: '+ id + ' identified for command with' + state.val);
         
         yamaha = new YamahaYXC("192.168.178.52");
         
-        if (dp === 'power' && state === true){
-            yamaha.powerOn().done(function(response) {
-                if (JSON.stringify(response).response_code === '0' ){
-                    adapter.log.debug('sent power on succesfully' + JSON.stringify(response) );
+        if (dp === 'power' && state.val === true){
+            yamaha.powerOn().then(function(result) {
+                if (result.response_code === 0 ){
+                    adapter.log.debug('sent power on succesfully');
                     //adapter.setForeignState(id, true, true);
                 }
-                else adapter.log.debug(responeFailLog(response));
+                else {adapter.log.debug(responeFailLog(result));}
             });
         } else {
-            yamaha.powerOff().done(function(response) {
-                if (JSON.stringify(response).response_code === '0' ){
-                    adapter.log.debug('sent power off succesfully' + JSON.stringify(response));
+            yamaha.powerOff().then(function(result) {
+                if (result.response_code === 0 ){
+                    adapter.log.debug('sent power off succesfully');
                     //adapter.setForeignState(id, false, true);
                 }
-                else adapter.log.debug(responeFailLog(response));
+                else {adapter.log.debug(responeFailLog(result));}
             });
         }
-        yamaha.getStatus().then(function(response) {
-            adapter.log.debug('Status is now  ' + JSON.stringify(response));
+        yamaha.getStatus().then(function(result) {
+            adapter.log.debug('Status is now  ' + result);
         });
                                 
     }//if status
