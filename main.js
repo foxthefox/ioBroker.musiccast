@@ -85,7 +85,7 @@ adapter.on('stateChange', function (id, state) {
         var tmp = id.split('.');
         var dp = tmp.pop(); //should always be "state"
         var idx = tmp.pop(); //is the name after musiccast.x.
-        adapter.log.info('MusicCast: '+ id + ' identified for command with' + state.val);
+        adapter.log.info('MusicCast: '+ id + ' identified for command with ' + state.val);
         
         yamaha = new YamahaYXC("192.168.178.52");
         
@@ -95,7 +95,7 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('sent power on succesfully');
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug(responeFailLog(result));}
+                else {adapter.log.debug('failure sending ON ' +  responeFailLog(result));}
             });
         } else {
             yamaha.powerOff().then(function(result) {
@@ -103,12 +103,35 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('sent power off succesfully');
                     //adapter.setForeignState(id, false, true);
                 }
-                else {adapter.log.debug(responeFailLog(result));}
+                else {adapter.log.debug('failure sending OFF ' + responeFailLog(result));}
             });
         }
-        yamaha.getStatus().then(function(result) {
-            adapter.log.debug('Status is now  ' + result);
-        });
+        if (dp === 'mute' && state.val === true){
+            yamaha.powerMuteOn().then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent mute on succesfully');
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure sending ON ' +  responeFailLog(result));}
+            });
+        } else {
+            yamaha.MuteOff().then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent power off succesfully');
+                    //adapter.setForeignState(id, false, true);
+                }
+                else {adapter.log.debug('failure mute OFF ' + responeFailLog(result));}
+            });
+        }
+        if (dp === 'volume'){
+            yamaha.setVolumeTo(state.val).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent volume succesfully  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure sending volume ' +  responeFailLog(result));}
+            });
+        }
                                 
     }//if status
 });
