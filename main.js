@@ -382,8 +382,11 @@ adapter.on('ready', function () {
 function main() {
 
     //yamaha.discover
+    //yamaha.discoverYSP 
+    //found devices crosscheck with config.devices
+    //new found devices to adapter.confg.devices //quit adapter and restart with found config
 
-    var obj = adapter.config.devices;  //quit adapter and restart with found config
+    var obj = adapter.config.devices;
 
     //check if something is not configured
 
