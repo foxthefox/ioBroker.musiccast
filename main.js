@@ -83,7 +83,7 @@ adapter.on('stateChange', function (id, state) {
     // you can use the ack flag to detect if it is status (true) or command (false)
     if (state && !state.ack) {
         var tmp = id.split('.');
-        var dp = tmp.pop(); //should always be "state"
+        var dp = tmp.pop(); //is the instance we are working on
         var idx = tmp.pop(); //is the name after musiccast.x.
         adapter.log.info('MusicCast: '+ id + ' identified for command with ' + state.val);
         
@@ -112,12 +112,12 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('sent mute on succesfully');
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug('failure sending ON ' +  responseFailLog(result));}
+                else {adapter.log.debug('failure mute ON ' +  responseFailLog(result));}
             });
         } else {
             yamaha.muteOff().then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent power off succesfully');
+                    adapter.log.debug('sent mute off succesfully');
                     //adapter.setForeignState(id, false, true);
                 }
                 else {adapter.log.debug('failure mute OFF ' + responseFailLog(result));}
