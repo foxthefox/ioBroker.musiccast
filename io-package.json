@@ -20,14 +20,12 @@
         "icon":                     "musiccast.png",
         "enabled":                  true,
 	"extIcon":                  "https://raw.githubusercontent.com/ioBroker/ioBroker.musiccast/master/admin/musiccast.png",
-	"keywords":                 ["musiccast", "vis", "GUI", "graphical", "scada"],
+	"keywords":                 ["musiccast", "sound", "audio"],
         "readme":                   "https://github.com/ioBroker/ioBroker.musiccast/blob/master/README.md",
 	"loglevel":                 "debug",
         "type":                     "media"
     },
     "native": {
-        "test1": true,
-        "test2": 42,
         "devices": [
                 {
                     "did": "1",
