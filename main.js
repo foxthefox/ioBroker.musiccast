@@ -95,7 +95,7 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('sent power on succesfully');
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug('failure sending ON ' +  responeFailLog(result));}
+                else {adapter.log.debug('failure sending ON ' +  responseFailLog(result));}
             });
         } else {
             yamaha.powerOff().then(function(result) {
@@ -103,7 +103,7 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('sent power off succesfully');
                     //adapter.setForeignState(id, false, true);
                 }
-                else {adapter.log.debug('failure sending OFF ' + responeFailLog(result));}
+                else {adapter.log.debug('failure sending OFF ' + responseFailLog(result));}
             });
         }
         if (dp === 'mute' && state.val === true){
@@ -112,7 +112,7 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('sent mute on succesfully');
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug('failure sending ON ' +  responeFailLog(result));}
+                else {adapter.log.debug('failure sending ON ' +  responseFailLog(result));}
             });
         } else {
             yamaha.MuteOff().then(function(result) {
@@ -120,7 +120,7 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('sent power off succesfully');
                     //adapter.setForeignState(id, false, true);
                 }
-                else {adapter.log.debug('failure mute OFF ' + responeFailLog(result));}
+                else {adapter.log.debug('failure mute OFF ' + responseFailLog(result));}
             });
         }
         if (dp === 'volume'){
@@ -129,7 +129,7 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('sent volume succesfully  to ' + state.val);
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug('failure sending volume ' +  responeFailLog(result));}
+                else {adapter.log.debug('failure sending volume ' +  responseFailLog(result));}
             });
         }
                                 
