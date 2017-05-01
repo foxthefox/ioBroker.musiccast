@@ -11,6 +11,7 @@
 
 // you have to require the utils module and call adapter function
 var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
+var YamahaYXC = require('yamaha-yxc-nodejs');
 var yamaha = null;
 
 // you have to call the adapter function and pass a options object
@@ -19,29 +20,29 @@ var yamaha = null;
 var adapter = utils.adapter('musiccast');
 
 function responeFailLog(response){
-    var errcode;
+    var errcode = "";
     switch (JSON.stringify(response)) {
-        case 1: errcode ="Response : 1 Initializing"; break;
-        case 2: errcode ="Response : 2 Internal Error");break;
-        case 3: errcode ="Response : 3 Invalid Request (A method did not exist, a method wasn’t appropriate etc.)"; break;
-        case 4: errcode ="Response : 4 Invalid Parameter (Out of range, invalid characters etc.)";break;
-        case 5: errcode ="Response : 5 Guarded (Unable to setup in current status etc.)"; break;
-        case 6: errcode ="Response : 6 Time Out";break;
-        case 99: errcode ="Response : 99 Firmware Updating";break;
+        case 1: errcode = "Response : 1 Initializing"; break;
+        case 2: errcode = "Response : 2 Internal Error");break;
+        case 3: errcode = "Response : 3 Invalid Request (A method did not exist, a method wasn’t appropriate etc.)"; break;
+        case 4: errcode = "Response : 4 Invalid Parameter (Out of range, invalid characters etc.)";break;
+        case 5: errcode = "Response : 5 Guarded (Unable to setup in current status etc.)"; break;
+        case 6: errcode = "Response : 6 Time Out";break;
+        case 99: errcode = "Response : 99 Firmware Updating";break;
         //Streaming Service Errors
-        case 100: errcode ="Response : 100 Access Error Streaming Service";break;
-        case 101: errcode ="Response : 101 Other Errors Streaming Service";break;
-        case 102: errcode ="Response : 102 Wrong User Name Streaming Service";break;
-        case 103: errcode ="Response : 103 Wrong Password Streaming Service";break;
-        case 104: errcode ="Response : 104 Account Expired Streaming Service";break;
-        case 105: errcode ="Response : 105 Account Disconnected/Gone Off/Shut Down Streaming Service";break;
-        case 106: errcode ="Response : 106 Account Number Reached to the Limit Streaming Service";break;
-        case 107: errcode ="Response : 107 Server Maintenance Streaming Service";break;
-        case 108: errcode ="Response : 108 Invalid Account Streaming Service";break;
-        case 109: errcode ="Response : 109 License Error Streaming Service";break;
-        case 110: errcode ="Response : 110 Read Only Mode Streaming Service";break;
-        case 111: errcode ="Response : 111 Max Stations Streaming Service";break;
-        case 112: errcode ="Response : 112 Access Denied Streaming Service";break;
+        case 100: errcode = "Response : 100 Access Error Streaming Service";break;
+        case 101: errcode = "Response : 101 Other Errors Streaming Service";break;
+        case 102: errcode = "Response : 102 Wrong User Name Streaming Service";break;
+        case 103: errcode = "Response : 103 Wrong Password Streaming Service";break;
+        case 104: errcode = "Response : 104 Account Expired Streaming Service";break;
+        case 105: errcode = "Response : 105 Account Disconnected/Gone Off/Shut Down Streaming Service";break;
+        case 106: errcode = "Response : 106 Account Number Reached to the Limit Streaming Service";break;
+        case 107: errcode = "Response : 107 Server Maintenance Streaming Service";break;
+        case 108: errcode = "Response : 108 Invalid Account Streaming Service";break;
+        case 109: errcode = "Response : 109 License Error Streaming Service";break;
+        case 110: errcode = "Response : 110 Read Only Mode Streaming Service";break;
+        case 111: errcode = "Response : 111 Max Stations Streaming Service";break;
+        case 112: errcode = "Response : 112 Access Denied Streaming Service";break;
         default: errcode = "unknown code";           
     }
     return errcode;
@@ -85,7 +86,9 @@ adapter.on('stateChange', function (id, state) {
         var dp = tmp.pop(); //should always be "state"
         var idx = tmp.pop(); //is the name after musiccast.x.
         adapter.log.info('MusicCast: '+ id + ' identified for command with' + state);
-      
+        
+        yamaha = new YamahaYXC("192.168.178.52");
+        
         if (dp === 'power' && state === true){
             yamaha.powerOn().done(function(response) {
                 if (JSON.stringify(response).response_code === '0' ){
@@ -353,7 +356,7 @@ function main() {
     var obj = adapter.config.devices;  //quit adapter and restart with found config
 
     //check if something is not configured
-    var YamahaYXC = require('yamaha-yxc-nodejs');
+
     
 
     for (var anz in obj){
@@ -363,7 +366,7 @@ function main() {
         //yamaha.getAnzRooms()
         //yamaha.getLoudspeakerSetting()
         //yamaha.getEqualizerSetting()
-        var yamaha = new YamahaYXC(obj[anz].ip);
+        //var yamaha = new YamahaYXC(obj[anz].ip);
         defineMusicDevice(obj[anz].type, obj[anz].uid); //contains also the structure to musiccast.0._id_type_.
         defineMusicZone(obj[anz].type, obj[anz].uid, 'main', '60'); //contains also the structure to musiccast.0._id_type_.
         defineMusicNetUsb(obj[anz].type, obj[anz].uid);
