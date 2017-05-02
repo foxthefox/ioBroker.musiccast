@@ -1,15 +1,19 @@
 {
     "common": {
         "name":                     "musiccast",
-        "version":                  "0.0.1",
+        "version":                  "0.0.2",
 	 "news": {
+		 	"0.0.2": {
+			  "en": "minor corrections",
+			  "de": "kleine Korrekturen"
+			},
 			"0.0.1": {
 			  "en": "initial adapter",
 			  "de": "Initiale Version",
 			  "ru": "Первоначальный адаптер"
 			}
 		},
-        "title":                    "MusicCast adapter",
+        "title":                    "Yamaha MusicCast adapter",
         "desc":                     {
 				 "en": "ioBroker musiccast Adapter",
 				 "de": "ioBroker Musiccast Adapter",
