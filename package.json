@@ -1,6 +1,6 @@
 {
   "name": "iobroker.musiccast",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "ioBroker MusicCast Adapter",
   "author": {
     "name": "foxthefox",
@@ -8,11 +8,9 @@
   },
   "contributors": [
     {
-      "name": "foxthefox",
-      "email": "foxthefox@wysiwis.net"
     }
   ],
-  "homepage": "https://github.com/ioBroker/ioBroker.musiccast",
+  "homepage": "https://github.com/foxthefox/ioBroker.musiccast",
   "license": "MIT",
   "keywords": [
     "Yamaha",
@@ -22,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ioBroker/ioBroker.musiccast.git"
+    "url": "git+https://github.com/foxthefox/ioBroker.musiccast.git"
   },
   "dependencies": {
     "yamaha-yxc-nodejs": "^0.0.2"
@@ -41,7 +39,7 @@
     "test": "node node_modules/mocha/bin/mocha"
   },
   "bugs": {
-    "url": "https://github.com/ioBroker/ioBroker.musiccast/issues"
+    "url": "https://github.com/foxthefox/ioBroker.musiccast/issues"
   },
   "readmeFilename": "README.md"
 }
