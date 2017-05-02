@@ -22,7 +22,8 @@ In admin settings the IP address and the type has to be configred.
 The adapter currently does not support discovery function.
 
 ## Changelog
-
+### 0.0.2
+* minor corrections
 
 #### 0.0.1
 * initial release with setting of IP in config-page, 
