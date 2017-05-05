@@ -26,7 +26,7 @@ The adapter currently does not support discovery function.
 ## available Objects
 The following objects are currently implemented:
 
-|Object|Value|set|Description|
+|Object|Value|settable|Description|
 |--------|-------|:-:|--------|
 |{zone}.power|boolean|x|true/false -> ON/Standby|
 |{zone}.mute|boolean|x|true/false -> muted/ not muted|
