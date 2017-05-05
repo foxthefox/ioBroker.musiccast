@@ -11,7 +11,7 @@
 adapter for Yamaha MusicCast devices like WX-010/030, YSP-1600
 
 ## Installation:
-Installation requires nodejs >= v4
+Installation requires nodejs v4 at minimum
 
 from npm
 * npm install iobroker.musiccast
@@ -26,11 +26,11 @@ The adapter currently does not support discovery function.
 ## available Objects
 The following objects are currently implemented:
 
-|Object|Value|Description|
-|--------|-------|--------|
-|{zone}.power|boolean|true/false -> ON/Standby|
-|{zone}.mute|boolean|true/false -> muted/ not muted|
-|{zone}.volume|value|0...max (max depending on device)|
+|Object|Value|set|Description|
+|--------|-------|:-:|--------|
+|{zone}.power|boolean|x|true/false -> ON/Standby|
+|{zone}.mute|boolean|x|true/false -> muted/ not muted|
+|{zone}.volume|value|x|0...max (max depending on device)|
 
 ## Changelog
 #### 0.0.2
