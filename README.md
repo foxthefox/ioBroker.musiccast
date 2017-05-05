@@ -11,6 +11,8 @@
 adapter for Yamaha MusicCast devices like WX-010/030, YSP-1600
 
 ## Installation:
+Installation require nodejs >= v4
+
 from npm
 * npm install iobroker.musiccast
 
