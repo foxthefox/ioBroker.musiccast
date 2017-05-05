@@ -21,6 +21,14 @@ actual version from github
 In admin settings the IP address and the type has to be configred.
 The adapter currently does not support discovery function.
 
+## available Objects
+The following objects are currently implemented:
+|Object|Value|Description|
+|--------|-------|--------|
+|{zone}.power|boolean|true/false -> ON/Standby|
+|{zone}.mute|boolean|true/false -> muted/ not muted|
+|{zone}.volume|value|0...max (max depending on device|
+
 ## Changelog
 ### 0.0.2
 * minor corrections
