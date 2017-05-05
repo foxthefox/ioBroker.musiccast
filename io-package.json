@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "musiccast",
-        "version":                  "0.0.2",
+        "version":                  "0.0.3",
 	 "news": {
+		 	"0.0.3": {
+			  "en": "more objects",
+			  "de": "more objects"
+			},
 		 	"0.0.2": {
 			  "en": "minor corrections",
 			  "de": "kleine Korrekturen"
@@ -37,6 +41,14 @@
                     "type": "YSP-1600",
 		    "uid": "0B587073",
                     "name": "Wohnzimmer"
+
+                },
+		{
+                    "did": "2",
+                    "ip": "192.168.178.56",
+                    "type": "WX-030,
+		    "uid": "0E257883",
+                    "name": "Küche"
 
                 }
             ]
