@@ -23,6 +23,7 @@ The adapter currently does not support discovery function.
 
 ## available Objects
 The following objects are currently implemented:
+
 |Object|Value|Description|
 |--------|-------|--------|
 |{zone}.power|boolean|true/false -> ON/Standby|
