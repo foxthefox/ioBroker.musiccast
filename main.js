@@ -212,12 +212,12 @@ function defineMusicZone(type, uid, zone, max_vol){
     adapter.setObject(type + '_' + uid + '.' + zone + '.power', {
         type: 'state',
         common: {
-            "name": "Power",
+            "name": "Power ON/OFF(Standby)",
             "type": "boolean",
             "read": true,
             "write": true,
             "role": "value",
-            "desc": "Power"
+            "desc": "Power ON/OFF(Standby)"
         },
         native: {}
     });
@@ -338,11 +338,11 @@ function defineMusicNetUsb(type, uid){
     adapter.setObject(type + '_' + uid + '.netusb.prev', {
         type: 'state',
         common: {
-            "name": "next",
+            "name": "prev",
             "type": "boolean",
             "read": true,
             "write": true,
-            "role": "button.next",
+            "role": "button.prev",
             "desc": "next"
         },
         native: {}
