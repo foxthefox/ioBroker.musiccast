@@ -28,10 +28,10 @@ The following objects are currently implemented:
 |--------|-------|--------|
 |{zone}.power|boolean|true/false -> ON/Standby|
 |{zone}.mute|boolean|true/false -> muted/ not muted|
-|{zone}.volume|value|0...max (max depending on device|
+|{zone}.volume|value|0...max (max depending on device)|
 
 ## Changelog
-### 0.0.2
+#### 0.0.2
 * minor corrections
 
 #### 0.0.1
