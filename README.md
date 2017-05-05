@@ -33,6 +33,10 @@ The following objects are currently implemented:
 |{zone}.volume|value|x|0...max (max depending on device)|
 
 ## Changelog
+
+#### 0.0.3
+* more objects implemented
+
 #### 0.0.2
 * minor corrections
 
