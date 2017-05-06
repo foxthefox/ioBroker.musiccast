@@ -445,12 +445,13 @@ function main() {
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got device info succesfully from ' + obj[anz].ip);
-                    adapter.setState(type + '_' + uid + '.system.api_version', {val: att.api_version, ack: true});
-                    adapter.setState(type + '_' + uid + '.system.system_version', {val: att.system_version, ack: true});                    
+                    adapter.setState(obj[anz].type + '_' + obj[anz].uid + '.system.api_version', {val: att.api_version, ack: true});
+                    adapter.setState(obj[anz].type + '_' + obj[anz].uid + '.system.system_version', {val: att.system_version, ack: true});                    
                 }
                 else {adapter.log.debug('failure getting device info from  ' +obj[anz].ip + ' : ' +  responseFailLog(result));}
             
          });
+        yamaha = null;
     }
 
     //everything is configured, make cyclic updates
