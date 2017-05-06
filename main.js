@@ -438,6 +438,19 @@ function main() {
         defineMusicZone(obj[anz].type, obj[anz].uid, 'main', '60'); //contains also the structure to musiccast.0._id_type_.
         defineMusicNetUsb(obj[anz].type, obj[anz].uid);
         defineMusicSystem(obj[anz].type, obj[anz].uid);
+        
+        yamaha = new YamahaYXC(obj[anz].ip);
+        //get the inout list and create object
+        yamaha.getDeviceInfo().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got device info succesfully from ' + obj[anz].ip);
+                    adapter.setState(type + '_' + uid + '.system.api_version', {val: att.api_version, ack: true});
+                    adapter.setState(type + '_' + uid + '.system.system_version', {val: att.system_version, ack: true});                    
+                }
+                else {adapter.log.debug('failure getting device info from  ' +obj[anz].ip + ' : ' +  responseFailLog(result));}
+            
+         });
     }
 
     //everything is configured, make cyclic updates
