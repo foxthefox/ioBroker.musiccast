@@ -31,6 +31,8 @@ The following objects are currently implemented:
 |{zone}.power|boolean|x|true/false -> ON/Standby|
 |{zone}.mute|boolean|x|true/false -> muted/ not muted|
 |{zone}.volume|value|x|0...max (max depending on device)|
+|system.api_version|value|-|API Version|
+|system.system_version|value|-|System Version|
 
 ## Changelog
 
