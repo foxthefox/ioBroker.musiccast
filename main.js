@@ -168,6 +168,40 @@ function defineMusicDevice(type, uid){
             "addr": uid
         }
     });
+    adapter.setObject(type + '_' + uid + '.system', {
+        type: 'channel',
+        common: {
+            name: 'MusicCast System Info',
+            role: 'sensor'
+        },
+        native: {
+            "addr": uid
+        }
+    });
+    adapter.setObject(type + '_' + uid + '.system.api_version', {
+        type: 'state',
+        common: {
+            "name": "API Version",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "role": "value",
+            "desc": "API Version"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.system.system_version', {
+        type: 'state',
+        common: {
+            "name": "System Version",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "role": "value",
+            "desc": "System Version"
+        },
+        native: {}
+    });
 };
 
 function defineMusicZone(type, uid, zone, max_vol){
