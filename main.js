@@ -427,7 +427,7 @@ function main() {
     
 
     for (var anz in obj){
-
+        adapter.log.debug('start config ' + obj[anz].ip);
         //yamaha = New YamahaYXC(obj[anz].ip) 
         //yamaha.getSystemFeatures()
         //yamaha.getAnzRooms()
@@ -452,6 +452,7 @@ function main() {
             
          });
         yamaha = null;
+        adapter.log.debug('finished config ' + obj[anz].ip);
     }
 
     //everything is configured, make cyclic updates
