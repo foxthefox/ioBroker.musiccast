@@ -413,19 +413,34 @@ adapter.on('ready', function () {
     main();
 });
 
+function getMusicDeviceInfo(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getDeviceInfo().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got device info succesfully from ' + devip);
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.api_version', {val: att.api_version, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.system_version', {val: att.system_version, ack: true});                    
+                }
+                else {adapter.log.debug('failure getting device info from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+}
+
+
+
 function main() {
 
     //yamaha.discover
     //yamaha.discoverYSP 
     //found devices crosscheck with config.devices
     //new found devices to adapter.confg.devices //quit adapter and restart with found config
-    var yamahas = [];
     var obj = adapter.config.devices;
 
     //check if something is not configured
-    for (var anz in obj){
-        yamahas[anz] = new YamahaYXC(obj[anz].ip);
-    }
 
     for (var anz in obj){
         adapter.log.debug('start config ' + obj[anz].ip);
@@ -442,16 +457,8 @@ function main() {
         
         //yamaha = new YamahaYXC(obj[anz].ip);
         //get the inout list and create object
-        yamahas[anz].getDeviceInfo().then(function(result){
-                var att = JSON.parse(result);
-                if (att.response_code === 0 ){
-                    adapter.log.debug('got device info succesfully from ' + obj[anz].ip);
-                    adapter.setState(obj[anz].type + '_' + obj[anz].uid + '.system.api_version', {val: att.api_version, ack: true});
-                    adapter.setState(obj[anz].type + '_' + obj[anz].uid + '.system.system_version', {val: att.system_version, ack: true});                    
-                }
-                else {adapter.log.debug('failure getting device info from  ' +obj[anz].ip + ' : ' +  responseFailLog(result));}
-            
-         });
+        getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
+        
         adapter.log.debug('finished config ' + obj[anz].ip);
     }
 
