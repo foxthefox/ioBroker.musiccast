@@ -590,6 +590,7 @@ function getMusicFeatures(ip, type, uid){
                     var sysinputs = att.system.input_list;
                     adapter.log.debug(devtype + ' has number of system inputs : ' + sysinputs.length);
                     for (var i=0; i < sysinputs.length; i++){
+                        adapter.log.debug(devtype + ' setting up input : ' + i);
                         defineMusicSystemInputs(devtype, devuid, att.system.input_list[i].id);
                         setMusicSystemInputs(devtype, devuid, att.system.input_list[i].id, att.system.input_list[i].distribution_enable, att.system.input_list[i].account_enable, att.system.input_list[i].play_info_type);
                     } 
@@ -598,22 +599,22 @@ function getMusicFeatures(ip, type, uid){
                         // Zone equalizer found
                         adapter.log.debug(devtype + ' has equalizer');
                         defineMusicEqualizer(devtype, devuid, zone_name);
-                    }    
-                    else if (att.zone[0].sound_program_list) {
+                    } else{adapter.log.debug(devtype + ' has no equalizer');}   
+                    if (att.zone[0].sound_program_list) {
                         // Zone Soundprogram instead equalizer
                         adapter.log.debug(devtype + ' has sound program');
                         defineMusicSoundProg(devtype, devuid, zone_name, att.zone[0].sound_program_list);
-                    }       
-                    else if (att.zone[0].clear_voice) {
+                    } else{adapter.log.debug(devtype + ' has no sound program');}        
+                    if (att.zone[0].clear_voice) {
                         // zone Clear Voice
                         adapter.log.debug(devtype + ' has clear voice');
                         defineMusicClearVoice(devtype, devuid, zone_name);
-                    }
-                    else if (att.zone[0].sleep) {
+                    } else{adapter.log.debug(devtype + ' has no clear voice');} 
+                    if (att.zone[0].sleep) {
                         // zone Sleep
                         adapter.log.debug(devtype + ' has sleep timer');
                         defineMusicSleep(devtype, devuid, zone_name);
-                    }
+                    } else{adapter.log.debug(devtype + ' has no sleep timer');} 
                     // if "direct" / "pure_direct" / "enhancer" / "tone_control" / "balance" / "dialogue_level" / "dialogue_lift" / "subwoofer_volume" / "bass_extension" / "signal_info" / "link_audio_delay"
                                   
                 }
