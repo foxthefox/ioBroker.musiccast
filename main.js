@@ -419,12 +419,13 @@ function main() {
     //yamaha.discoverYSP 
     //found devices crosscheck with config.devices
     //new found devices to adapter.confg.devices //quit adapter and restart with found config
-
+    var yamahas = [];
     var obj = adapter.config.devices;
 
     //check if something is not configured
-
-    
+    for (var anz in obj){
+        yamahas[anz] = new YamahaYXC(obj[anz].ip);
+    }
 
     for (var anz in obj){
         adapter.log.debug('start config ' + obj[anz].ip);
@@ -439,9 +440,9 @@ function main() {
         defineMusicNetUsb(obj[anz].type, obj[anz].uid);
         defineMusicSystem(obj[anz].type, obj[anz].uid);
         
-        yamaha = new YamahaYXC(obj[anz].ip);
+        //yamaha = new YamahaYXC(obj[anz].ip);
         //get the inout list and create object
-        yamaha.getDeviceInfo().then(function(result){
+        yamahas[anz].getDeviceInfo().then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got device info succesfully from ' + obj[anz].ip);
@@ -451,7 +452,6 @@ function main() {
                 else {adapter.log.debug('failure getting device info from  ' +obj[anz].ip + ' : ' +  responseFailLog(result));}
             
          });
-        yamaha = null;
         adapter.log.debug('finished config ' + obj[anz].ip);
     }
 
