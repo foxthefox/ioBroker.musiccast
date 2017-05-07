@@ -1,11 +1,15 @@
 {
     "common": {
         "name":                     "musiccast",
-        "version":                  "0.0.3",
+        "version":                  "0.0.4",
 	 "news": {
+		 	"0.0.4": {
+			  "en": "more objects, new functions",
+			  "de": "weitere Objekte, neue Funktionen"
+			},
 		 	"0.0.3": {
 			  "en": "more objects",
-			  "de": "more objects"
+			  "de": "weitere Objekte"
 			},
 		 	"0.0.2": {
 			  "en": "minor corrections",
