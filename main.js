@@ -129,10 +129,74 @@ adapter.on('stateChange', function (id, state) {
                     adapter.log.debug('set input succesfully  to ' + state.val);
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug('failure seting input ' +  responseFailLog(result));}
+                else {adapter.log.debug('failure setting input ' +  responseFailLog(result));}
             });
         }
-                                
+         if (dp === 'low'){
+            yamaha.setEqualizer(state.val,'','').then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set equalizer LOW succesfully  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting EQ LOW ' +  responseFailLog(result));}
+            });
+        }
+         if (dp === 'mid'){
+            yamaha.setEqualizer('', state.val,'').then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set equalizer MID succesfully  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting EQ MID ' +  responseFailLog(result));}
+            });
+        }          
+        if (dp === 'high'){
+            yamaha.setEqualizer('','',state.val).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set equalizer High succesfully  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting EQ HIGH' +  responseFailLog(result));}
+            });
+        }   
+        if (dp === 'sleep'){
+            yamaha.sleep(state.val).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set sleep succesfully  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting sleep' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'clearVoice'){
+            yamaha.setClearVoice(state.val).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set ClearVoice succesfully  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting ClearVoice' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'playPause'){
+            if (state.val === true){
+                yamaha.playNet().then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('set NETUSB Play succesfully  to ' + state.val);
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure setting NETUSB Play' +  responseFailLog(result));}
+                });
+            }
+            else {
+                yamaha.stopNet().then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('set NETUSB Stop succesfully  to ' + state.val);
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure setting NETUSB Stop' +  responseFailLog(result));}
+                });          
+            }
+        } 
     }//if status
 });
 
