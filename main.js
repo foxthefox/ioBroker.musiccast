@@ -241,7 +241,7 @@ function defineMusicZone(type, uid, zone, max_vol){
             "type": "boolean",
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "button",
             "desc": "Power ON/OFF(Standby)"
         },
         native: {}
@@ -268,7 +268,7 @@ function defineMusicInputs(type, uid, zone, inputs){
             "type": "string",
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "text",
             "desc": "Input selection"
         },
         native: {}
@@ -295,7 +295,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
             "type": "string",
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "text",
             "desc": "link control selection"
         },
         native: {}
@@ -307,13 +307,13 @@ function defineMusicEqualizer(type, uid, zone){
     adapter.setObject(type + '_' + uid + '.' + zone + '.low', {
         type: 'state',
         common: {
-            "name": "EQ Low",
+            "name": "EQ Low",           
             "type": "number",
             "min": -10,
             "max": +10,
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "level",
             "desc": "EQ Low"
         },
         native: {}
@@ -322,11 +322,12 @@ function defineMusicEqualizer(type, uid, zone){
         type: 'state',
         common: {
             "name": "EQ Mid",
+            "type": "number",           
             "min": -10,
             "max": +10,
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "level",
             "desc": "EQ Mid"
         },
         native: {}
@@ -335,11 +336,12 @@ function defineMusicEqualizer(type, uid, zone){
         type: 'state',
         common: {
             "name": "EQ High",
+            "type": "number",
             "min": -10,
             "max": +10,
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "level",
             "desc": "EQ High"
         },
         native: {}
@@ -368,7 +370,7 @@ function defineMusicSoundProgr(type, uid, zone, ctrloptions){
             "type": "string",
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "text",
             "desc": "Sound Program selection"
         },
         native: {}
@@ -384,7 +386,7 @@ function defineMusicClearVoice(type, uid, zone){
             "type": "boolean",
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "button",
             "desc": "Clear Voice"
         },
         native: {}
@@ -402,7 +404,7 @@ function defineMusicSleep(type, uid, zone){
             "write": true,
             "min" : 0,
             "max" : 120,
-            "role": "value",
+            "role": "level",
             "desc": "Sleep Timer"
         },
         native: {}
@@ -428,7 +430,7 @@ function defineMusicSystemInputs(type, uid, input){
             "type": "boolean",
             "read": true,
             "write": false,
-            "role": "value",
+            "role": "indicator",
             "desc": "distribution enabled"
         },
         native: {}
@@ -440,7 +442,7 @@ function defineMusicSystemInputs(type, uid, input){
             "type": "boolean",
             "read": true,
             "write": false,
-            "role": "value",
+            "role": "indicator",
             "desc": "account to be enabled"
         },
         native: {}
@@ -452,7 +454,7 @@ function defineMusicSystemInputs(type, uid, input){
             "type": "string",
             "read": true,
             "write": false,
-            "role": "value",
+            "role": "indicator",
             "desc": "play info type"
         },
         native: {}
@@ -516,31 +518,31 @@ function defineMusicNetUsb(type, uid){
             "read": true,
             "write": true,
             "role": "button.prev",
-            "desc": "next"
+            "desc": "prev"
         },
         native: {}
     });
     adapter.setObject(type + '_' + uid + '.netusb.shuffle', {
         type: 'state',
         common: {
-            "name": "shuffle",
+            "name": "toggle shuffle",
             "type": "boolean",
             "read": true,
             "write": true,
             "role": "button",
-            "desc": "shuffle"
+            "desc": "toggle shuffle"
         },
         native: {}
     });
     adapter.setObject(type + '_' + uid + '.netusb.repeat', {
         type: 'state',
         common: {
-            "name": "repeat",
+            "name": "toggle repeat",
             "type": "boolean",
             "read": true,
             "write": true,
             "role": "button",
-            "desc": "repeat"
+            "desc": "toggle repeat"
         },
         native: {}
     });
@@ -609,9 +611,9 @@ function getMusicFeatures(ip, type, uid){
         });
 }
 function setMusicSystemInputs(type, uid, input, distr, account, playinfo){
-    adapter.setState(type + '_' + uid + '.system.inputs.' + id + '.distribution_enable', {val: distr, ack: true});
-    adapter.setState(type + '_' + uid + '.system.inputs.' + id + '.account_enable', {val: account, ack: true});
-    adapter.setState(type + '_' + uid + '.system.inputs.' + id + '.play_info_type', {val: playinfo, ack: true});
+    adapter.setForeignState('musiccast.0.' + type + '_' + uid + '.system.inputs.' + id + '.distribution_enable', {val: distr, ack: true});
+    adapter.setForeignState('musiccast.0.' + type + '_' + uid + '.system.inputs.' + id + '.account_enable', {val: account, ack: true});
+    adapter.setForeignState('musiccast.0.' + type + '_' + uid + '.system.inputs.' + id + '.play_info_type', {val: playinfo, ack: true});
 }
 
 function main() {
