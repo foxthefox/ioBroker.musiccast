@@ -31,10 +31,22 @@ The following objects are currently implemented:
 |{zone}.power|boolean|x|true/false -> ON/Standby|
 |{zone}.mute|boolean|x|true/false -> muted/ not muted|
 |{zone}.volume|value|x|0...max (max depending on device)|
+|{zone}.input|text|x|inputs depending on device|
+|{zone}.input_list|text|-|possible inputs|
+|{zone}.sound_program|text|x|sound programs depending on device|
+|{zone}.sound_program_list|text|-|possible sound programs|
+|{zone}.clearVoice|boolean|x|clear Voice control|
+|{zone}.low|value|x|level EQ low|
+|{zone}.mid|value|x|level EQ mid|
+|{zone}.high|value|x|level EQ high|
 |system.api_version|value|-|API Version|
 |system.system_version|value|-|System Version|
 
+
 ## Changelog
+
+###0.0.4
+* new objects and functions (input, sound_prog, EQ, clearVoice
 
 #### 0.0.3
 * more objects implemented
