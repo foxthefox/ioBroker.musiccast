@@ -332,6 +332,7 @@ function defineZoneFunctions(type, uid, zone, func_list, ctrloptions){
             type: 'state',
             common: {
                 "name": "EQ Mid",
+                "type": "number",
                 "min": -10,
                 "max": +10,
                 "read": true,
@@ -345,6 +346,7 @@ function defineZoneFunctions(type, uid, zone, func_list, ctrloptions){
             type: 'state',
             common: {
                 "name": "EQ High",
+                "type": "number",
                 "min": -10,
                 "max": +10,
                 "read": true,
