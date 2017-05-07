@@ -295,6 +295,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
             "type": "string",
             "read": true,
             "write": true,
+            "values" : ctrl,
             "role": "text",
             "desc": "link control selection"
         },
