@@ -643,9 +643,9 @@ function defineMusicSystemInputs(type, uid, sysinputs){
             },
             native: {}
         });
-        adapter.setState(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.distribution_enable', {val: sysinputs[i].distribution_enable, ack: true});
-        adapter.setState(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.account_enable', {val: sysinputs[i].account_enable, ack: true});
-        adapter.setState(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.play_info_type', {val: sysinputs[i].play_info_type, ack: true});
+        adapter.setForeignState('musiccast.0.'+ type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.distribution_enable', {val: sysinputs[i].distribution_enable, ack: true});
+        adapter.setForeignState('musiccast.0.'+ type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.account_enable', {val: sysinputs[i].account_enable, ack: true});
+        adapter.setForeignState('musiccast.0.'+ type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.play_info_type', {val: sysinputs[i].play_info_type, ack: true});
     } 
 }
 function defineMusicNetUsb(type, uid){
@@ -765,11 +765,11 @@ function getMusicFeatures(ip, type, uid){
                     // Zone basic controls
                     defineMusicZone(devtype, devuid, zone_name, max_vol);
                     // Zone input list
-                    defineMusicInputs(devtype, devuid, zone_name, JSON.stringify(att.zone[0].input_list));
+                    defineMusicInputs(devtype, devuid, zone_name, att.zone[0].input_list);
                     
                     // Zone Func_list fixed
                     // link control
-                    defineMusicLinkCtrl(devtype, devuid, zone_name, JSON.stringify(att.zone[0].link_control_list));
+                    defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[0].link_control_list);
                     // input services and their attributes
                     defineMusicSystemInputs(devtype, devuid, att.system.input_list);
 
