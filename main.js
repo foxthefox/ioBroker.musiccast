@@ -836,11 +836,11 @@ function getMusicFeatures(ip, type, uid){
                     // Zone Func_list fixed
                     // link control
                     defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[0].link_control_list);
-                    // input services and their attributes
-                    defineMusicSystemInputs(devtype, devuid, att.system.input_list);
-
                     //Zone Func_list variable
                     defineZoneFunctions(devtype, devuid, zone_name, att.zone[0].func_list, att.zone[0].sound_program_list);
+                    
+                    // input services and their attributes
+                    defineMusicSystemInputs(devtype, devuid, att.system.input_list);
                                   
                 }
                 else {adapter.log.debug('failure getting features from  ' + devip + ' : ' +  responseFailLog(result));}
