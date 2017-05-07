@@ -248,6 +248,7 @@ function defineMusicZone(type, uid, zone, max_vol){
     });
 }
 function defineMusicInputs(type, uid, zone, inputs){
+    adapter.log.info('Setting up inputs in Zone:' + zone + ' of ' + type + '-' + uid);
     adapter.setObject(type + '_' + uid + '.' + zone + '.input_list', {
         type: 'state',
         common: {
@@ -275,6 +276,7 @@ function defineMusicInputs(type, uid, zone, inputs){
     });
 }
 function defineMusicLinkCtrl(type, uid, zone, ctrl){
+    adapter.log.info('Setting up link ctrl in Zone:' + zone + ' of ' + type + '-' + uid);
     adapter.setObject(type + '_' + uid + '.' + zone + '.link_control_list', {
         type: 'state',
         common: {
@@ -394,7 +396,7 @@ function defineMusicClearVoice(type, uid, zone){
     });
 }
 function defineMusicSleep(type, uid, zone){
-    adapter.log.info('Setting up Clear Voice in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.log.info('Setting up sleep in Zone:' + zone + ' of ' + type + '-' + uid);
 
     adapter.setObject(type + '_' + uid + '.' + zone + '.sleep', {
         type: 'state',
@@ -584,12 +586,19 @@ function getMusicFeatures(ip, type, uid){
                     // Zone Func_list
                     // link control
                     defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[0].link_control_list);
+                    // input services and their attributes
+                    var sysinputs = att.system.input_list;
+                    adapter.log.debug(devtype + ' has number of system inputs : ' + sysinputs.length);
+                    for (var i=0; i < sysinputs.length; i++){
+                        defineMusicSystemInputs(devtype, devuid, att.system.input_list[i].id);
+                        setMusicSystemInputs(devtype, devuid, att.system.input_list[i].id, att.system.input_list[i].distribution_enable, att.system.input_list[i].account_enable, att.system.input_list[i].play_info_type);
+                    } 
 
                     if (att.zone[0].equalizer) {
                         // Zone equalizer found
                         adapter.log.debug(devtype + ' has equalizer');
                         defineMusicEqualizer(devtype, devuid, zone_name);
-                    }       
+                    }    
                     if (att.zone[0].sound_program_list) {
                         // Zone Soundprogram instead equalizer
                         adapter.log.debug(devtype + ' has sound program');
@@ -606,14 +615,7 @@ function getMusicFeatures(ip, type, uid){
                         defineMusicSleep(devtype, devuid, zone_name);
                     }
                     // if "direct" / "pure_direct" / "enhancer" / "tone_control" / "balance" / "dialogue_level" / "dialogue_lift" / "subwoofer_volume" / "bass_extension" / "signal_info" / "link_audio_delay"
-                    
-                    // input services and their attributes
-                    var sysinputs = att.system.input_list;
-                    adapter.log.debug('number of system inputs : ' + sysinputs.length);
-                    for (var i=0; i < sysinputs.length; i++){
-                        defineMusicSystemInputs(devtype, devuid, att.system.input_list[i].id);
-                        setMusicSystemInputs(devtype, devuid, att.system.input_list[i].id, att.system.input_list[i].distribution_enable, att.system.input_list[i].account_enable, att.system.input_list[i].play_info_type);
-                    }               
+                                  
                 }
                 else {adapter.log.debug('failure getting features from  ' + devip + ' : ' +  responseFailLog(result));}
         });
