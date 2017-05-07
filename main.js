@@ -571,7 +571,7 @@ function getMusicFeatures(ip, type, uid){
                 if (att.response_code === 0 ){
                     adapter.log.debug('got features succesfully from ' + devip);
                     adapter.log.debug('number of zones ' + att.system.zone_num);     //wenn größer als 1 dann eine Schleife aufbauen
-                    var zone_name = JSON.stringify(att.zone[0].id);
+                    var zone_name = att.zone[0].id;
                     var max_vol = JSON.stringify(att.zone[0].range_step[0].max); // nehmen wir mal an, dass volume immer auf [0] zu finden ist
                     // Zone basic controls
                     defineMusicZone(devtype, devuid, zone_name, max_vol);
