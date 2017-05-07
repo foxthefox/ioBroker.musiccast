@@ -578,31 +578,31 @@ function getMusicFeatures(ip, type, uid){
                     // Zone basic controls
                     defineMusicZone(devtype, devuid, zone_name, max_vol);
                     // Zone input list
-                    defineMusicInputs(devtype, devuid, zone_name, JSON.stringify(att.zone[0].input_list));
+                    defineMusicInputs(devtype, devuid, zone_name, att.zone[0].input_list);
                     
                     // Zone Func_list
                     // link control
-                    defineMusicLinkCtrl(devtype, devuid, zone_name, JSON.stringify(att.zone[0].link_control_list));
+                    defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[0].link_control_list);
 
-                    if (JSON.stringify(att.zone[0].equalizer)) {
+                    if (att.zone[0].equalizer) {
                         // Zone equalizer found
                         defineMusicEqualizer(devtype, devuid, zone_name);
                     }       
-                    if (JSON.stringify(att.zone[0].sound_program_list)) {
+                    if (att.zone[0].sound_program_list) {
                         // Zone Soundprogram instead equalizer
-                        defineMusicSoundProg(devtype, devuid, zone_name, JSON.stringify(att.zone[0].sound_program_list));
+                        defineMusicSoundProg(devtype, devuid, zone_name, att.zone[0].sound_program_list);
                     }       
-                    if (JSON.stringify(att.zone[0].clear_voice)) {
+                    if (att.zone[0].clear_voice) {
                         // zone Clear Voice
                         defineMusicClearVoice(devtype, devuid, zone_name);
                     }
-                    if (JSON.stringify(att.zone[0].sleep)) {
+                    if (att.zone[0].sleep) {
                         // zone Sleep
                         defineMusicSleep(devtype, devuid, zone_name);
                     }
                     // if "direct" / "pure_direct" / "enhancer" / "tone_control" / "balance" / "dialogue_level" / "dialogue_lift" / "subwoofer_volume" / "bass_extension" / "signal_info" / "link_audio_delay"
-                    var sysinputs = att.system.input_list[0];
-                    for (var i=0; i < length.sysinputs; i++){
+                    var sysinputs = att.system.input_list;
+                    for (var i=0; i < sysinputs.length; i++){
                         defineMusicSystemInputs(devtype, devuid, att.system.input_list[i].id);
                         setMusicSystemInputs(devtype, devuid, att.system.input_list[i].id, att.system.input_list[i].distribution_enable, att.system.input_list[i].account_enable, att.system.input_list[i].play_info_type);
                     }               
