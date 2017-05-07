@@ -599,17 +599,17 @@ function getMusicFeatures(ip, type, uid){
                         adapter.log.debug(devtype + ' has equalizer');
                         defineMusicEqualizer(devtype, devuid, zone_name);
                     }    
-                    if (att.zone[0].sound_program_list) {
+                    else if (att.zone[0].sound_program_list) {
                         // Zone Soundprogram instead equalizer
                         adapter.log.debug(devtype + ' has sound program');
                         defineMusicSoundProg(devtype, devuid, zone_name, att.zone[0].sound_program_list);
                     }       
-                    if (att.zone[0].clear_voice) {
+                    else if (att.zone[0].clear_voice) {
                         // zone Clear Voice
                         adapter.log.debug(devtype + ' has clear voice');
                         defineMusicClearVoice(devtype, devuid, zone_name);
                     }
-                    if (att.zone[0].sleep) {
+                    else if (att.zone[0].sleep) {
                         // zone Sleep
                         adapter.log.debug(devtype + ' has sleep timer');
                         defineMusicSleep(devtype, devuid, zone_name);
