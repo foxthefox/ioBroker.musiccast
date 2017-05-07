@@ -132,6 +132,15 @@ adapter.on('stateChange', function (id, state) {
                 else {adapter.log.debug('failure setting input ' +  responseFailLog(result));}
             });
         }
+        if (dp === 'sound_program'){
+            yamaha.setSound(state.val).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set sound program succesfully  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting sound program ' +  responseFailLog(result));}
+            });
+        }        
          if (dp === 'low'){
             yamaha.setEqualizer(state.val,'','').then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
