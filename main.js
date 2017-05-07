@@ -599,7 +599,7 @@ function getMusicFeatures(ip, type, uid){
                         defineMusicSleep(devtype, devuid, zone_name);
                     }
                     // if "direct" / "pure_direct" / "enhancer" / "tone_control" / "balance" / "dialogue_level" / "dialogue_lift" / "subwoofer_volume" / "bass_extension" / "signal_info" / "link_audio_delay"
-                    var sysinputs = JSON.stringify(att.system.input_list[0]);
+                    var sysinputs = att.system.input_list[0];
                     for (var i=0; i < length.sysinputs; i++){
                         defineMusicSystemInputs(devtype, devuid, att.system.input_list[i].id);
                         setMusicSystemInputs(devtype, devuid, att.system.input_list[i].id, att.system.input_list[i].distribution_enable, att.system.input_list[i].account_enable, att.system.input_list[i].play_info_type);
