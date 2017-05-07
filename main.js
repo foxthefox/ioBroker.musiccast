@@ -96,38 +96,22 @@ adapter.on('stateChange', function (id, state) {
         
         yamaha = new YamahaYXC(IP[0].ip);
         
-        if (dp === 'power' && state.val === true){
-            yamaha.powerOn().then(function(result) {
+        if (dp === 'power'){
+            yamaha.power(state.val).then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('sent power on succesfully');
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug('failure sending ON ' +  responseFailLog(result));}
-            });
-        } else if (dp === 'power' && state.val === false) {
-            yamaha.powerOff().then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent power off succesfully');
-                    //adapter.setForeignState(id, false, true);
-                }
-                else {adapter.log.debug('failure sending OFF ' + responseFailLog(result));}
+                else {adapter.log.debug('failure sending power  cmd' +  responseFailLog(result));}
             });
         }
-        if (dp === 'mute' && state.val === true){
-            yamaha.muteOn().then(function(result) {
+        if (dp === 'mute'){
+            yamaha.mute(state.val).then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('sent mute on succesfully');
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug('failure mute ON ' +  responseFailLog(result));}
-            });
-        } else if (dp === 'mute' && state.val === false) {
-            yamaha.muteOff().then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent mute off succesfully');
-                    //adapter.setForeignState(id, false, true);
-                }
-                else {adapter.log.debug('failure mute OFF ' + responseFailLog(result));}
+                else {adapter.log.debug('failure mute cmd' +  responseFailLog(result));}
             });
         }
         if (dp === 'volume'){
