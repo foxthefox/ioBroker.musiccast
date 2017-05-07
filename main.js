@@ -157,6 +157,14 @@ adapter.on('message', function (obj) {
 });
 
 
+
+
+// is called when databases are connected and adapter received configuration.
+// start here!
+adapter.on('ready', function () {
+    main();
+});
+
 function defineMusicDevice(type, uid){
     adapter.setObject(type + '_' + uid , {
         type: 'device',
@@ -202,8 +210,7 @@ function defineMusicDevice(type, uid){
         },
         native: {}
     });
-};
-
+}
 function defineMusicZone(type, uid, zone, max_vol){
     adapter.setObject(type + '_' + uid + '.' + zone, {
         type: 'channel',
@@ -226,8 +233,8 @@ function defineMusicZone(type, uid, zone, max_vol){
             "max": max_vol,
             "read": true,
             "write": true,
-            "role": "value",
-            "desc": "Volume"
+            "role": "level.volume",
+            "desc": "State and Control of Volume"
         },
         native: {}
     });
@@ -238,7 +245,7 @@ function defineMusicZone(type, uid, zone, max_vol){
             "type": "boolean",
             "read": true,
             "write": true,
-            "role": "value",
+            "role": "media.mute",
             "desc": "Mute"
         },
         native: {}
@@ -255,71 +262,219 @@ function defineMusicZone(type, uid, zone, max_vol){
         },
         native: {}
     });
+}
+function defineMusicInputs(type, uid, zone, inputs){
+    adapter.setObject(type + '_' + uid + '.' + zone + '.input_list', {
+        type: 'state',
+        common: {
+            "name": "list of inputs",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "values" : inputs,
+            "role": "list",
+            "desc": "list of inputs"
+        },
+        native: {}
+    });
     adapter.setObject(type + '_' + uid + '.' + zone + '.input', {
         type: 'state',
         common: {
-            "name": "Input",
+            "name": "Input selection",
             "type": "string",
             "read": true,
             "write": true,
             "role": "value",
-            "desc": "Input"
-        },
-        native: {}
-    });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.linkCtrl', {
-        type: 'state',
-        common: {
-            "name": "link control",
-            "type": "boolean",
-            "read": true,
-            "write": true,
-            "role": "value",
-            "desc": "link control"
+            "desc": "Input selection"
         },
         native: {}
     });
 }
+function defineMusicLinkCtrl(type, uid, zone, ctrl){
+    adapter.setObject(type + '_' + uid + '.' + zone + '.link_control_list', {
+        type: 'state',
+        common: {
+            "name": "link control options",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "values" : ctrl,
+            "role": "list",
+            "desc": "link control options"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.link_control', {
+        type: 'state',
+        common: {
+            "name": "link control selection",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "role": "value",
+            "desc": "link control selection"
+        },
+        native: {}
+    });
+}
+function defineMusicEqualizer(type, uid, zone){
+    adapter.log.info('Setting up Equalizer in Zone:' + zone + ' of ' + type + '-' + uid);
 
-function defineMusicSystem(type, uid){
-    adapter.setObject(type + '_' + uid + '.system', {
+    adapter.setObject(type + '_' + uid + '.' + zone + '.low', {
+        type: 'state',
+        common: {
+            "name": "EQ Low",
+            "type": "number",
+            "min": -10,
+            "max": +10,
+            "read": true,
+            "write": true,
+            "role": "value",
+            "desc": "EQ Low"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.mid', {
+        type: 'state',
+        common: {
+            "name": "EQ Mid",
+            "min": -10,
+            "max": +10,
+            "read": true,
+            "write": true,
+            "role": "value",
+            "desc": "EQ Mid"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.high', {
+        type: 'state',
+        common: {
+            "name": "EQ High",
+            "min": -10,
+            "max": +10,
+            "read": true,
+            "write": true,
+            "role": "value",
+            "desc": "EQ High"
+        },
+        native: {}
+    });
+}
+function defineMusicSoundProgr(type, uid, zone, ctrloptions){
+    adapter.log.info('Setting up SoundProgramm in Zone:' + zone + ' of ' + type + '-' + uid);
+
+    adapter.setObject(type + '_' + uid + '.' + zone + '.sound_program_list', {
+        type: 'state',
+        common: {
+            "name": "Sound Program options",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "values": ctrloptions,
+            "role": "list",
+            "desc": "Sound Program"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.sound_program', {
+        type: 'state',
+        common: {
+            "name": "Sound Program selection",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "role": "value",
+            "desc": "Sound Program selection"
+        },
+        native: {}
+    });
+}
+function defineMusicClearVoice(type, uid, zone){
+    adapter.log.info('Setting up Clear Voice in Zone:' + zone + ' of ' + type + '-' + uid);
+
+    adapter.setObject(type + '_' + uid + '.' + zone + '.clearVoice', {
+        type: 'state',
+        common: {
+            "name": "Clear Voice",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "value",
+            "desc": "Clear Voice"
+        },
+        native: {}
+    });
+}
+function defineMusicSleep(type, uid, zone){
+    adapter.log.info('Setting up Clear Voice in Zone:' + zone + ' of ' + type + '-' + uid);
+
+    adapter.setObject(type + '_' + uid + '.' + zone + '.sleep', {
+        type: 'state',
+        common: {
+            "name": "Sleep Timer",
+            "type": "number",
+            "read": true,
+            "write": true,
+            "min" : 0,
+            "max" : 120,
+            "role": "value",
+            "desc": "Sleep Timer"
+        },
+        native: {}
+    });
+}
+function defineMusicSystemInputs(type, uid, input){
+    adapter.setObject(type + '_' + uid + '.system.inputs.' + id, {
         type: 'channel',
         common: {
-            name: 'MusicCast System' + type,
+            name: 'Input ' + id,
             role: 'sensor'
         },
         native: {
             "addr": uid
         }
     });
-    adapter.log.info('Setting up System variables of :' + type + '-' + uid);
+    adapter.log.info('Setting up Inputs :' + type + '-' + uid);
 
-    adapter.setObject(type + '_' + uid + '.system.inputs', {
+    adapter.setObject(type + '_' + uid + '.system.inputs.' + id + '.distribution_enable', {
         type: 'state',
         common: {
-            "name": "Inputs",
-            "type": "array",
+            "name": "distribution enabled",
+            "type": "boolean",
             "read": true,
             "write": false,
-            "role": "list",
-            "desc": "Inputs"
+            "role": "value",
+            "desc": "distribution enabled"
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.system.soundProg', {
+    adapter.setObject(type + '_' + uid + '.system.inputs.' + id + '.account_enable', {
         type: 'state',
         common: {
-            "name": "Sound Programs",
-            "type": "array",
+            "name": "account to be enabled",
+            "type": "boolean",
             "read": true,
             "write": false,
-            "role": "list",
-            "desc": "Sound Programs"
+            "role": "value",
+            "desc": "account to be enabled"
         },
         native: {}
     });
+    adapter.setObject(type + '_' + uid + '.system.inputs.' + id + '.play_info_type', {
+        type: 'state',
+        common: {
+            "name": "play info type",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "value",
+            "desc": "play info type"
+        },
+        native: {}
+    });
+
 }
-
 function defineMusicNetUsb(type, uid){
     adapter.setObject(type + '_' + uid + '.netusb', {
         type: 'channel',
@@ -406,13 +561,6 @@ function defineMusicNetUsb(type, uid){
         native: {}
     });
 }
-
-// is called when databases are connected and adapter received configuration.
-// start here!
-adapter.on('ready', function () {
-    main();
-});
-
 function getMusicDeviceInfo(ip, type, uid){
         var devip = ip;
         var devtype = type;
@@ -429,8 +577,58 @@ function getMusicDeviceInfo(ip, type, uid){
             
          });
 }
+function getMusicFeatures(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getFeatures().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got features succesfully from ' + devip);
+                    adapter.log.debug('number of zones ' + att.system.zone_num);     //wenn größer als 1 dann eine Schleife aufbauen
+                    var zone_name = JSON.stringify(att.zone[0].id);
+                    var max_vol = JSON.stringify(att.zone[0].range_step[0].max); // nehmen wir mal an, dass volume immer auf [0] zu finden ist
+                    // Zone basic controls
+                    defineMusicZone(devtype, devuid, zone_name, max_vol);
+                    // Zone input list
+                    defineMusicInputs(devtype, devuid, zone_name, JSON.stringify(att.zone[0].input_list));
+                    
+                    // Zone Func_list
+                    // link control
+                    defineMusicLinkCtrl(devtype, devuid, zone_name, JSON.stringify(att.zone[0].link_control_list));
 
-
+                    if (JSON.stringify(att.zone[0].equalizer)) {
+                        // Zone equalizer found
+                        defineMusicEqualizer(devtype, devuid, zone_name);
+                    }       
+                    if (JSON.stringify(att.zone[0].sound_program_list)) {
+                        // Zone Soundprogram instead equalizer
+                        defineMusicSoundProg(devtype, devuid, zone_name, JSON.stringify(att.zone[0].sound_program_list));
+                    }       
+                    if (JSON.stringify(att.zone[0].clear_voice)) {
+                        // zone Clear Voice
+                        defineMusicClearVoice(devtype, devuid, zone_name);
+                    }
+                    if (JSON.stringify(att.zone[0].sleep)) {
+                        // zone Sleep
+                        defineMusicSleep(devtype, devuid, zone_name);
+                    }
+                    // if "direct" / "pure_direct" / "enhancer" / "tone_control" / "balance" / "dialogue_level" / "dialogue_lift" / "subwoofer_volume" / "bass_extension" / "signal_info" / "link_audio_delay"
+                    var sysinputs = JSON.stringify(att.system.input_list[0]);
+                    for (var i=0; i < length.sysinputs; i++){
+                        defineMusicSystemInputs(devtype, devuid, att.system.input_list[i].id);
+                        setMusicSystemInputs(devtype, devuid, att.system.input_list[i].id, att.system.input_list[i].distribution_enable, att.system.input_list[i].account_enable, att.system.input_list[i].play_info_type);
+                    }               
+                }
+                else {adapter.log.debug('failure getting features from  ' + devip + ' : ' +  responseFailLog(result));}
+        });
+}
+function setMusicSystemInputs(type, uid, input, distr, account, playinfo){
+    adapter.setState(type + '_' + uid + '.system.inputs.' + id + '.distribution_enable', {val: distr, ack: true});
+    adapter.setState(type + '_' + uid + '.system.inputs.' + id + '.account_enable', {val: account, ack: true});
+    adapter.setState(type + '_' + uid + '.system.inputs.' + id + '.play_info_type', {val: playinfo, ack: true});
+}
 
 function main() {
 
@@ -438,29 +636,31 @@ function main() {
     //yamaha.discoverYSP 
     //found devices crosscheck with config.devices
     //new found devices to adapter.confg.devices //quit adapter and restart with found config
+
     var obj = adapter.config.devices;
 
     //check if something is not configured
 
     for (var anz in obj){
-        adapter.log.debug('start config ' + obj[anz].ip);
-        //yamaha = New YamahaYXC(obj[anz].ip) 
-        //yamaha.getSystemFeatures()
-        //yamaha.getAnzRooms()
-        //yamaha.getLoudspeakerSetting()
-        //yamaha.getEqualizerSetting()
-        
+
+        //general structure setup        
         defineMusicDevice(obj[anz].type, obj[anz].uid); //contains also the structure to musiccast.0._id_type_.
-        defineMusicZone(obj[anz].type, obj[anz].uid, 'main', '60'); //contains also the structure to musiccast.0._id_type_.
-        defineMusicNetUsb(obj[anz].type, obj[anz].uid);
-        defineMusicSystem(obj[anz].type, obj[anz].uid);
-        
-        //yamaha = new YamahaYXC(obj[anz].ip);
-        //get the inout list and create object
+        defineMusicNetUsb(obj[anz].type, obj[anz].uid); //all devices are supporting netusb
+        //defineMClink basic structure
+
+        //some reading from the devices
+        // get system data
         getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
-        
-        adapter.log.debug('finished config ' + obj[anz].ip);
+
+        //get the inout list and create object
+        getMusicFeatures(obj[anz].ip, obj[anz].type, obj[anz].uid);
+        //yamaha.getNameText() evtl. um enum_room für die Zone zu setzen oder über setNameText enum_room aus admin setzen
+
+        //yamaha.getStatus('main'); initial status of device
+
+        //
     }
+
 
     //everything is configured, make cyclic updates
 
