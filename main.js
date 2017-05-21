@@ -618,7 +618,7 @@ function defineZoneFunctions(type, uid, zone, func_list, ctrloptions){
     } 
     if (func_list.indexOf("subwoofer_volume") !== -1){
         adapter.log.info('Setting up subwoofer_volume in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.balance', {
+        adapter.setObject(type + '_' + uid + '.' + zone + '.subwoofer_volume', {
             type: 'state',
             common: {
                 "name": "subwoofer_volume",
