@@ -48,6 +48,13 @@ function responseFailLog(fail){
     return errcode;
 }
 
+function browse(callback) {
+    var result = [];
+        result.push({ip: "192.168.178.52", name: "Wohnzimmer", type: "YSP-1600", uid: "0B587073"});
+        result.push({ip: "192.168.178.56", name: "Küche", type: "WX-030", uid: "0E257883"});
+    if (callback) callback(result);
+}
+
 function getConfigObjects(Obj, where, what){
     var foundObjects = [];
     for (var prop in Obj){
@@ -209,17 +216,30 @@ adapter.on('stateChange', function (id, state) {
     }//if status
 });
 
-// Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
-adapter.on('message', function (obj) {
-    if (typeof obj == 'object' && obj.message) {
-        if (obj.command == 'send') {
-            // e.g. send email or pushover or whatever
-            console.log('send command');
 
-            // Send response in callback if required
-            if (obj.callback) adapter.sendTo(obj.from, obj.command, 'Message received', obj.callback);
+// New message arrived. obj is array with current messages
+adapter.on('message', function (obj) {
+    var wait = false;
+    if (obj) {
+        switch (obj.command) {
+            case 'browse':
+                browse(function (res) {
+                    if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
+                });
+                wait = true;
+                break;
+
+            default:
+                adapter.log.warn('Unknown command: ' + obj.command);
+                break;
         }
     }
+
+    if (!wait && obj.callback) {
+        adapter.sendTo(obj.from, obj.command, obj.message, obj.callback);
+    }
+
+    return true;
 });
 
 
