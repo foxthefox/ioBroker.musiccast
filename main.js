@@ -232,10 +232,10 @@ adapter.on('message', function (obj) {
                 */
                 var result = [];
                 yamaha = new YamahaYXC();
-                yamaha.discover().then(function(found){
-                result.push({ip: found[0], name: found[1], type: found[2], uid: found[3]});
+                yamaha.discover().then(function(res){
+                result.push({ip: res[0], name: res[1], type: res[2], uid: res[3]});
                 adapter.log.debug('result ' + JSON.stringify(result));
-                }).done(function (found){
+                }).done(function (res){
                 if (obj.callback) adapter.sendTo(obj.from, obj.command, result, obj.callback);
                 });
                 wait = true;
