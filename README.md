@@ -46,7 +46,8 @@ The following objects are currently implemented:
 ## Changelog
 
 #### 0.0.4
-* new objects and functions (input, sound_prog, EQ, clearVoice
+* new objects and functions (input, sound_prog, EQ, clearVoice)
+* search/discovery in admin page
 
 #### 0.0.3
 * more objects implemented
