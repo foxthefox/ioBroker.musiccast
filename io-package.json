@@ -31,6 +31,8 @@
         "mode":                     "daemon",
         "icon":                     "musiccast.png",
         "enabled":                  true,
+	"messagebox":               true,
+        "subscribe":                "messagebox",
 	"extIcon":                  "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
 	"keywords":                 ["musiccast", "sound", "audio"],
         "readme":                   "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
@@ -39,22 +41,6 @@
     },
     "native": {
         "devices": [
-                {
-                    "did": "1",
-                    "ip": "192.168.178.52",
-                    "type": "YSP-1600",
-		    "uid": "0B587073",
-                    "name": "Wohnzimmer"
-
-                },
-		{
-                    "did": "2",
-                    "ip": "192.168.178.56",
-                    "type": "WX-030",
-		    "uid": "0E257883",
-                    "name": "Küche"
-
-                }
             ]
     },
     "objects": [
