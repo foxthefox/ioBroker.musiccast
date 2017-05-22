@@ -223,7 +223,6 @@ adapter.on('message', function (obj) {
     if (obj) {
         switch (obj.command) {
             case 'browse':
-        if (obj.command == 'browse') {
                 /*
                 //variant 1
                 browse(function (res) {
