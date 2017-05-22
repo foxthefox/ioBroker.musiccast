@@ -223,8 +223,20 @@ adapter.on('message', function (obj) {
     if (obj) {
         switch (obj.command) {
             case 'browse':
+        if (obj.command == 'browse') {
+                /*
+                //variant 1
                 browse(function (res) {
                     if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
+                });
+                */
+                var result = [];
+                yamaha = new YamahaYXC();
+                yamaha.discover().then(function(found){
+                result.push({ip: found[0], name: found[1], type: found[2], uid: found[3]});
+                adapter.log.debug('result ' + JSON.stringify(result));
+                }).done(function (found){
+                if (obj.callback) adapter.sendTo(obj.from, obj.command, result, obj.callback);
                 });
                 wait = true;
                 break;
