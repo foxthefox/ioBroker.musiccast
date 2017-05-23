@@ -25,7 +25,7 @@ systemDictionary = {
 		"de": "Modell",
 		"ru": ""},
 	"uid": {
-		"en": "DeviceID
+		"en": "DeviceID",
 		"de": "GeräteID",
 		"ru": ""},
 	"Name": {
