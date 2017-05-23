@@ -20,8 +20,8 @@ actual version from github
 * npm install https://github.com/foxthefox/ioBroker.musiccast/tarball/master --production
 
 ## Settings
-In admin settings the IP address and the type has to be configred.
-The adapter currently does not support discovery function.
+The admin page the "+" can be used for adding manually the IP address, DeviceID, Type and Name.
+Press the search button for discovery. If you have multiple devices, you have to hit the button multiple times until all devices are discovered. Unfortunately the discovery returns only one object at the time and this could be any of your MusicCast devices. 
 
 ## available Objects
 The following objects are currently implemented:
@@ -44,6 +44,9 @@ The following objects are currently implemented:
 
 
 ## Changelog
+#### 0.0.5
+* cleanup in admin page
+* improvement for object creation
 
 #### 0.0.4
 * new objects and functions (input, sound_prog, EQ, clearVoice)
