@@ -99,6 +99,7 @@ adapter.on('stateChange', function (id, state) {
         adapter.log.debug('device with uid = ' + idy.split("_")[1]);
         var uid = idy.split("_")[1];
         var IP = getConfigObjects(adapter.config.devices, 'uid', uid);
+        adapter.log.debug('config items : ' + JSON.stringify(adapter.config.devices));
         adapter.log.debug('IP configured : ' + IP[0].ip + ' for UID ' + uid);
         
         yamaha = new YamahaYXC(IP[0].ip);
