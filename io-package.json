@@ -40,8 +40,14 @@
         "type":                     "media"
     },
     "native": {
-        "devices": [
-            ]
+	"devices": [
+		{
+		"ip": "ip of dev",
+		"model": "model",
+		"name": "description",
+		"uid": "device ID"
+	}
+	]
     },
     "objects": [
 
