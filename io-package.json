@@ -43,7 +43,7 @@
 	"devices": [
 		{
 		"ip": "ip of dev",
-		"model": "model",
+		"type": "model",
 		"name": "description",
 		"uid": "device ID"
 	}
