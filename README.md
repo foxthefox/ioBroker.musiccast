@@ -33,20 +33,81 @@ The following objects are currently implemented:
 |{zone}.volume|value|x|0...max (max depending on device)|
 |{zone}.input|text|x|inputs depending on device|
 |{zone}.input_list|text|-|possible inputs|
-|{zone}.sound_program|text|x|sound programs depending on device|
+|{zone}.sound_program|text|x|set sound program|
 |{zone}.sound_program_list|text|-|possible sound programs|
+|{zone}.link_control|text|x|set link control|
+|{zone}.link_control_list|text|-|possible link control settings|
+|{zone}.link_audio_delay|text|x|set link audio delay|
+|{zone}.link_audio_delay_list|text|-|possible link link audio delay settings|
 |{zone}.clearVoice|boolean|x|clear Voice control|
 |{zone}.low|value|x|level EQ low|
 |{zone}.mid|value|x|level EQ mid|
 |{zone}.high|value|x|level EQ high|
+|{zone}.subwoofer_volume|value|x|level subwoofer volume|
+|{zone}.bass|value|x|level bass|
+|{zone}.treble|value|x|level treble|
+|{zone}.sleep|value|x|sleep timer|
+|netusb.input|value|-|which input is selected|
+|netusb.playPause|boolean|x|set Play/Pause|
+|netusb.stop|boolean|x|set Stop|
+|netusb.next|boolean|x|set Forward|
+|netusb.prev|boolean|x|set Rewind|
+|netusb.shuffle|boolean|x|toggle shuffle|
+|netusb.repeat|boolean|x|toggle repeat|
+|netusb.repeat_stat|text|-|repeat status|
+|netusb.artist|text|-|artist name|
+|netusb.album|text|-|album name|
+|netusb.track|text|-|track name|
+|netusb.albumarturl|text|-|http address for album art|
+|netusb.playtime|value|-|played time in s|
+|netusb.recent_info|json|-|history of played items|
+|netusb.preset_info|json|-|saved presets/favourites|
+|netusb.presetrecallnumber|value|x|recall the # in the favourite list|
+|netusb.usbdevicetype|text|-|type of connected USB device|
+|netusb.attribute|value|-|which possibiolites has the service, to be decoded|
 |system.api_version|value|-|API Version|
 |system.system_version|value|-|System Version|
+|system.inputs.{service}|value|-|available input service|
+|system.inputs.{service}.account_enable|value|-|available input service enabled|
+|system.inputs.{service}.distribution_enable|value|-|available input service distributable|
+|system.inputs.{service}.play_info_type|value|-|available input service type|
+|cd.playPause|boolean|x|set Play/Pause|
+|cd.stop|boolean|x|set Stop|
+|cd.next|boolean|x|set Forward|
+|cd.prev|boolean|x|set Rewind|
+|cd.shuffle|boolean|x|toggle shuffle|
+|cd.shuffle_stat|boolean|-|shuffle status|
+|cd.repeat|boolean|x|toggle repeat|
+|cd.repeat_stat|text|-|repeat status|
+|cd.device_stat|text|-|device status|
+|cd.playtime|value|-|current playback time|
+|cd.totaltime|value|-|current track total time|
+|cd.disctime|value|-|CD total time|
+|cd.tracknumber|value|-|track current in playback|
+|cd.totaltracks|value|-|total CD tracks|
+|cd.artist|text|-|artist name|
+|cd.album|text|-|album name|
+|cd.track|text|-|track name|
 
+## ToDo
+* tuner support
+* clock support
+* status update via socket.io
+* support of more zones
+* setting of min and max values according features
+* support of mc-link
+* support of lists
+* change of interaction values to nice naming
+* fastforward/fastrewind for NETUSB/CD
+* bluetooth
 
 ## Changelog
 #### 0.0.5
 * cleanup in admin page
 * improvement for object creation
+* more objects on netusb
+* more objects in system
+* added support of CD
 
 #### 0.0.4
 * new objects and functions (input, sound_prog, EQ, clearVoice)
