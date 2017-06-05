@@ -107,19 +107,28 @@ adapter.on('stateChange', function (id, state) {
         if (dp === 'power'){
             yamaha.power(state.val).then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent power on succesfully');
+                    adapter.log.debug('sent power succesfully to ' + state.val);
                     //adapter.setForeignState(id, true, true);
                 }
-                else {adapter.log.debug('failure sending power  cmd' +  responseFailLog(result));}
+                else {adapter.log.debug('failure setting power' +  responseFailLog(result));}
             });
         }
         if (dp === 'mute'){
             yamaha.mute(state.val).then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent mute on succesfully');
+                    adapter.log.debug('sent mute succesfully to ' + state.val);
                     //adapter.setForeignState(id, true, true);
                 }
                 else {adapter.log.debug('failure mute cmd' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'surround'){
+            yamaha.surround(state.val).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent surround succesfully to '+ state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting surround' +  responseFailLog(result));}
             });
         }
         if (dp === 'volume'){
@@ -139,17 +148,8 @@ adapter.on('stateChange', function (id, state) {
                 }
                 else {adapter.log.debug('failure setting input ' +  responseFailLog(result));}
             });
-        }
-        if (dp === 'sound_program'){
-            yamaha.setSound(state.val).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set sound program succesfully  to ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting sound program ' +  responseFailLog(result));}
-            });
         }        
-         if (dp === 'low'){
+        if (dp === 'low'){
             yamaha.setEqualizer(state.val,'','').then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('set equalizer LOW succesfully  to ' + state.val);
@@ -158,7 +158,7 @@ adapter.on('stateChange', function (id, state) {
                 else {adapter.log.debug('failure setting EQ LOW ' +  responseFailLog(result));}
             });
         }
-         if (dp === 'mid'){
+        if (dp === 'mid'){
             yamaha.setEqualizer('', state.val,'').then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('set equalizer MID succesfully  to ' + state.val);
@@ -175,7 +175,88 @@ adapter.on('stateChange', function (id, state) {
                 }
                 else {adapter.log.debug('failure setting EQ HIGH' +  responseFailLog(result));}
             });
-        }   
+        }
+        if (dp === 'subwoofer_volume'){
+            yamaha.setSubwooferVolumeTo(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set subwoofer volume succesfully  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting subwoofer volume' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'bass_extension'){
+            yamaha.setBassExtension(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set Bass Extension  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting Bass Extension' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'enhancer'){
+            yamaha.setEnhancer(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set Enhancer  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting Enhancer' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'direct'){
+            yamaha.setDirect(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set Direct  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting Direct' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'pure_direct'){
+            yamaha.setPureDirect(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set Pure Direct  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting Pure Direct' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'sound_program'){
+            yamaha.setSound(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set sound program  to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting sound program' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'bass'){
+            yamaha.setBassTo(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set Bass to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting Bass' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'treble'){
+            yamaha.setTrebleTo(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set Treble to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting Treble' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'balance'){
+            yamaha.setBalance(state.val).then(function(result) {  //zone to be added
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('set Balance to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure setting Balance' +  responseFailLog(result));}
+            });
+        }                            
         if (dp === 'sleep'){
             yamaha.sleep(state.val).then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
@@ -194,26 +275,138 @@ adapter.on('stateChange', function (id, state) {
                 else {adapter.log.debug('failure setting ClearVoice' +  responseFailLog(result));}
             });
         }
-        if (dp === 'playPause'){
-            if (state.val === true){
-                yamaha.playNet().then(function(result) {
+        if (dp === 'presetrecallnumber'){
+            var zone = 'main'; //wie die Übergabe an andere zones verarbeiten??
+            yamaha.recallPreset(state.val, zone).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('recalled the Preset succesfully in zone  ' + zone + ' to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure recalling Preset' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'prev' && state.val === true){
+            if(idx === 'netusb'){
+                yamaha.prevNet().then(function(result) {
                     if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('set NETUSB Play succesfully  to ' + state.val);
+                        adapter.log.debug('sent PREV  to netusb ');
                         //adapter.setForeignState(id, true, true);
                     }
-                    else {adapter.log.debug('failure setting NETUSB Play' +  responseFailLog(result));}
+                    else {adapter.log.debug('failure sending PREV to NETUSB' +  responseFailLog(result));}
                 });
             }
-            else {
-                yamaha.stopNet().then(function(result) {
+            if(idx === 'cd'){
+                yamaha.prevCD().then(function(result) {
                     if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('set NETUSB Stop succesfully  to ' + state.val);
+                        adapter.log.debug('sent PREV  to CD ');
                         //adapter.setForeignState(id, true, true);
                     }
-                    else {adapter.log.debug('failure setting NETUSB Stop' +  responseFailLog(result));}
-                });          
+                    else {adapter.log.debug('failure sending PREV to CD' +  responseFailLog(result));}
+                });
+            }
+        }
+        if (dp === 'next' && state.val === true){
+            if(idx === 'netusb'){
+                yamaha.nextNet().then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent NEXT  to netusb ');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending NEXT to NETUSB' +  responseFailLog(result));}
+                });
+            }
+            if(idx === 'cd'){
+                yamaha.nextCD().then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent NEXT  to CD ');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending NEXT to CD' +  responseFailLog(result));}
+                });
+            }
+        }
+        if (dp === 'repeat' && state.val === true){
+            if(idx === 'netusb'){
+                yamaha.toggleNetRepeat().then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent Repeat  to netusb ');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending Repeat to NETUSB' +  responseFailLog(result));}
+                });
+            }
+            if(idx === 'cd'){
+                yamaha.toggleCDRepeat().then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent Repeat  to CD ');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending Repeat to CD' +  responseFailLog(result));}
+                });
+            }
+        }        
+        if (dp === 'playPause'){
+            if(idx === 'netusb'){
+                if (state.val === true){
+                    yamaha.playNet().then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set NETUSB Play succesfully  to ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting NETUSB Play' +  responseFailLog(result));}
+                    });
+                }
+                else {
+                    yamaha.stopNet().then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set NETUSB Stop succesfully  to ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting NETUSB Stop' +  responseFailLog(result));}
+                    });          
+                }
+            }
+            if(idx === 'cd'){
+                if (state.val === true){
+                    yamaha.playCD().then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set CD Play succesfully  to ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting CD Play' +  responseFailLog(result));}
+                    });
+                }
+                else {
+                    yamaha.stopCD().then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set CD Stop succesfully  to ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting CD Stop' +  responseFailLog(result));}
+                    });          
+                }
             }
         } 
+        if (dp === 'shuffle' && state.val === true){
+            if(idx === 'netusb'){
+                yamaha.toggleNetShuffle().then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent Shuffle  to netusb ');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending Shuffle to NETUSB' +  responseFailLog(result));}
+                });
+            }
+            if(idx === 'cd'){
+                yamaha.toggleCDShuffle().then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent Shuffle to CD ');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending Shuffle to CD' +  responseFailLog(result));}
+                });
+            }
+        }         
     }//if status
 });
 
@@ -382,6 +575,7 @@ function defineMusicInputs(type, uid, zone, inputs){
             "type": "string",
             "read": true,
             "write": true,
+            "values" : inputs,
             "role": "text",
             "desc": "Input selection"
         },
@@ -409,14 +603,14 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
             "type": "string",
             "read": true,
             "write": true,
+            "values" : ctrl,
             "role": "text",
             "desc": "link control selection"
         },
         native: {}
     });
 }
-
-function defineZoneFunctions(type, uid, zone, func_list, ctrloptions){
+function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudiolist){
     if (func_list.indexOf("equalizer") !== -1){
         adapter.log.info('Setting up Equalizer in Zone:' + zone + ' of ' + type + '-' + uid);
         adapter.setObject(type + '_' + uid + '.' + zone + '.low', {
@@ -463,7 +657,7 @@ function defineZoneFunctions(type, uid, zone, func_list, ctrloptions){
         });
     }
     if (func_list.indexOf("sleep") !== -1){
-        adapter.log.info('Setting up Clear Voice in Zone:' + zone + ' of ' + type + '-' + uid);
+        adapter.log.info('Setting up sleep timer in Zone:' + zone + ' of ' + type + '-' + uid);
         adapter.setObject(type + '_' + uid + '.' + zone + '.sleep', {
             type: 'state',
             common: {
@@ -503,7 +697,7 @@ function defineZoneFunctions(type, uid, zone, func_list, ctrloptions){
                 "type": "array",
                 "read": true,
                 "write": false,
-                "values": ctrloptions,
+                "values": soundoptions,
                 "role": "list",
                 "desc": "Sound Program"
             },
@@ -516,6 +710,7 @@ function defineZoneFunctions(type, uid, zone, func_list, ctrloptions){
                 "type": "string",
                 "read": true,
                 "write": true,
+                "values": soundoptions,
                 "role": "text",
                 "desc": "Sound Program selection"
             },
@@ -689,12 +884,25 @@ function defineZoneFunctions(type, uid, zone, func_list, ctrloptions){
                 "type": "string",
                 "read": true,
                 "write": true,
-                //"values": from list get Features
+                "values": linkaudiolist,
                 "role": "text",
                 "desc": "link_audio_delay"
             },
             native: {}
-        });  
+        });
+        adapter.setObject(type + '_' + uid + '.' + zone + '.link_audio_delay_list', {
+            type: 'state',
+            common: {
+                "name": "link_audio_delay_list",
+                "type": "array",
+                "read": true,
+                "write": true,
+                "values": linkaudiolist,
+                "role": "list",
+                "desc": "link_audio_delay_list"
+            },
+            native: {}
+        });   
     }   
     if (func_list.indexOf("signal_info") !== -1){
         // signal info audio ....
@@ -707,7 +915,7 @@ function defineMusicSystemInputs(type, uid, sysinputs){
         adapter.setObject(type + '_' + uid + '.system.inputs.' + sysinputs[i].id, {
             type: 'channel',
             common: {
-                name: 'Input ' + id,
+                name: 'Input ' + sysinputs[i].id,
                 role: 'sensor'
             },
             native: {
@@ -823,7 +1031,7 @@ function defineMusicNetUsb(type, uid){
             "type": "boolean",
             "read": true,
             "write": true,
-            "role": "button",
+            "role": "button",  // can be false = off / true = on
             "desc": "shuffle"
         },
         native: {}
@@ -831,15 +1039,393 @@ function defineMusicNetUsb(type, uid){
     adapter.setObject(type + '_' + uid + '.netusb.repeat', {
         type: 'state',
         common: {
-            "name": "repeat",
+            "name": "repeat toggle button",
             "type": "boolean",
             "read": true,
             "write": true,
-            "role": "button",
-            "desc": "repeat"
+            "role": "button", 
+            "desc": "repeat toggle button"
         },
         native: {}
     });
+    adapter.setObject(type + '_' + uid + '.netusb.repeat_stat', {
+        type: 'state',
+        common: {
+            "name": "repeat status",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  //can be toggled off, one, all
+            "desc": "repeat status"
+        },
+        native: {}
+    });    
+    adapter.setObject(type + '_' + uid + '.netusb.artist', {
+        type: 'state',
+        common: {
+            "name": "artist",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "artist"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.netusb.album', {
+        type: 'state',
+        common: {
+            "name": "album",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "album"
+        },
+        native: {}
+    });  
+    adapter.setObject(type + '_' + uid + '.netusb.track', {
+        type: 'state',
+        common: {
+            "name": "track",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "track"
+        },
+        native: {}
+    }); 
+    adapter.setObject(type + '_' + uid + '.netusb.albumarturl', {
+        type: 'state',
+        common: {
+            "name": "albumarturl",  //ip of device + albumarturl
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "albumarturl"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.netusb.input', {
+        type: 'state',
+        common: {
+            "name": "active input netusb",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "active input on netusb"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.netusb.playtime', {
+        type: 'state',
+        common: {
+            "name": "active input netusb",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "unit": "s",
+            "role": "value",
+            "desc": "active input on netusb"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.netusb.recent_info', {
+        type: 'state',
+        common: {
+            "name": "netusb plaback history",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "netusb playback history"
+        },
+        native: {}
+    });  
+    adapter.setObject(type + '_' + uid + '.netusb.preset_info', {
+        type: 'state',
+        common: {
+            "name": "netusb favourites",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "netusb favourites"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.netusb.presetrecallnumber', {
+        type: 'state',
+        common: {
+            "name": "recall preset number",
+            "type": "number",
+            "read": true,
+            "write": true,
+            "role": "level",
+            "desc": "recall preset number" //wie wird die zone abgeleitet, wenn mehr als main?
+        },
+        native: {}
+    });      
+    adapter.setObject(type + '_' + uid + '.netusb.usbdevicetype', {
+        type: 'state',
+        common: {
+            "name": "type of USB device",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "type of USB device" // "msc" / "ipod" / "unknown"
+        },
+        native: {}
+    }); 
+    adapter.setObject(type + '_' + uid + '.netusb.attribute', {
+        type: 'state',
+        common: {
+            "name": "service attribute",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "role": "value",
+            "desc": "service attribute" // must be decoded for detection which possibilities come with the service
+        },
+        native: {}
+    }); 
+}
+function defineMusicCD(type, uid){
+    adapter.setObject(type + '_' + uid + '.cd', {
+        type: 'channel',
+        common: {
+            name: 'MusicCast CD ' + type,
+            role: 'sensor'
+        },
+        native: {
+            "addr": uid
+        }
+    });
+    adapter.log.info('Setting up CD of :' + type + '-' + uid);
+
+    adapter.setObject(type + '_' + uid + '.cd.playPause', {
+        type: 'state',
+        common: {
+            "name": "play",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "button.play",
+            "desc": "play"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.stop', {
+        type: 'state',
+        common: {
+            "name": "Stop",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "button.stop",
+            "desc": "Stop"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.next', {
+        type: 'state',
+        common: {
+            "name": "next",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "button.next",
+            "desc": "next"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.prev', {
+        type: 'state',
+        common: {
+            "name": "prev",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "button.prev",
+            "desc": "next"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.shuffle', {
+        type: 'state',
+        common: {
+            "name": "shuffle",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "button",  // can be false = off / true = on
+            "desc": "shuffle"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.shuffle_stat', {
+        type: 'state',
+        common: {
+            "name": "shuffle status",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  //can return "off" / "on" / "folder" / "program"
+            "desc": "shuffle status"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.repeat', {
+        type: 'state',
+        common: {
+            "name": "repeat toggle button",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "button", 
+            "desc": "repeat toggle button"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.repeat_stat', {
+        type: 'state',
+        common: {
+            "name": "repeat status",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  //can be toggled off, one, all
+            "desc": "repeat status"
+        },
+        native: {}
+    });   
+    adapter.setObject(type + '_' + uid + '.cd.device_status', {
+        type: 'state',
+        common: {
+            "name": "device status",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  //"open" / "close" / "ready" / "not_ready"
+            "desc": "device status"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.playback', {
+        type: 'state',
+        common: {
+            "name": "playback status",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  // "play" / "stop" / "pause" / "fast_reverse" / "fast_forward"
+            "desc": "playback status"
+        },
+        native: {}
+    });  
+    adapter.setObject(type + '_' + uid + '.cd.playtime', {
+        type: 'state',
+        common: {
+            "name": "current playback time",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "unit": "s",
+            "role": "value", 
+            "desc": "current playback time"
+        },
+        native: {}
+    }); 
+    adapter.setObject(type + '_' + uid + '.cd.totaltime', {
+        type: 'state',
+        common: {
+            "name": "total track playback time",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "unit": "s",
+            "role": "value", 
+            "desc": "current track total playback time"
+        },
+        native: {}
+    }); 
+    adapter.setObject(type + '_' + uid + '.cd.disctime', {
+        type: 'state',
+        common: {
+            "name": "CD total playback time",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "unit": "s",
+            "role": "value", 
+            "desc": "CD total playback time"
+        },
+        native: {}
+    });   
+    adapter.setObject(type + '_' + uid + '.cd.tracknumber', {
+        type: 'state',
+        common: {
+            "name": "track current in playback",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "role": "value", // If no track, or playback status is complete stop, returns -1.
+            "desc": "track current in playback"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.totaltracks', {
+        type: 'state',
+        common: {
+            "name": "total CD tracks",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "role": "value", 
+            "desc": "total CD tracks"
+        },
+        native: {}
+    }); 
+    adapter.setObject(type + '_' + uid + '.cd.artist', {
+        type: 'state',
+        common: {
+            "name": "CD artist name",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  
+            "desc": "CD artist name"
+        },
+        native: {}
+    });  
+    adapter.setObject(type + '_' + uid + '.cd.album', {
+        type: 'state',
+        common: {
+            "name": "CD album title",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  
+            "desc": "CD album title"
+        },
+        native: {}
+    });  
+    adapter.setObject(type + '_' + uid + '.cd.track', {
+        type: 'state',
+        common: {
+            "name": "CD track title",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  
+            "desc": "CD track title"
+        },
+        native: {}
+    })                    
 }
 function getMusicDeviceInfo(ip, type, uid){
         var devip = ip;
@@ -856,8 +1442,114 @@ function getMusicDeviceInfo(ip, type, uid){
                 else {adapter.log.debug('failure getting device info from  ' + devip + ' : ' +  responseFailLog(result));}
             
          });
+}function getMusicMainInfo(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getStatus().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got status info succesfully from ' + devip);
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.power', {val: att.power, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.volume', {val: att.volume, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.mute', {val: att.mute, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.input', {val: att.input, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.link_control', {val: att.link_control, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.link_audio_delay', {val: att.link_audio_delay, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.sound_program', {val: att.sound_program, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.clear_voice', {val: att.clear_voice, ack: true});   
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.subwoofer_volume', {val: att.subwoofer_volume, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.low', {val: att.equalizer.low, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.mid', {val: att.equalizer.mid, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.high', {val: att.equalizer.high, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.bass', {val: att.tone_control.bass, ack: true});   
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.treble', {val: att.tone_control.treble, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.balance', {val: att.balance, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.enhancer', {val: att.enhancer, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.bass_extension', {val: att.bass_extension, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.direct', {val: att.direct, ack: true});  
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.pure_direct', {val: att.pure_direct, ack: true});            
+                }
+                else {adapter.log.debug('failure getting status info from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
 }
-function getMusicFeatures(ip, type, uid){
+
+function getMusicNetusbInfo(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getPlayInfo().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    var albumurl = att.albumart_url;
+                    if(albumurl.substr(0,20) === '/YamahaRemoteControl'){
+                        albumurl = 'http://' + devip + att.albumart_url;
+                    }
+                    adapter.log.debug('got Netusb playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.input', {val: att.input, ack: true});
+                    //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playback', {val: att.playback, ack: true});                    
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.repeat_stat', {val: att.repeat, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.shuffle', {val: (att.shuffle === 'on' ? true : false), ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playtime', {val: att.play_time, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.usbdevicetype', {val: att.usb_devicetype, ack: true});                      
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.album', {val: att.album, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.albumarturl', {val: albumurl, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.artist', {val: att.artist, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.track', {val: att.track, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.attribute', {val: att.attribute, ack: true});                                         
+                }
+                else {adapter.log.debug('failure getting Netusb playinfo from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+        yamaha.getRecentInfo().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got Netusb recent info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.recent_info', {val: JSON.stringify(att.recent_info), ack: true});                                      
+                }
+                else {adapter.log.debug('failure getting Netusb recent info from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+        yamaha.getPresetInfo().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got Netusb preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
+                }
+                else {adapter.log.debug('failure getting Netusb preset info from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+}
+function getMusicCdInfo(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getPlayInfo().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.device_status', {val: att.device_status, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.playback', {val: att.playback, ack: true});                    
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.repeat_stat', {val: att.repeat, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.shuffle_stat', {val: (att.shuffle === 'on' ? true : false), ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.playtime', {val: att.play_time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.totaltime', {val: att.total_time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.disctime', {val: att.disc_time, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.tracknumber', {val: att.track_number, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.totaltracks', {val: att.total_tracks, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.artist', {val: att.artist, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.album', {val: att.album, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.track', {val: att.track, ack: true});                                         
+                }
+                else {adapter.log.debug('failure getting CD playinfo from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+}
+function getMusicDeviceFeatures(ip, type, uid){
         var devip = ip;
         var devtype = type;
         var devuid = uid;
@@ -876,9 +1568,9 @@ function getMusicFeatures(ip, type, uid){
                     
                     // Zone Func_list fixed
                     // link control
-                    defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[0].link_control_list);
+                    defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[0].link_control_list);                   
                     //Zone Func_list variable
-                    defineZoneFunctions(devtype, devuid, zone_name, att.zone[0].func_list, att.zone[0].sound_program_list);
+                    defineZoneFunctions(devtype, devuid, zone_name, att.zone[0].func_list, att.zone[0].sound_program_list, att.zone[0].link_audio_delay_list);
                     
                     // input services and their attributes
                     defineMusicSystemInputs(devtype, devuid, att.system.input_list);
@@ -911,10 +1603,15 @@ function main() {
         getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
 
         //get the inout list and create object
-        getMusicFeatures(obj[anz].ip, obj[anz].type, obj[anz].uid);
+        getMusicDeviceFeatures(obj[anz].ip, obj[anz].type, obj[anz].uid);
         //yamaha.getNameText() evtl. um enum_room für die Zone zu setzen oder über setNameText enum_room aus admin setzen
 
         //yamaha.getStatus('main'); initial status of device
+
+        // get main status
+        getMusicMainInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);  //must be looped if more than main zone
+        // get netusb status
+        getMusicNetusbInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);        
 
         //
     }
