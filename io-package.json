@@ -3,6 +3,10 @@
         "name":                     "musiccast",
         "version":                  "0.0.5",
 	 "news": {
+		 	"0.0.5": {
+			  "en": "more objects, support NETUSB/CD",
+			  "de": "weitere Objekte, Unterstützung NETUSB/CD"
+			},
 		 	"0.0.4": {
 			  "en": "more objects, new functions, search",
 			  "de": "weitere Objekte, neue Funktionen, Suche"
@@ -41,12 +45,6 @@
     },
     "native": {
 	"devices": [
-		{
-		"ip": "ip of dev",
-		"type": "model",
-		"name": "description",
-		"uid": "device ID"
-	}
 	]
     },
     "objects": [
