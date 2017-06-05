@@ -15,8 +15,8 @@ systemDictionary = {
 	"Try to push the Search Button until you find the amount of MusicCast devices in your home.": {
 		"de": "Drücke Search sooft, bis alle MusicCast geräte gefunden sind.",
 		"ru": ""},
-	"Use "+" for manual configuration.": {
-		"de": "Benutze + für manuelle Konfiguration",
+	"Use '+' for manual configuration.": {
+		"de": "Benutze '+' für manuelle Konfiguration",
 		"ru": ""},
 	"IP address": {
 		"de": "IP Adresse",
