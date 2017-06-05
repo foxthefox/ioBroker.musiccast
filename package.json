@@ -1,6 +1,6 @@
 {
   "name": "iobroker.musiccast",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "ioBroker MusicCast Adapter",
   "author": {
     "name": "foxthefox",
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "yamaha-yxc-nodejs": "^0.0.5"
+    "dgram": "^1.0.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
