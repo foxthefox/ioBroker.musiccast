@@ -47,10 +47,10 @@ The following objects are currently implemented:
 |{zone}.bass|value|x|level bass|
 |{zone}.treble|value|x|level treble|
 |{zone}.balance|value|x|level balance|
-|{zone}.direct|value|x|set direct|
-|{zone}.pure_direct|value|x|set pure direct|
-|{zone}.enhancer|value|x|set enhancer|
-|{zone}.bass_extension|value|x|set bass extension|
+|{zone}.direct|boolean|x|set direct|
+|{zone}.pure_direct|boolean|x|set pure direct|
+|{zone}.enhancer|boolean|x|set enhancer|
+|{zone}.bass_extension|boolean|x|set bass extension|
 |{zone}.sleep|value|x|sleep timer|
 |netusb.input|value|-|which input is selected|
 |netusb.playPause|boolean|x|set Play/Pause|
