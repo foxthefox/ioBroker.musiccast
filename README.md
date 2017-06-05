@@ -46,6 +46,11 @@ The following objects are currently implemented:
 |{zone}.subwoofer_volume|value|x|level subwoofer volume|
 |{zone}.bass|value|x|level bass|
 |{zone}.treble|value|x|level treble|
+|{zone}.balance|value|x|level balance|
+|{zone}.direct|value|x|set direct|
+|{zone}.pure_direct|value|x|set pure direct|
+|{zone}.enhancer|value|x|set enhancer|
+|{zone}.bass_extension|value|x|set bass extension|
 |{zone}.sleep|value|x|sleep timer|
 |netusb.input|value|-|which input is selected|
 |netusb.playPause|boolean|x|set Play/Pause|
@@ -100,6 +105,7 @@ The following objects are currently implemented:
 * change of interaction values to nice naming
 * fastforward/fastrewind for NETUSB/CD
 * bluetooth
+* dialog level
 
 ## Changelog
 #### 0.0.5
