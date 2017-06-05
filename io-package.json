@@ -1,8 +1,12 @@
 {
     "common": {
         "name":                     "musiccast",
-        "version":                  "0.0.5",
+        "version":                  "0.0.6",
 	 "news": {
+		 	"0.0.6": {
+			  "en": "subscribe to UDP message",
+			  "de": "Abo auf UDP Meldungen"
+			},
 		 	"0.0.5": {
 			  "en": "more objects, support NETUSB/CD",
 			  "de": "weitere Objekte, Unterstützung NETUSB/CD"
