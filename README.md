@@ -97,7 +97,6 @@ The following objects are currently implemented:
 ## ToDo
 * tuner support
 * clock support
-* status update via socket.io
 * support of more zones
 * setting of min and max values according features
 * support of mc-link
@@ -108,6 +107,9 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+#### 0.0.6
+* status update via subscribing UDP messages
+
 #### 0.0.5
 * cleanup in admin page
 * improvement for object creation
