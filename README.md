@@ -52,7 +52,7 @@ The following objects are currently implemented:
 |{zone}.enhancer|boolean|x|set enhancer|
 |{zone}.bass_extension|boolean|x|set bass extension|
 |{zone}.sleep|value|x|sleep timer|
-|netusb.input|value|-|which input is selected|
+|netusb.input|value|x|set/actual input|
 |netusb.playPause|boolean|x|set Play/Pause|
 |netusb.stop|boolean|x|set Stop|
 |netusb.next|boolean|x|set Forward|
