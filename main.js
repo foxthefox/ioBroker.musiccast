@@ -1579,7 +1579,53 @@ function getMusicDeviceFeatures(ip, type, uid){
                 else {adapter.log.debug('failure getting features from  ' + devip + ' : ' +  responseFailLog(result));}
         });
 }
+function gotUpdate(msg, devIp){
+    var dev = getConfigObjects(adapter.config.devices, 'ip', devIp);
 
+
+    if (msg.netusb){
+        if (msg.netusb.play_time && adapter.config.netusbplaytime){
+            adapter.setForeignState('musiccast.0.'+ dev[0].type + '_' + dev[0].uid + '.netusb.playtime', {val: msg.netusb.play_time, ack: true});
+        } 
+        else if (msg.netusb.play_info_updated){
+            getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
+        } 
+        //if play_error
+        //if preset_info_updated
+        //if recent_info_updated
+        //if preset_control success
+    }
+    if (msg.main){
+        //if signal_info_updated /main/getSignalInfo
+        //if status_updated /main/getStatus
+    }
+    if (msg.system){
+        //if func_status_updated
+        //if bluetooth_status_updated
+        //if name_text_updated
+        //if location_info_updated
+        //getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
+    }
+    if (msg.cd){
+        //if play_info_updated
+        //getPlayInfo
+        //if device_status
+        //if playtime
+    }
+    if (msg.tuner){
+        //if play_info_updated
+        //if preset_info_updated
+        //if name_text_updated
+        //if location_info_updated
+        //getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
+    }
+    if (msg.dist){
+        //  /dist/getDistributionInfo
+    }
+    if (msg.clock){
+        // /clock/getSettings
+    }      
+}
 function main() {
 
     //yamaha.discover
@@ -1615,7 +1661,24 @@ function main() {
 
         //
     }
+    const dgram = require('dgram');
+    const server = dgram.createSocket('udp4');
+    
+    server.on('error', (err) => {
+        adapter.log.error('server error:' + err.stack);
+        server.close();
+    });
 
+    server.on('message', (msg, rinfo) => {
+        adapter.log.debug('server got:' + msg.toString() + 'from ' + rinfo.address );
+        //adapter.log.debug('server got:' + JSON.parse(msg.toString()) + 'from ' + rinfo.address );
+        gotUpdate(JSON.parse(msg.toString()), rinfo.address); //erstmal noch IP, device_id ist eine andere als die in ssdp übermittelte (letze Teil von UDN)
+    });
+    
+    server.on('listening', () => {
+        adapter.log.info('socket listening ');
+    });
+    server.bind(41100);
 
     //everything is configured, make cyclic updates
 
