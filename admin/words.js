@@ -30,5 +30,14 @@ systemDictionary = {
 		"ru": ""},
 	"Name": {
 		"de": "Bezeichnung",
-		"ru": ""}			
+		"ru": ""},
+	"unchecked => no update / checked => update (more traffic)": {
+		"de":"unchecked => kein update / checked => update (mehr traffic)",
+		"ru":""},
+	"update playtime NET (USB/RADIO)": {
+		"de":"update playtime NET (USB/RADIO)",
+		"ru":""},	
+	"update playtime CD": {
+		"de":"update playtime CD",
+		"ru":""},	
 };
