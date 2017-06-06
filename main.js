@@ -501,6 +501,30 @@ function defineMusicDevice(type, uid){
         },
         native: {}
     });
+    adapter.setObject(type + '_' + uid + '.system.system_id', {
+        type: 'state',
+        common: {
+            "name": "System ID",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "System ID"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.system.device_id', {
+        type: 'state',
+        common: {
+            "name": "Device ID",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "Device ID"
+        },
+        native: {}
+    });    
 }
 function defineMusicZone(type, uid, zone, max_vol){
     adapter.setObject(type + '_' + uid + '.' + zone, {
@@ -1438,7 +1462,9 @@ function getMusicDeviceInfo(ip, type, uid){
                 if (att.response_code === 0 ){
                     adapter.log.debug('got device info succesfully from ' + devip);
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.api_version', {val: att.api_version, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.system_version', {val: att.system_version, ack: true});                    
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.system_version', {val: att.system_version, ack: true});  
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.system_id', {val: att.system_id, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.device_id', {val: att.device_id, ack: true});                     
                 }
                 else {adapter.log.debug('failure getting device info from  ' + devip + ' : ' +  responseFailLog(result));}
             
