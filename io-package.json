@@ -48,7 +48,9 @@
         "type":                     "media"
     },
     "native": {
-	"devices": [
+	 "netusbplaytime": false,
+	 "cdplaytime": false,
+	 "devices": [
 	]
     },
     "objects": [
