@@ -14,10 +14,13 @@ adapter for Yamaha MusicCast devices like WX-010/030, YSP-1600
 Installation requires nodejs v4 at minimum
 
 from npm
-* npm install iobroker.musiccast
-
-actual version from github
-* npm install https://github.com/foxthefox/ioBroker.musiccast/tarball/master --production
+```javascript
+npm install iobroker.musiccast
+```
+actual version from github (this might not every time work, when development is in progress)
+```javascript
+npm install https://github.com/foxthefox/ioBroker.musiccast/tarball/master --production
+```
 
 ## Settings
 The admin page the "+" can be used for adding manually the IP address, DeviceID, Type and Name.
