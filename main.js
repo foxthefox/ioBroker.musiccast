@@ -1427,6 +1427,7 @@ function defineMusicCD(type, uid){
         native: {}
     })                    
 }
+// status requests
 function getMusicDeviceInfo(ip, type, uid){
         var devip = ip;
         var devtype = type;
@@ -1442,7 +1443,8 @@ function getMusicDeviceInfo(ip, type, uid){
                 else {adapter.log.debug('failure getting device info from  ' + devip + ' : ' +  responseFailLog(result));}
             
          });
-}function getMusicMainInfo(ip, type, uid){
+}
+function getMusicMainInfo(ip, type, uid){
         var devip = ip;
         var devtype = type;
         var devuid = uid;
@@ -1501,26 +1503,35 @@ function getMusicNetusbInfo(ip, type, uid){
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.track', {val: att.track, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.attribute', {val: att.attribute, ack: true});                                         
                 }
-                else {adapter.log.debug('failure getting Netusb playinfo from  ' + devip + ' : ' +  responseFailLog(result));}
-            
+                else {adapter.log.debug('failure getting Netusb playinfo from  ' + devip + ' : ' +  responseFailLog(result));}            
          });
+}
+function getMusicNetusbRecent(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
         yamaha.getRecentInfo().then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got Netusb recent info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.recent_info', {val: JSON.stringify(att.recent_info), ack: true});                                      
                 }
-                else {adapter.log.debug('failure getting Netusb recent info from  ' + devip + ' : ' +  responseFailLog(result));}
-            
+                else {adapter.log.debug('failure getting Netusb recent info from  ' + devip + ' : ' +  responseFailLog(result));}            
          });
+}
+function getMusicNetusbPreset(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
         yamaha.getPresetInfo().then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got Netusb preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
                 }
-                else {adapter.log.debug('failure getting Netusb preset info from  ' + devip + ' : ' +  responseFailLog(result));}
-            
+                else {adapter.log.debug('failure getting Netusb preset info from  ' + devip + ' : ' +  responseFailLog(result));}           
          });
 }
 function getMusicCdInfo(ip, type, uid){
@@ -1549,6 +1560,7 @@ function getMusicCdInfo(ip, type, uid){
             
          });
 }
+// init of device
 function getMusicDeviceFeatures(ip, type, uid){
         var devip = ip;
         var devtype = type;
@@ -1579,38 +1591,44 @@ function getMusicDeviceFeatures(ip, type, uid){
                 else {adapter.log.debug('failure getting features from  ' + devip + ' : ' +  responseFailLog(result));}
         });
 }
+//UDP update
 function gotUpdate(msg, devIp){
     var dev = getConfigObjects(adapter.config.devices, 'ip', devIp);
-
-
     if (msg.netusb){
-        if (msg.netusb.play_time && adapter.config.netusbplaytime){
+        if (msg.netusb.play_time  && adapter.config.netusbplaytime){
             adapter.setForeignState('musiccast.0.'+ dev[0].type + '_' + dev[0].uid + '.netusb.playtime', {val: msg.netusb.play_time, ack: true});
         } 
-        else if (msg.netusb.play_info_updated){
+        if (msg.netusb.play_info_updated){
             getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
-        } 
+        }
+        if (msg.netusb.recent_info_updated){
+            getMusicNetusbRecent(devIp, dev[0].type, dev[0].uid);
+        }
+        if (msg.netusb.preset_info_updated){
+            getMusicNetusbPreset(devIp, dev[0].type, dev[0].uid);
+        }           
         //if play_error
-        //if preset_info_updated
-        //if recent_info_updated
         //if preset_control success
     }
     if (msg.main){
         //if signal_info_updated /main/getSignalInfo
         //if status_updated /main/getStatus
+        getMusicMainInfo(devIp, dev[0].type, dev[0].uid);
     }
     if (msg.system){
         //if func_status_updated
         //if bluetooth_status_updated
         //if name_text_updated
         //if location_info_updated
-        //getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
     }
     if (msg.cd){
-        //if play_info_updated
-        //getPlayInfo
         //if device_status
-        //if playtime
+        if (msg.cd.play_time  && adapter.config.cdplaytime){
+            adapter.setForeignState('musiccast.0.'+ dev[0].type + '_' + dev[0].uid + '.cd.playtime', {val: msg.cd.play_time, ack: true});
+        } 
+        if (msg.cd.play_info_updated){
+            getMusicCdInfo(devIp, dev[0].type, dev[0].uid);
+        }       
     }
     if (msg.tuner){
         //if play_info_updated
@@ -1626,6 +1644,7 @@ function gotUpdate(msg, devIp){
         // /clock/getSettings
     }      
 }
+
 function main() {
 
     //yamaha.discover
