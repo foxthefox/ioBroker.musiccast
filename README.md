@@ -23,6 +23,8 @@ actual version from github
 The admin page the "+" can be used for adding manually the IP address, DeviceID, Type and Name.
 Press the search button for discovery. If you have multiple devices, you have to hit the button multiple times until all devices are discovered. Unfortunately the discovery returns only one object at the time and this could be any of your MusicCast devices. 
 
+If you want to see the playtime updated for the tracks you listen, please enable/check the respective checkbox. Be aware that increases the message count (every second for every device the pingpong of updates).
+
 ## available Objects
 The following objects are currently implemented:
 
@@ -109,6 +111,7 @@ The following objects are currently implemented:
 ## Changelog
 #### 0.0.6
 * status update via subscribing UDP messages
+* switch for update on playtime info (disabling reduces traffic)
 
 #### 0.0.5
 * cleanup in admin page
