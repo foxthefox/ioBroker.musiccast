@@ -2,42 +2,42 @@
 systemDictionary = {
 	"Yamaha MusicCast adapter": {
 		"de": "Yamaha MusicCast Adapter", 
-		"ru": ""},
+		"ru": "Yamaha MusicCast Adapter"},
 	"Yamaha MusicCast settings": {
 		"de": "Yamaha MusicCast Einstellungen", 
-		"ru": ""},
+		"ru": "Yamaha MusicCast settings"},
 	"on save adapter restarts with new config immediately": {
 		"de": "Beim Speichern von Einstellungen der Adapter wird sofort neu gestartet.",
-		"ru": ""},
+		"ru": "on save adapter restarts with new config immediately"},
 	"Yamaha MusicCast devices": {
 		"de": "Yamaha MusicCast Geräte",
-		"ru": ""},	
+		"ru": "Yamaha MusicCast devices"},	
 	"Try to push the Search Button until you find the amount of MusicCast devices in your home.": {
 		"de": "Drücke Search sooft, bis alle MusicCast geräte gefunden sind.",
-		"ru": ""},
+		"ru": "Try to push the Search Button until you find the amount of MusicCast devices in your home."},
 	"Use '+' for manual configuration.": {
 		"de": "Benutze '+' für manuelle Konfiguration",
-		"ru": ""},
+		"ru": "Use '+' for manual configuration."},
 	"IP address": {
 		"de": "IP Adresse",
-		"ru": ""},	
+		"ru": "IP address"},	
 	"model": {
 		"de": "Modell",
-		"ru": ""},
+		"ru": "model"},
 	"uid": {
 		"en": "DeviceID",
 		"de": "GeräteID",
-		"ru": ""},
+		"ru": "DeviceID"},
 	"Name": {
 		"de": "Bezeichnung",
-		"ru": ""},
+		"ru": "Name"},
 	"unchecked => no update / checked => update (more traffic)": {
 		"de":"unchecked => kein update / checked => update (mehr traffic)",
-		"ru":""},
+		"ru":"unchecked => no update / checked => update (more traffic)"},
 	"update playtime NET (USB/RADIO)": {
 		"de":"update playtime NET (USB/RADIO)",
-		"ru":""},	
+		"ru":"update playtime NET (USB/RADIO)"},	
 	"update playtime CD": {
 		"de":"update playtime CD",
-		"ru":""},	
+		"ru":"update playtime CD"}	
 };
