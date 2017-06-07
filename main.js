@@ -577,6 +577,66 @@ function defineMusicZone(type, uid, zone, max_vol){
         },
         native: {}
     });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.group_id', {
+        type: 'state',
+        common: {
+            "name": "MC Link group ID",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "MC Link group ID"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.group_name', {
+        type: 'state',
+        common: {
+            "name": "MC Link group name",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "MC Link group name"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.role', {
+        type: 'state',
+        common: {
+            "name": "MC Link group role",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "MC Link group role"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.server_zone', {
+        type: 'state',
+        common: {
+            "name": "MC Link server zone",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "MC Link server zone"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.client_list', {
+        type: 'state',
+        common: {
+            "name": "MC Link client list",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "MC Link client list"
+        },
+        native: {}
+    });    
 }
 function defineMusicInputs(type, uid, zone, inputs){
     adapter.setObject(type + '_' + uid + '.' + zone + '.input_list', {
@@ -1586,6 +1646,25 @@ function getMusicCdInfo(ip, type, uid){
             
          });
 }
+function getMusicDistInfo(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getDistributionInfo().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got Distribution info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.group_id', {val: att.group_id, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.group_name', {val: att.group_name, ack: true});                    
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.role', {val: att.role, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.server_zone', {val: att.server_zone, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.client_list', {val: att.client_list, ack: true});                                         
+                }
+                else {adapter.log.debug('failure getting Distibution info from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+}
 // init of device
 function getMusicDeviceFeatures(ip, type, uid){
         var devip = ip;
@@ -1664,7 +1743,7 @@ function gotUpdate(msg, devIp){
         //getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
     }
     if (msg.dist){
-        //  /dist/getDistributionInfo
+        getMusicDistInfo(devIp, dev[0].type, dev[0].uid);
     }
     if (msg.clock){
         // /clock/getSettings
