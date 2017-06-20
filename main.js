@@ -646,7 +646,6 @@ function defineMusicInputs(type, uid, zone, inputs){
             "type": "array",
             "read": true,
             "write": false,
-            "values" : inputs,
             "role": "list",
             "desc": "list of inputs"
         },
@@ -674,7 +673,6 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
             "type": "array",
             "read": true,
             "write": false,
-            "values" : ctrl,
             "role": "list",
             "desc": "link control options"
         },
@@ -781,7 +779,6 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
                 "type": "array",
                 "read": true,
                 "write": false,
-                "values": soundoptions,
                 "role": "list",
                 "desc": "Sound Program"
             },
@@ -981,7 +978,6 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
                 "type": "array",
                 "read": true,
                 "write": true,
-                "values": linkaudiolist,
                 "role": "list",
                 "desc": "link_audio_delay_list"
             },
