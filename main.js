@@ -1559,7 +1559,23 @@ function getMusicMainInfo(ip, type, uid){
             
          });
 }
-
+function getMusicZoneLists(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getFeatures().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.input_list', {val: att.zone[0].input_list, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.link_control_list', {val: att.zone[0].link_control_list, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.link_audio_delay_list', {val: att.zone[0].link_audio_delay_list, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.sound_program_list', {val: att.zone[0].sound_program_list, ack: true});
+                }
+                else {adapter.log.debug('failure getting status info from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+}  
 function getMusicNetusbInfo(ip, type, uid){
         var devip = ip;
         var devtype = type;
@@ -1776,6 +1792,8 @@ function main() {
 
         // get main status
         getMusicMainInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);  //must be looped if more than main zone
+        // get main lists status
+        getMusicZoneLists(obj[anz].ip, obj[anz].type, obj[anz].uid);  // 
         // get netusb status
         getMusicNetusbInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);        
 
