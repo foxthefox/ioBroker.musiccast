@@ -63,6 +63,7 @@ The following objects are currently implemented:
 |netusb.next|boolean|x|set Forward|
 |netusb.prev|boolean|x|set Rewind|
 |netusb.shuffle|boolean|x|toggle shuffle|
+|netusb.shuffle_stat|text|-|shuffle status|
 |netusb.repeat|boolean|x|toggle repeat|
 |netusb.repeat_stat|text|-|repeat status|
 |netusb.artist|text|-|artist name|
@@ -86,7 +87,7 @@ The following objects are currently implemented:
 |cd.next|boolean|x|set Forward|
 |cd.prev|boolean|x|set Rewind|
 |cd.shuffle|boolean|x|toggle shuffle|
-|cd.shuffle_stat|boolean|-|shuffle status|
+|cd.shuffle_stat|text|-|shuffle status|
 |cd.repeat|boolean|x|toggle repeat|
 |cd.repeat_stat|text|-|repeat status|
 |cd.device_stat|text|-|device status|
@@ -113,6 +114,8 @@ The following objects are currently implemented:
 
 ## Changelog
 #### 0.0.6
+* cd.shuffle_stat boolean -> text
+* new netusb.shuffle_stat (text)
 * status update via subscribing UDP messages
 * switch for update on playtime info (disabling reduces traffic)
 
