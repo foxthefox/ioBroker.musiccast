@@ -1107,12 +1107,24 @@ function defineMusicNetUsb(type, uid){
     adapter.setObject(type + '_' + uid + '.netusb.shuffle', {
         type: 'state',
         common: {
-            "name": "shuffle",
+            "name": "shuffle toggle button",
             "type": "boolean",
             "read": true,
             "write": true,
-            "role": "button",  // can be false = off / true = on
-            "desc": "shuffle"
+            "role": "button",  
+            "desc": "shuffle toggle button"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.netusb.shuffle_stat', {
+        type: 'state',
+        common: {
+            "name": "shuffle status",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",  //can be toggled off, on, songs, album
+            "desc": "shuffle status"
         },
         native: {}
     });
@@ -1592,7 +1604,7 @@ function getMusicNetusbInfo(ip, type, uid){
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.input', {val: att.input, ack: true});
                     //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playback', {val: att.playback, ack: true});                    
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.repeat_stat', {val: att.repeat, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.shuffle', {val: (att.shuffle === 'on' ? true : false), ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.shuffle_stat', {val: att.shuffle, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playtime', {val: att.play_time, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.usbdevicetype', {val: att.usb_devicetype, ack: true});                      
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.album', {val: att.album, ack: true}); 
@@ -1644,7 +1656,7 @@ function getMusicCdInfo(ip, type, uid){
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.device_status', {val: att.device_status, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.playback', {val: att.playback, ack: true});                    
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.repeat_stat', {val: att.repeat, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.shuffle_stat', {val: (att.shuffle === 'on' ? true : false), ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.shuffle_stat', {val: att.shuffle, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.playtime', {val: att.play_time, ack: true}); 
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.totaltime', {val: att.total_time, ack: true}); 
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.disctime', {val: att.disc_time, ack: true});
