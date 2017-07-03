@@ -1323,18 +1323,6 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.playback', {
-        type: 'state',
-        common: {
-            "name": "playback status",
-            "type": "string",
-            "read": true,
-            "write": false,
-            "role": "text",
-            "desc": "playback status"
-        },
-        native: {}
-    });
     adapter.setObject(type + '_' + uid + '.cd.stop', {
         type: 'state',
         common: {
