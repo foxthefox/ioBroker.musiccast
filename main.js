@@ -1068,6 +1068,18 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
+    adapter.setObject(type + '_' + uid + '.netusb.playback', {
+        type: 'state',
+        common: {
+            "name": "playback status",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "playback status"
+        },
+        native: {}
+    });
     adapter.setObject(type + '_' + uid + '.netusb.stop', {
         type: 'state',
         common: {
@@ -1308,6 +1320,18 @@ function defineMusicCD(type, uid){
             "write": true,
             "role": "button.play",
             "desc": "play"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.cd.playback', {
+        type: 'state',
+        common: {
+            "name": "playback status",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "playback status"
         },
         native: {}
     });
@@ -1602,7 +1626,7 @@ function getMusicNetusbInfo(ip, type, uid){
                     }
                     adapter.log.debug('got Netusb playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.input', {val: att.input, ack: true});
-                    //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playback', {val: att.playback, ack: true});                    
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playback', {val: att.playback, ack: true});                    
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.repeat_stat', {val: att.repeat, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.shuffle_stat', {val: att.shuffle, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playtime', {val: att.play_time, ack: true});
