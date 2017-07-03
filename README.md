@@ -59,6 +59,7 @@ The following objects are currently implemented:
 |{zone}.sleep|value|x|sleep timer|
 |netusb.input|value|x|set/actual input|
 |netusb.playPause|boolean|x|set Play/Pause|
+|netusb.playback|text|-|status net player|
 |netusb.stop|boolean|x|set Stop|
 |netusb.next|boolean|x|set Forward|
 |netusb.prev|boolean|x|set Rewind|
@@ -83,6 +84,7 @@ The following objects are currently implemented:
 |system.inputs.{service}.distribution_enable|value|-|available input service distributable|
 |system.inputs.{service}.play_info_type|value|-|available input service type|
 |cd.playPause|boolean|x|set Play/Pause|
+|cd.playback|text|-|status CD player|
 |cd.stop|boolean|x|set Stop|
 |cd.next|boolean|x|set Forward|
 |cd.prev|boolean|x|set Rewind|
