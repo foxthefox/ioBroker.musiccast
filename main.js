@@ -1748,8 +1748,13 @@ function gotUpdate(msg, devIp){
         if (msg.netusb.preset_info_updated){
             getMusicNetusbPreset(devIp, dev[0].type, dev[0].uid);
         }           
-        //if play_error
-        //if preset_control success
+        //if play_error todo
+        
+        if (msg.netusb.preset_control){
+            if (msg.netusb.preset_control.result === 'success'){
+                adapter.setForeignState('musiccast.0.'+ dev[0].type + '_' + dev[0].uid + '.netusb.presetrecallnumber', {val: msg.netusb.preset_control.num, ack: true});
+            }
+        }  
     }
     if (msg.main){
         //if signal_info_updated /main/getSignalInfo
