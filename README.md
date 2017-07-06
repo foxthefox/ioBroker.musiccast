@@ -116,6 +116,7 @@ The following objects are currently implemented:
 
 ## Changelog
 #### 0.0.6
+* widget set matching the objects and control
 * cd.shuffle_stat boolean -> text
 * new netusb.shuffle_stat (text)
 * status update via subscribing UDP messages
