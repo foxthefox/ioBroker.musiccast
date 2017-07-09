@@ -1,0 +1,15 @@
+.musiccast-class {
+    font-style: italic;
+}
+div.grid      { width: 700px; }
+div.grid div  { float: left; height: 100px; }
+div.col100    { width: 100px; }
+div.col200    { width: 200px; }
+div.col400    { width: 400px; }
+div.grey      { background-color: #cccccc; }
+div.red       { background-color: #e14e32; }
+div.clear     { clear: both; }
+div.row      { width: 700px; }
+div.row div  { float: left; height: 50px; }
+div.rowCD      { width: 600px; }
+div.rowCD div  { float: left; height: 50px; }
