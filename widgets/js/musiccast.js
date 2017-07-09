@@ -153,8 +153,8 @@ vis.binds.musiccast = {
                     if (val === false ||val === 'false' || val === falsecmd ) val = false;
                     if (parseFloat(val).toString() == val) val = parseFloat(val);
 
-                    if (oid && val === true ) {vis.setValue(oid, falsecmd); }
-                    if (oid && val === false ) {vis.setValue(oid, truecmd); }
+                    if (oid && val === true ) vis.setValue(oid, falsecmd); 
+                    if (oid && val === false ) vis.setValue(oid, truecmd); 
                 }
             });
         }
@@ -193,8 +193,8 @@ vis.binds.musiccast = {
                     if (val === false ||val === 'false' || val === falsecmd ) val = false;
                     if (parseFloat(val).toString() == val) val = parseFloat(val);
 
-                    if (oid && val === true ) {vis.setValue(oid_cmd, falsecmd); }
-                    if (oid && val === false ) {vis.setValue(oid_cmd, truecmd); }
+                    if (oid && val === true ) vis.setValue(oid_cmd, falsecmd); 
+                    if (oid && val === false ) vis.setValue(oid_cmd, truecmd); 
                 }
             });
         }
