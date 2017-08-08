@@ -1661,7 +1661,7 @@ function getMusicCdInfo(ip, type, uid){
         var devtype = type;
         var devuid = uid;
         yamaha = new YamahaYXC(ip);
-        yamaha.getPlayInfo().then(function(result){
+        yamaha.getPlayInfo(cd).then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
