@@ -101,13 +101,29 @@ The following objects are currently implemented:
 |cd.artist|text|-|artist name|
 |cd.album|text|-|album name|
 |cd.track|text|-|track name|
+|clock.auto_sync|boolean|x|Clock auto sync|
+|clock.format|string|x|Clock format 12h/24h|
+|clock.alarm_on|boolean|x|Clock alarm status on/off|
+|clock.volume|number|x|Clock alarm volume|
+|clock.fade_interval|number|x|Clock alarm fade interval|
+|clock.fade_type|number|x|Clock alarm fade type| 
+|clock.mode|string|x|Clock alarm mode oneday/weekly| 
+|clock.repeat|boolean|x|Clock alarm repeat if oneday is specified|
+    
+|clock.{day}.enable|boolean|x|Clock Setup validity| 
+|clock.{day}.time|string|-|Clock alarm start up time hhmm 00-23,00-59| 
+|clock.{day}.beep|boolean|x|Clock Beep validity|
+|clock.{day}.playback_type|string|-|Clock alarm playback type resume/preset|
+|clock.{day}.resume_input|string|-|Clock alarm resume input ID|
+|clock.{day}.preset_type|string|-|Clock alarm preset type|
+|clock.{day}.preset_num|number|-|Clock alarm preset input ID| 
+|clock.{day}.preset_netusb_input|string|-|Clock alarm netusb input ID| 
+|clock.{day}.preset_netusb_text|string|-|Clock alarm netusb text| 
+|clock.{day}.preset_tuner_band|string|-|Clock alarm tuner band|
+|clock.{day}.preset_tuner_number|number|-|Clock alarm tuner frequency or station ID|
+
 
 ## ToDo
-* tuner support
-* clock support
-* support of more zones
-* setting of min and max values according features
-* support of mc-link
 * support of lists
 * change of interaction values to nice naming
 * fastforward/fastrewind for NETUSB/CD
@@ -115,6 +131,13 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+#### 0.0.7
+* tuner support
+* clock support (information mainly)
+* support of more zones
+* support of mc-link
+* setting of min and max values according features
+
 #### 0.0.6
 * widget set matching the objects and control
 * cd.shuffle_stat boolean -> text
