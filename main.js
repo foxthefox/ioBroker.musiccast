@@ -1128,7 +1128,7 @@ function defineMusicLinkAudio(type, uid, zone, func_list, linkaudiolist){
 function defineMusicSystemInputs(type, uid, sysinputs){
     adapter.log.debug(type + ' has number of system inputs : ' + sysinputs.length);
     for (var i=0; i < sysinputs.length; i++){
-        adapter.log.debug(type + ' setting up input : ' + sysinputs[i].id);
+        adapter.log.info(type + ' setting up input : ' + sysinputs[i].id);
         adapter.setObject(type + '_' + uid + '.system.inputs.' + sysinputs[i].id, {
             type: 'channel',
             common: {
@@ -2938,7 +2938,9 @@ function getMusicDeviceFeatures(ip, type, uid){
                         // Zone Func_list variable
                         defineZoneFunctions(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].range_step);
                     }
-
+                    // input services and their attributes
+                    defineMusicSystemInputs(devtype, devuid, att.system.input_list); 
+                    
                     //CD player objects
                     if (att.indexOf("cd") !== -1){
                         defineMusicCD(devtype, devuid);
@@ -2951,8 +2953,7 @@ function getMusicDeviceFeatures(ip, type, uid){
                     if (att.indexOf("clock") !== -1){
                         defineMusicClock(devtype, devuid, att.clock.func_list, att.clock.range_step, att.clock.alarm_fade_type_num, att.clock.alarm_mode_list, att.clock.alarm_input_list, att.clock.alarm_preset_list);
                     }                    
-                    // input services and their attributes
-                    defineMusicSystemInputs(devtype, devuid, att.system.input_list);                
+              
                 }
                 else {adapter.log.debug('failure getting features from  ' + devip + ' : ' +  responseFailLog(result));}
         });
@@ -3089,7 +3090,7 @@ function main() {
     server.on('message', (msg, rinfo) => {
         adapter.log.debug('server got:' + msg.toString() + ' from ' + rinfo.address );
         //adapter.log.debug('server got:' + JSON.parse(msg.toString()) + 'from ' + rinfo.address );
-        var foundip = getConfigObjects(adapter.config.devices, 'IP', rinfo.address);
+        var foundip = getConfigObjects(adapter.config.devices, 'ip', rinfo.address);
         if (foundip.length === 0 || foundip.length !== 1) { //nix oder mehr als eine Zuordnung
             adapter.log.debug('reveived telegram can not be processed, no config for this IP');    
         }
