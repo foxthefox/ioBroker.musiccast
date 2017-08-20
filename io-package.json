@@ -6,7 +6,7 @@
 		 	"0.0.7": {
 			  "en": "Tuner/Clock and advanced functions added",
 			  "de": "Tuner/uhr und Erweiterte Funktionen ergänzt"
-			}
+			},
 		 	"0.0.6": {
 			  "en": "subscribe to UDP message",
 			  "de": "Abo auf UDP Meldungen"
