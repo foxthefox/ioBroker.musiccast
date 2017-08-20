@@ -86,7 +86,7 @@ adapter.on('objectChange', function (id, obj) {
 // is called if a subscribed state changes
 adapter.on('stateChange', function (id, state) {
     // Warning, state can be null if it was deleted
-    adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
+    adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
     // you can use the ack flag to detect if it is status (true) or command (false)
     if (state && !state.ack) {
@@ -435,7 +435,7 @@ adapter.on('stateChange', function (id, state) {
             //addToGroup(state.val, IP[0].ip); 
             var groupID = md5(state.val);
             var clientIP = IP[0].ip;
-            adapter.log.info('clientIP ' + clientIP + 'ID ' +groupID);
+            adapter.log.debug('clientIP ' + clientIP + 'ID ' +groupID);
 
             var clientpayload = {"group_id": groupID, "zone":["main"]};
             var masterpayload = {"group_id": groupID, "zone":"main", "type":"add", "client_list":[clientIP]};
@@ -469,7 +469,7 @@ adapter.on('stateChange', function (id, state) {
             //removeFromGroup(state.val, IP[0].ip);
             var groupID = md5(state.val);
             var clientIP = IP[0].ip;
-            adapter.log.info('clientIP ' + clientIP);
+            adapter.log.debug('clientIP ' + clientIP);
             var clientpayload = {"group_id": "", "zone":["main"]};
             var masterpayload = {"group_id": groupID, "zone":"main", "type":"remove", "client_list":[clientIP]};
 
