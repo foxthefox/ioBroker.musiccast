@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "yamaha-yxc-nodejs": "^0.0.7",
-    "dgram": "^1.0.1"
+    "dgram": "^1.0.1",
+    "md5":"^2.2.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
