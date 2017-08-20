@@ -11,6 +11,7 @@
 
 // you have to require the utils module and call adapter function
 var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
+var md5 = require("md5");
 var YamahaYXC = require('yamaha-yxc-nodejs');
 var yamaha = null;
 var yamaha2 = null;
