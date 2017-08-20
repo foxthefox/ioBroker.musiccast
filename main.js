@@ -13,6 +13,7 @@
 var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
 var YamahaYXC = require('yamaha-yxc-nodejs');
 var yamaha = null;
+var yamaha2 = null;
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
@@ -3086,9 +3087,15 @@ function main() {
     });
 
     server.on('message', (msg, rinfo) => {
-        adapter.log.debug('server got:' + msg.toString() + 'from ' + rinfo.address );
+        adapter.log.debug('server got:' + msg.toString() + ' from ' + rinfo.address );
         //adapter.log.debug('server got:' + JSON.parse(msg.toString()) + 'from ' + rinfo.address );
-        gotUpdate(JSON.parse(msg.toString()), rinfo.address); //erstmal noch IP, device_id ist eine andere als die in ssdp übermittelte (letze Teil von UDN)
+        var foundip = getConfigObjects(adapter.config.devices, 'IP', rinfo.address);
+        if (foundip.length === 0 || foundip.length !== 1) { //nix oder mehr als eine Zuordnung
+            adapter.log.debug('reveived telegram can not be processed, no config for this IP');    
+        }
+        else {
+            gotUpdate(JSON.parse(msg.toString()), rinfo.address); //erstmal noch IP, device_id ist eine andere als die in ssdp übermittelte (letze Teil von UDN)            
+        }   
     });
     
     server.on('listening', () => {
