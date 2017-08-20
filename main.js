@@ -2522,38 +2522,35 @@ function getMusicDeviceInfo(ip, type, uid){
             
          });
 }
-function getMusicMainInfo(ip, type, uid){
+function getMusicZoneInfo(ip, type, uid, zone){
         var devip = ip;
         var devtype = type;
         var devuid = uid;
+        var zone_name = zone || 'main';
         yamaha = new YamahaYXC(ip);
-        yamaha.getStatus().then(function(result){
+        yamaha.getStatus(zone_name).then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
-                    adapter.log.debug('got status info succesfully from ' + devip);
-                    for (var i=0; i < att.system.zone_num; i++){ 
-
-                        var zone_name = att.zone[i].id;
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' + zone_name + '.power', {val: att.power, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.volume', {val: att.volume, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.mute', {val: att.mute, ack: true}); 
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.input', {val: att.input, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.link_control', {val: att.link_control, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.link_audio_delay', {val: att.link_audio_delay, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.sound_program', {val: att.sound_program, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.clear_voice', {val: att.clear_voice, ack: true});   
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.subwoofer_volume', {val: att.subwoofer_volume, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.low', {val: att.equalizer.low, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.mid', {val: att.equalizer.mid, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.high', {val: att.equalizer.high, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.bass', {val: att.tone_control.bass, ack: true});   
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.treble', {val: att.tone_control.treble, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.balance', {val: att.balance, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.enhancer', {val: att.enhancer, ack: true}); 
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.bass_extension', {val: att.bass_extension, ack: true});
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.direct', {val: att.direct, ack: true});  
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.pure_direct', {val: att.pure_direct, ack: true});
-                    }            
+                    adapter.log.debug('got status info succesfully from ' + devip + ' for ' + zone_name);
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.power', {val: att.power, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.volume', {val: att.volume, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.mute', {val: att.mute, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.input', {val: att.input, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.link_control', {val: att.link_control, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.link_audio_delay', {val: att.link_audio_delay, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.sound_program', {val: att.sound_program, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.clear_voice', {val: att.clear_voice, ack: true});   
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.subwoofer_volume', {val: att.subwoofer_volume, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.low', {val: att.equalizer.low, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.mid', {val: att.equalizer.mid, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.high', {val: att.equalizer.high, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.bass', {val: att.tone_control.bass, ack: true});   
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.treble', {val: att.tone_control.treble, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.balance', {val: att.balance, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.enhancer', {val: att.enhancer, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.bass_extension', {val: att.bass_extension, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.direct', {val: att.direct, ack: true});  
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.pure_direct', {val: att.pure_direct, ack: true});          
                 }
                 else {adapter.log.debug('failure getting status info from  ' + devip + ' : ' +  responseFailLog(result));}
             
@@ -2986,7 +2983,22 @@ function gotUpdate(msg, devIp){
     if (msg.main){
         //if signal_info_updated /main/getSignalInfo
         //if status_updated /main/getStatus
-        getMusicMainInfo(devIp, dev[0].type, dev[0].uid);
+        getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'main');
+    }
+    if (msg.zone2){
+        //if signal_info_updated /main/getSignalInfo
+        //if status_updated /main/getStatus
+        getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone2');
+    }
+    if (msg.zone3){
+        //if signal_info_updated /main/getSignalInfo
+        //if status_updated /main/getStatus
+        getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone3');
+    }
+    if (msg.zone4){
+        //if signal_info_updated /main/getSignalInfo
+        //if status_updated /main/getStatus
+        getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone4');
     }
     if (msg.system){
         //if func_status_updated
@@ -3055,7 +3067,7 @@ function main() {
         //yamaha.getStatus('main'); initial status of device
 
         // get main status
-        getMusicMainInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);  //must be looped if more than main zone
+        getMusicZoneInfo(obj[anz].ip, obj[anz].type, obj[anz].uid, 'main');  //must be looped if more than main zone
         // get main lists status
         getMusicZoneLists(obj[anz].ip, obj[anz].type, obj[anz].uid);  // 
         // get netusb status
