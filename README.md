@@ -101,13 +101,61 @@ The following objects are currently implemented:
 |cd.artist|text|-|artist name|
 |cd.album|text|-|album name|
 |cd.track|text|-|track name|
+|tuner.common_preset_info|array|-|Preset Information|
+|tuner.am.preset_info|array|-|Preset AM Information|
+|tuner.fm.preset_info|array|-|Preset FM Information|
+|tuner.dab.preset_info|array|-|Preset DAB Information|
+|tuner.am.preset|number|x|AM preset number|                 
+|tuner.am.freq|number|x|AM frequency in kHz|
+|tuner.am.tuned|boolean|-|AM tuned|
+|tuner.fm.preset|number|x|FM preset number|               
+|tuner.fm.freq|number|x|FM frequency in kHz|
+|tuner.fm.tuned|boolean|-|FM tuned|
+|tuner.fm.audio_mode|string|-|FM mono/stereo|
+|tuner.dab.preset|number|x|DAB preset number|                 
+|tuner.dab.id|number|-|DAB Station ID|
+|tuner.dab.status|string|-|DAB status|
+|tuner.dab.freq|number|-|DAB frequency|
+|tuner.dab.category|string|-|primary/secondary|
+|tuner.dab.audio_mode|string|-|DAB mono/stereo|
+|tuner.dab.bit_rate|number|-|DAB bit rate in kpbs|
+|tuner.dab.quality|number|-|DAB quality 0-100|
+|tuner.dab.tune_aid|number|-|DAB signal strenth 0-100|
+|tuner.dab.off_air|boolean|-|DAB off air|
+|tuner.dab.dab_plus|boolean|-|DAB+|
+|tuner.dab.program_type|string|-|DAB program type|
+|tuner.dab.ch_label|string|-|DAB CH label|
+|tuner.dab.service_label|string|-|DAB service label|
+|tuner.dab.dls|string|-|DAB DLS|
+|tuner.dab.ensemble_label|string|-|DAB ensmble label|
+|tuner.dab.initial_scan_progress|number|-|DAB intitial scan progress 0-100|
+|tuner.dab.total_station_num|number|-|DAB total stations 0-255|
+|tuner.rds.program_type|string|-|RDS program type|                 
+|tuner.rds.program_service|string|-|RDS program service|
+|tuner.rds.radio_text_a|string|-|RDS text A|
+|tuner.rds.radio_text_b|string|-|RDS text B|
+|clock.auto_sync|boolean|x|Clock auto sync|
+|clock.format|string|x|Clock format 12h/24h|
+|clock.alarm_on|boolean|x|Clock alarm status on/off|
+|clock.volume|number|x|Clock alarm volume|
+|clock.fade_interval|number|x|Clock alarm fade interval|
+|clock.fade_type|number|x|Clock alarm fade type| 
+|clock.mode|string|x|Clock alarm mode oneday/weekly| 
+|clock.repeat|boolean|x|Clock alarm repeat if oneday is specified|   
+|clock.{day}.enable|boolean|x|Clock Setup validity| 
+|clock.{day}.time|string|-|Clock alarm start up time hhmm 00-23,00-59| 
+|clock.{day}.beep|boolean|x|Clock Beep validity|
+|clock.{day}.playback_type|string|-|Clock alarm playback type resume/preset|
+|clock.{day}.resume_input|string|-|Clock alarm resume input ID|
+|clock.{day}.preset_type|string|-|Clock alarm preset type|
+|clock.{day}.preset_num|number|-|Clock alarm preset input ID| 
+|clock.{day}.preset_netusb_input|string|-|Clock alarm netusb input ID| 
+|clock.{day}.preset_netusb_text|string|-|Clock alarm netusb text| 
+|clock.{day}.preset_tuner_band|string|-|Clock alarm tuner band|
+|clock.{day}.preset_tuner_number|number|-|Clock alarm tuner frequency or station ID|
+
 
 ## ToDo
-* tuner support
-* clock support
-* support of more zones
-* setting of min and max values according features
-* support of mc-link
 * support of lists
 * change of interaction values to nice naming
 * fastforward/fastrewind for NETUSB/CD
@@ -115,6 +163,13 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+#### 0.0.7
+* tuner support
+* clock support (information mainly)
+* support of more zones
+* support of mc-link
+* setting of min and max values according features
+
 #### 0.0.6
 * widget set matching the objects and control
 * cd.shuffle_stat boolean -> text

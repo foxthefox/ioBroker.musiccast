@@ -11,8 +11,10 @@
 
 // you have to require the utils module and call adapter function
 var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
+var md5 = require("md5");
 var YamahaYXC = require('yamaha-yxc-nodejs');
 var yamaha = null;
+var yamaha2 = null;
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
@@ -85,7 +87,7 @@ adapter.on('objectChange', function (id, obj) {
 // is called if a subscribed state changes
 adapter.on('stateChange', function (id, state) {
     // Warning, state can be null if it was deleted
-    adapter.log.info('stateChange ' + id + ' ' + JSON.stringify(state));
+    adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
 
     // you can use the ack flag to detect if it is status (true) or command (false)
     if (state && !state.ack) {
@@ -406,7 +408,98 @@ adapter.on('stateChange', function (id, state) {
                     else {adapter.log.debug('failure sending Shuffle to CD' +  responseFailLog(result));}
                 });
             }
-        }         
+        }
+        if (dp === 'distr_state'){  //Start/Stop distribution
+            //startDistribution(num) als Funktion aufrufen oder hier als 
+            if (state.val === true || state.val === 'true'|| state.val === 'on'){
+                var num = 1;
+                yamaha.startDistribution(num).then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent Start Distribution');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending Start Distribution' +  responseFailLog(result));}
+                });
+            }
+            if (state.val === false || state.val === 'false'|| state.val === 'off'){
+                yamaha.stopDistribution(num).then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent Stop Distribution');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending Stop Distribution' +  responseFailLog(result));}
+                });
+            }
+        }
+        if (dp === 'add_to_group'){  //state.val enthält die IP des Masters
+
+            //addToGroup(state.val, IP[0].ip); 
+            var groupID = md5(state.val);
+            var clientIP = IP[0].ip;
+            adapter.log.debug('clientIP ' + clientIP + 'ID ' +groupID);
+
+            var clientpayload = {"group_id": groupID, "zone":["main"]};
+            var masterpayload = {"group_id": groupID, "zone":"main", "type":"add", "client_list":[clientIP]};
+            yamaha2 = new YamahaYXC(state.val);    
+
+            yamaha.setClientInfo(JSON.stringify(clientpayload)).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent ClientInfo : ' + clientIP);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure sending ClientInfo' +  responseFailLog(result));}
+            });
+
+            yamaha2.setServerInfo(JSON.stringify(masterpayload)).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent ServerInfo ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
+            });
+            
+            yamaha2.startDistribution('0').then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent start ServerInfo ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
+            });
+        }
+        if (dp === 'remove_from_group'){  //state.val enthält die Master IP
+            //removeFromGroup(state.val, IP[0].ip);
+            var groupID = md5(state.val);
+            var clientIP = IP[0].ip;
+            adapter.log.debug('clientIP ' + clientIP);
+            var clientpayload = {"group_id": "", "zone":["main"]};
+            var masterpayload = {"group_id": groupID, "zone":"main", "type":"remove", "client_list":[clientIP]};
+
+            yamaha2 = new YamahaYXC(state.val);
+
+            yamaha2.stopDistribution(num).then(function(result) {
+                    if (JSON.parse(result).response_code === 0 ){
+                        adapter.log.debug('sent Stop Distribution');
+                        //adapter.setForeignState(id, true, true);
+                    }
+                    else {adapter.log.debug('failure sending Stop Distribution' +  responseFailLog(result));}
+                });
+
+            yamaha.setClientInfo(JSON.stringify(clientpayload)).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent Client disconnect to : ' + clientIP);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure sending disconnect' +  responseFailLog(result));}
+            });
+
+            yamaha2.setServerInfo(JSON.stringify(masterpayload)).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('sent ServerInfo to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
+            });
+        }
     }//if status
 });
 
@@ -526,7 +619,7 @@ function defineMusicDevice(type, uid){
         native: {}
     });    
 }
-function defineMusicZone(type, uid, zone, max_vol){
+function defineMusicZone(type, uid, zone, range_step){
     adapter.setObject(type + '_' + uid + '.' + zone, {
         type: 'channel',
         common: {
@@ -544,8 +637,8 @@ function defineMusicZone(type, uid, zone, max_vol){
         common: {
             "name": "Volume",
             "type": "number",
-            "min": 0,
-            "max": max_vol,
+            "min": range_step[range_step.findIndex(function(row){return row.id == 'volume';})].min,
+            "max": range_step[range_step.findIndex(function(row){return row.id == 'volume';})].max,
             "read": true,
             "write": true,
             "role": "level.volume",
@@ -553,6 +646,7 @@ function defineMusicZone(type, uid, zone, max_vol){
         },
         native: {}
     });
+    
     adapter.setObject(type + '_' + uid + '.' + zone + '.mute', {
         type: 'state',
         common: {
@@ -565,6 +659,7 @@ function defineMusicZone(type, uid, zone, max_vol){
         },
         native: {}
     });
+    
     adapter.setObject(type + '_' + uid + '.' + zone + '.power', {
         type: 'state',
         common: {
@@ -636,7 +731,45 @@ function defineMusicZone(type, uid, zone, max_vol){
             "desc": "MC Link client list"
         },
         native: {}
-    });    
+    });
+
+    //**neu */
+    adapter.setObject(type + '_' + uid + '.' + zone + '.add_to_group', {
+        type: 'state',
+        common: {
+            "name": "MC Link add client",
+            "type": "string",
+            "read":  false,
+            "write": true,
+            "role":  'text',
+            "desc":  'Add a Zone to MClink distribution'
+        },
+    native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.remove_from_group', {
+        type:  'state',
+        common: {
+            "name": "MC Link remove client",
+            "type": "string",
+            "read":  false,
+            "write": true,
+            "role":  'text',
+            "desc":  'Remove a Zone from MClink distribution'
+        },
+    native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.' + zone + '.distr_state', {
+        type:  'state',
+        common: {
+            "name": "MC Link distribution start/stop",
+            "type": "boolean",
+            "read":  false,
+            "write": true,
+            "role":  'switch',
+            "desc":  'Start/stop MC Link distribution'
+        },
+    native: {}
+    });
 }
 function defineMusicInputs(type, uid, zone, inputs){
     adapter.setObject(type + '_' + uid + '.' + zone + '.input_list', {
@@ -692,7 +825,37 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         native: {}
     });
 }
-function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudiolist){
+function defineMusicSoundProg(type, uid, zone, func_list, soundoptions){
+    if (func_list.indexOf("sound_program") !== -1){
+        adapter.log.info('Setting up SoundProgramm in Zone:' + zone + ' of ' + type + '-' + uid);
+        adapter.setObject(type + '_' + uid + '.' + zone + '.sound_program_list', {
+            type: 'state',
+            common: {
+                "name": "Sound Program options",
+                "type": "array",
+                "read": true,
+                "write": false,
+                "role": "list",
+                "desc": "Sound Program"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.' + zone + '.sound_program', {
+            type: 'state',
+            common: {
+                "name": "Sound Program selection",
+                "type": "string",
+                "read": true,
+                "write": true,
+                "values": soundoptions,
+                "role": "text",
+                "desc": "Sound Program selection"
+            },
+            native: {}
+        });
+    }
+}
+function defineZoneFunctions(type, uid, zone, func_list, range_step){
     if (func_list.indexOf("equalizer") !== -1){
         adapter.log.info('Setting up Equalizer in Zone:' + zone + ' of ' + type + '-' + uid);
         adapter.setObject(type + '_' + uid + '.' + zone + '.low', {
@@ -700,8 +863,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             common: {
                 "name": "EQ Low",
                 "type": "number",
-                "min": -10,
-                "max": +10,
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'equalizer';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'equalizer';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -714,8 +877,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             common: {
                 "name": "EQ Mid",
                 "type": "number",
-                "min": -10,
-                "max": +10,
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'equalizer';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'equalizer';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -728,8 +891,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             common: {
                 "name": "EQ High",
                 "type": "number",
-                "min": -10,
-                "max": +10,
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'equalizer';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'equalizer';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -766,34 +929,6 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
                 "write": true,
                 "role": "button",
                 "desc": "Clear Voice"
-            },
-            native: {}
-        });
-    }
-    if (func_list.indexOf("sound_program") !== -1){
-        adapter.log.info('Setting up SoundProgramm in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.sound_program_list', {
-            type: 'state',
-            common: {
-                "name": "Sound Program options",
-                "type": "array",
-                "read": true,
-                "write": false,
-                "role": "list",
-                "desc": "Sound Program"
-            },
-            native: {}
-        });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.sound_program', {
-            type: 'state',
-            common: {
-                "name": "Sound Program selection",
-                "type": "string",
-                "read": true,
-                "write": true,
-                "values": soundoptions,
-                "role": "text",
-                "desc": "Sound Program selection"
             },
             native: {}
         });
@@ -850,8 +985,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             common: {
                 "name": "treble", //name from system/get Features
                 "type": "number",
-                "min": -5,
-                "max": +5, //range from system/get Features
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'tone_control';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'tone_control';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -863,8 +998,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             type: 'state',
             common: {
                 "name": "bass",
-                "min": -5,
-                "max": +5, //range from system/get Features
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'tone_control';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'tone_control';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -880,8 +1015,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             common: {
                 "name": "balance",
                 "type": "number",
-                "min": -5,
-                "max": +5,
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'balance';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'balance';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -897,8 +1032,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             common: {
                 "name": "dialogue_level",
                 "type": "number",
-                "min": 0,
-                "max": +5,   //range from system/get Features
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'dialog_level';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'dialog_level';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -914,8 +1049,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             common: {
                 "name": "dialogue_lift",
                 "type": "number",
-                "min": 0,
-                "max": +5, //range from system/get Features
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'dialog_lift';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'dialog_lift';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -931,8 +1066,8 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             common: {
                 "name": "subwoofer_volume",
                 "type": "number",
-                "min": 0,
-                "max": +5,  //range from system/get Features
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'subwoofer_volume';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'subwoofer_volume';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -956,6 +1091,12 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             native: {}
         }); 
     }        
+
+    if (func_list.indexOf("signal_info") !== -1){
+        // signal info audio ....
+    }
+}
+function defineMusicLinkAudio(type, uid, zone, func_list, linkaudiolist){
     if (func_list.indexOf("link_audio_delay") !== -1){
         adapter.log.info('Setting up link_audio_delay in Zone:' + zone + ' of ' + type + '-' + uid);
         adapter.setObject(type + '_' + uid + '.' + zone + '.link_audio_delay', {
@@ -983,15 +1124,12 @@ function defineZoneFunctions(type, uid, zone, func_list, soundoptions, linkaudio
             },
             native: {}
         });   
-    }   
-    if (func_list.indexOf("signal_info") !== -1){
-        // signal info audio ....
     }
-}
+} 
 function defineMusicSystemInputs(type, uid, sysinputs){
     adapter.log.debug(type + ' has number of system inputs : ' + sysinputs.length);
     for (var i=0; i < sysinputs.length; i++){
-        adapter.log.debug(type + ' setting up input : ' + sysinputs[i].id);
+        adapter.log.info(type + ' setting up input : ' + sysinputs[i].id);
         adapter.setObject(type + '_' + uid + '.system.inputs.' + sysinputs[i].id, {
             type: 'channel',
             common: {
@@ -1531,6 +1669,842 @@ function defineMusicCD(type, uid){
         native: {}
     })                    
 }
+function defineMusicTuner(type, uid, func_list, range_step, preset){
+    adapter.setObject(type + '_' + uid + '.tuner', {
+        type: 'channel',
+        common: {
+            name: 'MusicCast Tuner ' + type,
+            role: 'sensor'
+        },
+        native: {
+            "addr": uid
+        }
+    });
+    adapter.setObject(type + '_' + uid + '.tuner.common_preset_info', {
+        type: 'state',
+        common: {
+            "name": "Tuner Common favourites",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "Tuner Common favourites"
+        },
+        native: {}
+    });
+    if (func_list.indexOf("am") !== -1){
+        adapter.log.info('Setting up AM Tuner of ' + type + '-' + uid);
+        adapter.setObject(type + '_' + uid + '.tuner.am.preset_info', {
+            type: 'state',
+            common: {
+                "name": "Tuner AM favourites",
+                "type": "array",
+                "read": true,
+                "write": false,
+                "role": "list",
+                "desc": "Tuner AM favourites"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.am.preset', {
+            type: 'state',
+            common: {
+                "name": "AM Preset number",
+                "type": "number",
+                "min": 0,
+                "max": 40, //eigentlich von getFeatures range_step[range_step.indexOf(preset)].max
+                "read": true,
+                "write": true,
+                "role": "level",
+                "desc": "AM preset number"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.am.freq', {
+            type: 'state',
+            common: {
+                "name": "AM Frequency",
+                "type": "number",
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'am';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'am';})].max,
+                "step": 9,
+                "unit": "kHz",
+                "read": true,
+                "write": true,
+                "role": "level",
+                "desc": "AM Frequency"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.am.tuned', {
+            type: 'state',
+            common: {
+                "name": "AM tuned",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "switch",
+                "desc": "AM tuned"
+            },
+            native: {}
+        });
+    }
+    if (func_list.indexOf("fm") !== -1){
+        adapter.log.info('Setting up FM Tuner of ' + type + '-' + uid);
+        adapter.setObject(type + '_' + uid + '.tuner.fm.preset_info', {
+            type: 'state',
+            common: {
+                "name": "Tuner FM favourites",
+                "type": "array",
+                "read": true,
+                "write": false,
+                "role": "list",
+                "desc": "Tuner FM favourites"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.fm.preset', {
+            type: 'state',
+            common: {
+                "name": "FM Preset number",
+                "type": "number",
+                "min": 0,
+                "max": 40, //eigentlich von getFeatures range_step[range_step.indexOf(preset)].max
+                "read": true,
+                "write": true,
+                "role": "level",
+                "desc": "FM preset number"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.fm.freq', {
+            type: 'state',
+            common: {
+                "name": "FM Frequency",
+                "type": "number",
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'fm';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'fm';})].max,
+                "step": 50,
+                "unit": "kHz",
+                "read": true,
+                "write": true,
+                "role": "level",
+                "desc": "FM Frequency"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.fm.tuned', {
+            type: 'state',
+            common: {
+                "name": "FM tuned",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "switch",
+                "desc": "FM tuned"
+            },
+            native: {}
+        });
+    }
+    if (func_list.indexOf("rds") !== -1){
+        adapter.log.info('Setting up RDS Tuner of ' + type + '-' + uid);
+        adapter.setObject(type + '_' + uid + '.tuner.rds.program_type', {
+            type: 'state',
+            common: {
+                "name": "RDS program type",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "RDS program type"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.rds.program_service', {
+            type: 'state',
+            common: {
+                "name": "RDS program_service",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "RDS program_service"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.rds.radio_text_a', {
+            type: 'state',
+            common: {
+                "name": "RDS Radio Text A",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "RDS Radio Text A"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.rds.radio_text_b', {
+            type: 'state',
+            common: {
+                "name": "RDS Radio Text B",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "RDS Radio Text B"
+            },
+            native: {}
+        });
+    }                  
+    if (func_list.indexOf("dab") !== -1){
+        adapter.log.info('Setting up DAB Tuner of ' + type + '-' + uid);
+        adapter.setObject(type + '_' + uid + '.tuner.dab.preset_info', {
+            type: 'state',
+            common: {
+                "name": "Tuner DAB favourites",
+                "type": "array",
+                "read": true,
+                "write": false,
+                "role": "list",
+                "desc": "Tuner DAB favourites"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.preset', {
+            type: 'state',
+            common: {
+                "name": "DAB Preset number",
+                "type": "number",
+                "min": 0,
+                "max": 40, //eigentlich von getFeatures
+                "read": true,
+                "write": true,
+                "role": "level",
+                "desc": "DAB preset number"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.id', {
+            type: 'state',
+            common: {
+                "name": "DAB Station ID",
+                "type": "number",
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "DAB Station ID"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.status', {
+            type: 'state',
+            common: {
+                "name": "DAB Status",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB Status"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.freq', {
+            type: 'state',
+            common: {
+                "name": "DAB Frequency",
+                "type": "number",
+                "min": 174000,
+                "max": 240000,
+                "unit": "kHz",
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "DAB Frequency"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.category', {
+            type: 'state',
+            common: {
+                "name": "DAB Category",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB category"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.audio_mode', {
+            type: 'state',
+            common: {
+                "name": "DAB audio_mode",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB audio_mode"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.bit_rate', {
+            type: 'state',
+            common: {
+                "name": "DAB Bit Rate",
+                "type": "number",
+                "min": 32, 
+                "max": 256,
+                "unit": "kbps",
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "DAB Bit Rate"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.quality', {
+            type: 'state',
+            common: {
+                "name": "DAB quality",
+                "type": "number",
+                "min": 0, 
+                "max": 100,
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "DAB quality"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.tune_aid', {
+            type: 'state',
+            common: {
+                "name": "DAB signal strength",
+                "type": "number",
+                "min": 0, 
+                "max": 100,
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "DAB signal strength"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.off_air', {
+            type: 'state',
+            common: {
+                "name": "DAB Off Air Status",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "switch",
+                "desc": "DAB Off Air Status"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.dab_plus', {
+            type: 'state',
+            common: {
+                "name": "DAB+ Status",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "switch",
+                "desc": "DAB+ Status"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.audio_mode', {
+            type: 'state',
+            common: {
+                "name": "DAB Audio Mode", //mono/stereo
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB Audio Mode"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.program_type', {
+            type: 'state',
+            common: {
+                "name": "DAB Program Type",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB Program Type"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.ch_label', {
+            type: 'state',
+            common: {
+                "name": "DAB CH label",
+                 "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB CH label"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.service_label', {
+            type: 'state',
+            common: {
+                "name": "DAB Service label",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB Service label"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.dls', {
+            type: 'state',
+            common: {
+                "name": "DAB DLS",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB DLS"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.ensemble_label', {
+            type: 'state',
+            common: {
+                "name": "DAB ensemble label",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "DAB ensemble label"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.initial_scan_progress', {
+            type: 'state',
+            common: {
+                "name": "DAB initial scan progress",
+                "type": "number",
+                "min": 0, 
+                "max": 100,
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "DAB initial scan progress"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.tuner.dab.total_station_num', {
+            type: 'state',
+            common: {
+                "name": "DAB total station number",
+                "type": "number",
+                "min": 0, 
+                "max": 255,
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "DAB total station number"
+            },
+            native: {}
+        });
+    }
+}
+function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num, alarm_mode_list, alarm_input_list, alarm_preset_list){
+    adapter.setObject(type + '_' + uid + '.clock', {
+        type: 'channel',
+        common: {
+            name: 'MusicCast Clock ' + type,
+            role: 'sensor'
+        },
+        native: {
+            "addr": uid
+        }
+    });
+    adapter.log.info('Setting up Clock of :' + type + '-' + uid);
+    //generic clock objects
+    adapter.setObject(type + '_' + uid + '.clock.auto_sync', {
+        type: 'state',
+        common: {
+            "name": "Clock time auto sync",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "button",
+            "desc": "Clock time auto sync"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.clock.format', {
+        type: 'state',
+        common: {
+            "name": "Clock format time display",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "role": "text",
+            "desc": "Clock format time display"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.clock.alarm_on', {
+        type: 'state',
+        common: {
+            "name": "Clock Alarm function on/off",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "button",
+            "desc": "Clock Alarm function on/off"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.clock.volume', {
+        type: 'state',
+        common: {
+            "name": "Clock Alarm volume",
+            "type": "number",
+            "min" : range_step[range_step.findIndex(function(row){return row.id == 'alarm_volume';})].min,
+            "max" : range_step[range_step.findIndex(function(row){return row.id == 'alarm_volume';})].max,
+            "step" : 1, //eigentlich von getFeatures range_step[range_step.indexOf(alarm_volume)].step
+            "read": true,
+            "write": true,
+            "role": "level",
+            "desc": "Clock Alarm volume"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.clock.fade_interval', {
+        type: 'state',
+        common: {
+            "name": "Clock Alarm Fade Interval",
+            "type": "number",
+            "min" : range_step[range_step.findIndex(function(row){return row.id == 'alarm_fade';})].min,
+            "max" : range_step[range_step.findIndex(function(row){return row.id == 'alarm_fade';})].max,
+            "read": true,
+            "write": true,
+            "role": "level",
+            "desc": "Clock Alarm Fade Interval"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.clock.fade_type', {
+        type: 'state',
+        common: {
+            "name": "Clock Fade Type",
+            "type": "number",
+            "min" : 0, //eigentlich von getFeatures
+            "max" : 9, //eigentlich von getFeatures alarm_fade_type_numbers
+            "read": true,
+            "write": true,
+            "role": "level",
+            "desc": "Clock Alarm Fade Type"
+        },
+        native: {}
+    });
+    adapter.setObject(type + '_' + uid + '.clock.mode', {
+        type: 'state',
+        common: {
+            "name": "Clock Alarm Mode", // oneday/weekly
+            "type": "string",
+            "read": true,
+            "write": true,
+            "role": "text",
+            "desc": "Clock Alarm Mode"
+        },
+        native: {}
+    });
+
+    //day related clock objects
+    if (alarm_mode_list.indexOf("oneday") !== -1){
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.enable', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Enable",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "role": "button",
+                "desc": "Clock"+days[anz]+"Alarm Enable"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.time', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Time",
+                "type": "string",
+                "read": true,
+                "write": true,
+                "role": "text",
+                "desc": "Clock"+days[anz]+"Alarm Time"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.beep', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Beep",
+                "type": "boolean",
+                "read": true,
+                "write": true,
+                "role": "button",
+                "desc": "Clock"+days[anz]+"Alarm Beep"
+            },
+            native: {}
+        });  
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.playback_type', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Playback Type",
+                "type": "string",
+                "read": true,
+                "write": true,
+                "role": "text",
+                "desc": "Clock"+days[anz]+"Alarm Playback Type"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.resume_input', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Resume Input",
+                "type": "string",
+                "read": true,
+                "write": true,
+                "role": "text",
+                "desc": "Clock"+days[anz]+"Alarm Resume Input"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_type', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Preset Type",
+                "type": "string",
+                "read": true,
+                "write": true,
+                "role": "text",
+                "desc": "Clock"+days[anz]+"Alarm Preset Type"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_num', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Preset Number",
+                "type": "number",
+                "min" : 0, //eigentlich von getFeatures
+                "max" : 40, //eigentlich von getFeatures
+                "read": true,
+                "write": true,
+                "role": "level",
+                "desc": "Clock"+days[anz]+"Alarm Preset Number"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_input', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Netusb input ID",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "Clock"+days[anz]+"Alarm Netusb input ID"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_text', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Netusb input text",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "Clock"+days[anz]+"Alarm Netusb input text"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_band', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Tuner Band",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "Clock"+days[anz]+"Alarm Tuner Band"
+            },
+            native: {}
+        });
+        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_number', {
+            type: 'state',
+            common: {
+                "name": "Clock"+days[anz]+"Alarm Preset Tuner Freq od ID",
+                "type": "number",
+                "min" : 0, //eigentlich von getFeatures
+                "max" : 40, //eigentlich von getFeatures
+                "read": true,
+                "write": true,
+                "role": "level",
+                "desc": "Clock"+days[anz]+"Alarm Preset Tuner Freq or ID"
+            },
+            native: {}
+        });  
+    }
+
+    if (alarm_mode_list.indexOf("weekly") !== -1){
+        var days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+        for (anz in days){
+            //loop days[anz]
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.enable', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Enable",
+                    "type": "boolean",
+                    "read": true,
+                    "write": true,
+                    "role": "button",
+                    "desc": "Clock"+days[anz]+"Alarm Enable"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.time', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Time",
+                    "type": "string",
+                    "read": true,
+                    "write": true,
+                    "role": "text",
+                    "desc": "Clock"+days[anz]+"Alarm Time"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.beep', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Beep",
+                    "type": "boolean",
+                    "read": true,
+                    "write": true,
+                    "role": "button",
+                    "desc": "Clock"+days[anz]+"Alarm Beep"
+                },
+                native: {}
+            });  
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.playback_type', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Playback Type",
+                    "type": "string",
+                    "read": true,
+                    "write": true,
+                    "role": "text",
+                    "desc": "Clock"+days[anz]+"Alarm Playback Type"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.resume_input', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Resume Input",
+                    "type": "string",
+                    "read": true,
+                    "write": true,
+                    "role": "text",
+                    "desc": "Clock"+days[anz]+"Alarm Resume Input"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_type', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Preset Type",
+                    "type": "string",
+                    "read": true,
+                    "write": true,
+                    "role": "text",
+                    "desc": "Clock"+days[anz]+"Alarm Preset Type"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_num', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Preset Number",
+                    "type": "number",
+                    "min" : 0, //eigentlich von getFeatures
+                    "max" : 40, //eigentlich von getFeatures
+                    "read": true,
+                    "write": true,
+                    "role": "level",
+                    "desc": "Clock"+days[anz]+"Alarm Preset Number"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_input', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Netusb input ID",
+                    "type": "string",
+                    "read": true,
+                    "write": false,
+                    "role": "text",
+                    "desc": "Clock"+days[anz]+"Alarm Netusb input ID"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_text', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Netusb input text",
+                    "type": "string",
+                    "read": true,
+                    "write": false,
+                    "role": "text",
+                    "desc": "Clock"+days[anz]+"Alarm Netusb input text"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_band', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Tuner Band",
+                    "type": "string",
+                    "read": true,
+                    "write": false,
+                    "role": "text",
+                    "desc": "Clock"+days[anz]+"Alarm Tuner Band"
+                },
+                native: {}
+            });
+            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_number', {
+                type: 'state',
+                common: {
+                    "name": "Clock"+days[anz]+"Alarm Preset Tuner Freq od ID",
+                    "type": "number",
+                    "min" : 0, //eigentlich von getFeatures
+                    "max" : 40, //eigentlich von getFeatures
+                    "read": true,
+                    "write": true,
+                    "role": "level",
+                    "desc": "Clock"+days[anz]+"Alarm Preset Tuner Freq or ID"
+                },
+                native: {}
+            });  
+        }
+    }          
+}
 // status requests
 function getMusicDeviceInfo(ip, type, uid){
         var devip = ip;
@@ -1550,34 +2524,35 @@ function getMusicDeviceInfo(ip, type, uid){
             
          });
 }
-function getMusicMainInfo(ip, type, uid){
+function getMusicZoneInfo(ip, type, uid, zone){
         var devip = ip;
         var devtype = type;
         var devuid = uid;
+        var zone_name = zone || 'main';
         yamaha = new YamahaYXC(ip);
-        yamaha.getStatus().then(function(result){
+        yamaha.getStatus(zone_name).then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
-                    adapter.log.debug('got status info succesfully from ' + devip);
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.power', {val: att.power, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.volume', {val: att.volume, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.mute', {val: att.mute, ack: true}); 
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.input', {val: att.input, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.link_control', {val: att.link_control, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.link_audio_delay', {val: att.link_audio_delay, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.sound_program', {val: att.sound_program, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.clear_voice', {val: att.clear_voice, ack: true});   
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.subwoofer_volume', {val: att.subwoofer_volume, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.low', {val: att.equalizer.low, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.mid', {val: att.equalizer.mid, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.high', {val: att.equalizer.high, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.bass', {val: att.tone_control.bass, ack: true});   
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.treble', {val: att.tone_control.treble, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.balance', {val: att.balance, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.enhancer', {val: att.enhancer, ack: true}); 
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.bass_extension', {val: att.bass_extension, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.direct', {val: att.direct, ack: true});  
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.pure_direct', {val: att.pure_direct, ack: true});            
+                    adapter.log.debug('got status info succesfully from ' + devip + ' for ' + zone_name);
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.power', {val: att.power, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.volume', {val: att.volume, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.mute', {val: att.mute, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.input', {val: att.input, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.link_control', {val: att.link_control, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.link_audio_delay', {val: att.link_audio_delay, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.sound_program', {val: att.sound_program, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.clear_voice', {val: att.clear_voice, ack: true});   
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.subwoofer_volume', {val: att.subwoofer_volume, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.low', {val: att.equalizer.low, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.mid', {val: att.equalizer.mid, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.high', {val: att.equalizer.high, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.bass', {val: att.tone_control.bass, ack: true});   
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.treble', {val: att.tone_control.treble, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.balance', {val: att.balance, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.enhancer', {val: att.enhancer, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.bass_extension', {val: att.bass_extension, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.direct', {val: att.direct, ack: true});  
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.pure_direct', {val: att.pure_direct, ack: true});          
                 }
                 else {adapter.log.debug('failure getting status info from  ' + devip + ' : ' +  responseFailLog(result));}
             
@@ -1591,10 +2566,15 @@ function getMusicZoneLists(ip, type, uid){
         yamaha.getFeatures().then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.input_list', {val: att.zone[0].input_list, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.link_control_list', {val: att.zone[0].link_control_list, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.link_audio_delay_list', {val: att.zone[0].link_audio_delay_list, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.sound_program_list', {val: att.zone[0].sound_program_list, ack: true});
+                    for (var i=0; i < att.system.zone_num; i++){ 
+
+                        var zone_name = att.zone[i].id;
+
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name +'.input_list', {val: att.zone[i].input_list, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.link_control_list', {val: att.zone[i].link_control_list, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name +  '.link_audio_delay_list', {val: att.zone[i].link_audio_delay_list, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name +  '.sound_program_list', {val: att.zone[i].sound_program_list, ack: true});
+                    }
                 }
                 else {adapter.log.debug('failure getting status info from  ' + devip + ' : ' +  responseFailLog(result));}
             
@@ -1661,7 +2641,7 @@ function getMusicCdInfo(ip, type, uid){
         var devtype = type;
         var devuid = uid;
         yamaha = new YamahaYXC(ip);
-        yamaha.getPlayInfo().then(function(result){
+        yamaha.getPlayInfo(cd).then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
@@ -1682,6 +2662,224 @@ function getMusicCdInfo(ip, type, uid){
             
          });
 }
+
+function getMusicTunerInfo(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getTunerPlayInfo().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got Tuner playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.band', {val: att.band, ack: true});
+                    if (att.band = 'am'){
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.am.preset', {val: att.am.preset, ack: true});                 
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.am.freq', {val: att.am.freq, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.am.tuned', {val: att.am.tuned, ack: true});
+                    }
+                    if (att.band = 'fm'){
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.preset', {val: att.fm.preset, ack: true});                 
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.freq', {val: att.fm.freq, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.tuned', {val: att.fm.tuned, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.audio_mode', {val: att.fm.audio_mode, ack: true});
+                    }
+                    if (att.band = 'dab'){
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.preset', {val: att.dab.preset, ack: true});                 
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.id', {val: att.dab.id, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.status', {val: att.dab.status, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.freq', {val: att.dab.freq, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.category', {val: att.dab.category, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.audio_mode', {val: att.dab.audio_mode, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.bit_rate', {val: att.dab.bit_rate, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.quality', {val: att.dab.quality, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.tune_aid', {val: att.dab.tune_aid, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.off_air', {val: att.dab.off_air, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.dab_plus', {val: att.dab.dab_plus, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.program_type', {val: att.dab.program_type, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.ch_label', {val: att.dab.ch_label, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.service_label', {val: att.dab.service_label, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.dls', {val: att.dab.dls, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.ensemble_label', {val: att.dab.ensemble_label, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.initial_scan_progress', {val: att.dab.initial_scan_progress, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.total_station_num', {val: att.dab.total_station_num, ack: true});
+                    }
+                    if (att.band = 'rds'){
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.rds.program_type', {val: att.rds.program_type, ack: true});                 
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.rds.program_service', {val: att.rds.program_service, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.rds.radio_text_a', {val: att.rds.radio_text_a, ack: true});
+                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.rds.radio_text_b', {val: att.rds.radio_text_b, ack: true}); 
+                    }                                     
+                }
+                else {adapter.log.debug('failure getting Tuner playinfo from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+}
+function getMusicTunerPreset(ip, type, uid){
+    var devip = ip;
+    var devtype = type;
+    var devuid = uid;
+    yamaha = new YamahaYXC(ip);
+
+    yamaha.getTunerPresetInfo(common).then(function(result){
+        var att = JSON.parse(result);
+        if (att.response_code === 0 ){
+            adapter.log.debug('got Common Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.common_preset_info', {val: att.preset_info, ack: true});
+            //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
+        }
+        else {adapter.log.debug('failure getting Common Tuner preset info from  ' + devip + ' : ' +  responseFailLog(result));}           
+    });  
+    //if (FM)
+    yamaha.getTunerPresetInfo(fm).then(function(result){
+        var att = JSON.parse(result);
+        if (att.response_code === 0 ){
+            adapter.log.debug('got FM Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.preset_info', {val: att.preset_info, ack: true});
+            //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
+        }
+        else {adapter.log.debug('failure getting FM Tuner preset info from  ' + devip + ' : ' +  responseFailLog(result));}           
+    });
+    //if (AM)
+    yamaha.getTunerPresetInfo(am).then(function(result){
+        var att = JSON.parse(result);
+        if (att.response_code === 0 ){
+            adapter.log.debug('got AM Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.am.preset_info', {val: att.preset_info, ack: true});
+            //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
+        }
+        else {adapter.log.debug('failure getting AM Tuner preset info from  ' + devip + ' : ' +  responseFailLog(result));}           
+    });
+    //if (DAB)    
+    yamaha.getTunerPresetInfo(dab).then(function(result){
+        var att = JSON.parse(result);
+        if (att.response_code === 0 ){
+            adapter.log.debug('got DAB Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.preset_info', {val: att.preset_info, ack: true});
+            //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
+        }
+        else {adapter.log.debug('failure getting DAB Tuner preset info from  ' + devip + ' : ' +  responseFailLog(result));}           
+    });               
+}
+function getMusicClockSettings(ip, type, uid){
+        var devip = ip;
+        var devtype = type;
+        var devuid = uid;
+        yamaha = new YamahaYXC(ip);
+        yamaha.getClockSettings().then(function(result){
+                var att = JSON.parse(result);
+                if (att.response_code === 0 ){
+                    adapter.log.debug('got Clock settings succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.auto_sync', {val: att.auto_sync, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.format', {val: att.format, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.alarm_on', {val: att.alarm_on, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.volume', {val: att.volume, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.fade_interval', {val: att.fade_interval, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.fade_type', {val: att.fade_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.mode', {val: att.mode, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.repeat', {val: att.repeat, ack: true});
+
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.enable', {val: att.oneday.enable, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.time', {val: att.oneday.time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.beep', {val: att.oneday.beep, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.playback_type', {val: att.oneday.playback_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.resume_input', {val: att.oneday.resume.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.preset_type', {val: att.oneday.preset.type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.preset_num', {val: att.oneday.preset.num, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.preset_netusb_input', {val: att.oneday.preset.netusb_info.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.preset_netusb_text', {val: att.oneday.preset.netusb_info.text, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.preset_tuner_band', {val: att.oneday.preset.tuner_info.band, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.oneday.preset_tuner_number', {val: att.oneday.preset.tuner_info.number, ack: true});
+
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.enable', {val: att.sunday.enable, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.time', {val: att.sunday.time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.beep', {val: att.sunday.beep, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.playback_type', {val: att.sunday.playback_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.resume_input', {val: att.sunday.resume.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.preset_type', {val: att.sunday.preset.type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.preset_num', {val: att.sunday.preset.num, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.preset_netusb_input', {val: att.sunday.preset.netusb_info.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.preset_netusb_text', {val: att.sunday.preset.netusb_info.text, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.preset_tuner_band', {val: att.sunday.preset.tuner_info.band, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.sunday.preset_tuner_number', {val: att.sunday.preset.tuner_info.number, ack: true}); 
+
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.enable', {val: att.monday.enable, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.time', {val: att.monday.time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.beep', {val: att.monday.beep, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.playback_type', {val: att.monday.playback_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.resume_input', {val: att.monday.resume.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.preset_type', {val: att.monday.preset.type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.preset_num', {val: att.monday.preset.num, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.preset_netusb_input', {val: att.monday.preset.netusb_info.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.preset_netusb_text', {val: att.monday.preset.netusb_info.text, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.preset_tuner_band', {val: att.monday.preset.tuner_info.band, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.monday.preset_tuner_number', {val: att.monday.preset.tuner_info.number, ack: true}); 
+
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.enable', {val: att.tuesday.enable, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.time', {val: att.tuesday.time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.beep', {val: att.tuesday.beep, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.playback_type', {val: att.tuesday.playback_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.resume_input', {val: att.tuesday.resume.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.preset_type', {val: att.tuesday.preset.type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.preset_num', {val: att.tuesday.preset.num, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.preset_netusb_input', {val: att.tuesday.preset.netusb_info.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.preset_netusb_text', {val: att.tuesday.preset.netusb_info.text, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.preset_tuner_band', {val: att.tuesday.preset.tuner_info.band, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.tuesday.preset_tuner_number', {val: att.tuesday.preset.tuner_info.number, ack: true}); 
+
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.enable', {val: att.wednesday.enable, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.time', {val: att.wednesday.time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.beep', {val: att.wednesday.beep, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.playback_type', {val: att.wednesday.playback_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.resume_input', {val: att.wednesday.resume.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.preset_type', {val: att.wednesday.preset.type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.preset_num', {val: att.wednesday.preset.num, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.preset_netusb_input', {val: att.wednesday.preset.netusb_info.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.preset_netusb_text', {val: att.wednesday.preset.netusb_info.text, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.preset_tuner_band', {val: att.wednesday.preset.tuner_info.band, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.wednesday.preset_tuner_number', {val: att.wednesday.preset.tuner_info.number, ack: true}); 
+
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.enable', {val: att.thursday.enable, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.time', {val: att.thursday.time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.beep', {val: att.thursday.beep, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.playback_type', {val: att.thursday.playback_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.resume_input', {val: att.thursday.resume.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.preset_type', {val: att.thursday.preset.type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.preset_num', {val: att.thursday.preset.num, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.preset_netusb_input', {val: att.thursday.preset.netusb_info.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.preset_netusb_text', {val: att.thursday.preset.netusb_info.text, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.preset_tuner_band', {val: att.thursday.preset.tuner_info.band, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.thursday.preset_tuner_number', {val: att.thursday.preset.tuner_info.number, ack: true});
+
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.enable', {val: att.friday.enable, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.time', {val: att.friday.time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.beep', {val: att.friday.beep, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.playback_type', {val: att.friday.playback_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.resume_input', {val: att.friday.resume.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.preset_type', {val: att.friday.preset.type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.preset_num', {val: att.friday.preset.num, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.preset_netusb_input', {val: att.friday.preset.netusb_info.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.preset_netusb_text', {val: att.friday.preset.netusb_info.text, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.preset_tuner_band', {val: att.friday.preset.tuner_info.band, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.friday.preset_tuner_number', {val: att.friday.preset.tuner_info.number, ack: true}); 
+
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.enable', {val: att.saturday.enable, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.time', {val: att.saturday.time, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.beep', {val: att.saturday.beep, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.playback_type', {val: att.saturday.playback_type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.resume_input', {val: att.saturday.resume.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.preset_type', {val: att.saturday.preset.type, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.preset_num', {val: att.saturday.preset.num, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.preset_netusb_input', {val: att.saturday.preset.netusb_info.input, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.preset_netusb_text', {val: att.saturday.preset.netusb_info.text, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.preset_tuner_band', {val: att.saturday.preset.tuner_info.band, ack: true}); 
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.saturday.preset_tuner_number', {val: att.saturday.preset.tuner_info.number, ack: true});
+                    
+                }
+                else {adapter.log.debug('failure getting Clock settings from  ' + devip + ' : ' +  responseFailLog(result));}
+            
+         });
+}                
 function getMusicDistInfo(ip, type, uid){
         var devip = ip;
         var devtype = type;
@@ -1695,7 +2893,13 @@ function getMusicDistInfo(ip, type, uid){
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.group_name', {val: att.group_name, ack: true});                    
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.role', {val: att.role, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.server_zone', {val: att.server_zone, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.client_list', {val: att.client_list, ack: true});                                         
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.client_list', {val: att.client_list, ack: true}); //array ip_address and data_type
+                    /*
+                    if (att.group_name === "00000000000000000000000000000000")
+                        {
+                            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.distr_state', {val: false, ack: true});
+                        }
+                    */
                 }
                 else {adapter.log.debug('failure getting Distibution info from  ' + devip + ' : ' +  responseFailLog(result));}
             
@@ -1711,23 +2915,46 @@ function getMusicDeviceFeatures(ip, type, uid){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){  
                     adapter.log.debug('got features succesfully from ' + devip);
-                    adapter.log.debug('number of zones ' + att.system.zone_num);     //wenn größer als 1 dann eine Schleife aufbauen
-                    var zone_name = att.zone[0].id;
-                    var max_vol = JSON.stringify(att.zone[0].range_step[0].max); // nehmen wir mal an, dass volume immer auf [0] zu finden ist
-                    // Zone basic controls
-                    defineMusicZone(devtype, devuid, zone_name, max_vol);
-                    // Zone input list
-                    defineMusicInputs(devtype, devuid, zone_name, att.zone[0].input_list);
+                    adapter.log.debug('number of zones ' + att.system.zone_num);
                     
-                    // Zone Func_list fixed
-                    // link control
-                    defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[0].link_control_list);                   
-                    //Zone Func_list variable
-                    defineZoneFunctions(devtype, devuid, zone_name, att.zone[0].func_list, att.zone[0].sound_program_list, att.zone[0].link_audio_delay_list);
-                    
+                    for (var i=0; i < att.system.zone_num; i++){ 
+
+                        var zone_name = att.zone[i].id;
+                        // Zone basic controls and distribution
+                        defineMusicZone(devtype, devuid, zone_name, att.zone[i].range_step);
+                        // Zone input list
+                        defineMusicInputs(devtype, devuid, zone_name, att.zone[i].input_list);
+                        // Zone link control
+                        if (att.zone[i].func_list.indexOf("link_control") !== -1){
+                            defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[i].link_control_list);
+                        }
+                        // Zone link audio
+                        if (att.zone[i].func_list.indexOf("link_audio_delay") !== -1){
+                            defineMusicLinkAudio(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].link_audio_delay_list);  
+                        }
+                        // Zone Sound program
+                        if (att.zone[i].func_list.indexOf("sound_program") !== -1){
+                            defineMusicSoundProg(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].sound_program_list);
+                        }                  
+                        // Zone Func_list variable
+                        defineZoneFunctions(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].range_step);
+                    }
                     // input services and their attributes
-                    defineMusicSystemInputs(devtype, devuid, att.system.input_list);
-                                  
+                    defineMusicSystemInputs(devtype, devuid, att.system.input_list); 
+                    
+                    //CD player objects
+                    if (att.indexOf("cd") !== -1){
+                        defineMusicCD(devtype, devuid);
+                    }    
+                    //Tuner objects
+                    if (att.indexOf("tuner") !== -1){
+                        defineMusicTuner(devtype, devuid, att.tuner.func_list, att.tuner.range_step, att.tuner.preset);
+                    }
+                    //Clock objects
+                    if (att.indexOf("clock") !== -1){
+                        defineMusicClock(devtype, devuid, att.clock.func_list, att.clock.range_step, att.clock.alarm_fade_type_num, att.clock.alarm_mode_list, att.clock.alarm_input_list, att.clock.alarm_preset_list);
+                    }                    
+              
                 }
                 else {adapter.log.debug('failure getting features from  ' + devip + ' : ' +  responseFailLog(result));}
         });
@@ -1759,7 +2986,22 @@ function gotUpdate(msg, devIp){
     if (msg.main){
         //if signal_info_updated /main/getSignalInfo
         //if status_updated /main/getStatus
-        getMusicMainInfo(devIp, dev[0].type, dev[0].uid);
+        getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'main');
+    }
+    if (msg.zone2){
+        //if signal_info_updated /main/getSignalInfo
+        //if status_updated /main/getStatus
+        getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone2');
+    }
+    if (msg.zone3){
+        //if signal_info_updated /main/getSignalInfo
+        //if status_updated /main/getStatus
+        getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone3');
+    }
+    if (msg.zone4){
+        //if signal_info_updated /main/getSignalInfo
+        //if status_updated /main/getStatus
+        getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone4');
     }
     if (msg.system){
         //if func_status_updated
@@ -1778,16 +3020,24 @@ function gotUpdate(msg, devIp){
     }
     if (msg.tuner){
         //if play_info_updated
+        if (msg.tuner.play_info_updated){
+            getMusicTunerInfo(devIp, dev[0].type, dev[0].uid);
+        }
         //if preset_info_updated
+        if (msg.tuner.preset_info_updated){
+            getMusicTunerPreset(devIp, dev[0].type, dev[0].uid);
+        }                  
         //if name_text_updated
         //if location_info_updated
-        //getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
+
     }
     if (msg.dist){
+        //  /dist/getDistributionInfo
         getMusicDistInfo(devIp, dev[0].type, dev[0].uid);
     }
     if (msg.clock){
         // /clock/getSettings
+        getMusicClockSettings(devIp, dev[0].type, dev[0].uid);
     }      
 }
 
@@ -1820,11 +3070,13 @@ function main() {
         //yamaha.getStatus('main'); initial status of device
 
         // get main status
-        getMusicMainInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);  //must be looped if more than main zone
+        getMusicZoneInfo(obj[anz].ip, obj[anz].type, obj[anz].uid, 'main');  //must be looped if more than main zone
         // get main lists status
         getMusicZoneLists(obj[anz].ip, obj[anz].type, obj[anz].uid);  // 
         // get netusb status
-        getMusicNetusbInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);        
+        getMusicNetusbInfo(obj[anz].ip, obj[anz].type, obj[anz].uid); 
+        getMusicNetusbRecent(obj[anz].ip, obj[anz].type, obj[anz].uid); 
+        getMusicNetusbPreset(obj[anz].ip, obj[anz].type, obj[anz].uid); 
 
         //
     }
@@ -1837,9 +3089,15 @@ function main() {
     });
 
     server.on('message', (msg, rinfo) => {
-        adapter.log.debug('server got:' + msg.toString() + 'from ' + rinfo.address );
+        adapter.log.debug('server got:' + msg.toString() + ' from ' + rinfo.address );
         //adapter.log.debug('server got:' + JSON.parse(msg.toString()) + 'from ' + rinfo.address );
-        gotUpdate(JSON.parse(msg.toString()), rinfo.address); //erstmal noch IP, device_id ist eine andere als die in ssdp übermittelte (letze Teil von UDN)
+        var foundip = getConfigObjects(adapter.config.devices, 'ip', rinfo.address);
+        if (foundip.length === 0 || foundip.length !== 1) { //nix oder mehr als eine Zuordnung
+            adapter.log.debug('reveived telegram can not be processed, no config for this IP');    
+        }
+        else {
+            gotUpdate(JSON.parse(msg.toString()), rinfo.address); //erstmal noch IP, device_id ist eine andere als die in ssdp übermittelte (letze Teil von UDN)            
+        }   
     });
     
     server.on('listening', () => {
