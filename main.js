@@ -2641,7 +2641,7 @@ function getMusicCdInfo(ip, type, uid){
         var devtype = type;
         var devuid = uid;
         yamaha = new YamahaYXC(ip);
-        yamaha.getPlayInfo(cd).then(function(result){
+        yamaha.getPlayInfo('cd').then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
@@ -2943,15 +2943,15 @@ function getMusicDeviceFeatures(ip, type, uid){
                     defineMusicSystemInputs(devtype, devuid, att.system.input_list); 
                     
                     //CD player objects
-                    if (att.indexOf("cd") !== -1){
+                    if (att.zone[0].input_list.indexOf('cd') !== -1){
                         defineMusicCD(devtype, devuid);
                     }    
                     //Tuner objects
-                    if (att.indexOf("tuner") !== -1){
+                    if (att.tuner){
                         defineMusicTuner(devtype, devuid, att.tuner.func_list, att.tuner.range_step, att.tuner.preset);
                     }
                     //Clock objects
-                    if (att.indexOf("clock") !== -1){
+                    if (att.clock){
                         defineMusicClock(devtype, devuid, att.clock.func_list, att.clock.range_step, att.clock.alarm_fade_type_num, att.clock.alarm_mode_list, att.clock.alarm_input_list, att.clock.alarm_preset_list);
                     }                    
               
