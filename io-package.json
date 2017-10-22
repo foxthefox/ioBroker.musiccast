@@ -33,6 +33,9 @@
 			  "ru": "Первоначальный адаптер"
 			}
 		},
+	 "authors": [
+            "foxthefox <foxthefox@wysiwis.net>"
+        ],
         "title":                    "Yamaha MusicCast adapter",
         "desc":                     {
 				 "en": "ioBroker musiccast Adapter",
