@@ -1,66 +1,71 @@
 {
     "common": {
-        "name":                     "musiccast",
-        "version":                  "0.0.7",
-	 "news": {
-		 	"0.0.7": {
-			  "en": "Tuner/Clock and advanced functions added",
-			  "de": "Tuner/uhr und Erweiterte Funktionen ergänzt"
-			},
-		 	"0.0.6": {
-			  "en": "subscribe to UDP message",
-			  "de": "Abo auf UDP Meldungen"
-			},
-		 	"0.0.5": {
-			  "en": "more objects, support NETUSB/CD",
-			  "de": "weitere Objekte, Unterstützung NETUSB/CD"
-			},
-		 	"0.0.4": {
-			  "en": "more objects, new functions, search",
-			  "de": "weitere Objekte, neue Funktionen, Suche"
-			},
-		 	"0.0.3": {
-			  "en": "more objects",
-			  "de": "weitere Objekte"
-			},
-		 	"0.0.2": {
-			  "en": "minor corrections",
-			  "de": "kleine Korrekturen"
-			},
-			"0.0.1": {
-			  "en": "initial adapter",
-			  "de": "Initiale Version",
-			  "ru": "Первоначальный адаптер"
-			}
-		},
-	 "authors": [
-            "foxthefox <foxthefox@wysiwis.net>"
+
+        "name": "musiccast",
+        "version": "0.0.7",
+        "news": {
+            "0.0.7": {
+                "en": "Tuner/Clock and advanced functions added",
+                "de": "Tuner/uhr und Erweiterte Funktionen ergänzt"
+            },
+            "0.0.6": {
+                "en": "subscribe to UDP message",
+                "de": "Abo auf UDP Meldungen"
+            },
+            "0.0.5": {
+                "en": "more objects, support NETUSB/CD",
+                "de": "weitere Objekte, Unterstützung NETUSB/CD"
+            },
+            "0.0.4": {
+                "en": "more objects, new functions, search",
+                "de": "weitere Objekte, neue Funktionen, Suche"
+            },
+            "0.0.3": {
+                "en": "more objects",
+                "de": "weitere Objekte"
+            },
+            "0.0.2": {
+                "en": "minor corrections",
+                "de": "kleine Korrekturen"
+            },
+            "0.0.1": {
+                "en": "initial adapter",
+                "de": "Initiale Version",
+                "ru": "Первоначальный адаптер"
+            }
+        },
+        "title": "Yamaha MusicCast adapter",
+        "desc": {
+            "en": "ioBroker musiccast Adapter",
+            "de": "ioBroker Musiccast Adapter",
+            "ru": "ioBroker Musiccast драйвер как образец"
+        },
+        "platform": "Javascript/Node.js",
+        "mode": "daemon",
+        "icon": "musiccast.png",
+        "enabled": true,
+        "messagebox": true,
+        "subscribe": "messagebox",
+        "extIcon": "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
+        "keywords": [
+            "musiccast",
+            "sound",
+            "audio"
         ],
-        "title":                    "Yamaha MusicCast adapter",
-        "desc":                     {
-				 "en": "ioBroker musiccast Adapter",
-				 "de": "ioBroker Musiccast Adapter",
-				 "ru": "ioBroker Musiccast драйвер как образец"
-		},
-        "platform":                 "Javascript/Node.js",
-        "mode":                     "daemon",
-        "icon":                     "musiccast.png",
-        "enabled":                  true,
-	"messagebox":               true,
-        "subscribe":                "messagebox",
-	"extIcon":                  "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
-	"keywords":                 ["musiccast", "sound", "audio"],
-        "readme":                   "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
-	"loglevel":                 "debug",
-        "type":                     "media"
+        "readme": "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
+        "loglevel": "debug",
+        "type": "media",
+        "authors": [
+            {
+                "name": "foxthefox",
+                "email": "foxthefox@wysiwis.net"
+            }
+        ]
     },
     "native": {
-	 "netusbplaytime": false,
-	 "cdplaytime": false,
-	 "devices": [
-	]
+        "netusbplaytime": false,
+        "cdplaytime": false,
+        "devices": []
     },
-    "objects": [
-
-    ]
+    "objects": []
 }
