@@ -998,6 +998,7 @@ function defineZoneFunctions(type, uid, zone, func_list, range_step){
             type: 'state',
             common: {
                 "name": "bass",
+                "type": "number",
                 "min": range_step[range_step.findIndex(function(row){return row.id == 'tone_control';})].min,
                 "max": range_step[range_step.findIndex(function(row){return row.id == 'tone_control';})].max,
                 "read": true,
