@@ -55,6 +55,7 @@
         "readme": "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
         "loglevel": "debug",
         "type": "media",
+        "materialize": true,
         "authors": [
             {
                 "name": "foxthefox",
