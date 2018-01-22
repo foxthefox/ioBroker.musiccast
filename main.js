@@ -134,9 +134,9 @@ adapter.on('stateChange', function (id, state) {
             });
         }
         if (dp === 'volume'){
-            yamaha.setVolumeTo(state.val).then(function(result) {
+            yamaha.setVolumeTo(Math.round(state.val)).then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent volume succesfully  to ' + state.val);
+                    adapter.log.debug('sent volume succesfully  to ' + Math.round(state.val));
                     //adapter.setForeignState(id, true, true);
                 }
                 else {adapter.log.debug('failure sending volume ' +  responseFailLog(result));}
