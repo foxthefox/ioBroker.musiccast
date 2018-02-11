@@ -1,5 +1,5 @@
 <html>
-
+<head>
 <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
 <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
@@ -14,48 +14,39 @@
 
 <!-- you have to define 2 functions in the global scope: -->
 <script type="text/javascript">
+
    devices = [];
-    function setValue(id, value, onChange) {
-        var $value = $('#' + id + '.value');
-        if ($value.attr('type') === 'checkbox') {
-            $value.prop('checked', value).change(function() {
-                onChange();
-            });
-        } else {
-            $value.val(value).change(function() {
-                onChange();
-            }).keyup(function() {
-                // Chack that only numbers entered
-                if ($(this).hasClass('number')) {
-                    var val = $(this).val();
-                    if (val) {
-                        var newVal = '';
-                        for (var i = 0; i < val.length; i++) {
-                            if (val[i] >= '0' && val[i] <= '9') {
-                                newVal += val[i];
-                            }
-                        }
-                        if (val != newVal) $(this).val(newVal);
-                    }
-                }
-                onChange();
-            });
-        }
-    }
+ 
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
         if (!settings) return;
+
         devices = settings.devices || [];
-        for (var key in settings) {
-            if (!settings.hasOwnProperty(key)) continue;
-            setValue(key, settings[key], onChange);
-        }
-        $('#table-button-search').button({
-            label: _('Search'),
-            icons: {
-                primary: ' ui-icon-refresh'
+
+        $('.value').each(function () {            
+            var $key = $(this);
+            var id = $key.attr('id');
+            if ($key.attr('type') === 'checkbox') {
+		        // do not call onChange direct, because onChange could expect some arguments
+                $key.prop('checked', settings[id]).change(function() {
+                    onChange();
+                });
+            } else {
+		        // do not call onChange direct, because onChange could expect some arguments
+                $key.val(settings[id]).change(function() {
+                    onChange();
+                }).keyup(function() {
+                    onChange();
+                });
             }
-        }).click(function () {
+        });
+
+        //Tabelle mit den Geräten anzeigen
+        showDevice(devices);
+
+        //button inits, können nicht woanders hinverlagert werden, da sonst onChange nicht definiert ist
+        //search-button
+        $('#table-button-search').click(function () {
             getIsAdapterAlive(function (isAlive) {
                     if (isAlive) {           
                             console.log('send browse to adapter');
@@ -81,18 +72,49 @@
                                         }
                                     }
                                     if (changed) {
+                                        console.log('devices now '+ JSON.stringify(devices));
                                         onChange();
-                                        values2table('values', devices, onChange);
+                                        showDevice(devices);
+                                        //values2table('values', devices, onChange);
                                     }
                             });
                     } else {
                     showMessage(_('Start or enable adapter first'));
                     }
                 });
-        }).attr('title', _('update adapter information')); 
-        values2table('values', devices, onChange);
+        }).attr('title', _('update adapter information'));
+
+
+        //delete buttons in tabelle
+        var $div  = $('#values');
+        var $table = $div.find('.table-values');
+        var $lines = $table.find('.table-lines');
+        $lines.find('a[data-command]').each(function () {
+                $(this).on('click', function () {
+                    var id = $(this).data('index'); //index=id entspricht der Position im device-array
+                    //var index = devices.map(function(obj){ return obj.uid; }).indexOf(id); //für Übergabe als event und suche nach position
+                    if( id !== -1){
+                        devices.splice(id,1);
+                        //onChange && onChange();
+                        onChange();
+                        showDevice(devices);
+                    }   
+                })
+        }).addClass('red');
+        $lines.find('.values').each(function () {
+            $(this).change(function () {
+                var val = $(this).val();
+                if (val) {
+                    console.log('textänderung'+val);
+                    onChange();
+                }
+            });
+        });
         onChange(false);
+        //M.updateTextFields();  // function Materialize.updateTextFields(); to reinitialize all the Materialize labels on the page if you are dynamically adding inputs.
+
     }
+
     function save(callback) {
         var obj = {};
         $('.value').each(function () {
@@ -104,59 +126,88 @@
             }
         });
         // Get edited table
-        obj.devices = table2values('values');
+        obj.devices = table2values('values'); //es wird nicht devices abgespeichert, sondern der Inhalt der Tabelle (all Zeilen müssen value="" haben)
         callback(obj);
     }
+
+    function showDevice(obj) {
+        $('#devices').empty();
+        for (var i in obj){
+            var text = '';
+            //text += '<td style="text-align: center; white-space: nowrap;">' + obj[i].ip+ '</td>';
+            text += '<td><input class="values" value="' + obj[i].ip + '" type="text" data-index="' + i + '" data-name="ip"/></td>'; //auch wenn hier nix geändert werden soll, muß mindestens value drin sein, damit table2values funktioniert
+            //text += '<td style="text-align: center; white-space: nowrap;">' + obj[i].type + '</td>';
+            text += '<td><input class="values" value="' + obj[i].type + '" type="text" data-index="' + i + '" data-name="type"/></td>';
+            //text += '<td style="text-align: center; white-space: nowrap;">' + obj[i].uid + '</td>';
+            text += '<td><input class="values" value="' + obj[i].uid + '" type="text" data-index="' + i + '" data-name="uid"/></td>';
+            //text += '<td style="text-align: center; white-space: nowrap;">' + obj[i].name + '</td>';
+            text += '<td><input class="values" value="' + obj[i].name + '" type="text" data-index="' + i + '" data-name="name"/></td>';
+            text += '<td style="text-align: center; white-space: nowrap;"><a data-command="delete" data-index="' + i + '" id="del-button_'+ obj[i].uid + '" class="btn"><i class="material-icons">delete_forever</i></a></td>'; //command und id sind nicht benutzt
+            text = '<tr data-id="' + obj[i].uid + '">' + text + '</tr>';
+            $('#devices').append(text);        
+        }
+    }
+   
 </script>
-
+        <style>
+                .sub-title {
+                    margin-top: 2rem!important;
+                    padding: 0.5rem;
+                    background: #64b5f6;
+                    color: white;
+                }
+            </style>
+        </head>
 <body>
-<div class="m adapter-container">
-
-    <table><tr>
-        <td><img src="musiccast.png"></td>
-        <td style="padding-top: 20px;padding-left: 10px"><h3 class="translate">Yamaha MusicCast adapter</h3></td>
-    </tr></table>
-
-    <h4 class="translate">Yamaha MusicCast settings</h4>
-    
-    <p class="translate">on save adapter restarts with new config immediately</p>
-    <table>
-        <tr>
-            <td class="translate">update playtime NET (USB/RADIO)</td>
-            <td><input id="netusbplaytime" class="value" type="checkbox" /></td>
-            <td>
-                <p>unchecked => no update / checked => update (more traffic)</p>
-            </td>
-        </tr>
-        <tr>
-            <td class="translate">update playtime CD</td>
-            <td><input id="cdplaytime" class="value" type="checkbox" /></td>
-            <td>
-                <p>unchecked => no update / checked => update (more traffic)</p>
-            </td>
-        </tr>
-    </table>
-    <h4 class="translate">Yamaha MusicCast devices</h4>
-    <p class="translate">Try to push the Search Button until you find the amount of MusicCast devices in your home.</p>
-    <p class="translate">Use "+" for manual configuration.</p>
-    <div id="values" style="width: 100%; height: calc(100% - 300px)">
-        <button class="table-button-add" style="display: inline-block; margin-left: 10px; height: 2em"></button>
-        <button id="table-button-search" style="display: inline-block; margin-left: 10px;"></button>
-        <div style="width: 100%; height: calc(100% - 30px); overflow: auto;">
-            <table class="table-values" style="width: 100%;">
-                <thead>
-                <tr>
-                    <th data-name="_index"   style="width: 40px" class="translate"></th>
-                    <th data-name="ip"       style="width: 150px"class="translate">IP address</th>
-                    <th data-name="type"     style="width: 150px" class="translate">model</th>
-                    <th data-name="uid"     style="width: 150px" class="translate">uid</th>
-                    <th data-name="name"     style="width: 200px" class="translate">name</th>
-                    <th data-buttons="delete" style="width: 40px"></th>
-                </tr>
-                </thead>
-            </table>
+    <div class="m adapter-container">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 m4 l2">
+                    <img src="musiccast.png" style="height:7em; width: 7em;" class="logo">
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <h6 class="translate sub-title">Yamaha MusicCast settings</h6>
+                </div>
+                <div class="col s6">
+                        <input class="value" id="netusbplaytime" type="checkbox"/><span class="translate">update playtime NET (USB/RADIO)</span>
+                        <p>unchecked => no update / checked => update (more traffic)</p></td>
+                    <!-- Important: label must come directly after input. Label is important. -->
+                </div>
+                <div class="col s6">
+                        <input class="value" id="cdplaytime" type="checkbox"/><span class="translate">update playtime CD</span>
+                        <p>unchecked => no update / checked => update (more traffic)</p>
+                    <!-- Important: label must come directly after input. Label is important. -->
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <h6 class="translate sub-title">Yamaha MusicCast devices</h6>
+                    <p class="translate">Try to push the Search Button until you find the amount of MusicCast devices in your home.</p>
+                    <p class="translate">If you see blue delete buttons, save settings first and open again the page.</p>
+                </div>            
+            </div>
+            <div id="values" style="width: 100%; height: calc(100% - 30px); overflow: auto;">
+                <a id="table-button-search" class="btn"><span class="translate">Search</span></a>
+                <table class="table-values" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th data-name="ip"       style="width: 150px"class="translate">IP address</th>
+                            <th data-name="type"     style="width: 150px" class="translate">model</th>
+                            <th data-name="uid"     style="width: 150px" class="translate">uid</th>
+                            <th data-name="name"     style="width: 200px" class="translate">name</th>
+                            <th data-buttons="delete" style="width: 40px" class="translate">delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-lines" id="devices"></tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>
