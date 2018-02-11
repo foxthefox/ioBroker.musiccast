@@ -31,6 +31,7 @@ If you want to see the playtime updated for the tracks you listen, please enable
 ## available Objects
 The following objects are currently implemented:
 
+### basic (zone)
 |Object|Value|settable|Description|
 |--------|-------|:-:|--------|
 |{zone}.power|boolean|x|true/false -> ON/Standby|
@@ -57,6 +58,10 @@ The following objects are currently implemented:
 |{zone}.enhancer|boolean|x|set enhancer|
 |{zone}.bass_extension|boolean|x|set bass extension|
 |{zone}.sleep|value|x|sleep timer|
+
+### netusb
+|Object|Value|settable|Description|
+|--------|-------|:-:|--------|
 |netusb.input|value|x|set/actual input|
 |netusb.playPause|boolean|x|set Play/Pause|
 |netusb.playback|text|-|status net player|
@@ -77,12 +82,20 @@ The following objects are currently implemented:
 |netusb.presetrecallnumber|value|x|recall the # in the favourite list|
 |netusb.usbdevicetype|text|-|type of connected USB device|
 |netusb.attribute|value|-|which possibiolites has the service, to be decoded|
+
+### system
+|Object|Value|settable|Description|
+|--------|-------|:-:|--------|
 |system.api_version|value|-|API Version|
 |system.system_version|value|-|System Version|
 |system.inputs.{service}|value|-|available input service|
 |system.inputs.{service}.account_enable|value|-|available input service enabled|
 |system.inputs.{service}.distribution_enable|value|-|available input service distributable|
 |system.inputs.{service}.play_info_type|value|-|available input service type|
+
+### CD player
+|Object|Value|settable|Description|
+|--------|-------|:-:|--------|
 |cd.playPause|boolean|x|set Play/Pause|
 |cd.playback|text|-|status CD player|
 |cd.stop|boolean|x|set Stop|
@@ -101,6 +114,10 @@ The following objects are currently implemented:
 |cd.artist|text|-|artist name|
 |cd.album|text|-|album name|
 |cd.track|text|-|track name|
+
+### tuner
+|Object|Value|settable|Description|
+|--------|-------|:-:|--------|
 |tuner.common_preset_info|array|-|Preset Information|
 |tuner.am.preset_info|array|-|Preset AM Information|
 |tuner.fm.preset_info|array|-|Preset FM Information|
@@ -134,6 +151,10 @@ The following objects are currently implemented:
 |tuner.rds.program_service|string|-|RDS program service|
 |tuner.rds.radio_text_a|string|-|RDS text A|
 |tuner.rds.radio_text_b|string|-|RDS text B|
+
+### clock
+|Object|Value|settable|Description|
+|--------|-------|:-:|--------|
 |clock.auto_sync|boolean|x|Clock auto sync|
 |clock.format|string|x|Clock format 12h/24h|
 |clock.alarm_on|boolean|x|Clock alarm status on/off|
@@ -169,6 +190,7 @@ The following objects are currently implemented:
 * support of more zones
 * support of mc-link
 * setting of min and max values according features
+* admin v3
 
 #### 0.0.6
 * widget set matching the objects and control
