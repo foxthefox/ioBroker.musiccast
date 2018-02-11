@@ -5,9 +5,16 @@
         "version": "0.0.7",
         "news": {
             "0.0.7": {
-                "en": "Tuner/Clock and advanced functions added",
-                "de": "Tuner/uhr und Erweiterte Funktionen ergänzt"
-            },
+                "en": "Tuner/Clock and advanced functions added, adminv3",
+                "de": "Tuner / Clock und erweiterte Funktionen hinzugefügt, adminv3",
+                "ru": "Добавлены настройки тюнера / часов и расширенных функций, adminv3",
+                "pt": "Sintonizador / Relógio e funções avançadas adicionadas, adminv3",
+                "nl": "Tuner / klok en geavanceerde functies toegevoegd, adminv3",
+                "fr": "Syntoniseur / horloge et fonctions avancées ajoutées, adminv3",
+                "it": "Sintonizzatore / Orologio e funzioni avanzate aggiunte, adminv3",
+                "es": "Sintonizador / reloj y funciones avanzadas agregadas, adminv3",
+                "pl": "Tuner / Zegar i zaawansowane funkcje dodane, adminv3"
+              },
             "0.0.6": {
                 "en": "subscribe to UDP message",
                 "de": "Abo auf UDP Meldungen"
