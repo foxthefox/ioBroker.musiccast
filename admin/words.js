@@ -39,5 +39,10 @@ systemDictionary = {
 		"ru":"update playtime NET (USB/RADIO)"},	
 	"update playtime CD": {
 		"de":"update playtime CD",
-		"ru":"update playtime CD"}	
+		"ru":"update playtime CD"},
+	"If you see blue delete buttons, save settings first and open again the page.": {
+            "en": "If you see blue delete buttons, save settings first and open again the page.",
+            "de": "Wenn du blaue Löschtasten siehst, die Einstellungen speichern und Seite neu laden.",
+            "ru": "Если вы видите синие кнопки удаления, сначала сохраните настройки и снова откройте страницу."
+        }
 };
