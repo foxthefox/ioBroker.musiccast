@@ -1,9 +1,9 @@
 <!--
     ioBroker.musiccast Widget-Set
 
-    version: "0.0.1"
+    version: "0.0.2"
 
-    Copyright 10.2015-2016 Author foxthefox<foxthefox@mail.com>
+    Copyright 2018 Author foxthefox<foxthefox@wysiwis.net>
 -->
 <!-- here you can include so many css as you want -->
 <link rel="stylesheet" href="widgets/musiccast/css/style.css" />
@@ -302,7 +302,10 @@
             <div data-oid="<%= this.data.attr('oid') %>">
                 <%== this.data.attr('html_prepend') %>
                 <img src="<%= (typeof app !== 'undefined' ? app.replaceFilePathImg(vis.states.attr(this.data.oid + '.val')) : vis.states.attr(this.data.oid + '.val')) || 'widgets/musiccast/img/default_album.png' %>" width="100%" />
-                 <div <%= (el) -> vis.binds.basic.imgRefresh(el, vis.states.attr(data.oid + '.val' ), data.attr("refreshInterval")) %> />
+                 <!-- alte variante
+		 <div <%= (el) -> vis.binds.basic.imgRefresh(el, vis.states.attr(data.oid + '.val' ), data.attr("refreshInterval")) %> />
+		 -->
+		 <div <%= (el) -> vis.binds.basic.imgRefresh(el, vis.states.attr(data.oid + '.val' ), data, this.view) %> />
                 <%== this.data.attr('html_append') %>
             </div>
         </div>
