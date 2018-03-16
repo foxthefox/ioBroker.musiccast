@@ -1,9 +1,10 @@
 /*
     ioBroker.musiccast Widget-Set
 
-    version: "0.0.1"
+    version: "0.0.2"
 
-    Copyright 10.2015-2016 Author foxthefox<foxthefox@mail.com>
+    Copyright 2018 Author foxthefox<foxthefox@wysiwis.net>
+    based on iobroker.vis
 
 */
 "use strict";
@@ -31,7 +32,7 @@ $.extend(true, systemDictionary, {
 
 // this code can be placed directly in musiccast.html
 vis.binds.musiccast = {
-    version: "0.0.1",
+    version: "0.0.2",
     showVersion: function () {
         if (vis.binds.musiccast.version) {
             console.log('Version musiccast: ' + vis.binds.musiccast.version);
