@@ -2,7 +2,7 @@
     "common": {
 
         "name": "musiccast",
-        "version": "0.0.7",
+        "version": "0.0.8",
         "news": {
             "0.0.7": {
                 "en": "Tuner/Clock and advanced functions added, adminv3",
