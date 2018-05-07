@@ -184,6 +184,9 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+#### 0.0.8
+* automatic testing update
+* object names
 #### 0.0.7
 * tuner support
 * clock support (information mainly)
