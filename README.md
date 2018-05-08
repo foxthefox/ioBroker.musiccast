@@ -222,3 +222,9 @@ The following objects are currently implemented:
 #### 0.0.1
 * initial release with setting of IP in config-page, 
 * available commands power, mute, volume
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2018 foxthefox <foxthefox@wysiwis.net>
