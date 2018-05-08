@@ -3114,16 +3114,18 @@ function main() {
     //everything is configured, make cyclic updates
     
     // make some artifical request to overcome the 20min autostop on updating
-    // if(adapter.config.keepalive){timeout}
+    
     /*
         function pollData() {
-        var interval = 300; //5min
-        updateDevices(); // für alle Objekte, da in xml/json mehr enthalten als in API-Aufrufe
+        var interval = 300; // 5min
+        for (var anz in obj) { // für alle Objekte
+            getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
+        }
         adapter.log.debug("polling! keeping musiccast alive");
         mcastTimeout = setTimeout(pollData, interval*1000);
         }
-      */
-
+     */
+    // if(adapter.config.keepalive){pollData()}
 
     // in this musiccast all states changes inside the adapters namespace are subscribed
     adapter.subscribeStates('*');
