@@ -73,6 +73,7 @@
     "native": {
         "netusbplaytime": false,
         "cdplaytime": false,
+        "keepalive": false,
         "devices": []
     },
     "objects": []
