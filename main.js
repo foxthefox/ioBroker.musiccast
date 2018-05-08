@@ -549,11 +549,11 @@ adapter.on('ready', function () {
     main();
 });
 
-function defineMusicDevice(type, uid){
+function defineMusicDevice(type, uid, name){
     adapter.setObject(type + '_' + uid , {
         type: 'device',
         common: {
-            name: 'MusicCast ' + type,
+            name: 'MusicCast ' + type + ' ' + name,
             role: 'device'
         },
         native: {
@@ -3056,7 +3056,7 @@ function main() {
     for (var anz in obj){
 
         //general structure setup        
-        defineMusicDevice(obj[anz].type, obj[anz].uid); //contains also the structure to musiccast.0._id_type_.
+        defineMusicDevice(obj[anz].type, obj[anz].uid, obj[anz].name ); //contains also the structure to musiccast.0._id_type_.
         defineMusicNetUsb(obj[anz].type, obj[anz].uid); //all devices are supporting netusb
         //defineMClink basic structure
 
