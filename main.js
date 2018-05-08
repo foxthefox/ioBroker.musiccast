@@ -16,6 +16,8 @@ var YamahaYXC = require('yamaha-yxc-nodejs');
 var yamaha = null;
 var yamaha2 = null;
 
+var mcastTimeout;
+
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.musiccast.0
@@ -3042,6 +3044,10 @@ function gotUpdate(msg, devIp){
     }      
 }
 
+process.on('SIGINT', function () {
+    if (mcastTimeout) clearTimeout(mcastTimeout);
+})
+
 function main() {
 
     //yamaha.discover
@@ -3104,10 +3110,19 @@ function main() {
     server.on('listening', () => {
         adapter.log.info('socket listening ');
     });
-    server.bind(41100);
-
+    server.bind(41100)
     //everything is configured, make cyclic updates
-
+    
+    // make some artifical request to overcome the 20min autostop on updating
+    // if(adapter.config.keepalive){timeout}
+    /*
+        function pollData() {
+        var interval = 300; //5min
+        updateDevices(); // für alle Objekte, da in xml/json mehr enthalten als in API-Aufrufe
+        adapter.log.debug("polling! keeping musiccast alive");
+        mcastTimeout = setTimeout(pollData, interval*1000);
+        }
+      */
 
 
     // in this musiccast all states changes inside the adapters namespace are subscribed
