@@ -4,6 +4,17 @@
         "name": "musiccast",
         "version": "0.0.8",
         "news": {
+            "0.0.8": {
+                "en": "Name added in object, improvements",
+                "de": "Name im Objekt hinzugefügt, Verbesserungen",
+                "ru": "Имя добавлено в объект, улучшения",
+                "pt": "Nome adicionado no objeto, melhorias",
+                "nl": "Naam toegevoegd in object, verbeteringen",
+                "fr": "Nom ajouté dans l'objet, améliorations",
+                "it": "Nome aggiunto nell'oggetto, miglioramenti",
+                "es": "Nombre agregado en el objeto, mejoras",
+                "pl": "Nazwa dodana w obiekcie, ulepszenia"
+            },
             "0.0.7": {
                 "en": "Tuner/Clock and advanced functions added, adminv3",
                 "de": "Tuner / Clock und erweiterte Funktionen hinzugefügt, adminv3",
@@ -42,10 +53,27 @@
             }
         },
         "title": "Yamaha MusicCast adapter",
+        "titleLang": {
+            "en": "Yamaha MusicCast adapter",
+            "de": "Yamaha MusicCast Adapter",
+            "ru": "Адаптер Yamaha MusicCast",
+            "pt": "Adaptador Yamaha MusicCast",
+            "nl": "Yamaha MusicCast-adapter",
+            "fr": "Adaptateur Yamaha MusicCast",
+            "it": "Adattatore Yamaha MusicCast",
+            "es": "Adaptador Yamaha MusicCast",
+            "pl": "Adapter Yamaha MusicCast"
+        },
         "desc": {
-            "en": "ioBroker musiccast Adapter",
-            "de": "ioBroker Musiccast Adapter",
-            "ru": "ioBroker Musiccast драйвер как образец"
+            "en": "Musiccast Adapter",
+            "de": "Musiccast Adapter",
+            "ru": "Адаптер Musiccast",
+            "pt": "Adaptador Musiccast",
+            "nl": "Musiccast-adapter",
+            "fr": "Adaptateur de Musiccast",
+            "it": "Adattatore Musiccast",
+            "es": "Adaptador de Musiccast",
+            "pl": "Adapter Musiccast"
         },
         "platform": "Javascript/Node.js",
         "mode": "daemon",
