@@ -186,7 +186,8 @@ The following objects are currently implemented:
 ## Changelog
 #### 0.0.8
 * automatic testing update
-* object names
+* given name in admin page to appear in object (device)
+
 #### 0.0.7
 * tuner support
 * clock support (information mainly)
