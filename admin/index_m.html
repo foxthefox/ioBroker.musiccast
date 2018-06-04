@@ -16,33 +16,35 @@
 <script type="text/javascript">
 
    devices = [];
- 
+
+   function setValue(id, value, onChange) {
+        var $value = $('#' + id + '.value');
+
+        if ($value.attr('type') === 'checkbox') {
+            $value.prop('checked', value).change(function() {
+                onChange();
+            });
+        } else {
+            $value.val(value).on('change', function() {
+                onChange();
+            }).on('keyup', function() {
+                onChange();
+            });
+        }
+    }
+
+
     // the function loadSettings has to exist ...
     function load(settings, onChange) {
         if (!settings) return;
 
         devices = settings.devices || [];
 
-        $('.value').each(function () {            
-            var $key = $(this);
-            var id = $key.attr('id');
-            if ($key.attr('type') === 'checkbox') {
-		        // do not call onChange direct, because onChange could expect some arguments
-                $key.prop('checked', settings[id]).change(function() {
-                    onChange();
-                });
-            } else {
-		        // do not call onChange direct, because onChange could expect some arguments
-                $key.val(settings[id]).change(function() {
-                    onChange();
-                }).keyup(function() {
-                    onChange();
-                });
-            }
-        });
-
-        //Tabelle mit den Geräten anzeigen
-        showDevice(devices);
+        for (var key in settings) {
+            if (!settings.hasOwnProperty(key)) continue;
+            setValue(key, settings[key], onChange);
+        }
+        values2table('values', devices, onChange);
 
         //button inits, können nicht woanders hinverlagert werden, da sonst onChange nicht definiert ist
         //search-button
@@ -74,8 +76,8 @@
                                     if (changed) {
                                         console.log('devices now '+ JSON.stringify(devices));
                                         onChange();
-                                        showDevice(devices);
-                                        //values2table('values', devices, onChange);
+                                        //showDevice(devices);
+                                        values2table('values', devices, onChange);
                                     }
                             });
                     } else {
@@ -84,34 +86,7 @@
                 });
         }).attr('title', _('update adapter information'));
 
-
-        //delete buttons in tabelle
-        var $div  = $('#values');
-        var $table = $div.find('.table-values');
-        var $lines = $table.find('.table-lines');
-        $lines.find('a[data-command]').each(function () {
-                $(this).on('click', function () {
-                    var id = $(this).data('index'); //index=id entspricht der Position im device-array
-                    //var index = devices.map(function(obj){ return obj.uid; }).indexOf(id); //für Übergabe als event und suche nach position
-                    if( id !== -1){
-                        devices.splice(id,1);
-                        //onChange && onChange();
-                        onChange();
-                        showDevice(devices);
-                    }   
-                })
-        }).addClass('red');
-        $lines.find('.values').each(function () {
-            $(this).change(function () {
-                var val = $(this).val();
-                if (val) {
-                    console.log('textänderung'+val);
-                    onChange();
-                }
-            });
-        });
         onChange(false);
-        //M.updateTextFields();  // function Materialize.updateTextFields(); to reinitialize all the Materialize labels on the page if you are dynamically adding inputs.
 
     }
 
@@ -130,23 +105,6 @@
         callback(obj);
     }
 
-    function showDevice(obj) {
-        $('#devices').empty();
-        for (var i in obj){
-            var text = '';
-            //text += '<td style="text-align: center; white-space: nowrap;">' + obj[i].ip+ '</td>';
-            text += '<td><input class="values" value="' + obj[i].ip + '" type="text" data-index="' + i + '" data-name="ip"/></td>'; //auch wenn hier nix geändert werden soll, muß mindestens value drin sein, damit table2values funktioniert
-            //text += '<td style="text-align: center; white-space: nowrap;">' + obj[i].type + '</td>';
-            text += '<td><input class="values" value="' + obj[i].type + '" type="text" data-index="' + i + '" data-name="type"/></td>';
-            //text += '<td style="text-align: center; white-space: nowrap;">' + obj[i].uid + '</td>';
-            text += '<td><input class="values" value="' + obj[i].uid + '" type="text" data-index="' + i + '" data-name="uid"/></td>';
-            //text += '<td style="text-align: center; white-space: nowrap;">' + obj[i].name + '</td>';
-            text += '<td><input class="values" value="' + obj[i].name + '" type="text" data-index="' + i + '" data-name="name"/></td>';
-            text += '<td style="text-align: center; white-space: nowrap;"><a data-command="delete" data-index="' + i + '" id="del-button_'+ obj[i].uid + '" class="btn"><i class="material-icons">delete_forever</i></a></td>'; //command und id sind nicht benutzt
-            text = '<tr data-id="' + obj[i].uid + '">' + text + '</tr>';
-            $('#devices').append(text);        
-        }
-    }
    
 </script>
         <style>
@@ -182,11 +140,6 @@
                         <p>unchecked => no update / checked => update (more traffic)</p>
                     <!-- Important: label must come directly after input. Label is important. -->
                 </div>
-                <div class="col s6">
-                        <input class="value" id="keepalive" type="checkbox"/><span class="translate">keep connection update to device</span>
-                        <p>unchecked => update stops 20min after last iobroker cmd / checked => update kept alive </p>
-                    <!-- Important: label must come directly after input. Label is important. -->
-                </div>
             </div>
         </div>
         <div class="section">
@@ -197,21 +150,33 @@
                     <p class="translate">If you see blue delete buttons, save settings first and open again the page.</p>
                 </div>            
             </div>
-            <div id="values" style="width: 100%; height: calc(100% - 30px); overflow: auto;">
-                <a id="table-button-search" class="btn"><span class="translate">Search</span></a>
-                <table class="table-values" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th data-name="ip"       style="width: 150px"class="translate">IP address</th>
-                            <th data-name="type"     style="width: 150px" class="translate">model</th>
-                            <th data-name="uid"     style="width: 150px" class="translate">uid</th>
-                            <th data-name="name"     style="width: 200px" class="translate">name</th>
-                            <th data-buttons="delete" style="width: 40px" class="translate">delete</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-lines" id="devices"></tbody>
-                </table>
+
+            <div class="col s12" id="values">
+                <div class="row">
+                    <div class="col s2 m1 l1 center">
+                        <button title="Add device" class="table-button-add btn-floating waves-effect waves-light btn-small"><i class=" material-icons">add</i></button>
+                    </div>
+
+                    <div class="col s2 m1 l1">
+                        <a id="table-button-search" class=" btn-small translate">Search<span></span></a>
+                    </div>
+                </div>
+                <div class="col s12 m12 l12">
+                    <table class="table-values" style="width: 100%; margin-top: 8px">
+                        <thead>
+                            <tr>
+                                <th data-name="_index" style="width: 40px" class="translate"></th>
+                                <th data-name="ip"       style="width: 150px"class="translate">IP address</th>
+                                <th data-name="type"     style="width: 150px" class="translate">model</th>
+                                <th data-name="uid"     style="width: 150px" class="translate">uid</th>
+                                <th data-name="name"     style="width: 200px" class="translate">name</th>
+                                <th data-buttons="delete" style="width: 40px"></th>                             
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
+
         </div>
     </div>
 </body>
