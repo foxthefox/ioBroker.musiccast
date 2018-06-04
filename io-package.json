@@ -2,8 +2,19 @@
     "common": {
 
         "name": "musiccast",
-        "version": "0.0.8",
+        "version": "0.0.9",
         "news": {
+             "0.0.9": {
+                "en": "adminv3 using values2table",
+                "de": "adminv3 verwendet values2table",
+                "ru": "adminv3, используя values2table",
+                "pt": "adminv3 usando values2table",
+                "nl": "adminv3 met waarden2tabel",
+                "fr": "adminv3 utilisant values2table",
+                "it": "adminv3 utilizzando valori2table",
+                "es": "adminv3 usando values2table",
+                "pl": "adminv3 using values2table"
+             },        
             "0.0.8": {
                 "en": "Name added in object, improvements",
                 "de": "Name im Objekt hinzugefügt, Verbesserungen",
