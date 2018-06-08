@@ -773,6 +773,32 @@ function defineMusicZone(type, uid, zone, range_step){
     native: {}
     });
 }
+function defineMusicZone4(type, uid, zone){
+    adapter.setObject(type + '_' + uid + '.' + zone, {
+        type: 'channel',
+        common: {
+            name: 'MusicCast Zone ' + type,
+            role: 'sensor'
+        },
+        native: {
+            "addr": uid
+        }
+    });
+    adapter.log.info('Setting up Zone:' + zone + ' of ' + type + '-' + uid);
+    
+    adapter.setObject(type + '_' + uid + '.' + zone + '.power', {
+        type: 'state',
+        common: {
+            "name": "Power ON/OFF(Standby)",
+            "type": "boolean",
+            "read": true,
+            "write": true,
+            "role": "value",
+            "desc": "Power ON/OFF(Standby)"
+        },
+        native: {}
+    });
+}
 function defineMusicInputs(type, uid, zone, inputs){
     adapter.setObject(type + '_' + uid + '.' + zone + '.input_list', {
         type: 'state',
@@ -1035,8 +1061,8 @@ function defineZoneFunctions(type, uid, zone, func_list, range_step){
             common: {
                 "name": "dialogue_level",
                 "type": "number",
-                "min": range_step[range_step.findIndex(function(row){return row.id == 'dialog_level';})].min,
-                "max": range_step[range_step.findIndex(function(row){return row.id == 'dialog_level';})].max,
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'dialogue_level';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'dialogue_level';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -1052,8 +1078,8 @@ function defineZoneFunctions(type, uid, zone, func_list, range_step){
             common: {
                 "name": "dialogue_lift",
                 "type": "number",
-                "min": range_step[range_step.findIndex(function(row){return row.id == 'dialog_lift';})].min,
-                "max": range_step[range_step.findIndex(function(row){return row.id == 'dialog_lift';})].max,
+                "min": range_step[range_step.findIndex(function(row){return row.id == 'dialogue_lift';})].min,
+                "max": range_step[range_step.findIndex(function(row){return row.id == 'dialogue_lift';})].max,
                 "read": true,
                 "write": true,
                 "role": "level",
@@ -2920,11 +2946,16 @@ function getMusicDeviceFeatures(ip, type, uid){
                     adapter.log.debug('got features succesfully from ' + devip);
                     adapter.log.debug('number of zones ' + att.system.zone_num);
                     
-                    for (var i=0; i < att.system.zone_num; i++){ 
+                    for (var i=0; i < att.zone.length; i++){ 
 
                         var zone_name = att.zone[i].id;
                         // Zone basic controls and distribution
-                        defineMusicZone(devtype, devuid, zone_name, att.zone[i].range_step);
+                        if (i !== 3){
+                            defineMusicZone(devtype, devuid, zone_name, att.zone[i].range_step);
+                        }
+                        if (i==3) {
+                            defineMusicZone4(devtype, devuid, zone_name);
+                        }                        
                         // Zone input list
                         defineMusicInputs(devtype, devuid, zone_name, att.zone[i].input_list);
                         // Zone link control
@@ -2940,7 +2971,9 @@ function getMusicDeviceFeatures(ip, type, uid){
                             defineMusicSoundProg(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].sound_program_list);
                         }                  
                         // Zone Func_list variable
-                        defineZoneFunctions(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].range_step);
+                        if (att.zone[i].id !== "zone4"){
+                            defineZoneFunctions(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].range_step);
+                        }
                     }
                     // input services and their attributes
                     defineMusicSystemInputs(devtype, devuid, att.system.input_list); 
