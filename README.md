@@ -35,12 +35,19 @@ The following objects are currently implemented:
 |Object|Value|settable|Description|
 |--------|-------|:-:|--------|
 |{zone}.power|boolean|x|true/false -> ON/Standby|
+|{zone}.zone_b|boolean|?|true/false -> target Zone is Zone B|
 |{zone}.mute|boolean|x|true/false -> muted/ not muted|
 |{zone}.volume|value|x|0...max (max depending on device)|
+|{zone}.act_vol_mode|text|?|actual volume in dB mode|
+|{zone}.act_vol_val|value|?|actual volume in dB value|
+|{zone}.act_vol_unit|text|-|actual volume unit (should be dB)|
+|{zone}.act_vol_mode_list|text|-|actual volume in dB modes|
 |{zone}.input|text|x|inputs depending on device|
 |{zone}.input_list|text|-|possible inputs|
 |{zone}.sound_program|text|x|set sound program|
 |{zone}.sound_program_list|text|-|possible sound programs|
+|{zone}.surr_decoder_type|text|?|set surround type|
+|{zone}.surr_decoder_type_list|text|-|possible surround decoder|
 |{zone}.link_control|text|x|set link control|
 |{zone}.link_control_list|text|-|possible link control settings|
 |{zone}.link_audio_delay|text|x|set link audio delay|
@@ -52,6 +59,8 @@ The following objects are currently implemented:
 |{zone}.subwoofer_volume|value|x|level subwoofer volume|
 |{zone}.bass|value|x|level bass|
 |{zone}.treble|value|x|level treble|
+|{zone}.tone_control_mode_list|text|-|possible tone control mode|
+|{zone}.tone_mode|boolean|?|tone control mode|
 |{zone}.balance|value|x|level balance|
 |{zone}.direct|boolean|x|set direct|
 |{zone}.pure_direct|boolean|x|set pure direct|
@@ -65,7 +74,7 @@ The following objects are currently implemented:
 |netusb.input|value|x|set/actual input|
 |netusb.playPause|boolean|x|set Play/Pause|
 |netusb.playback|text|-|status net player|
-|netusb.stop|boolean|x|set Stop|
+|netusb.auto_stop|boolean|-|automatically stopped|
 |netusb.next|boolean|x|set Forward|
 |netusb.prev|boolean|x|set Rewind|
 |netusb.shuffle|boolean|x|toggle shuffle|
@@ -75,12 +84,15 @@ The following objects are currently implemented:
 |netusb.artist|text|-|artist name|
 |netusb.album|text|-|album name|
 |netusb.track|text|-|track name|
-|netusb.albumarturl|text|-|http address for album art|
-|netusb.playtime|value|-|played time in s|
+|netusb.albumart_url|text|-|http address for album art|
+|netusb.albumart_id|value|-|album art id|
+|netusb.play_time|value|-|played time in s|
+|netusb.play_queue_type|text|-|netusb queue type|
+|netusb.total_time|value|-|total time played in s|
 |netusb.recent_info|json|-|history of played items|
 |netusb.preset_info|json|-|saved presets/favourites|
 |netusb.presetrecallnumber|value|x|recall the # in the favourite list|
-|netusb.usbdevicetype|text|-|type of connected USB device|
+|netusb.usb_devicetype|text|-|type of connected USB device|
 |netusb.attribute|value|-|which possibiolites has the service, to be decoded|
 
 ### system
@@ -186,6 +198,7 @@ The following objects are currently implemented:
 ## Changelog
 #### 0.0.9
 * adminV3 uses values2table and add button back again
+* zone2/3/4 now working
 
 #### 0.0.8
 * automatic testing update
