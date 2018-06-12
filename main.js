@@ -1648,15 +1648,15 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     }); 
-    adapter.setObject(type + '_' + uid + '.netusb.albumarturl', {
+    adapter.setObject(type + '_' + uid + '.netusb.albumart_url', {
         type: 'state',
         common: {
-            "name": "albumarturl",  //ip of device + albumarturl
+            "name": "albumart url",  //ip of device + albumarturl
             "type": "string",
             "read": true,
             "write": false,
             "role": "text",
-            "desc": "albumarturl"
+            "desc": "albumart url"
         },
         native: {}
     });
