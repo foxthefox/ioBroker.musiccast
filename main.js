@@ -1928,7 +1928,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });  
-    adapter.setObject(type + '_' + uid + '.cd.playtime', {
+    adapter.setObject(type + '_' + uid + '.cd.play_time', {
         type: 'state',
         common: {
             "name": "current playback time",
@@ -1941,7 +1941,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     }); 
-    adapter.setObject(type + '_' + uid + '.cd.totaltime', {
+    adapter.setObject(type + '_' + uid + '.cd.total_time', {
         type: 'state',
         common: {
             "name": "total track playback time",
@@ -1954,7 +1954,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     }); 
-    adapter.setObject(type + '_' + uid + '.cd.disctime', {
+    adapter.setObject(type + '_' + uid + '.cd.disc_time', {
         type: 'state',
         common: {
             "name": "CD total playback time",
@@ -1967,7 +1967,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });   
-    adapter.setObject(type + '_' + uid + '.cd.tracknumber', {
+    adapter.setObject(type + '_' + uid + '.cd.track_number', {
         type: 'state',
         common: {
             "name": "track current in playback",
@@ -1979,7 +1979,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.totaltracks', {
+    adapter.setObject(type + '_' + uid + '.cd.total_tracks', {
         type: 'state',
         common: {
             "name": "total CD tracks",
