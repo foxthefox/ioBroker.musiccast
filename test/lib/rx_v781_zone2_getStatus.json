@@ -1,0 +1,17 @@
+{
+    "response_code": 0,
+    "power": "standby",
+    "sleep": 0,
+    "volume": 92,
+    "mute": false,
+    "max_volume": 161,
+    "input": "server",
+    "distribution_enable": false,
+    "disable_flags": 0,
+    "actual_volume": {
+        "mode": "db",
+        "value": -34.5,
+        "unit": "dB"
+    },
+    "party_enable": false
+}

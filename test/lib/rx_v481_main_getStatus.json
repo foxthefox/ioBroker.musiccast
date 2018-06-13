@@ -1,0 +1,30 @@
+{
+    "response_code": 0,
+    "power": "standby",
+    "sleep": 0,
+    "volume": 81,
+    "mute": false,
+    "max_volume": 161,
+    "input": "av1",
+    "distribution_enable": true,
+    "sound_program": "surr_decoder",
+    "surr_decoder_type": "dolby_pl",
+    "direct": false,
+    "enhancer": false,
+    "tone_control": {
+        "mode": "manual",
+        "bass": 8,
+        "treble": 3
+    },
+    "dialogue_level": 2,
+    "link_control": "standard",
+    "link_audio_delay": "lip_sync",
+    "link_audio_quality": "compressed",
+    "disable_flags": 0,
+    "actual_volume": {
+        "mode": "db",
+        "value": -40.0,
+        "unit": "dB"
+    },
+    "contents_display": false
+}

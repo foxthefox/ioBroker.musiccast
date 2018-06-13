@@ -1,0 +1,307 @@
+{
+    "response_code": 0,
+    "system": {
+        "func_list": [
+            "wired_lan",
+            "wireless_lan",
+            "wireless_direct",
+            "network_standby",
+            "auto_power_standby",
+            "bluetooth_tx_setting",
+            "airplay",
+            "speaker_settings",
+            "disklavier_settings"
+        ],
+        "zone_num": 1,
+        "input_list": [
+            {
+                "id": "napster",
+                "distribution_enable": true,
+                "rename_enable": false,
+                "account_enable": true,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "spotify",
+                "distribution_enable": true,
+                "rename_enable": false,
+                "account_enable": false,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "juke",
+                "distribution_enable": true,
+                "rename_enable": false,
+                "account_enable": true,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "tidal",
+                "distribution_enable": true,
+                "rename_enable": false,
+                "account_enable": true,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "deezer",
+                "distribution_enable": true,
+                "rename_enable": false,
+                "account_enable": true,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "airplay",
+                "distribution_enable": false,
+                "rename_enable": false,
+                "account_enable": false,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "mc_link",
+                "distribution_enable": false,
+                "rename_enable": true,
+                "account_enable": false,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "server",
+                "distribution_enable": true,
+                "rename_enable": true,
+                "account_enable": false,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "net_radio",
+                "distribution_enable": true,
+                "rename_enable": true,
+                "account_enable": false,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "bluetooth",
+                "distribution_enable": true,
+                "rename_enable": false,
+                "account_enable": false,
+                "play_info_type": "netusb"
+            },
+            {
+                "id": "hdmi",
+                "distribution_enable": true,
+                "rename_enable": true,
+                "account_enable": false,
+                "play_info_type": "none"
+            },
+            {
+                "id": "tv",
+                "distribution_enable": true,
+                "rename_enable": true,
+                "account_enable": false,
+                "play_info_type": "none"
+            },
+            {
+                "id": "analog",
+                "distribution_enable": true,
+                "rename_enable": true,
+                "account_enable": false,
+                "play_info_type": "none"
+            }
+        ],
+        "speaker_settings": {
+            "type": "beam",
+            "common": {
+                "attribute": 2,
+                "range_step": [
+                    {
+                        "id": "ysp_pos_width",
+                        "min": 300,
+                        "max": 900,
+                        "step": 1
+                    },
+                    {
+                        "id": "ysp_pos_length",
+                        "min": 300,
+                        "max": 900,
+                        "step": 1
+                    },
+                    {
+                        "id": "ysp_pos_position",
+                        "min": 100,
+                        "max": 800,
+                        "step": 1
+                    },
+                    {
+                        "id": "ysp_pos_distance",
+                        "min": 250,
+                        "max": 850,
+                        "step": 1
+                    }
+                ]
+            },
+            "front_l": {
+                "attribute": 3,
+                "range_step": [
+                    {
+                        "id": "level",
+                        "min": -10,
+                        "max": 10,
+                        "step": 1
+                    }
+                ]
+            },
+            "front_r": {
+                "attribute": 3,
+                "range_step": [
+                    {
+                        "id": "level",
+                        "min": -10,
+                        "max": 10,
+                        "step": 1
+                    }
+                ]
+            },
+            "center": {
+                "attribute": 3,
+                "range_step": [
+                    {
+                        "id": "level",
+                        "min": -10,
+                        "max": 10,
+                        "step": 1
+                    }
+                ]
+            },
+            "surr_l": {
+                "attribute": 3,
+                "range_step": [
+                    {
+                        "id": "level",
+                        "min": -10,
+                        "max": 10,
+                        "step": 1
+                    }
+                ]
+            },
+            "surr_r": {
+                "attribute": 3,
+                "range_step": [
+                    {
+                        "id": "level",
+                        "min": -10,
+                        "max": 10,
+                        "step": 1
+                    }
+                ]
+            },
+            "swfr": {
+                "attribute": 3,
+                "range_step": [
+                    {
+                        "id": "level",
+                        "min": -10,
+                        "max": 10,
+                        "step": 1
+                    }
+                ]
+            }
+        },
+        "ymap_list": [
+            "vtuner"
+        ]
+    },
+    "zone": [
+        {
+            "id": "main",
+            "func_list": [
+                "power",
+                "volume",
+                "mute",
+                "sound_program",
+                "clear_voice",
+                "subwoofer_volume",
+                "signal_info",
+                "prepare_input_change",
+                "link_control",
+                "link_audio_delay"
+            ],
+            "input_list": [
+                "napster",
+                "spotify",
+                "juke",
+                "tidal",
+                "deezer",
+                "airplay",
+                "mc_link",
+                "server",
+                "net_radio",
+                "bluetooth",
+                "hdmi",
+                "tv",
+                "analog"
+            ],
+            "sound_program_list": [
+                "sports",
+                "game",
+                "music",
+                "tv_program",
+                "movie",
+                "stereo"
+            ],
+            "link_control_list": [
+                "speed",
+                "standard",
+                "stability"
+            ],
+            "link_audio_delay_list": [
+                "audio_sync",
+                "lip_sync"
+            ],
+            "range_step": [
+                {
+                    "id": "volume",
+                    "min": 0,
+                    "max": 100,
+                    "step": 1
+                },
+                {
+                    "id": "subwoofer_volume",
+                    "min": -10,
+                    "max": 10,
+                    "step": 1
+                }
+            ]
+        }
+    ],
+    "netusb": {
+        "func_list": [
+            "recent_info",
+            "play_queue",
+            "mc_playlist"
+        ],
+        "preset": {
+            "num": 40
+        },
+        "recent_info": {
+            "num": 40
+        },
+        "play_queue": {
+            "size": 200
+        },
+        "mc_playlist": {
+            "size": 200,
+            "num": 5
+        },
+        "net_radio_type": "vtuner",
+        "vtuner_fver": "A",
+        "pandora": {
+            "sort_option_list": [
+                "date",
+                "alphabet"
+            ]
+        }
+    },
+    "distribution": {
+        "server_zone_list": [
+            "main"
+        ]
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "response_code": 0,
+    "power": "standby",
+    "sleep": 0,
+    "volume": 71,
+    "mute": false,
+    "max_volume": 161,
+    "input": "spotify",
+    "distribution_enable": true,
+    "enhancer": true,
+    "tone_control": {
+        "mode": "auto",
+        "bass": 0,
+        "treble": 0
+    },
+    "link_control": "standard",
+    "link_audio_quality": "uncompressed",
+    "disable_flags": 0,
+    "actual_volume": {
+        "mode": "db",
+        "value": -45.0,
+        "unit": "dB"
+    },
+    "contents_display": false,
+    "party_enable": false
+}
