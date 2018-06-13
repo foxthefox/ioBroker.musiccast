@@ -147,17 +147,11 @@ describe('Test ' + adapterShortName + ' adapter', function() {
 
             //config.native.dbtype   = 'sqlite';
             
-            
             // nur ein Gerät im Setup           
-            config.native.devices.ip = '127.0.0.1:8080';
-            config.native.devices.type = 'YSP-1600';
-            config.native.devices.uid = '00112233';
-            config.native.devices.name = 'TestGerät';
+            config.native.devices = [ip: '127.0.0.1:8080'; type = 'YSP-1600'; uid = '00112233'; name = 'TestGerät';]
             
             setup.setAdapterConfig(config.common, config.native);
             
-            
-
             setupHttpServer(function() {
                 setup.startController(true, function (id, obj) { }, function (id, state) {
                     if (onStateChanged) onStateChanged(id, state);
