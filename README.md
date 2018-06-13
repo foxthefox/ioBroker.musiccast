@@ -199,6 +199,7 @@ The following objects are currently implemented:
 #### 0.0.9
 * adminV3 uses values2table and add button back again
 * zone2/3/4 now working
+* extended automatic testing
 
 #### 0.0.8
 * automatic testing update
