@@ -16,6 +16,7 @@ var YamahaYXC = require('yamaha-yxc-nodejs');
 var async = require('async');
 var yamaha = null;
 var yamaha2 = null;
+var mcastTimeout;
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
@@ -631,11 +632,11 @@ adapter.on('ready', function () {
     main();
 });
 
-function defineMusicDevice(type, uid){
+function defineMusicDevice(type, uid, name){
     adapter.setObject(type + '_' + uid , {
         type: 'device',
         common: {
-            name: 'MusicCast ' + type,
+            name: 'MusicCast ' + type  + ' ' + name,
             role: 'device'
         },
         native: {
@@ -3486,6 +3487,10 @@ function gotUpdate(msg, devIp){
     }      
 }
 
+process.on('SIGINT', function () {
+    if (mcastTimeout) clearTimeout(mcastTimeout);
+})
+
 function main() {
 
     //yamaha.discover
@@ -3500,7 +3505,7 @@ function main() {
     for (var anz in obj){
 
         //general structure setup        
-        defineMusicDevice(obj[anz].type, obj[anz].uid); //contains also the structure to musiccast.0._id_type_.
+        defineMusicDevice(obj[anz].type, obj[anz].uid, obj[anz].name); //contains also the structure to musiccast.0._id_type_.
         defineMusicNetUsb(obj[anz].type, obj[anz].uid); //all devices are supporting netusb
         //defineMClink basic structure
 
@@ -3580,7 +3585,18 @@ function main() {
 
     //everything is configured, make cyclic updates
 
-
+    // make some artifical request to overcome the 20min autostop on updating
+    /* 
+    function pollData() {
+        var interval = 300; // 5min
+        for (var anz in obj) { // für alle Objekte
+            getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
+        }
+        adapter.log.debug("polling! keeping musiccast alive");
+        mcastTimeout = setTimeout(pollData, interval * 1000);
+    }
+    */
+    // if(adapter.config.keepalive){pollData()}
 
     // in this musiccast all states changes inside the adapters namespace are subscribed
     adapter.subscribeStates('*');
