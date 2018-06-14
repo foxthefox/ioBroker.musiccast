@@ -199,9 +199,9 @@ describe('Test ' + adapterShortName + ' adapter', function() {
     it('Test ' + adapterShortName + ' adapter: Check values', function (done) {
         console.log('START CHECK VALUES');
         this.timeout(90000);
-        checkValueOfState('musiccast.0.main.volume', 67, function() {
+        checkValueOfState('musiccast.0.YSP-1600_00112233.main.volume', 67, function() {
             setTimeout(function() {
-                checkValueOfState('musiccast.0.main.volume', 67, function() {
+                checkValueOfState('musiccast.0.YSP-1600_00112233.main.volume', 67, function() {
                     done();
                 });
             }, 70000);
