@@ -3408,6 +3408,7 @@ function defineMusicDeviceFeatures(ip, type, uid){
 //UDP update
 function gotUpdate(msg, devIp){
     var dev = getConfigObjects(adapter.config.devices, 'ip', devIp);
+    adapter.log.debug('processing update from: ' +dev+' with '+JSON.stringify(msg));
     if (msg.netusb){
         if (msg.netusb.play_time  && adapter.config.netusbplaytime){
             adapter.setForeignState('musiccast.0.'+ dev[0].type + '_' + dev[0].uid + '.netusb.playtime', {val: msg.netusb.play_time, ack: true});
