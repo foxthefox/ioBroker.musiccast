@@ -606,7 +606,7 @@ adapter.on('message', function (obj) {
                 
             case 'jsonreq':
                 var result = [];
-                result = collectDeviceData();
+                // result = collectDeviceData();
                 if (obj.callback) adapter.sendTo(obj.from, obj.command, result, obj.callback);
                 wait = true;                
                 break;
