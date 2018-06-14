@@ -85,7 +85,20 @@
                     }
                 });
         }).attr('title', _('update adapter information'));
-
+        $('#table-button-json').click(function () {
+            getIsAdapterAlive(function (isAlive) {
+                if (isAlive) {           
+                    console.log('send jsonreq to adapter');
+                    sendTo(null, 'jsonreq', null, function(list) {
+                        console.log('json items are '+ JSON.stringify(list));
+                        showMessage(JSON.stringify(list));
+                    });
+                } else {
+                showMessage(_('Start or enable adapter first'));
+                }
+            });
+        }).attr('title', _('got JSON responses'));
+       
         onChange(false);
 
     }
@@ -139,6 +152,17 @@
                         <input class="value" id="cdplaytime" type="checkbox"/><span class="translate">update playtime CD</span>
                         <p>unchecked => no update / checked => update (more traffic)</p>
                     <!-- Important: label must come directly after input. Label is important. -->
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <h6 class="translate sub-title">Troubleshooting</h6>
+                    <p>press this button if you are asked by the developer and give him by copy/paste the output of pop-up window</p>
+                </div>
+                <div class="col s6">
+                    <a id="table-button-json" class=" btn translate">JSON for Developer<span></span></a>
                 </div>
             </div>
         </div>
