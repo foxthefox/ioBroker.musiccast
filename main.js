@@ -355,10 +355,22 @@ adapter.on('stateChange', function (id, state) {
                 else {adapter.log.debug('failure setting ClearVoice' +  responseFailLog(result));}
             });
         }
+
+        /* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
         if (dp === 'presetrecallnumber'){
             yamaha.recallPreset(state.val, zone).then(function(result) {
                 if (JSON.parse(result).response_code === 0 ){
                     adapter.log.debug('recalled the Preset succesfully in zone  ' + zone + ' to ' + state.val);
+                    //adapter.setForeignState(id, true, true);
+                }
+                else {adapter.log.debug('failure recalling Preset' +  responseFailLog(result));}
+            });
+        }
+        */
+        if (dp === 'presetrecallnumber'){
+            yamaha.recallPreset(state.val).then(function(result) {
+                if (JSON.parse(result).response_code === 0 ){
+                    adapter.log.debug('recalled the Preset succesfully to ' + state.val);
                     //adapter.setForeignState(id, true, true);
                 }
                 else {adapter.log.debug('failure recalling Preset' +  responseFailLog(result));}
@@ -2933,6 +2945,19 @@ function getMusicZoneInfo(ip, type, uid, zone){
                                 }
                             }
                         }
+                        else if (key == "equalizer"){
+                            var eq = att[key];
+                            for (var id in eq){
+                                adapter.log.debug('key '+id+'  att ' +eq[id]);
+                                if (id == "mode"){
+                                    //dp existiert noch nicht
+                                    //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.eq_mode', {val: eq[id], ack: true});
+                                }
+                                else {
+                                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.'+ id, {val: eq[id], ack: true}); 
+                                }
+                            }
+                        }
                         else if ( key == "actual_volume"){
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_mode', {val: att[key].mode, ack: true}); 
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_val', {val: att[key].value, ack: true});  
@@ -3001,12 +3026,19 @@ function getMusicNetusbInfo(ip, type, uid){
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.getPlayInfo', {val: att, ack: true});
                     
                     for (var key in att){
-                        if (att[key] == "albumart_url"){
+                        if (key == "albumart_url"){
                             var albumurl = att.albumart_url;
                             if(albumurl.substr(0,20) === '/YamahaRemoteControl'){
                                 albumurl = 'http://' + devip + att.albumart_url;
                             }
+                            adapter.log.debug('albumart ' + albumurl);
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb' + '.'+ key, {val: albumurl, ack: true});
+                        }
+                        else if (key == "repeat"){
+                            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.repeat_stat', {val:  att[key], ack: true});
+                        }
+                        else if (key == "shuffle"){
+                            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.shuffle_stat', {val:  att[key], ack: true});
                         }
                         else {
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb' + '.'+ key, {val: att[key], ack: true});
@@ -3069,7 +3101,14 @@ function getMusicCdInfo(ip, type, uid){
                     adapter.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.getPlayInfo', {val: att, ack: true});
                     for (var key in att){
-                        adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd' + '.'+ key, {val: att[key], ack: true});
+                        if (key == "repeat"){
+                            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.repeat_stat', {val:  att[key], ack: true});
+                        }
+                        else if (key == "shuffle"){
+                            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.shuffle_stat', {val:  att[key], ack: true});
+                        }
+                        else 
+                            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd' + '.'+ key, {val: att[key], ack: true});
                     }
                     /*
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.device_status', {val: att.device_status, ack: true});
