@@ -17,6 +17,7 @@ var async = require('async');
 var yamaha = null;
 var yamaha2 = null;
 var mcastTimeout;
+var responses = [{}];
 
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
@@ -68,79 +69,7 @@ function getConfigObjects(Obj, where, what){
     }
     return foundObjects;
 }
-/*
-function collectDeviceData(){
-    var devJSON = [];
-    var allJSON = [];
-    var obj = adapter.config.devices;
-    
-    //check if something is not configured
 
-    for (var t = 0; t < typeobjects["fivemin"].length; t++){
-        var objectvar = typeobjects["fivemin"][t];
-        async.series([
-            function(callback) {
-                adapter.getForeignState(adapter.namespace + '.temp.fivemin.' + objectvar + '.daymin5min', function (err, value) {
-                    var min = value.val;
-                    //adapter.log.debug('min = '+ min);
-                    callback(null, min);
-                });
-            },
-            function(callback) {
-                adapter.getForeignState(adapter.namespace + '.temp.fivemin.' + objectvar + '.daymax5min', function (err, value) {
-                    var max = value.val;
-                    //adapter.log.debug('max = '+ max);
-                    callback(null, max);                   
-                });
-            },
-            function(callback) {
-                adapter.getForeignState(adapter.namespace + '.temp.count.'+ objectvar + '.day', function (err, value) {
-                    var actual = value.val;
-                    //adapter.log.debug('actual = '+ actual);
-                    callback(null, actual);   
-                });
-            },
-            function(callback) {
-                adapter.getForeignState(adapter.namespace + '.temp.count.'+ objectvar +'.temp5min', function (err, value) {
-                    var old = value.val;
-                    //adapter.log.debug('old = '+ old);
-                    callback(null, old);                    
-                });
-            }
-        ],
-        // final callback
-        function(err, results) {
-            var min = results[0];
-            var max = results[1];
-            var actual = results[2];
-            var old = results[3];
-            var delta = actual - old;
-            adapter.log.debug('fivemin; of : '+ objectvar + ' with  min: '+min+' max: '+max+' actual: '+actual+' old: '+ old+' delta: '+delta);
-            adapter.setForeignState(adapter.namespace + '.temp.count.' + objectvar +'.temp5min', actual, true); //Altstand in Zählerobject schreiben
-            adapter.setForeignState(adapter.namespace + '.temp.fivemin.' + objectvar + '.mean5min', delta, true);
-        });
-    }
-
-    for (var anz in obj){
-        var device = obj[anz].type;
-        devJSON.push({"/system/getDeviceInfo" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.system.getDeviceInfo')});
-        devJSON.push({"/system/getFeatures" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.system.getFeatures')});
-        devJSON.push({"/netusb/getPlayInfo" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.netusb.getPlayInfo')});
-        devJSON.push({"/main/getStatus" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.main.getStatus')});
-
-        devJSON.push({"/zone2/getStatus" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.zone2.getStatus')});
-        devJSON.push({"/zone3/getStatus" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.zone3.getStatus')});
-        devJSON.push({"/zone4/getStatus" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.zone4.getStatus')});
-
-        devJSON.push({"/cd/getPlayInfo" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.cd.getPlayInfo')});
-        devJSON.push({"/tuner/getPlayInfo" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.tuner.getPlayInfo')});
-        devJSON.push({"/clock/getStatus" : adapter.getState(obj[anz].type  + '_' + obj[anz].uid + '.clock.getStatus')});
-        allJSON.push({ device : devJSON});
-    }
-    console.log('all JSON');    
-    return allJSON;
-}
-*/
 // is called when adapter shuts down - callback has to be called under any circumstances!
 adapter.on('unload', function (callback) {
     try {
@@ -617,9 +546,7 @@ adapter.on('message', function (obj) {
                 break;
                 
             case 'jsonreq':
-                var result = [];
-                // result = collectDeviceData();
-                if (obj.callback) adapter.sendTo(obj.from, obj.command, result, obj.callback);
+                if (obj.callback) adapter.sendTo(obj.from, obj.command, responses, obj.callback); //responses wird sukzessive mit den get-Aufrufen befüllt
                 wait = true;                
                 break;
             default:
@@ -2911,7 +2838,12 @@ function getMusicDeviceInfo(ip, type, uid){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got device info succesfully from ' + devip);
+
+
+                    var resp = {"device": devtype, "request": "/system/getDeviceInfo", "responses": att }
+                    if (!responses.find(o => o.device === devtype && o.request === '/system/getDeviceInfo')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.getDeviceInfo', {val: att, ack: true});
+
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.api_version', {val: att.api_version, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.system_version', {val: att.system_version, ack: true});  
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.system_id', {val: att.system_id, ack: true});
@@ -2931,7 +2863,11 @@ function getMusicZoneInfo(ip, type, uid, zone){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got status info succesfully from ' + devip + ' for ' + zone_name);
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.getStatus', {val: att, ack: true});               
+
+                    var resp = {"device": devtype, "request": "/" + zone_name +"/getStatus", "responses": att }
+                    if (!responses.find(o => o.device === devtype && o.request === '/' + zone_name +'/getStatus')) responses.push(resp)
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.getStatus', {val: att, ack: true});
+
                     for (var key in att){
                         if (key == "tone_control"){
                             var tone = att[key];
@@ -3023,7 +2959,10 @@ function getMusicNetusbInfo(ip, type, uid){
                         albumurl = 'http://' + devip + att.albumart_url;
                     }
                     adapter.log.debug('got Netusb playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.getPlayInfo', {val: att, ack: true});
+
+                    var resp = {"device": type, "request": '/netusb/getPlayInfo', "responses": att }
+                    if (!responses.find(o => o.device === type && o.request === '/netusb/getPlayInfo')) responses.push(resp)
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '/netusb/getPlayInfo', {val: att, ack: true});
                     
                     for (var key in att){
                         if (key == "albumart_url"){
@@ -3098,7 +3037,12 @@ function getMusicCdInfo(ip, type, uid){
         yamaha.getPlayInfo('cd').then(function(result){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
+
                     adapter.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+
+                    var resp = {"device": devtype, "request": '/cd/getPlayInfo', "responses": att }
+                    if (!responses.find(o => o.device === devtype && o.request === '/cd/getPlayInfo')) responses.push(resp)
+
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.getPlayInfo', {val: att, ack: true});
                     for (var key in att){
                         if (key == "repeat"){
@@ -3138,7 +3082,11 @@ function getMusicTunerInfo(ip, type, uid){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got Tuner playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+
+                    var resp = {"device": devtype, "request": '/tuner/getPlayInfo', "responses": att }
+                    if (!responses.find(o => o.device === devtype && o.request === '/tuner/getPlayInfo')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.getPlayInfo', {val: att, ack: true});
+
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.band', {val: att.band, ack: true});
                     if (att.band = 'am'){
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.am.preset', {val: att.am.preset, ack: true});                 
@@ -3192,6 +3140,10 @@ function getMusicTunerPreset(ip, type, uid){
         var att = JSON.parse(result);
         if (att.response_code === 0 ){
             adapter.log.debug('got Common Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+
+            var resp = {"device": devtype, "request": '/tuner/getPresetInfo', "responses": att }
+            if (!responses.find(o => o.device === devtype && o.request === '/tuner/getPrestInfo')) responses.push(resp)
+
             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.common_preset_info', {val: att.preset_info, ack: true});
             //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
         }
@@ -3237,6 +3189,9 @@ function getMusicClockSettings(ip, type, uid){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got Clock settings succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+
+                    var resp = {"device": devtype, "request": '/clock/getSettings', "responses": att }
+                    if (!responses.find(o => o.device === devtype && o.request === '/clock/getSettings')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.getSettings', {val: att, ack: true});
                     /*
                     for (var key in att){
@@ -3391,7 +3346,10 @@ function defineMusicDeviceFeatures(ip, type, uid){
                     adapter.log.debug('got features succesfully from ' + devip);
                     adapter.log.debug('number of zones ' + att.system.zone_num);
 
+                    var resp = {"device": devtype, "request": '/system/getFeatures', "responses": att }
+                    if (!responses.find(o => o.device === devtype && o.request === '/system/getFeatures')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.getFeatures', {val: att, ack: true});
+
                     for (var i=0; i < att.zone.length; i++){
                         adapter.log.debug(' setup loop # '+i +' name '+ JSON.stringify(att.zone[i]));
 
