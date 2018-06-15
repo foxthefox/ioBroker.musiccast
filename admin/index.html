@@ -101,6 +101,24 @@
                     }
                 });
         }).attr('title', _('update adapter information')); 
+        $('#table-button-json').button({
+            label: _('Get JSON'),
+            icons: {
+                primary: ' ui-icon-refresh'
+            }
+        }).click(function () {
+            getIsAdapterAlive(function (isAlive) {
+                if (isAlive) {           
+                    console.log('send jsonreq to adapter');
+                    sendTo(null, 'jsonreq', null, function(list) {
+                        console.log('json items are '+ JSON.stringify(list));
+                        showMessage(JSON.stringify(list));
+                    });
+                } else {
+                showMessage(_('Start or enable adapter first'));
+                }
+            });
+        }).attr('title', _('got JSON responses')); 
 
         values2table('values', devices, onChange);
 
@@ -150,6 +168,10 @@
             <td>
                 <p>unchecked => no update / checked => update (more traffic)</p>
             </td>
+        </tr>
+        <tr>
+            <td class="translate">Developer</td>
+            <td><button id="table-button-json" style="display: inline-block; margin-left: 10px;"></button></td>
         </tr>
     </table>
     <h4 class="translate">Yamaha MusicCast devices</h4>
