@@ -572,6 +572,7 @@ adapter.on('ready', function () {
 });
 
 function defineMusicDevice(type, uid, name){
+    adapter.log.info('Setting up System :' + type + '-' + uid);
     adapter.setObjectNotExists(type + '_' + uid , {
         type: 'device',
         common: {
@@ -665,8 +666,8 @@ function defineMusicDevice(type, uid, name){
         native: {}
     });     
 }
-
 function defineMusicZoneNew(type, uid, zone, zone_arr){
+    adapter.log.info('Setting up Zone:' + zone + ' of ' + type + '-' + uid);
     adapter.setObjectNotExists(type + '_' + uid + '.' + zone, {
         type: 'channel',
         common: {
@@ -707,6 +708,18 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
         },
         native: {}
     });
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.disable_flags', {
+        type: 'state',
+        common: {
+            "name": "disable_flags",
+            "type": "number",
+            "read": true,
+            "write": false,
+            "role": "level",
+            "desc": "disable_flags"
+        },
+        native: {}
+    });
     if (zone_arr.func_list.indexOf("volume") !== -1){
         adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.volume', {
             type: 'state',
@@ -719,6 +732,19 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
                 "write": true,
                 "role": "level.volume",
                 "desc": "State and Control of Volume"
+            },
+            native: {}
+        });
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.max_volume', {
+            type: 'state',
+            common: {
+                "name": "max Volume",
+                "type": "number",
+                "max": zone_arr.range_step[zone_arr.range_step.findIndex(function(row){return row.id == 'volume';})].max,
+                "read": true,
+                "write": false,
+                "role": "level",
+                "desc": "max Volume"
             },
             native: {}
         });
@@ -795,6 +821,18 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
             },
             native: {}
         });
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.eq_mode', {
+            type: 'state',
+            common: {
+                "name": "EQ Mode",
+                "type": "string",
+                "read": true,
+                "write": false,
+                "role": "text",
+                "desc": "EQ Mode"
+            },
+            native: {}
+        });
     }
     if (zone_arr.func_list.indexOf("sleep") !== -1){
         adapter.log.info('Setting up sleep timer in Zone:' + zone + ' of ' + type + '-' + uid);
@@ -818,12 +856,24 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
         adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.clearVoice', {
             type: 'state',
             common: {
-                "name": "Clear Voice",
+                "name": "Clear Voice cmd",
                 "type": "boolean",
                 "read": true,
                 "write": true,
                 "role": "button",
-                "desc": "Clear Voice"
+                "desc": "Clear Voice cmd"
+            },
+            native: {}
+        });
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.clear_voice', {
+            type: 'state',
+            common: {
+                "name": "Clear Voice status",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "Clear Voice status"
             },
             native: {}
         });
@@ -1014,25 +1064,40 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }        
     if (zone_arr.func_list.indexOf("scene") !== -1){
         adapter.log.info('Setting up scene in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.scene', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.scene_num', {
             type: 'state',
             common: {
                 "name": "scene #",
                 "type": "number",
                 "read": true,
-                "write": true,
-                "role": "level",
+                "write": false,
+                "role": "indicator",
                 "desc": "scene #"
             },
             native: {}
-        }); 
+        });
+        adapter.setForeignState('musiccast.0.'+ type + '_' + uid + '.' + zone + '.scene_num', {val: zone_arr.scene_num, ack: true}); 
+    }
+    if (zone_arr.func_list.indexOf("contents_display") !== -1){
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.contents_display', {
+            type: 'state',
+            common: {
+                "name": "contents_display",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "role": "indicator",
+                "desc": "contents_display"
+            },
+            native: {}
+        });
     }
     if (zone_arr.func_list.indexOf("signal_info") !== -1){
         // signal info audio ....
     }
 }
-
 function defineMusicInputs(type, uid, zone, inputs){
+    adapter.log.info('Setting up Inputs in Zone:' + zone + ' of ' + type + '-' + uid);
     adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.input_list', {
         type: 'state',
         common: {
@@ -1060,6 +1125,7 @@ function defineMusicInputs(type, uid, zone, inputs){
     });
 }
 function defineMusicLinkCtrl(type, uid, zone, ctrl){
+    adapter.log.info('Setting up Link Control in Zone:' + zone + ' of ' + type + '-' + uid);
     adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_control_list', {
         type: 'state',
         common: {
@@ -1085,7 +1151,18 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
         native: {}
     });
-    
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.distribution_enable', {
+        type: 'state',
+        common: {
+            "name": "distribution enable",
+            "type": "boolean",
+            "read": true,
+            "write": false,
+            "role": "indicator",
+            "desc": "distribution enable"
+        },
+        native: {}
+    });
     /**zusatzobjekte für mc_link 
     */
     adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.group_id', {
@@ -1186,184 +1263,216 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
     });
 }
 function defineMusicSoundProg(type, uid, zone, func_list, soundoptions){
-    if (func_list.indexOf("sound_program") !== -1){
-        adapter.log.info('Setting up SoundProgramm in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.sound_program_list', {
-            type: 'state',
-            common: {
-                "name": "Sound Program options",
-                "type": "array",
-                "read": true,
-                "write": false,
-                "role": "list",
-                "desc": "Sound Program"
-            },
-            native: {}
-        });
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.sound_program', {
-            type: 'state',
-            common: {
-                "name": "Sound Program selection",
-                "type": "string",
-                "read": true,
-                "write": true,
-                "values": soundoptions,
-                "role": "text",
-                "desc": "Sound Program selection"
-            },
-            native: {}
-        });
-    }
+    adapter.log.info('Setting up SoundProgramm in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.sound_program_list', {
+        type: 'state',
+        common: {
+            "name": "Sound Program options",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "Sound Program"
+        },
+        native: {}
+    });
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.sound_program', {
+        type: 'state',
+        common: {
+            "name": "Sound Program selection",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "values": soundoptions,
+            "role": "text",
+            "desc": "Sound Program selection"
+        },
+        native: {}
+    });
 }
 function defineMusicSurroundDec(type, uid, zone, func_list, surroundoptions){
-    if (func_list.indexOf("surr_decoder_type") !== -1){
-        adapter.log.info('Setting up Surround in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.surr_decoder_type_list', {
-            type: 'state',
-            common: {
-                "name": "Surround options",
-                "type": "array",
-                "read": true,
-                "write": false,
-                "role": "list",
-                "desc": "Surround options"
-            },
-            native: {}
-        });
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.surr_decoder_type', {
-            type: 'state',
-            common: {
-                "name": "Surround selection",
-                "type": "string",
-                "read": true,
-                "write": true,
-                "values": surroundoptions,
-                "role": "text",
-                "desc": "Surround selection"
-            },
-            native: {}
-        });
-    }
+    adapter.log.info('Setting up Surround in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.surr_decoder_type_list', {
+        type: 'state',
+        common: {
+            "name": "Surround options",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "Surround options"
+        },
+        native: {}
+    });
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.surr_decoder_type', {
+        type: 'state',
+        common: {
+            "name": "Surround selection",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "values": surroundoptions,
+            "role": "text",
+            "desc": "Surround selection"
+        },
+        native: {}
+    });
 }
 function defineMusicAudioSelect(type, uid, zone, func_list, audiooptions){
-    if (func_list.indexOf("surr_decoder_type") !== -1){
-        adapter.log.info('Setting up Audio Selection in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.audio_select_list', {
-            type: 'state',
-            common: {
-                "name": "Audio Selcetion options",
-                "type": "array",
-                "read": true,
-                "write": false,
-                "role": "list",
-                "desc": "Audio Selcetion options"
-            },
-            native: {}
-        });
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.audio_select', {
-            type: 'state',
-            common: {
-                "name": "Audio selection",
-                "type": "string",
-                "read": true,
-                "write": true,
-                "values": audiooptions,
-                "role": "text",
-                "desc": "Audio selection"
-            },
-            native: {}
-        });
-    }
+    adapter.log.info('Setting up Audio Selection in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.audio_select_list', {
+        type: 'state',
+        common: {
+            "name": "Audio Selcetion options",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "Audio Selcetion options"
+        },
+        native: {}
+    });
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.audio_select', {
+        type: 'state',
+        common: {
+            "name": "Audio selection",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "values": audiooptions,
+            "role": "text",
+            "desc": "Audio selection"
+        },
+        native: {}
+    });
+}
+function defineMusicPartyMode(type, uid, zone){
+    adapter.log.info('Setting up Party Mode in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.party_enable', {
+        type: 'state',
+        common: {
+            "name": "party_enable",
+            "type": "boolean",
+            "read": true,
+            "write": false,
+            "role": "indicator",
+            "desc": "party_enable"
+        },
+        native: {}
+    });
 }
 function defineMusicActualVolume(type, uid, zone, func_list, actvolumeoptions, range_step){
-    if (func_list.indexOf("actual_volume") !== -1){
-        adapter.log.info('Setting up Actual Volume in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.actual_volume_mode_list', {
-            type: 'state',
-            common: {
-                "name": "Actual volume mode options",
-                "type": "array",
-                "read": true,
-                "write": false,
-                "role": "list",
-                "desc": "Actual volume mode options"
-            },
-            native: {}
-        });
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_mode', {
-            type: 'state',
-            common: {
-                "name": "Actual Volume Mode",
-                "type": "string",
-                "read": true,
-                "write": true,
-                "values": actvolumeoptions,
-                "role": "text",
-                "desc": "Actual Volume Mode"
-            },
-            native: {}
-        });
-        
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_val', {
-            type: 'state',
-            common: {
-                "name": "Actual Volume db",
-                "type": "number",
-                "min": range_step[range_step.findIndex(function(row){return row.id == 'actual_volume_db';})].min,
-                "max": range_step[range_step.findIndex(function(row){return row.id == 'actual_volume_db';})].max,
-                "read": true,
-                "write": true,
-                "role": "level.volume",
-                "desc": "State and Control of Volume db"
-            },
-            native: {}
-        });
-        
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_unit', {
-            type: 'state',
-            common: {
-                "name": "Actual Volume Unit",
-                "type": "string",
-                "read": true,
-                "write": false,
-                "role": "text",
-                "desc": "Actual Volume Unit"
-            },
-            native: {}
-        });
-
-    }
+    adapter.log.info('Setting up Actual Volume in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.log.info('Setting up Actual Volume in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.actual_volume_mode_list', {
+        type: 'state',
+        common: {
+            "name": "Actual volume mode options",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "Actual volume mode options"
+        },
+        native: {}
+    });
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_mode', {
+        type: 'state',
+        common: {
+            "name": "Actual Volume Mode",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "values": actvolumeoptions,
+            "role": "text",
+            "desc": "Actual Volume Mode"
+        },
+        native: {}
+    });
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_val', {
+        type: 'state',
+        common: {
+            "name": "Actual Volume db",
+            "type": "number",
+            "min": range_step[range_step.findIndex(function(row){return row.id == 'actual_volume_db';})].min,
+            "max": range_step[range_step.findIndex(function(row){return row.id == 'actual_volume_db';})].max,
+            "read": true,
+            "write": true,
+            "role": "level.volume",
+            "desc": "State and Control of Volume db"
+        },
+        native: {}
+    });
+    
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_unit', {
+        type: 'state',
+        common: {
+            "name": "Actual Volume Unit",
+            "type": "string",
+            "read": true,
+            "write": false,
+            "role": "text",
+            "desc": "Actual Volume Unit"
+        },
+        native: {}
+    });
 }
-function defineMusicLinkAudio(type, uid, zone, func_list, linkaudiolist){
-    if (func_list.indexOf("link_audio_delay") !== -1){
-        adapter.log.info('Setting up link_audio_delay in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_delay', {
-            type: 'state',
-            common: {
-                "name": "link_audio_delay",
-                "type": "string",
-                "read": true,
-                "write": true,
-                "values": linkaudiolist,
-                "role": "text",
-                "desc": "link_audio_delay"
-            },
-            native: {}
-        });
-        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_delay_list', {
-            type: 'state',
-            common: {
-                "name": "link_audio_delay_list",
-                "type": "array",
-                "read": true,
-                "write": true,
-                "role": "list",
-                "desc": "link_audio_delay_list"
-            },
-            native: {}
-        });   
-    }
-} 
+function defineMusicLinkAudioDelay(type, uid, zone, func_list, linkaudiolist){
+    adapter.log.info('Setting up link_audio_delay in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_delay', {
+        type: 'state',
+        common: {
+            "name": "link_audio_delay",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "values": linkaudiolist,
+            "role": "text",
+            "desc": "link_audio_delay"
+        },
+        native: {}
+    });
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_delay_list', {
+        type: 'state',
+        common: {
+            "name": "link_audio_delay_list",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "link_audio_delay_list"
+        },
+        native: {}
+    }); 
+}
+function defineMusicLinkAudioQuality(type, uid, zone, func_list, linkaudiolist){
+    adapter.log.info('Setting up link_audio_quality in Zone:' + zone + ' of ' + type + '-' + uid);
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_quality', {
+        type: 'state',
+        common: {
+            "name": "link_audio_quality",
+            "type": "string",
+            "read": true,
+            "write": true,
+            "values": linkaudiolist,
+            "role": "text",
+            "desc": "link_audio_quality"
+        },
+        native: {}
+    }); 
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_quality_list', {
+        type: 'state',
+        common: {
+            "name": "link_audio_quality_list",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "link_audio_quality_list"
+        },
+        native: {}
+    });
+}  
 function defineMusicSystemInputs(type, uid, sysinputs){
     adapter.log.debug(type + ' has number of system inputs : ' + sysinputs.length);
     for (var i=0; i < sysinputs.length; i++){
@@ -1721,7 +1830,31 @@ function defineMusicNetUsb(type, uid){
             "desc": "automatically stopped"
         },
         native: {}
-    });  
+    });
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.repeat_available', {
+        type: 'state',
+        common: {
+            "name": "netusb array repeat",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "netusb array repeat"
+        },
+        native: {}
+    }); 
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.shuffle_available', {
+        type: 'state',
+        common: {
+            "name": "netusb array shuffle",
+            "type": "array",
+            "read": true,
+            "write": false,
+            "role": "list",
+            "desc": "netusb array shuffle"
+        },
+        native: {}
+    });   
 }
 function defineMusicCD(type, uid){
     adapter.setObjectNotExists(type + '_' + uid + '.cd', {
@@ -2869,10 +3002,11 @@ function getMusicZoneInfo(ip, type, uid, zone){
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.getStatus', {val: att, ack: true});
 
                     for (var key in att){
+
                         if (key == "tone_control"){
                             var tone = att[key];
                             for (var id in tone){
-                                adapter.log.debug('key '+id+'  att ' +tone[id]);
+                                adapter.log.debug('Zone Status Update '+id+'  att ' +tone[id]);
                                 if (id == "mode"){
                                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.tone_mode', {val: tone[id], ack: true});
                                 }
@@ -2884,10 +3018,9 @@ function getMusicZoneInfo(ip, type, uid, zone){
                         else if (key == "equalizer"){
                             var eq = att[key];
                             for (var id in eq){
-                                adapter.log.debug('key '+id+'  att ' +eq[id]);
+                                adapter.log.debug('Zone Status Update '+id+'  att ' +eq[id]);
                                 if (id == "mode"){
-                                    //dp existiert noch nicht
-                                    //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.eq_mode', {val: eq[id], ack: true});
+                                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.eq_mode', {val: eq[id], ack: true});
                                 }
                                 else {
                                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.'+ id, {val: eq[id], ack: true}); 
@@ -2895,11 +3028,13 @@ function getMusicZoneInfo(ip, type, uid, zone){
                             }
                         }
                         else if ( key == "actual_volume"){
+                            adapter.log.debug('Zone Status Update '+id+'  att ' +att[key]);
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_mode', {val: att[key].mode, ack: true}); 
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_val', {val: att[key].value, ack: true});  
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_unit', {val: att[key].unit, ack: true});
                         }
                         else {
+                            adapter.log.debug('Zone Status Update '+id+'  att ' +att[key]);
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.'+ key, {val: att[key], ack: true});  
                         }
                     }
@@ -2926,7 +3061,12 @@ function getMusicZoneLists(ip, type, uid){
                         }
                         if (att.zone[i].func_list.indexOf("link_control") !== -1){
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.link_control_list', {val: att.zone[i].link_control_list, ack: true});
+                        }
+                        if (att.zone[i].func_list.indexOf("link_audio_delay") !== -1){
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name +  '.link_audio_delay_list', {val: att.zone[i].link_audio_delay_list, ack: true});
+                        }
+                        if (att.zone[i].func_list.indexOf("link_audio_quality") !== -1){
+                            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name +  '.link_audio_quality_list', {val: att.zone[i].link_audio_quality_list, ack: true});
                         }
                         if (att.zone[i].func_list.indexOf("sound_program") !== -1){
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name +  '.sound_program_list', {val: att.zone[i].sound_program_list, ack: true});
@@ -2964,6 +3104,7 @@ function getMusicNetusbInfo(ip, type, uid){
                     if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/netusb/getPlayInfo')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '/netusb/getPlayInfo', {val: att, ack: true});
                     
+                    /*
                     for (var key in att){
                         if (key == "albumart_url"){
                             var albumurl = att.albumart_url;
@@ -2984,7 +3125,7 @@ function getMusicNetusbInfo(ip, type, uid){
                     
                         }
                     }
-                    /*
+                    */
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.input', {val: att.input, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playback', {val: att.playback, ack: true});                    
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.repeat_stat', {val: att.repeat, ack: true});
@@ -2996,7 +3137,7 @@ function getMusicNetusbInfo(ip, type, uid){
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.artist', {val: att.artist, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.track', {val: att.track, ack: true});
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.attribute', {val: att.attribute, ack: true});                                         
-                    */
+                    
                 }
                 else {adapter.log.debug('failure getting Netusb playinfo from  ' + devip + ' : ' +  responseFailLog(result));}            
          });
@@ -3361,9 +3502,13 @@ function defineMusicDeviceFeatures(ip, type, uid){
                         if (att.zone[i].func_list.indexOf("link_control") !== -1){
                             defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[i].link_control_list);
                         }
-                        // Zone link audio
+                        // Zone link audio delay
                         if (att.zone[i].func_list.indexOf("link_audio_delay") !== -1){
-                            defineMusicLinkAudio(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].link_audio_delay_list);  
+                            defineMusicLinkAudioDelay(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].link_audio_delay_list);  
+                        }
+                        // Zone link audio quality
+                        if (att.zone[i].func_list.indexOf("link_audio_quality") !== -1){
+                            defineMusicLinkAudioQuality(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].link_audio_quality_list);  
                         }
                         // Zone Sound program
                         if (att.zone[i].func_list.indexOf("sound_program") !== -1){
@@ -3380,6 +3525,10 @@ function defineMusicDeviceFeatures(ip, type, uid){
                         // Zone Actual Volume
                         if (att.zone[i].func_list.indexOf("actual_volume") !== -1){
                             defineMusicActualVolume(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].actual_volume_mode_list, att.zone[i].range_step);
+                        }
+                        // Zone Party Mode
+                        if (att.func_list.indexOf("party_mode") !== -1){ //hier globale func_list, aber object in jeder Zone
+                            defineMusicPartyMode(devtype, devuid, zone_name);
                         }
                     }
                     // input services and their attributes
@@ -3520,7 +3669,7 @@ function main() {
         // get main status
         getMusicZoneInfo(obj[anz].ip, obj[anz].type, obj[anz].uid, 'main');  //must be looped if more than main zone
         
-              
+        /*      
         adapter.getStatesOf(adapter.namespace + "." + obj[anz].type + "_" + obj[anz].uid + ".zone2",function (err, channel) {
             if (err) {
                 adapter.log.info('zone2 nicht existent für ');
@@ -3542,7 +3691,8 @@ function main() {
             else {
                 getMusicZoneInfo(obj[anz].ip, obj[anz].type, obj[anz].uid, 'zone4');
             }
-        });        
+        });
+        */        
         
         // get main lists status
         getMusicZoneLists(obj[anz].ip, obj[anz].type, obj[anz].uid);  // 
@@ -3588,6 +3738,7 @@ function main() {
     function pollData() {
         var interval = 300; // 5min
         for (var anz in obj) { // für alle Objekte
+            adapter.getForeignState()
             getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
         }
         adapter.log.debug("polling! keeping musiccast alive");
