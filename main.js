@@ -3527,7 +3527,7 @@ function defineMusicDeviceFeatures(ip, type, uid){
                             defineMusicActualVolume(devtype, devuid, zone_name, att.zone[i].func_list, att.zone[i].actual_volume_mode_list, att.zone[i].range_step);
                         }
                         // Zone Party Mode
-                        if (att.func_list.indexOf("party_mode") !== -1){ //hier globale func_list, aber object in jeder Zone
+                        if (att.system.func_list.indexOf("party_mode") !== -1){ //hier globale func_list, aber object in jeder Zone
                             defineMusicPartyMode(devtype, devuid, zone_name);
                         }
                     }
@@ -3719,9 +3719,10 @@ function main() {
         //adapter.log.debug('server got:' + JSON.parse(msg.toString()) + 'from ' + rinfo.address );
         var foundip = getConfigObjects(adapter.config.devices, 'ip', rinfo.address);
         if (foundip.length === 0 || foundip.length !== 1) { //nix oder mehr als eine Zuordnung
-            adapter.log.debug('reveived telegram can not be processed, no config for this IP');    
+            adapter.log.error('received telegram can not be processed, no config for this IP');    
         }
         else {
+            //try catch
             gotUpdate(JSON.parse(msg.toString()), rinfo.address); //erstmal noch IP, device_id ist eine andere als die in ssdp übermittelte (letze Teil von UDN)            
         }   
     });
