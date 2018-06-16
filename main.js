@@ -572,7 +572,7 @@ adapter.on('ready', function () {
 });
 
 function defineMusicDevice(type, uid, name){
-    adapter.setObject(type + '_' + uid , {
+    adapter.setObjectNotExists(type + '_' + uid , {
         type: 'device',
         common: {
             name: 'MusicCast ' + type  + ' ' + name,
@@ -582,7 +582,7 @@ function defineMusicDevice(type, uid, name){
             "addr": uid
         }
     });
-    adapter.setObject(type + '_' + uid + '.system', {
+    adapter.setObjectNotExists(type + '_' + uid + '.system', {
         type: 'channel',
         common: {
             name: 'MusicCast System Info',
@@ -592,7 +592,7 @@ function defineMusicDevice(type, uid, name){
             "addr": uid
         }
     });
-    adapter.setObject(type + '_' + uid + '.system.api_version', {
+    adapter.setObjectNotExists(type + '_' + uid + '.system.api_version', {
         type: 'state',
         common: {
             "name": "API Version",
@@ -604,7 +604,7 @@ function defineMusicDevice(type, uid, name){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.system.system_version', {
+    adapter.setObjectNotExists(type + '_' + uid + '.system.system_version', {
         type: 'state',
         common: {
             "name": "System Version",
@@ -616,7 +616,7 @@ function defineMusicDevice(type, uid, name){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.system.system_id', {
+    adapter.setObjectNotExists(type + '_' + uid + '.system.system_id', {
         type: 'state',
         common: {
             "name": "System ID",
@@ -628,7 +628,7 @@ function defineMusicDevice(type, uid, name){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.system.device_id', {
+    adapter.setObjectNotExists(type + '_' + uid + '.system.device_id', {
         type: 'state',
         common: {
             "name": "Device ID",
@@ -640,7 +640,7 @@ function defineMusicDevice(type, uid, name){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.system.getDeviceInfo', {
+    adapter.setObjectNotExists(type + '_' + uid + '.system.getDeviceInfo', {
         type: 'state',
         common: {
             "name": "Feedback of getDeviceInfo",
@@ -652,7 +652,7 @@ function defineMusicDevice(type, uid, name){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.system.getFeatures', {
+    adapter.setObjectNotExists(type + '_' + uid + '.system.getFeatures', {
         type: 'state',
         common: {
             "name": "Feedback of getFeatures",
@@ -667,7 +667,7 @@ function defineMusicDevice(type, uid, name){
 }
 
 function defineMusicZoneNew(type, uid, zone, zone_arr){
-    adapter.setObject(type + '_' + uid + '.' + zone, {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone, {
         type: 'channel',
         common: {
             name: 'MusicCast Zone ' + type,
@@ -681,7 +681,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     /*
     if (zone_arr.zone_b){
         adapter.log.debug('zone b dabei');
-        adapter.setObject(type + '_' + uid + '.' + zone + '.zone_b', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.zone_b', {
             type: 'state',
             common: {
                 "name": "Zone B",
@@ -695,7 +695,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
         });
     } else adapter.log.debug('zone b nicht dabei');
     */
-    adapter.setObject(type + '_' + uid + '.' + zone + '.getStatus', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.getStatus', {
         type: 'state',
         common: {
             "name": "Feedback of getStatus",
@@ -708,7 +708,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
         native: {}
     });
     if (zone_arr.func_list.indexOf("volume") !== -1){
-        adapter.setObject(type + '_' + uid + '.' + zone + '.volume', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.volume', {
             type: 'state',
             common: {
                 "name": "Volume",
@@ -724,7 +724,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
         });
     }
     if (zone_arr.func_list.indexOf("mute") !== -1){    
-        adapter.setObject(type + '_' + uid + '.' + zone + '.mute', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.mute', {
             type: 'state',
             common: {
                 "name": "Mute",
@@ -738,7 +738,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
         });
     }
     if (zone_arr.func_list.indexOf("power") !== -1){    
-        adapter.setObject(type + '_' + uid + '.' + zone + '.power', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.power', {
             type: 'state',
             common: {
                 "name": "Power ON/OFF(Standby)",
@@ -753,7 +753,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("equalizer") !== -1){
         adapter.log.info('Setting up Equalizer in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.low', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.low', {
             type: 'state',
             common: {
                 "name": "EQ Low",
@@ -767,7 +767,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.mid', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.mid', {
             type: 'state',
             common: {
                 "name": "EQ Mid",
@@ -781,7 +781,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.high', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.high', {
             type: 'state',
             common: {
                 "name": "EQ High",
@@ -798,7 +798,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("sleep") !== -1){
         adapter.log.info('Setting up sleep timer in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.sleep', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.sleep', {
             type: 'state',
             common: {
                 "name": "Sleep Timer",
@@ -815,7 +815,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("clear_voice") !== -1){
         adapter.log.info('Setting up Clear Voice in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.clearVoice', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.clearVoice', {
             type: 'state',
             common: {
                 "name": "Clear Voice",
@@ -830,7 +830,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("direct") !== -1){
         adapter.log.info('Setting up direct in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.direct', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.direct', {
             type: 'state',
             common: {
                 "name": "direct",
@@ -845,7 +845,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("pure_direct") !== -1){
         adapter.log.info('Setting up pure_direct in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.pure_direct', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.pure_direct', {
             type: 'state',
             common: {
                 "name": "pure direct",
@@ -860,7 +860,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("enhancer") !== -1){
         adapter.log.info('Setting up pure_direct in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.enhancer', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.enhancer', {
             type: 'state',
             common: {
                 "name": "enhancer",
@@ -875,7 +875,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("tone_control") !== -1){
         adapter.log.info('Setting up tone_control in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.treble', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.treble', {
             type: 'state',
             common: {
                 "name": "treble", //name from system/get Features
@@ -889,7 +889,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.bass', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.bass', {
             type: 'state',
             common: {
                 "name": "bass",
@@ -903,7 +903,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.tone_control_mode_list', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.tone_control_mode_list', {
             type: 'state',
             common: {
                 "name": "Tone Control Mode options",
@@ -915,7 +915,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.tone_mode', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.tone_mode', {
             type: 'state',
             common: {
                 "name": "Tone control mode",
@@ -931,7 +931,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("balance") !== -1){
         adapter.log.info('Setting up balance in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.balance', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.balance', {
             type: 'state',
             common: {
                 "name": "balance",
@@ -948,7 +948,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("dialogue_level") !== -1){
         adapter.log.info('Setting up dialogue_level in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.dialogue_level', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.dialogue_level', {
             type: 'state',
             common: {
                 "name": "dialogue_level",
@@ -965,7 +965,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("dialogue_lift") !== -1){
         adapter.log.info('Setting up dialogue_lift in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.dialogue_lift', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.dialogue_lift', {
             type: 'state',
             common: {
                 "name": "dialogue_lift",
@@ -982,7 +982,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     } 
     if (zone_arr.func_list.indexOf("subwoofer_volume") !== -1){
         adapter.log.info('Setting up subwoofer_volume in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.subwoofer_volume', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.subwoofer_volume', {
             type: 'state',
             common: {
                 "name": "subwoofer_volume",
@@ -999,7 +999,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }
     if (zone_arr.func_list.indexOf("bass_extension") !== -1){
         adapter.log.info('Setting up bass_extension in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.bass_extension', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.bass_extension', {
             type: 'state',
             common: {
                 "name": "bass_extension",
@@ -1014,7 +1014,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
     }        
     if (zone_arr.func_list.indexOf("scene") !== -1){
         adapter.log.info('Setting up scene in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.scene', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.scene', {
             type: 'state',
             common: {
                 "name": "scene #",
@@ -1033,7 +1033,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
 }
 
 function defineMusicInputs(type, uid, zone, inputs){
-    adapter.setObject(type + '_' + uid + '.' + zone + '.input_list', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.input_list', {
         type: 'state',
         common: {
             "name": "list of inputs",
@@ -1045,7 +1045,7 @@ function defineMusicInputs(type, uid, zone, inputs){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.input', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.input', {
         type: 'state',
         common: {
             "name": "Input selection",
@@ -1060,7 +1060,7 @@ function defineMusicInputs(type, uid, zone, inputs){
     });
 }
 function defineMusicLinkCtrl(type, uid, zone, ctrl){
-    adapter.setObject(type + '_' + uid + '.' + zone + '.link_control_list', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_control_list', {
         type: 'state',
         common: {
             "name": "link control options",
@@ -1072,7 +1072,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.link_control', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_control', {
         type: 'state',
         common: {
             "name": "link control selection",
@@ -1088,7 +1088,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
     
     /**zusatzobjekte für mc_link 
     */
-    adapter.setObject(type + '_' + uid + '.' + zone + '.group_id', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.group_id', {
         type: 'state',
         common: {
             "name": "MC Link group ID",
@@ -1100,7 +1100,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.group_name', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.group_name', {
         type: 'state',
         common: {
             "name": "MC Link group name",
@@ -1112,7 +1112,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.role', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.role', {
         type: 'state',
         common: {
             "name": "MC Link group role",
@@ -1124,7 +1124,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.server_zone', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.server_zone', {
         type: 'state',
         common: {
             "name": "MC Link server zone",
@@ -1136,7 +1136,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.client_list', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.client_list', {
         type: 'state',
         common: {
             "name": "MC Link client list",
@@ -1148,7 +1148,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.add_to_group', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.add_to_group', {
         type: 'state',
         common: {
             "name": "MC Link add client",
@@ -1160,7 +1160,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
     native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.remove_from_group', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.remove_from_group', {
         type:  'state',
         common: {
             "name": "MC Link remove client",
@@ -1172,7 +1172,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
         },
     native: {}
     });
-    adapter.setObject(type + '_' + uid + '.' + zone + '.distr_state', {
+    adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.distr_state', {
         type:  'state',
         common: {
             "name": "MC Link distribution start/stop",
@@ -1188,7 +1188,7 @@ function defineMusicLinkCtrl(type, uid, zone, ctrl){
 function defineMusicSoundProg(type, uid, zone, func_list, soundoptions){
     if (func_list.indexOf("sound_program") !== -1){
         adapter.log.info('Setting up SoundProgramm in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.sound_program_list', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.sound_program_list', {
             type: 'state',
             common: {
                 "name": "Sound Program options",
@@ -1200,7 +1200,7 @@ function defineMusicSoundProg(type, uid, zone, func_list, soundoptions){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.sound_program', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.sound_program', {
             type: 'state',
             common: {
                 "name": "Sound Program selection",
@@ -1218,7 +1218,7 @@ function defineMusicSoundProg(type, uid, zone, func_list, soundoptions){
 function defineMusicSurroundDec(type, uid, zone, func_list, surroundoptions){
     if (func_list.indexOf("surr_decoder_type") !== -1){
         adapter.log.info('Setting up Surround in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.surr_decoder_type_list', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.surr_decoder_type_list', {
             type: 'state',
             common: {
                 "name": "Surround options",
@@ -1230,7 +1230,7 @@ function defineMusicSurroundDec(type, uid, zone, func_list, surroundoptions){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.surr_decoder_type', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.surr_decoder_type', {
             type: 'state',
             common: {
                 "name": "Surround selection",
@@ -1248,7 +1248,7 @@ function defineMusicSurroundDec(type, uid, zone, func_list, surroundoptions){
 function defineMusicAudioSelect(type, uid, zone, func_list, audiooptions){
     if (func_list.indexOf("surr_decoder_type") !== -1){
         adapter.log.info('Setting up Audio Selection in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.audio_select_list', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.audio_select_list', {
             type: 'state',
             common: {
                 "name": "Audio Selcetion options",
@@ -1260,7 +1260,7 @@ function defineMusicAudioSelect(type, uid, zone, func_list, audiooptions){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.audio_select', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.audio_select', {
             type: 'state',
             common: {
                 "name": "Audio selection",
@@ -1278,7 +1278,7 @@ function defineMusicAudioSelect(type, uid, zone, func_list, audiooptions){
 function defineMusicActualVolume(type, uid, zone, func_list, actvolumeoptions, range_step){
     if (func_list.indexOf("actual_volume") !== -1){
         adapter.log.info('Setting up Actual Volume in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.actual_volume_mode_list', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.actual_volume_mode_list', {
             type: 'state',
             common: {
                 "name": "Actual volume mode options",
@@ -1290,7 +1290,7 @@ function defineMusicActualVolume(type, uid, zone, func_list, actvolumeoptions, r
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.act_vol_mode', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_mode', {
             type: 'state',
             common: {
                 "name": "Actual Volume Mode",
@@ -1304,7 +1304,7 @@ function defineMusicActualVolume(type, uid, zone, func_list, actvolumeoptions, r
             native: {}
         });
         
-        adapter.setObject(type + '_' + uid + '.' + zone + '.act_vol_val', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_val', {
             type: 'state',
             common: {
                 "name": "Actual Volume db",
@@ -1319,7 +1319,7 @@ function defineMusicActualVolume(type, uid, zone, func_list, actvolumeoptions, r
             native: {}
         });
         
-        adapter.setObject(type + '_' + uid + '.' + zone + '.act_vol_unit', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_unit', {
             type: 'state',
             common: {
                 "name": "Actual Volume Unit",
@@ -1337,7 +1337,7 @@ function defineMusicActualVolume(type, uid, zone, func_list, actvolumeoptions, r
 function defineMusicLinkAudio(type, uid, zone, func_list, linkaudiolist){
     if (func_list.indexOf("link_audio_delay") !== -1){
         adapter.log.info('Setting up link_audio_delay in Zone:' + zone + ' of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.' + zone + '.link_audio_delay', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_delay', {
             type: 'state',
             common: {
                 "name": "link_audio_delay",
@@ -1350,7 +1350,7 @@ function defineMusicLinkAudio(type, uid, zone, func_list, linkaudiolist){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.' + zone + '.link_audio_delay_list', {
+        adapter.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_delay_list', {
             type: 'state',
             common: {
                 "name": "link_audio_delay_list",
@@ -1368,7 +1368,7 @@ function defineMusicSystemInputs(type, uid, sysinputs){
     adapter.log.debug(type + ' has number of system inputs : ' + sysinputs.length);
     for (var i=0; i < sysinputs.length; i++){
         adapter.log.info(type + ' setting up input : ' + sysinputs[i].id);
-        adapter.setObject(type + '_' + uid + '.system.inputs.' + sysinputs[i].id, {
+        adapter.setObjectNotExists(type + '_' + uid + '.system.inputs.' + sysinputs[i].id, {
             type: 'channel',
             common: {
                 name: 'Input ' + sysinputs[i].id,
@@ -1378,7 +1378,7 @@ function defineMusicSystemInputs(type, uid, sysinputs){
                 "addr": uid
             }
         });
-        adapter.setObject(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.distribution_enable', {
+        adapter.setObjectNotExists(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.distribution_enable', {
             type: 'state',
             common: {
                 "name": "distribution enabled",
@@ -1390,7 +1390,7 @@ function defineMusicSystemInputs(type, uid, sysinputs){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.account_enable', {
+        adapter.setObjectNotExists(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.account_enable', {
             type: 'state',
             common: {
                 "name": "account to be enabled",
@@ -1402,7 +1402,7 @@ function defineMusicSystemInputs(type, uid, sysinputs){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.play_info_type', {
+        adapter.setObjectNotExists(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.play_info_type', {
             type: 'state',
             common: {
                 "name": "play info type",
@@ -1420,7 +1420,7 @@ function defineMusicSystemInputs(type, uid, sysinputs){
     } 
 }
 function defineMusicNetUsb(type, uid){
-    adapter.setObject(type + '_' + uid + '.netusb', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb', {
         type: 'channel',
         common: {
             name: 'MusicCast NetUSB ' + type,
@@ -1431,7 +1431,7 @@ function defineMusicNetUsb(type, uid){
         }
     });
     adapter.log.info('Setting up NetUSB of :' + type + '-' + uid);
-    adapter.setObject(type + '_' + uid + '.netusb.getPlayInfo', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.getPlayInfo', {
         type: 'state',
         common: {
             "name": "Feedback of getPlayInfo",
@@ -1444,7 +1444,7 @@ function defineMusicNetUsb(type, uid){
         native: {}
     });
 
-    adapter.setObject(type + '_' + uid + '.netusb.playPause', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.playPause', {
         type: 'state',
         common: {
             "name": "play",
@@ -1456,7 +1456,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.playback', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.playback', {
         type: 'state',
         common: {
             "name": "playback status",
@@ -1468,7 +1468,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.stop', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.stop', {
         type: 'state',
         common: {
             "name": "Stop",
@@ -1480,7 +1480,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.next', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.next', {
         type: 'state',
         common: {
             "name": "next",
@@ -1492,7 +1492,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.prev', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.prev', {
         type: 'state',
         common: {
             "name": "prev",
@@ -1504,7 +1504,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.shuffle', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.shuffle', {
         type: 'state',
         common: {
             "name": "shuffle toggle button",
@@ -1516,7 +1516,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.shuffle_stat', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.shuffle_stat', {
         type: 'state',
         common: {
             "name": "shuffle status",
@@ -1528,7 +1528,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.repeat', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.repeat', {
         type: 'state',
         common: {
             "name": "repeat toggle button",
@@ -1540,7 +1540,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.repeat_stat', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.repeat_stat', {
         type: 'state',
         common: {
             "name": "repeat status",
@@ -1552,7 +1552,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });    
-    adapter.setObject(type + '_' + uid + '.netusb.artist', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.artist', {
         type: 'state',
         common: {
             "name": "artist",
@@ -1564,7 +1564,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.album', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.album', {
         type: 'state',
         common: {
             "name": "album",
@@ -1576,7 +1576,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });  
-    adapter.setObject(type + '_' + uid + '.netusb.track', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.track', {
         type: 'state',
         common: {
             "name": "track",
@@ -1588,7 +1588,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     }); 
-    adapter.setObject(type + '_' + uid + '.netusb.albumart_url', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.albumart_url', {
         type: 'state',
         common: {
             "name": "albumart url",  //ip of device + albumarturl
@@ -1600,7 +1600,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.input', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.input', {
         type: 'state',
         common: {
             "name": "active input netusb",
@@ -1612,7 +1612,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });    
-    adapter.setObject(type + '_' + uid + '.netusb.play_queue_type', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.play_queue_type', {
         type: 'state',
         common: {
             "name": "queue type netusb",
@@ -1624,7 +1624,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });    
-    adapter.setObject(type + '_' + uid + '.netusb.play_time', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.play_time', {
         type: 'state',
         common: {
             "name": "played  time",
@@ -1637,7 +1637,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.total_time', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.total_time', {
         type: 'state',
         common: {
             "name": "total time played",
@@ -1650,7 +1650,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.recent_info', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.recent_info', {
         type: 'state',
         common: {
             "name": "netusb playback history",
@@ -1662,7 +1662,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });  
-    adapter.setObject(type + '_' + uid + '.netusb.preset_info', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.preset_info', {
         type: 'state',
         common: {
             "name": "netusb favourites",
@@ -1674,7 +1674,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.presetrecallnumber', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.presetrecallnumber', {
         type: 'state',
         common: {
             "name": "recall preset number",
@@ -1686,7 +1686,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });      
-    adapter.setObject(type + '_' + uid + '.netusb.usb_devicetype', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.usb_devicetype', {
         type: 'state',
         common: {
             "name": "type of USB device",
@@ -1698,7 +1698,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     }); 
-    adapter.setObject(type + '_' + uid + '.netusb.attribute', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.attribute', {
         type: 'state',
         common: {
             "name": "service attribute",
@@ -1710,7 +1710,7 @@ function defineMusicNetUsb(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.netusb.auto_stopped', {
+    adapter.setObjectNotExists(type + '_' + uid + '.netusb.auto_stopped', {
         type: 'state',
         common: {
             "name": "automatically stopped",
@@ -1724,7 +1724,7 @@ function defineMusicNetUsb(type, uid){
     });  
 }
 function defineMusicCD(type, uid){
-    adapter.setObject(type + '_' + uid + '.cd', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd', {
         type: 'channel',
         common: {
             name: 'MusicCast CD ' + type,
@@ -1735,7 +1735,7 @@ function defineMusicCD(type, uid){
         }
     });
     adapter.log.info('Setting up CD of :' + type + '-' + uid);
-    adapter.setObject(type + '_' + uid + '.cd.getPlayInfo', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.getPlayInfo', {
         type: 'state',
         common: {
             "name": "Feedback of getPlayInfo",
@@ -1748,7 +1748,7 @@ function defineMusicCD(type, uid){
         native: {}
     });
 
-    adapter.setObject(type + '_' + uid + '.cd.playPause', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.playPause', {
         type: 'state',
         common: {
             "name": "play",
@@ -1760,7 +1760,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.stop', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.stop', {
         type: 'state',
         common: {
             "name": "Stop",
@@ -1772,7 +1772,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.next', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.next', {
         type: 'state',
         common: {
             "name": "next",
@@ -1784,7 +1784,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.prev', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.prev', {
         type: 'state',
         common: {
             "name": "prev",
@@ -1796,7 +1796,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.shuffle', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.shuffle', {
         type: 'state',
         common: {
             "name": "shuffle",
@@ -1808,7 +1808,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.shuffle_stat', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.shuffle_stat', {
         type: 'state',
         common: {
             "name": "shuffle status",
@@ -1820,7 +1820,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.repeat', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.repeat', {
         type: 'state',
         common: {
             "name": "repeat toggle button",
@@ -1832,7 +1832,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.repeat_stat', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.repeat_stat', {
         type: 'state',
         common: {
             "name": "repeat status",
@@ -1844,7 +1844,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });   
-    adapter.setObject(type + '_' + uid + '.cd.device_status', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.device_status', {
         type: 'state',
         common: {
             "name": "device status",
@@ -1856,7 +1856,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.playback', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.playback', {
         type: 'state',
         common: {
             "name": "playback status",
@@ -1868,7 +1868,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });  
-    adapter.setObject(type + '_' + uid + '.cd.play_time', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.play_time', {
         type: 'state',
         common: {
             "name": "current playback time",
@@ -1881,7 +1881,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     }); 
-    adapter.setObject(type + '_' + uid + '.cd.total_time', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.total_time', {
         type: 'state',
         common: {
             "name": "total track playback time",
@@ -1894,7 +1894,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     }); 
-    adapter.setObject(type + '_' + uid + '.cd.disc_time', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.disc_time', {
         type: 'state',
         common: {
             "name": "CD total playback time",
@@ -1907,7 +1907,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });   
-    adapter.setObject(type + '_' + uid + '.cd.track_number', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.track_number', {
         type: 'state',
         common: {
             "name": "track current in playback",
@@ -1919,7 +1919,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.cd.total_tracks', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.total_tracks', {
         type: 'state',
         common: {
             "name": "total CD tracks",
@@ -1931,7 +1931,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     }); 
-    adapter.setObject(type + '_' + uid + '.cd.artist', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.artist', {
         type: 'state',
         common: {
             "name": "CD artist name",
@@ -1943,7 +1943,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });  
-    adapter.setObject(type + '_' + uid + '.cd.album', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.album', {
         type: 'state',
         common: {
             "name": "CD album title",
@@ -1955,7 +1955,7 @@ function defineMusicCD(type, uid){
         },
         native: {}
     });  
-    adapter.setObject(type + '_' + uid + '.cd.track', {
+    adapter.setObjectNotExists(type + '_' + uid + '.cd.track', {
         type: 'state',
         common: {
             "name": "CD track title",
@@ -1969,7 +1969,7 @@ function defineMusicCD(type, uid){
     })                    
 }
 function defineMusicTuner(type, uid, func_list, range_step, preset){
-    adapter.setObject(type + '_' + uid + '.tuner', {
+    adapter.setObjectNotExists(type + '_' + uid + '.tuner', {
         type: 'channel',
         common: {
             name: 'MusicCast Tuner ' + type,
@@ -1979,7 +1979,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             "addr": uid
         }
     });
-    adapter.setObject(type + '_' + uid + '.tuner.getPlayInfo', {
+    adapter.setObjectNotExists(type + '_' + uid + '.tuner.getPlayInfo', {
         type: 'state',
         common: {
             "name": "Feedback of getPlayInfo",
@@ -1991,7 +1991,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.tuner.common_preset_info', {
+    adapter.setObjectNotExists(type + '_' + uid + '.tuner.common_preset_info', {
         type: 'state',
         common: {
             "name": "Tuner Common favourites",
@@ -2005,7 +2005,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
     });
     if (func_list.indexOf("am") !== -1){
         adapter.log.info('Setting up AM Tuner of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.tuner.am.preset_info', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.am.preset_info', {
             type: 'state',
             common: {
                 "name": "Tuner AM favourites",
@@ -2017,7 +2017,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.am.preset', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.am.preset', {
             type: 'state',
             common: {
                 "name": "AM Preset number",
@@ -2031,7 +2031,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.am.freq', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.am.freq', {
             type: 'state',
             common: {
                 "name": "AM Frequency",
@@ -2047,7 +2047,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.am.tuned', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.am.tuned', {
             type: 'state',
             common: {
                 "name": "AM tuned",
@@ -2062,7 +2062,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
     }
     if (func_list.indexOf("fm") !== -1){
         adapter.log.info('Setting up FM Tuner of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.tuner.fm.preset_info', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.fm.preset_info', {
             type: 'state',
             common: {
                 "name": "Tuner FM favourites",
@@ -2074,7 +2074,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.fm.preset', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.fm.preset', {
             type: 'state',
             common: {
                 "name": "FM Preset number",
@@ -2088,7 +2088,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.fm.freq', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.fm.freq', {
             type: 'state',
             common: {
                 "name": "FM Frequency",
@@ -2104,7 +2104,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.fm.tuned', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.fm.tuned', {
             type: 'state',
             common: {
                 "name": "FM tuned",
@@ -2119,7 +2119,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
     }
     if (func_list.indexOf("rds") !== -1){
         adapter.log.info('Setting up RDS Tuner of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.tuner.rds.program_type', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.rds.program_type', {
             type: 'state',
             common: {
                 "name": "RDS program type",
@@ -2131,7 +2131,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.rds.program_service', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.rds.program_service', {
             type: 'state',
             common: {
                 "name": "RDS program_service",
@@ -2143,7 +2143,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.rds.radio_text_a', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.rds.radio_text_a', {
             type: 'state',
             common: {
                 "name": "RDS Radio Text A",
@@ -2155,7 +2155,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.rds.radio_text_b', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.rds.radio_text_b', {
             type: 'state',
             common: {
                 "name": "RDS Radio Text B",
@@ -2170,7 +2170,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
     }                  
     if (func_list.indexOf("dab") !== -1){
         adapter.log.info('Setting up DAB Tuner of ' + type + '-' + uid);
-        adapter.setObject(type + '_' + uid + '.tuner.dab.preset_info', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.preset_info', {
             type: 'state',
             common: {
                 "name": "Tuner DAB favourites",
@@ -2182,7 +2182,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.preset', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.preset', {
             type: 'state',
             common: {
                 "name": "DAB Preset number",
@@ -2196,7 +2196,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.id', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.id', {
             type: 'state',
             common: {
                 "name": "DAB Station ID",
@@ -2208,7 +2208,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.status', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.status', {
             type: 'state',
             common: {
                 "name": "DAB Status",
@@ -2220,7 +2220,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.freq', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.freq', {
             type: 'state',
             common: {
                 "name": "DAB Frequency",
@@ -2235,7 +2235,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.category', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.category', {
             type: 'state',
             common: {
                 "name": "DAB Category",
@@ -2247,7 +2247,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.audio_mode', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.audio_mode', {
             type: 'state',
             common: {
                 "name": "DAB audio_mode",
@@ -2259,7 +2259,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.bit_rate', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.bit_rate', {
             type: 'state',
             common: {
                 "name": "DAB Bit Rate",
@@ -2274,7 +2274,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.quality', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.quality', {
             type: 'state',
             common: {
                 "name": "DAB quality",
@@ -2288,7 +2288,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.tune_aid', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.tune_aid', {
             type: 'state',
             common: {
                 "name": "DAB signal strength",
@@ -2302,7 +2302,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.off_air', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.off_air', {
             type: 'state',
             common: {
                 "name": "DAB Off Air Status",
@@ -2314,7 +2314,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.dab_plus', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.dab_plus', {
             type: 'state',
             common: {
                 "name": "DAB+ Status",
@@ -2326,7 +2326,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.audio_mode', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.audio_mode', {
             type: 'state',
             common: {
                 "name": "DAB Audio Mode", //mono/stereo
@@ -2338,7 +2338,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.program_type', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.program_type', {
             type: 'state',
             common: {
                 "name": "DAB Program Type",
@@ -2350,7 +2350,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.ch_label', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.ch_label', {
             type: 'state',
             common: {
                 "name": "DAB CH label",
@@ -2362,7 +2362,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.service_label', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.service_label', {
             type: 'state',
             common: {
                 "name": "DAB Service label",
@@ -2374,7 +2374,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.dls', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.dls', {
             type: 'state',
             common: {
                 "name": "DAB DLS",
@@ -2386,7 +2386,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.ensemble_label', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.ensemble_label', {
             type: 'state',
             common: {
                 "name": "DAB ensemble label",
@@ -2398,7 +2398,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.initial_scan_progress', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.initial_scan_progress', {
             type: 'state',
             common: {
                 "name": "DAB initial scan progress",
@@ -2412,7 +2412,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.tuner.dab.total_station_num', {
+        adapter.setObjectNotExists(type + '_' + uid + '.tuner.dab.total_station_num', {
             type: 'state',
             common: {
                 "name": "DAB total station number",
@@ -2429,7 +2429,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
     }
 }
 function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num, alarm_mode_list, alarm_input_list, alarm_preset_list){
-    adapter.setObject(type + '_' + uid + '.clock', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock', {
         type: 'channel',
         common: {
             name: 'MusicCast Clock ' + type,
@@ -2441,7 +2441,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
     });
     adapter.log.info('Setting up Clock of :' + type + '-' + uid);
     //generic clock objects
-    adapter.setObject(type + '_' + uid + '.clock.getSettings', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock.getSettings', {
         type: 'state',
         common: {
             "name": "Feedback of getStatus",
@@ -2453,7 +2453,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.clock.auto_sync', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock.auto_sync', {
         type: 'state',
         common: {
             "name": "Clock time auto sync",
@@ -2465,7 +2465,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.clock.format', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock.format', {
         type: 'state',
         common: {
             "name": "Clock format time display",
@@ -2477,7 +2477,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.clock.alarm_on', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock.alarm_on', {
         type: 'state',
         common: {
             "name": "Clock Alarm function on/off",
@@ -2489,7 +2489,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.clock.volume', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock.volume', {
         type: 'state',
         common: {
             "name": "Clock Alarm volume",
@@ -2504,7 +2504,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.clock.fade_interval', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock.fade_interval', {
         type: 'state',
         common: {
             "name": "Clock Alarm Fade Interval",
@@ -2518,7 +2518,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.clock.fade_type', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock.fade_type', {
         type: 'state',
         common: {
             "name": "Clock Fade Type",
@@ -2532,7 +2532,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         },
         native: {}
     });
-    adapter.setObject(type + '_' + uid + '.clock.mode', {
+    adapter.setObjectNotExists(type + '_' + uid + '.clock.mode', {
         type: 'state',
         common: {
             "name": "Clock Alarm Mode", // oneday/weekly
@@ -2547,7 +2547,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
 
     //day related clock objects
     if (alarm_mode_list.indexOf("oneday") !== -1){
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.enable', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.enable', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Enable",
@@ -2559,7 +2559,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.time', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.time', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Time",
@@ -2571,7 +2571,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.beep', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.beep', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Beep",
@@ -2583,7 +2583,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });  
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.playback_type', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.playback_type', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Playback Type",
@@ -2595,7 +2595,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.resume_input', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.resume_input', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Resume Input",
@@ -2607,7 +2607,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_type', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_type', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Preset Type",
@@ -2619,7 +2619,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_num', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_num', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Preset Number",
@@ -2633,7 +2633,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_input', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_input', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Netusb input ID",
@@ -2645,7 +2645,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_text', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_text', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Netusb input text",
@@ -2657,7 +2657,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_band', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_band', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Tuner Band",
@@ -2669,7 +2669,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
             },
             native: {}
         });
-        adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_number', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_number', {
             type: 'state',
             common: {
                 "name": "Clock"+days[anz]+"Alarm Preset Tuner Freq od ID",
@@ -2689,7 +2689,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         var days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
         for (anz in days){
             //loop days[anz]
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.enable', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.enable', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Enable",
@@ -2701,7 +2701,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.time', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.time', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Time",
@@ -2713,7 +2713,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.beep', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.beep', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Beep",
@@ -2725,7 +2725,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });  
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.playback_type', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.playback_type', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Playback Type",
@@ -2737,7 +2737,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.resume_input', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.resume_input', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Resume Input",
@@ -2749,7 +2749,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_type', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_type', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Preset Type",
@@ -2761,7 +2761,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_num', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_num', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Preset Number",
@@ -2775,7 +2775,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_input', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_input', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Netusb input ID",
@@ -2787,7 +2787,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_text', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_text', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Netusb input text",
@@ -2799,7 +2799,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_band', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_band', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Tuner Band",
@@ -2811,7 +2811,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
                 },
                 native: {}
             });
-            adapter.setObject(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_number', {
+            adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_number', {
                 type: 'state',
                 common: {
                     "name": "Clock"+days[anz]+"Alarm Preset Tuner Freq od ID",
@@ -2840,8 +2840,8 @@ function getMusicDeviceInfo(ip, type, uid){
                     adapter.log.debug('got device info succesfully from ' + devip);
 
 
-                    var resp = {"device": devtype, "request": "/system/getDeviceInfo", "responses": att }
-                    if (!responses.find(o => o.device === devtype && o.request === '/system/getDeviceInfo')) responses.push(resp)
+                    var resp = {"device": devtype+'_'+devuid, "request": "/system/getDeviceInfo", "responses": att }
+                    if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/system/getDeviceInfo')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.getDeviceInfo', {val: att, ack: true});
 
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.api_version', {val: att.api_version, ack: true});
@@ -2864,8 +2864,8 @@ function getMusicZoneInfo(ip, type, uid, zone){
                 if (att.response_code === 0 ){
                     adapter.log.debug('got status info succesfully from ' + devip + ' for ' + zone_name);
 
-                    var resp = {"device": devtype, "request": "/" + zone_name +"/getStatus", "responses": att }
-                    if (!responses.find(o => o.device === devtype && o.request === '/' + zone_name +'/getStatus')) responses.push(resp)
+                    var resp = {"device": devtype+'_'+devuid, "request": "/" + zone_name +"/getStatus", "responses": att }
+                    if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/' + zone_name +'/getStatus')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.getStatus', {val: att, ack: true});
 
                     for (var key in att){
@@ -2961,7 +2961,7 @@ function getMusicNetusbInfo(ip, type, uid){
                     adapter.log.debug('got Netusb playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
                     var resp = {"device": type, "request": '/netusb/getPlayInfo', "responses": att }
-                    if (!responses.find(o => o.device === type && o.request === '/netusb/getPlayInfo')) responses.push(resp)
+                    if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/netusb/getPlayInfo')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '/netusb/getPlayInfo', {val: att, ack: true});
                     
                     for (var key in att){
@@ -3040,8 +3040,8 @@ function getMusicCdInfo(ip, type, uid){
 
                     adapter.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
-                    var resp = {"device": devtype, "request": '/cd/getPlayInfo', "responses": att }
-                    if (!responses.find(o => o.device === devtype && o.request === '/cd/getPlayInfo')) responses.push(resp)
+                    var resp = {"device": devtype+'_'+devuid, "request": '/cd/getPlayInfo', "responses": att }
+                    if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/cd/getPlayInfo')) responses.push(resp)
 
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.getPlayInfo', {val: att, ack: true});
                     for (var key in att){
@@ -3083,8 +3083,8 @@ function getMusicTunerInfo(ip, type, uid){
                 if (att.response_code === 0 ){
                     adapter.log.debug('got Tuner playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
-                    var resp = {"device": devtype, "request": '/tuner/getPlayInfo', "responses": att }
-                    if (!responses.find(o => o.device === devtype && o.request === '/tuner/getPlayInfo')) responses.push(resp)
+                    var resp = {"device": devtype+'_'+devuid, "request": '/tuner/getPlayInfo', "responses": att }
+                    if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/tuner/getPlayInfo')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.getPlayInfo', {val: att, ack: true});
 
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.band', {val: att.band, ack: true});
@@ -3141,8 +3141,8 @@ function getMusicTunerPreset(ip, type, uid){
         if (att.response_code === 0 ){
             adapter.log.debug('got Common Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
-            var resp = {"device": devtype, "request": '/tuner/getPresetInfo', "responses": att }
-            if (!responses.find(o => o.device === devtype && o.request === '/tuner/getPrestInfo')) responses.push(resp)
+            var resp = {"device": devtype+'_'+devuid, "request": '/tuner/getPresetInfo', "responses": att }
+            if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/tuner/getPrestInfo')) responses.push(resp)
 
             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.common_preset_info', {val: att.preset_info, ack: true});
             //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
@@ -3190,8 +3190,8 @@ function getMusicClockSettings(ip, type, uid){
                 if (att.response_code === 0 ){
                     adapter.log.debug('got Clock settings succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
-                    var resp = {"device": devtype, "request": '/clock/getSettings', "responses": att }
-                    if (!responses.find(o => o.device === devtype && o.request === '/clock/getSettings')) responses.push(resp)
+                    var resp = {"device": devtype+'_'+devuid, "request": '/clock/getSettings', "responses": att }
+                    if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/clock/getSettings')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock.getSettings', {val: att, ack: true});
                     /*
                     for (var key in att){
@@ -3346,8 +3346,8 @@ function defineMusicDeviceFeatures(ip, type, uid){
                     adapter.log.debug('got features succesfully from ' + devip);
                     adapter.log.debug('number of zones ' + att.system.zone_num);
 
-                    var resp = {"device": devtype, "request": '/system/getFeatures', "responses": att }
-                    if (!responses.find(o => o.device === devtype && o.request === '/system/getFeatures')) responses.push(resp)
+                    var resp = {"device": devtype+'_'+devuid, "request": '/system/getFeatures', "responses": att }
+                    if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/system/getFeatures')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.system.getFeatures', {val: att, ack: true});
 
                     for (var i=0; i < att.zone.length; i++){
