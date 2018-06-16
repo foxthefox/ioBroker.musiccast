@@ -10,7 +10,7 @@
 "use strict";
 
 // you have to require the utils module and call adapter function
-var utils =    require(__dirname + '/lib/utils'); // Get common adapter utils
+var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
 var md5 = require("md5");
 var YamahaYXC = require('yamaha-yxc-nodejs');
 var async = require('async');
@@ -3006,7 +3006,7 @@ function getMusicZoneInfo(ip, type, uid, zone){
                         if (key == "tone_control"){
                             var tone = att[key];
                             for (var id in tone){
-                                adapter.log.debug('Zone Status Update '+id+'  att ' +tone[id]);
+                                adapter.log.debug('Zone Status Update '+key+' '+id+'  at ' +tone[id]);
                                 if (id == "mode"){
                                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.tone_mode', {val: tone[id], ack: true});
                                 }
@@ -3018,7 +3018,7 @@ function getMusicZoneInfo(ip, type, uid, zone){
                         else if (key == "equalizer"){
                             var eq = att[key];
                             for (var id in eq){
-                                adapter.log.debug('Zone Status Update '+id+'  att ' +eq[id]);
+                                adapter.log.debug('Zone Status Update '+key+' '+id+'  at ' +eq[id]);
                                 if (id == "mode"){
                                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.eq_mode', {val: eq[id], ack: true});
                                 }
@@ -3028,13 +3028,13 @@ function getMusicZoneInfo(ip, type, uid, zone){
                             }
                         }
                         else if ( key == "actual_volume"){
-                            adapter.log.debug('Zone Status Update '+id+'  att ' +att[key]);
+                            adapter.log.debug('Zone Status Update '+key+' '+id+'  at ' +att[key]);
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_mode', {val: att[key].mode, ack: true}); 
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_val', {val: att[key].value, ack: true});  
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_unit', {val: att[key].unit, ack: true});
                         }
                         else {
-                            adapter.log.debug('Zone Status Update '+id+'  att ' +att[key]);
+                            adapter.log.debug('Zone Status Update '+key+'  at ' +att[key]);
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.'+ key, {val: att[key], ack: true});  
                         }
                     }
@@ -3102,7 +3102,7 @@ function getMusicNetusbInfo(ip, type, uid){
 
                     var resp = {"device": type, "request": '/netusb/getPlayInfo', "responses": att }
                     if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/netusb/getPlayInfo')) responses.push(resp)
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '/netusb/getPlayInfo', {val: att, ack: true});
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + 'netusb.getPlayInfo', {val: att, ack: true});
                     
                     /*
                     for (var key in att){
