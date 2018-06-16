@@ -3104,7 +3104,7 @@ function getMusicNetusbInfo(ip, type, uid){
                     if (!responses.find(o => o.device === devtype+'_'+devuid && o.request === '/netusb/getPlayInfo')) responses.push(resp)
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + 'netusb.getPlayInfo', {val: att, ack: true});
                     
-                    /*
+                    
                     for (var key in att){
                         if (key == "albumart_url"){
                             var albumurl = att.albumart_url;
@@ -3124,20 +3124,7 @@ function getMusicNetusbInfo(ip, type, uid){
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb' + '.'+ key, {val: att[key], ack: true});
                     
                         }
-                    }
-                    */
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.input', {val: att.input, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.playback', {val: att.playback, ack: true});                    
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.repeat_stat', {val: att.repeat, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.shuffle_stat', {val: att.shuffle, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.play_time', {val: att.play_time, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.usb_devicetype', {val: att.usb_devicetype, ack: true});                      
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.album', {val: att.album, ack: true}); 
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.albumart_url', {val: albumurl, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.artist', {val: att.artist, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.track', {val: att.track, ack: true});
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.attribute', {val: att.attribute, ack: true});                                         
-                    
+                    }                    
                 }
                 else {adapter.log.debug('failure getting Netusb playinfo from  ' + devip + ' : ' +  responseFailLog(result));}            
          });
