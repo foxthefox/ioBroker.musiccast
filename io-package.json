@@ -4,6 +4,17 @@
         "name": "musiccast",
         "version": "0.0.9",
         "news": {
+             "0.1.0": {
+                "en": "compact mode added",
+                "de": "Kompaktmodus hinzugefügt",
+                "ru": "добавлен компактный режим",
+                "pt": "modo compacto adicionado",
+                "nl": "compacte modus toegevoegd",
+                "fr": "mode compact ajouté",
+                "it": "modalità compatta aggiunta",
+                "es": "modo compacto agregado",
+                "pl": "dodano tryb kompaktowy"
+             },  
              "0.0.9": {
                 "en": "adminv3 using values2table",
                 "de": "adminv3 verwendet values2table",
@@ -102,6 +113,7 @@
         "loglevel": "debug",
         "type": "multimedia",
         "materialize": true,
+        "compact": true,
         "authors": [
             {
                 "name": "foxthefox",
