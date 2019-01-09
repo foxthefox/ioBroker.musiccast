@@ -1,6 +1,6 @@
 {
   "name": "iobroker.musiccast",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "ioBroker MusicCast Adapter",
   "author": {
     "name": "foxthefox",
@@ -26,6 +26,7 @@
     "dgram": "^1.0.1",
     "md5": "^2.2.1",
     "async": "^2.6.0"
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "devDependencies": {
       "gulp": "^3.9.1",
