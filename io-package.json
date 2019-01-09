@@ -2,7 +2,7 @@
     "common": {
 
         "name": "musiccast",
-        "version": "0.0.9",
+        "version": "0.1.0",
         "news": {
              "0.1.0": {
                 "en": "compact mode added",
