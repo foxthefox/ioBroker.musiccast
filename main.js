@@ -10,7 +10,7 @@
 "use strict";
 
 // you have to require the utils module and call adapter function
-var utils = require(__dirname + '/lib/utils'); // Get common adapter utils
+const utils = require('@iobroker/adapter-core'); // Get common adapter utils
 var md5 = require("md5");
 var YamahaYXC = require('yamaha-yxc-nodejs');
 var async = require('async');
@@ -22,7 +22,511 @@ var responses = [{}];
 // you have to call the adapter function and pass a options object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.musiccast.0
-var adapter = utils.Adapter('musiccast');
+
+let adapter;
+function startAdapter(options) {
+     options = options || {};
+     Object.assign(options, {
+        name: 'musiccast',
+        // is called when adapter shuts down - callback has to be called under any circumstances!
+        unload: function (callback) {
+            try {
+                adapter.log.info('cleaned everything up...');
+                callback();
+            } catch (e) {
+                callback();
+            }
+        },
+        // is called if a subscribed object changes
+        objectChange: function (id, obj) {
+            // Warning, obj can be null if it was deleted
+            adapter.log.info('objectChange ' + id + ' ' + JSON.stringify(obj));
+        },
+        // is called if a subscribed state changes
+        stateChange: function (id, state) {
+            // Warning, state can be null if it was deleted
+            adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
+        
+            // you can use the ack flag to detect if it is status (true) or command (false)
+            if (state && !state.ack) {
+        
+                //hier erkennung einbauen um festzustellen ob 2 oder 3 stufige Objekthierarchie
+        
+                var tmp = id.split('.');
+                var dp = tmp.pop(); //is the instance we are working on
+                var idx = tmp.pop(); //is zone, system or other item
+                var idy = tmp.pop(); // the device "type"_"uid"
+                adapter.log.info('MusicCast: '+ id + ' identified for command with ' + state.val);
+                
+                //ermitteln der IP aus config
+                adapter.log.debug('device with uid = ' + idy.split("_")[1]);
+                var uid = idy.split("_")[1];
+                var IP = getConfigObjects(adapter.config.devices, 'uid', uid);
+                adapter.log.debug('config items : ' + JSON.stringify(adapter.config.devices));
+                adapter.log.debug('IP configured : ' + IP[0].ip + ' for UID ' + uid);
+                
+                yamaha = new YamahaYXC(IP[0].ip);
+        
+                var zone = idx;
+                
+                if (dp === 'power'){
+                    yamaha.power(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent power succesfully to ' + zone + ' with ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting power' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'mute'){
+                    yamaha.mute(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent mute succesfully to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure mute cmd' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'surround'){
+                    yamaha.surround(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent surround succesfully to ' + zone + ' with ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting surround' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'volume'){
+                    yamaha.setVolumeTo(Math.round(state.val), zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent volume succesfully  to ' + zone + ' with '  + Math.round(state.val));
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure sending volume ' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'input'){
+                    yamaha.setInput(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set input succesfully  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting input ' +  responseFailLog(result));}
+                    });
+                }        
+                if (dp === 'low'){
+                    yamaha.setEqualizer(state.val,'','', zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set equalizer LOW succesfully  to '  + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting EQ LOW ' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'mid'){
+                    yamaha.setEqualizer('', state.val,'',  zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set equalizer MID succesfully  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting EQ MID ' +  responseFailLog(result));}
+                    });
+                }          
+                if (dp === 'high'){
+                    yamaha.setEqualizer('','',state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set equalizer High succesfully  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting EQ HIGH' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'subwoofer_volume'){
+                    yamaha.setSubwooferVolumeTo(state.val).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set subwoofer volume succesfully  to ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting subwoofer volume' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'bass_extension'){
+                    yamaha.setBassExtension(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set Bass Extension  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting Bass Extension' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'enhancer'){
+                    yamaha.setEnhancer(state.val, zone).then(function(result) { 
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set Enhancer  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting Enhancer' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'direct'){
+                    yamaha.setDirect(state.val, zone).then(function(result) { 
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set Direct  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting Direct' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'pure_direct'){
+                    yamaha.setPureDirect(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set Pure Direct  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting Pure Direct' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'sound_program'){
+                    yamaha.setSound(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set sound program  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting sound program' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'bass'){
+                    yamaha.setBassTo(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set Bass to '  + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting Bass' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'treble'){
+                    yamaha.setTrebleTo(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set Treble to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting Treble' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'balance'){
+                    yamaha.setBalance(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set Balance to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting Balance' +  responseFailLog(result));}
+                    });
+                }                            
+                if (dp === 'sleep'){
+                    yamaha.sleep(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set sleep succesfully  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting sleep' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'clearVoice'){
+                    yamaha.setClearVoice(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('set ClearVoice succesfully  to ' + zone + ' with '  + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting ClearVoice' +  responseFailLog(result));}
+                    });
+                }
+        
+                /* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
+                if (dp === 'presetrecallnumber'){
+                    yamaha.recallPreset(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('recalled the Preset succesfully in zone  ' + zone + ' to ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure recalling Preset' +  responseFailLog(result));}
+                    });
+                }
+                */
+                if (dp === 'presetrecallnumber'){
+                    yamaha.recallPreset(state.val).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('recalled the Preset succesfully to ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure recalling Preset' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'prev' && state.val === true){
+                    if(idx === 'netusb'){
+                        yamaha.prevNet().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent PREV  to netusb ');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending PREV to NETUSB' +  responseFailLog(result));}
+                        });
+                    }
+                    if(idx === 'cd'){
+                        yamaha.prevCD().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent PREV  to CD ');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending PREV to CD' +  responseFailLog(result));}
+                        });
+                    }
+                }
+                if (dp === 'next' && state.val === true){
+                    if(idx === 'netusb'){
+                        yamaha.nextNet().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent NEXT  to netusb ');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending NEXT to NETUSB' +  responseFailLog(result));}
+                        });
+                    }
+                    if(idx === 'cd'){
+                        yamaha.nextCD().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent NEXT  to CD ');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending NEXT to CD' +  responseFailLog(result));}
+                        });
+                    }
+                }
+                if (dp === 'repeat' && state.val === true){
+                    if(idx === 'netusb'){
+                        yamaha.toggleNetRepeat().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent Repeat  to netusb ');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending Repeat to NETUSB' +  responseFailLog(result));}
+                        });
+                    }
+                    if(idx === 'cd'){
+                        yamaha.toggleCDRepeat().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent Repeat  to CD ');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending Repeat to CD' +  responseFailLog(result));}
+                        });
+                    }
+                }        
+                if (dp === 'playPause'){
+                    if(idx === 'netusb'){
+                        if (state.val === true){
+                            yamaha.playNet().then(function(result) {
+                                if (JSON.parse(result).response_code === 0 ){
+                                    adapter.log.debug('set NETUSB Play succesfully  to ' + state.val);
+                                    //adapter.setForeignState(id, true, true);
+                                }
+                                else {adapter.log.debug('failure setting NETUSB Play' +  responseFailLog(result));}
+                            });
+                        }
+                        else {
+                            yamaha.stopNet().then(function(result) {
+                                if (JSON.parse(result).response_code === 0 ){
+                                    adapter.log.debug('set NETUSB Stop succesfully  to ' + state.val);
+                                    //adapter.setForeignState(id, true, true);
+                                }
+                                else {adapter.log.debug('failure setting NETUSB Stop' +  responseFailLog(result));}
+                            });          
+                        }
+                    }
+                    if(idx === 'cd'){
+                        if (state.val === true){
+                            yamaha.playCD().then(function(result) {
+                                if (JSON.parse(result).response_code === 0 ){
+                                    adapter.log.debug('set CD Play succesfully  to ' + state.val);
+                                    //adapter.setForeignState(id, true, true);
+                                }
+                                else {adapter.log.debug('failure setting CD Play' +  responseFailLog(result));}
+                            });
+                        }
+                        else {
+                            yamaha.stopCD().then(function(result) {
+                                if (JSON.parse(result).response_code === 0 ){
+                                    adapter.log.debug('set CD Stop succesfully  to ' + state.val);
+                                    //adapter.setForeignState(id, true, true);
+                                }
+                                else {adapter.log.debug('failure setting CD Stop' +  responseFailLog(result));}
+                            });          
+                        }
+                    }
+                } 
+                if (dp === 'shuffle' && state.val === true){
+                    if(idx === 'netusb'){
+                        yamaha.toggleNetShuffle().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent Shuffle  to netusb ');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending Shuffle to NETUSB' +  responseFailLog(result));}
+                        });
+                    }
+                    if(idx === 'cd'){
+                        yamaha.toggleCDShuffle().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent Shuffle to CD ');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending Shuffle to CD' +  responseFailLog(result));}
+                        });
+                    }
+                }
+                if (dp === 'distr_state'){  //Start/Stop distribution
+                    //startDistribution(num) als Funktion aufrufen oder hier als 
+                    if (state.val === true || state.val === 'true'|| state.val === 'on'){
+                        var num = 1;
+                        yamaha.startDistribution(num).then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent Start Distribution');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending Start Distribution' +  responseFailLog(result));}
+                        });
+                    }
+                    if (state.val === false || state.val === 'false'|| state.val === 'off'){
+                        yamaha.stopDistribution(num).then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent Stop Distribution');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending Stop Distribution' +  responseFailLog(result));}
+                        });
+                    }
+                }
+                if (dp === 'add_to_group'){  //state.val enthält die IP des Masters
+        
+                    //addToGroup(state.val, IP[0].ip); 
+                    var groupID = md5(state.val);
+                    var clientIP = IP[0].ip;
+                    adapter.log.debug('clientIP ' + clientIP + 'ID ' +groupID);
+        
+                    var clientpayload = {"group_id": groupID, "zone":["main"]};
+                    var masterpayload = {"group_id": groupID, "zone":"main", "type":"add", "client_list":[clientIP]};
+                    yamaha2 = new YamahaYXC(state.val);    
+        
+                    yamaha.setClientInfo(JSON.stringify(clientpayload)).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent ClientInfo : ' + clientIP);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure sending ClientInfo' +  responseFailLog(result));}
+                    });
+        
+                    yamaha2.setServerInfo(JSON.stringify(masterpayload)).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent ServerInfo ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
+                    });
+                    
+                    yamaha2.startDistribution('0').then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent start ServerInfo ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
+                    });
+                }
+                if (dp === 'remove_from_group'){  //state.val enthält die Master IP
+                    //removeFromGroup(state.val, IP[0].ip);
+                    var groupID = md5(state.val);
+                    var clientIP = IP[0].ip;
+                    adapter.log.debug('clientIP ' + clientIP);
+                    var clientpayload = {"group_id": "", "zone":["main"]};
+                    var masterpayload = {"group_id": groupID, "zone":"main", "type":"remove", "client_list":[clientIP]};
+        
+                    yamaha2 = new YamahaYXC(state.val);
+        
+                    yamaha2.stopDistribution(num).then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('sent Stop Distribution');
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure sending Stop Distribution' +  responseFailLog(result));}
+                        });
+        
+                    yamaha.setClientInfo(JSON.stringify(clientpayload)).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent Client disconnect to : ' + clientIP);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure sending disconnect' +  responseFailLog(result));}
+                    });
+        
+                    yamaha2.setServerInfo(JSON.stringify(masterpayload)).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent ServerInfo to ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
+                    });
+                }
+            }//if status
+        },
+        // New message arrived. obj is array with current messages
+        message: function (obj) {
+            var wait = false;
+            if (obj) {
+                switch (obj.command) {
+                    case 'browse':
+                        /*
+                        //variant 1
+                        browse(function (res) {
+                            if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
+                        });
+                        */
+                        var result = [];
+                        yamaha = new YamahaYXC();
+                        yamaha.discover().then(function(res){
+                        result.push({ip: res[0], name: res[1], type: res[2], uid: res[3]});
+                        adapter.log.debug('result ' + JSON.stringify(result));
+                        }).done(function (res){
+                        if (obj.callback) adapter.sendTo(obj.from, obj.command, result, obj.callback);
+                        });
+                        wait = true;
+                        break;
+                        
+                    case 'jsonreq':
+                        if (obj.callback) adapter.sendTo(obj.from, obj.command, responses, obj.callback); //responses wird sukzessive mit den get-Aufrufen befüllt
+                        wait = true;                
+                        break;
+                    default:
+                        adapter.log.warn('Unknown command: ' + obj.command);
+                        break;
+                }
+            }
+        
+            if (!wait && obj.callback) {
+                adapter.sendTo(obj.from, obj.command, obj.message, obj.callback);
+            }
+        
+            return true;
+        },
+        // is called when databases are connected and adapter received configuration.
+        // start here!
+        ready: function () {
+            main();
+        }
+
+     });
+     adapter = new utils.Adapter(options);
+     
+     return adapter;
+};
+
 
 function responseFailLog(fail){
     var errcode = "";
@@ -69,507 +573,6 @@ function getConfigObjects(Obj, where, what){
     }
     return foundObjects;
 }
-
-// is called when adapter shuts down - callback has to be called under any circumstances!
-adapter.on('unload', function (callback) {
-    try {
-        adapter.log.info('cleaned everything up...');
-        callback();
-    } catch (e) {
-        callback();
-    }
-});
-
-// is called if a subscribed object changes
-adapter.on('objectChange', function (id, obj) {
-    // Warning, obj can be null if it was deleted
-    adapter.log.info('objectChange ' + id + ' ' + JSON.stringify(obj));
-});
-
-// is called if a subscribed state changes
-adapter.on('stateChange', function (id, state) {
-    // Warning, state can be null if it was deleted
-    adapter.log.debug('stateChange ' + id + ' ' + JSON.stringify(state));
-
-    // you can use the ack flag to detect if it is status (true) or command (false)
-    if (state && !state.ack) {
-
-        //hier erkennung einbauen um festzustellen ob 2 oder 3 stufige Objekthierarchie
-
-        var tmp = id.split('.');
-        var dp = tmp.pop(); //is the instance we are working on
-        var idx = tmp.pop(); //is zone, system or other item
-        var idy = tmp.pop(); // the device "type"_"uid"
-        adapter.log.info('MusicCast: '+ id + ' identified for command with ' + state.val);
-        
-        //ermitteln der IP aus config
-        adapter.log.debug('device with uid = ' + idy.split("_")[1]);
-        var uid = idy.split("_")[1];
-        var IP = getConfigObjects(adapter.config.devices, 'uid', uid);
-        adapter.log.debug('config items : ' + JSON.stringify(adapter.config.devices));
-        adapter.log.debug('IP configured : ' + IP[0].ip + ' for UID ' + uid);
-        
-        yamaha = new YamahaYXC(IP[0].ip);
-
-        var zone = idx;
-        
-        if (dp === 'power'){
-            yamaha.power(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent power succesfully to ' + zone + ' with ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting power' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'mute'){
-            yamaha.mute(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent mute succesfully to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure mute cmd' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'surround'){
-            yamaha.surround(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent surround succesfully to ' + zone + ' with ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting surround' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'volume'){
-            yamaha.setVolumeTo(Math.round(state.val), zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent volume succesfully  to ' + zone + ' with '  + Math.round(state.val));
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure sending volume ' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'input'){
-            yamaha.setInput(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set input succesfully  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting input ' +  responseFailLog(result));}
-            });
-        }        
-        if (dp === 'low'){
-            yamaha.setEqualizer(state.val,'','', zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set equalizer LOW succesfully  to '  + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting EQ LOW ' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'mid'){
-            yamaha.setEqualizer('', state.val,'',  zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set equalizer MID succesfully  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting EQ MID ' +  responseFailLog(result));}
-            });
-        }          
-        if (dp === 'high'){
-            yamaha.setEqualizer('','',state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set equalizer High succesfully  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting EQ HIGH' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'subwoofer_volume'){
-            yamaha.setSubwooferVolumeTo(state.val).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set subwoofer volume succesfully  to ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting subwoofer volume' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'bass_extension'){
-            yamaha.setBassExtension(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set Bass Extension  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting Bass Extension' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'enhancer'){
-            yamaha.setEnhancer(state.val, zone).then(function(result) { 
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set Enhancer  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting Enhancer' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'direct'){
-            yamaha.setDirect(state.val, zone).then(function(result) { 
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set Direct  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting Direct' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'pure_direct'){
-            yamaha.setPureDirect(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set Pure Direct  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting Pure Direct' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'sound_program'){
-            yamaha.setSound(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set sound program  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting sound program' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'bass'){
-            yamaha.setBassTo(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set Bass to '  + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting Bass' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'treble'){
-            yamaha.setTrebleTo(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set Treble to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting Treble' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'balance'){
-            yamaha.setBalance(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set Balance to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting Balance' +  responseFailLog(result));}
-            });
-        }                            
-        if (dp === 'sleep'){
-            yamaha.sleep(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set sleep succesfully  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting sleep' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'clearVoice'){
-            yamaha.setClearVoice(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('set ClearVoice succesfully  to ' + zone + ' with '  + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure setting ClearVoice' +  responseFailLog(result));}
-            });
-        }
-
-        /* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
-        if (dp === 'presetrecallnumber'){
-            yamaha.recallPreset(state.val, zone).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('recalled the Preset succesfully in zone  ' + zone + ' to ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure recalling Preset' +  responseFailLog(result));}
-            });
-        }
-        */
-        if (dp === 'presetrecallnumber'){
-            yamaha.recallPreset(state.val).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('recalled the Preset succesfully to ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure recalling Preset' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'prev' && state.val === true){
-            if(idx === 'netusb'){
-                yamaha.prevNet().then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent PREV  to netusb ');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending PREV to NETUSB' +  responseFailLog(result));}
-                });
-            }
-            if(idx === 'cd'){
-                yamaha.prevCD().then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent PREV  to CD ');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending PREV to CD' +  responseFailLog(result));}
-                });
-            }
-        }
-        if (dp === 'next' && state.val === true){
-            if(idx === 'netusb'){
-                yamaha.nextNet().then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent NEXT  to netusb ');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending NEXT to NETUSB' +  responseFailLog(result));}
-                });
-            }
-            if(idx === 'cd'){
-                yamaha.nextCD().then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent NEXT  to CD ');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending NEXT to CD' +  responseFailLog(result));}
-                });
-            }
-        }
-        if (dp === 'repeat' && state.val === true){
-            if(idx === 'netusb'){
-                yamaha.toggleNetRepeat().then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent Repeat  to netusb ');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending Repeat to NETUSB' +  responseFailLog(result));}
-                });
-            }
-            if(idx === 'cd'){
-                yamaha.toggleCDRepeat().then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent Repeat  to CD ');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending Repeat to CD' +  responseFailLog(result));}
-                });
-            }
-        }        
-        if (dp === 'playPause'){
-            if(idx === 'netusb'){
-                if (state.val === true){
-                    yamaha.playNet().then(function(result) {
-                        if (JSON.parse(result).response_code === 0 ){
-                            adapter.log.debug('set NETUSB Play succesfully  to ' + state.val);
-                            //adapter.setForeignState(id, true, true);
-                        }
-                        else {adapter.log.debug('failure setting NETUSB Play' +  responseFailLog(result));}
-                    });
-                }
-                else {
-                    yamaha.stopNet().then(function(result) {
-                        if (JSON.parse(result).response_code === 0 ){
-                            adapter.log.debug('set NETUSB Stop succesfully  to ' + state.val);
-                            //adapter.setForeignState(id, true, true);
-                        }
-                        else {adapter.log.debug('failure setting NETUSB Stop' +  responseFailLog(result));}
-                    });          
-                }
-            }
-            if(idx === 'cd'){
-                if (state.val === true){
-                    yamaha.playCD().then(function(result) {
-                        if (JSON.parse(result).response_code === 0 ){
-                            adapter.log.debug('set CD Play succesfully  to ' + state.val);
-                            //adapter.setForeignState(id, true, true);
-                        }
-                        else {adapter.log.debug('failure setting CD Play' +  responseFailLog(result));}
-                    });
-                }
-                else {
-                    yamaha.stopCD().then(function(result) {
-                        if (JSON.parse(result).response_code === 0 ){
-                            adapter.log.debug('set CD Stop succesfully  to ' + state.val);
-                            //adapter.setForeignState(id, true, true);
-                        }
-                        else {adapter.log.debug('failure setting CD Stop' +  responseFailLog(result));}
-                    });          
-                }
-            }
-        } 
-        if (dp === 'shuffle' && state.val === true){
-            if(idx === 'netusb'){
-                yamaha.toggleNetShuffle().then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent Shuffle  to netusb ');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending Shuffle to NETUSB' +  responseFailLog(result));}
-                });
-            }
-            if(idx === 'cd'){
-                yamaha.toggleCDShuffle().then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent Shuffle to CD ');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending Shuffle to CD' +  responseFailLog(result));}
-                });
-            }
-        }
-        if (dp === 'distr_state'){  //Start/Stop distribution
-            //startDistribution(num) als Funktion aufrufen oder hier als 
-            if (state.val === true || state.val === 'true'|| state.val === 'on'){
-                var num = 1;
-                yamaha.startDistribution(num).then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent Start Distribution');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending Start Distribution' +  responseFailLog(result));}
-                });
-            }
-            if (state.val === false || state.val === 'false'|| state.val === 'off'){
-                yamaha.stopDistribution(num).then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent Stop Distribution');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending Stop Distribution' +  responseFailLog(result));}
-                });
-            }
-        }
-        if (dp === 'add_to_group'){  //state.val enthält die IP des Masters
-
-            //addToGroup(state.val, IP[0].ip); 
-            var groupID = md5(state.val);
-            var clientIP = IP[0].ip;
-            adapter.log.debug('clientIP ' + clientIP + 'ID ' +groupID);
-
-            var clientpayload = {"group_id": groupID, "zone":["main"]};
-            var masterpayload = {"group_id": groupID, "zone":"main", "type":"add", "client_list":[clientIP]};
-            yamaha2 = new YamahaYXC(state.val);    
-
-            yamaha.setClientInfo(JSON.stringify(clientpayload)).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent ClientInfo : ' + clientIP);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure sending ClientInfo' +  responseFailLog(result));}
-            });
-
-            yamaha2.setServerInfo(JSON.stringify(masterpayload)).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent ServerInfo ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
-            });
-            
-            yamaha2.startDistribution('0').then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent start ServerInfo ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
-            });
-        }
-        if (dp === 'remove_from_group'){  //state.val enthält die Master IP
-            //removeFromGroup(state.val, IP[0].ip);
-            var groupID = md5(state.val);
-            var clientIP = IP[0].ip;
-            adapter.log.debug('clientIP ' + clientIP);
-            var clientpayload = {"group_id": "", "zone":["main"]};
-            var masterpayload = {"group_id": groupID, "zone":"main", "type":"remove", "client_list":[clientIP]};
-
-            yamaha2 = new YamahaYXC(state.val);
-
-            yamaha2.stopDistribution(num).then(function(result) {
-                    if (JSON.parse(result).response_code === 0 ){
-                        adapter.log.debug('sent Stop Distribution');
-                        //adapter.setForeignState(id, true, true);
-                    }
-                    else {adapter.log.debug('failure sending Stop Distribution' +  responseFailLog(result));}
-                });
-
-            yamaha.setClientInfo(JSON.stringify(clientpayload)).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent Client disconnect to : ' + clientIP);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure sending disconnect' +  responseFailLog(result));}
-            });
-
-            yamaha2.setServerInfo(JSON.stringify(masterpayload)).then(function(result) {
-                if (JSON.parse(result).response_code === 0 ){
-                    adapter.log.debug('sent ServerInfo to ' + state.val);
-                    //adapter.setForeignState(id, true, true);
-                }
-                else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
-            });
-        }
-    }//if status
-});
-
-
-// New message arrived. obj is array with current messages
-adapter.on('message', function (obj) {
-    var wait = false;
-    if (obj) {
-        switch (obj.command) {
-            case 'browse':
-                /*
-                //variant 1
-                browse(function (res) {
-                    if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
-                });
-                */
-                var result = [];
-                yamaha = new YamahaYXC();
-                yamaha.discover().then(function(res){
-                result.push({ip: res[0], name: res[1], type: res[2], uid: res[3]});
-                adapter.log.debug('result ' + JSON.stringify(result));
-                }).done(function (res){
-                if (obj.callback) adapter.sendTo(obj.from, obj.command, result, obj.callback);
-                });
-                wait = true;
-                break;
-                
-            case 'jsonreq':
-                if (obj.callback) adapter.sendTo(obj.from, obj.command, responses, obj.callback); //responses wird sukzessive mit den get-Aufrufen befüllt
-                wait = true;                
-                break;
-            default:
-                adapter.log.warn('Unknown command: ' + obj.command);
-                break;
-        }
-    }
-
-    if (!wait && obj.callback) {
-        adapter.sendTo(obj.from, obj.command, obj.message, obj.callback);
-    }
-
-    return true;
-});
-
-
-
-
-// is called when databases are connected and adapter received configuration.
-// start here!
-adapter.on('ready', function () {
-    main();
-});
 
 function defineMusicDevice(type, uid, name){
     adapter.log.info('Setting up System :' + type + '-' + uid);
@@ -3752,3 +3755,11 @@ function main() {
     */
 
 }
+
+// If started as allInOne/compact mode => return function to create instance
+if (module && module.parent) {
+    module.exports = startAdapter;
+} else {
+    // or start the instance directly
+    startAdapter();
+} 
