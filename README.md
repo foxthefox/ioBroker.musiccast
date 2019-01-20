@@ -196,8 +196,10 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
-#### 0-1.0
+#### 0.1.0
 * compact mode
+* yamaha-yxc-nodejs 0.0.8
+* widget update
 
 #### 0.0.9
 * adminV3 uses values2table and add button back again
