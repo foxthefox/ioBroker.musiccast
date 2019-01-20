@@ -65,7 +65,7 @@
 				var getValue = vis.binds.musiccast.getValue;
 				//(getValue(data['oid_list']) ? getValue(data['oid_list']).split(';') : [])
 				var texts  = vis.states[this.data.attr('oid_list') + '.val'];
-				var values = getValue(data['oid_list']);
+				var values = JSON.parse(getValue(data['oid_list']));
 				if (values){
 					for (var val=0; val < values.length; val++) {
 						var valn = (parseInt(val) + 1);
