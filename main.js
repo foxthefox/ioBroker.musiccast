@@ -323,7 +323,7 @@ function startAdapter(options) {
                 }        
                 if (dp === 'playPause'){
                     if(idx === 'netusb'){
-                        if (state.val === true){
+                        if (state.val === true || state.val === 'play' || state.val === 'true'){
                             yamaha.playNet().then(function(result) {
                                 if (JSON.parse(result).response_code === 0 ){
                                     adapter.log.debug('set NETUSB Play succesfully  to ' + state.val);
