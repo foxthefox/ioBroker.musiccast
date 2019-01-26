@@ -26,6 +26,8 @@ npm install https://github.com/foxthefox/ioBroker.musiccast/tarball/master --pro
 The admin page the "+" can be used for adding manually the IP address, DeviceID, Type and Name.
 Press the search button for discovery. If you have multiple devices, you have to hit the button multiple times until all devices are discovered. Unfortunately the discovery returns only one object at the time and this could be any of your MusicCast devices. If the return is the same as already part of the table, you have to hit the button again. Sometimes it helps to save and open the damin page again. 
 
+In the unlikely case that 2 or more devices are delivering the same ID, then change one ID slightly. Otherwise the adapter can not distinguish between the 2 devices.
+
 If you want to see the playtime updated for the tracks you listen, please enable/check the respective checkbox. Be aware that increases the message count (every second for every device the pingpong of updates).
 
 ## available Objects
