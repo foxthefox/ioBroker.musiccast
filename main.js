@@ -2683,139 +2683,139 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
 
     //day related clock objects
     if (alarm_mode_list.indexOf("oneday") !== -1){
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.enable', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.enable', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Enable",
+                "name": "Clock Oneday Alarm Enable",
                 "type": "boolean",
                 "read": true,
                 "write": true,
                 "role": "button",
-                "desc": "Clock"+days[anz]+"Alarm Enable"
+                "desc": "Clock Oneday Alarm Enable"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.time', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.time', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Time",
+                "name": "Clock Oneday Alarm Time",
                 "type": "string",
                 "read": true,
                 "write": true,
                 "role": "text",
-                "desc": "Clock"+days[anz]+"Alarm Time"
+                "desc": "Clock Oneday Alarm Time"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.beep', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.beep', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Beep",
+                "name": "Clock Oneday Alarm Beep",
                 "type": "boolean",
                 "read": true,
                 "write": true,
                 "role": "button",
-                "desc": "Clock"+days[anz]+"Alarm Beep"
+                "desc": "Clock Oneday Alarm Beep"
             },
             native: {}
         });  
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.playback_type', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.playback_type', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Playback Type",
+                "name": "Clock Oneday Alarm Playback Type",
                 "type": "string",
                 "read": true,
                 "write": true,
                 "role": "text",
-                "desc": "Clock"+days[anz]+"Alarm Playback Type"
+                "desc": "Clock Oneday Alarm Playback Type"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.resume_input', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.resume_input', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Resume Input",
+                "name": "Clock Oneday Alarm Resume Input",
                 "type": "string",
                 "read": true,
                 "write": true,
                 "role": "text",
-                "desc": "Clock"+days[anz]+"Alarm Resume Input"
+                "desc": "Clock Oneday Alarm Resume Input"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_type', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_type', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Preset Type",
+                "name": "Clock Oneday Alarm Preset Type",
                 "type": "string",
                 "read": true,
                 "write": true,
                 "role": "text",
-                "desc": "Clock"+days[anz]+"Alarm Preset Type"
+                "desc": "Clock Oneday Alarm Preset Type"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_num', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_num', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Preset Number",
+                "name": "Clock Oneday Alarm Preset Number",
                 "type": "number",
                 "min" : 0, //eigentlich von getFeatures
                 "max" : 40, //eigentlich von getFeatures
                 "read": true,
                 "write": true,
                 "role": "level",
-                "desc": "Clock"+days[anz]+"Alarm Preset Number"
+                "desc": "Clock Oneday Alarm Preset Number"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_input', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_netusb_input', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Netusb input ID",
+                "name": "Clock Oneday Alarm Netusb input ID",
                 "type": "string",
                 "read": true,
                 "write": false,
                 "role": "text",
-                "desc": "Clock"+days[anz]+"Alarm Netusb input ID"
+                "desc": "Clock Oneday Alarm Netusb input ID"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_netusb_text', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_netusb_text', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Netusb input text",
+                "name": "Clock Oneday Alarm Netusb input text",
                 "type": "string",
                 "read": true,
                 "write": false,
                 "role": "text",
-                "desc": "Clock"+days[anz]+"Alarm Netusb input text"
+                "desc": "Clock Oneday Alarm Netusb input text"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_band', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_tuner_band', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Tuner Band",
+                "name": "Clock Oneday Alarm Tuner Band",
                 "type": "string",
                 "read": true,
                 "write": false,
                 "role": "text",
-                "desc": "Clock"+days[anz]+"Alarm Tuner Band"
+                "desc": "Clock Oneday Alarm Tuner Band"
             },
             native: {}
         });
-        adapter.setObjectNotExists(type + '_' + uid + '.clock.'+days[anz]+'.preset_tuner_number', {
+        adapter.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_tuner_number', {
             type: 'state',
             common: {
-                "name": "Clock"+days[anz]+"Alarm Preset Tuner Freq od ID",
+                "name": "Clock Oneday Alarm Preset Tuner Freq od ID",
                 "type": "number",
                 "min" : 0, //eigentlich von getFeatures
                 "max" : 40, //eigentlich von getFeatures
                 "read": true,
                 "write": true,
                 "role": "level",
-                "desc": "Clock"+days[anz]+"Alarm Preset Tuner Freq or ID"
+                "desc": "Clock Oneday Alarm Preset Tuner Freq or ID"
             },
             native: {}
         });  
