@@ -198,6 +198,9 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+#### 0.1.1
+* correction for clock "oneday"
+
 #### 0.1.0
 * compact mode
 * yamaha-yxc-nodejs 0.0.8
