@@ -4,6 +4,18 @@
         "name": "musiccast",
         "version": "0.1.0",
         "news": {
+             "0.1.1": {
+                "en": "clock oneday correction",
+                "de": "Uhr eintägige Korrektur",
+                "ru": "Коррекция часового дня",
+                "pt": "correção de relógio de um dia",
+                "nl": "klok één dag correctie",
+                "fr": "correction d'horloge d'un jour",
+                "it": "correzione oneday dell'orologio",
+                "es": "Corrección de un día de reloj",
+                "pl": "korekta oneday zegara",
+                "zh-cn": "时钟oneday校正"
+             }, 
              "0.1.0": {
                 "en": "compact mode added",
                 "de": "Kompaktmodus hinzugefügt",
