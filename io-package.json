@@ -112,6 +112,7 @@
         "platform": "Javascript/Node.js",
         "mode": "daemon",
         "icon": "musiccast.png",
+        "license": "MIT",
         "enabled": true,
         "messagebox": true,
         "subscribe": "messagebox",
