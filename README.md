@@ -1,7 +1,7 @@
 ![Logo](admin/musiccast.png)
 # ioBroker.musiccast
 
-[![NPM version](http://img.shields.io/npm/v/iobroker.musiccast.svg)](https://www.npmjs.com/package/iobroker.musiccast)
+![Number of Installations](http://iobroker.live/badges/musiccast-installed.svg) ![Number of Installations](http://iobroker.live/badges/musiccast-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.musiccast.svg)](https://www.npmjs.com/package/iobroker.musiccast)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.musiccast.svg)](https://www.npmjs.com/package/iobroker.musiccast)
 [![Build Status](https://travis-ci.org/foxthefox/ioBroker.musiccast.svg?branch=master)](https://travis-ci.org/foxthefox/ioBroker.musiccast)
 
