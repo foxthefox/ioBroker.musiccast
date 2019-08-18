@@ -70,7 +70,9 @@ function startAdapter(options) {
                 var zone = idx;
                 
                 if (dp === 'power'){
-                    yamaha.power(state.val, zone).then(function(result) {
+                    let convertValue = state.val ? 'on' : 'standby';
+
+                    yamaha.power(convertValue, zone).then(function(result) {
                         if (JSON.parse(result).response_code === 0 ){
                             adapter.log.debug('sent power succesfully to ' + zone + ' with ' + state.val);
                             //adapter.setForeignState(id, true, true);
@@ -3035,8 +3037,12 @@ function getMusicZoneInfo(ip, type, uid, zone){
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_mode', {val: att[key].mode, ack: true}); 
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_val', {val: att[key].value, ack: true});  
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.act_vol_unit', {val: att[key].unit, ack: true});
-                        }
-                        else {
+                        } else if (key == "power"){
+                            let convertValue = att[key] === 'on' ? true : false;
+
+                            adapter.log.debug('Zone Status Update '+key+'  at ' +att[key] + ' (' + convertValue + ')');
+                            adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.'+ key, {val: convertValue, ack: true});
+                        } else {
                             adapter.log.debug('Zone Status Update '+key+'  at ' +att[key]);
                             adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.' +  zone_name + '.'+ key, {val: att[key], ack: true});  
                         }
