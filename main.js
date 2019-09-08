@@ -325,24 +325,26 @@ function startAdapter(options) {
                 }        
                 if (dp === 'playPause'){
                     if(idx === 'netusb'){
-                        if (state.val === true || state.val === 'play' || state.val === 'true'){
-                            yamaha.playNet().then(function(result) {
-                                if (JSON.parse(result).response_code === 0 ){
-                                    adapter.log.debug('set NETUSB Play succesfully  to ' + state.val);
-                                    //adapter.setForeignState(id, true, true);
-                                }
-                                else {adapter.log.debug('failure setting NETUSB Play' +  responseFailLog(result));}
-                            });
-                        }
-                        else {
-                            yamaha.stopNet().then(function(result) {
-                                if (JSON.parse(result).response_code === 0 ){
-                                    adapter.log.debug('set NETUSB Stop succesfully  to ' + state.val);
-                                    //adapter.setForeignState(id, true, true);
-                                }
-                                else {adapter.log.debug('failure setting NETUSB Stop' +  responseFailLog(result));}
-                            });          
-                        }
+                        adapter.getForeignState(id.replace('playPause', 'playback'), function(err, state){
+                            if(state.val === 'stop'){
+                                yamaha.playNet().then(function(result) {
+                                    if (JSON.parse(result).response_code === 0 ){
+                                        adapter.log.debug('set NETUSB Play succesfully  to ' + state.val);
+                                        //adapter.setForeignState(id, true, true);
+                                    }
+                                    else {adapter.log.debug('failure setting NETUSB Play' +  responseFailLog(result));}
+                                });
+                            }
+                            else {
+                                yamaha.stopNet().then(function(result) {
+                                    if (JSON.parse(result).response_code === 0 ){
+                                        adapter.log.debug('set NETUSB Stop succesfully  to ' + state.val);
+                                        //adapter.setForeignState(id, true, true);
+                                    }
+                                    else {adapter.log.debug('failure setting NETUSB Stop' +  responseFailLog(result));}
+                                });
+                            }
+                        });
                     }
                     if(idx === 'cd'){
                         if (state.val === true){
