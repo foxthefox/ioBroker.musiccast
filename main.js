@@ -366,7 +366,27 @@ function startAdapter(options) {
                             });          
                         }
                     }
-                } 
+                }
+                if(dp === 'stop'){
+                    if(idx === 'netusb'){
+                        yamaha.stopNet().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('set NETUSB Stop succesfully  to ' + state.val);
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure setting NETUSB Stop' +  responseFailLog(result));}
+                        });                    
+                    }
+                    if(idx === 'cd'){
+                        yamaha.stopCD().then(function(result) {
+                            if (JSON.parse(result).response_code === 0 ){
+                                adapter.log.debug('set CD Stop succesfully  to ' + state.val);
+                                //adapter.setForeignState(id, true, true);
+                            }
+                            else {adapter.log.debug('failure setting CD Stop' +  responseFailLog(result));}
+                        });                     
+                    }
+                }
                 if (dp === 'shuffle' && state.val === true){
                     if(idx === 'netusb'){
                         yamaha.toggleNetShuffle().then(function(result) {
