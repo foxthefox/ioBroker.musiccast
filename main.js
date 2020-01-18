@@ -242,7 +242,41 @@ function startAdapter(options) {
                         else {adapter.log.debug('failure setting ClearVoice' +  responseFailLog(result));}
                     });
                 }
-        
+                 // setLinkControl to be added
+                 // setLinkAudioDelay to be added
+                 // setLinkAudioQuality to be added   
+                 /*
+                if (dp === 'link_control'){
+                    yamaha.linkControl(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent link control to ' + zone + ' with ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting link control ' +  responseFailLog(result));}
+                    });
+                }  
+                 
+                if (dp === 'link_audio_delay'){
+                    yamaha.linkAudioDelay(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent audio delay succesfully to ' + zone + ' with ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting audio delay ' +  responseFailLog(result));}
+                    });
+                }  
+                 
+                 if (dp === 'link_audio_quality'){
+                    yamaha.linkAudioQuality(state.val, zone).then(function(result) {
+                        if (JSON.parse(result).response_code === 0 ){
+                            adapter.log.debug('sent audio quality succesfully to ' + zone + ' with ' + state.val);
+                            //adapter.setForeignState(id, true, true);
+                        }
+                        else {adapter.log.debug('failure setting audio quality ' +  responseFailLog(result));}
+                    });
+                }                 
+                **/
+                 
                 /* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
                 if (dp === 'presetrecallnumber'){
                     yamaha.recallPreset(state.val, zone).then(function(result) {
@@ -498,9 +532,6 @@ function startAdapter(options) {
                         else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
                     });
                 }
-                 // setLinkControl to be added
-                 // setLinkAudioDelay to be added
-                 // setLinkAudioQuality to be added
             }//if status
         },
         // New message arrived. obj is array with current messages
