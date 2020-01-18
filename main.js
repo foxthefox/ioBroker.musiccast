@@ -242,12 +242,9 @@ function startAdapter(options) {
                         else {adapter.log.debug('failure setting ClearVoice' +  responseFailLog(result));}
                     });
                 }
-                 // setLinkControl to be added
-                 // setLinkAudioDelay to be added
-                 // setLinkAudioQuality to be added   
-                 /*
+
                 if (dp === 'link_control'){
-                    yamaha.linkControl(state.val, zone).then(function(result) {
+                    yamaha.setLinkControl(state.val, zone).then(function(result) {
                         if (JSON.parse(result).response_code === 0 ){
                             adapter.log.debug('sent link control to ' + zone + ' with ' + state.val);
                             //adapter.setForeignState(id, true, true);
@@ -257,7 +254,7 @@ function startAdapter(options) {
                 }  
                  
                 if (dp === 'link_audio_delay'){
-                    yamaha.linkAudioDelay(state.val, zone).then(function(result) {
+                    yamaha.setlinkAudioDelay(state.val, zone).then(function(result) {
                         if (JSON.parse(result).response_code === 0 ){
                             adapter.log.debug('sent audio delay succesfully to ' + zone + ' with ' + state.val);
                             //adapter.setForeignState(id, true, true);
@@ -267,15 +264,14 @@ function startAdapter(options) {
                 }  
                  
                  if (dp === 'link_audio_quality'){
-                    yamaha.linkAudioQuality(state.val, zone).then(function(result) {
+                    yamaha.setLinkAudioQuality(state.val, zone).then(function(result) {
                         if (JSON.parse(result).response_code === 0 ){
                             adapter.log.debug('sent audio quality succesfully to ' + zone + ' with ' + state.val);
                             //adapter.setForeignState(id, true, true);
                         }
                         else {adapter.log.debug('failure setting audio quality ' +  responseFailLog(result));}
                     });
-                }                 
-                **/
+                }
                  
                 /* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
                 if (dp === 'presetrecallnumber'){
