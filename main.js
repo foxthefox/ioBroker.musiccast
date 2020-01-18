@@ -498,6 +498,9 @@ function startAdapter(options) {
                         else {adapter.log.debug('failure sending ServerInfo' +  responseFailLog(result));}
                     });
                 }
+                 // setLinkControl to be added
+                 // setLinkAudioDelay to be added
+                 // setLinkAudioQuality to be added
             }//if status
         },
         // New message arrived. obj is array with current messages
