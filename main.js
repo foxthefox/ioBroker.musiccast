@@ -254,7 +254,7 @@ function startAdapter(options) {
                 }  
                  
                 if (dp === 'link_audio_delay'){
-                    yamaha.setlinkAudioDelay(state.val, zone).then(function(result) {
+                    yamaha.setLinkAudioDelay(state.val, zone).then(function(result) {
                         if (JSON.parse(result).response_code === 0 ){
                             adapter.log.debug('sent audio delay succesfully to ' + zone + ' with ' + state.val);
                             //adapter.setForeignState(id, true, true);
