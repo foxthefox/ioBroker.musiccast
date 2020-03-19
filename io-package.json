@@ -2,8 +2,20 @@
     "common": {
 
         "name": "musiccast",
-        "version": "0.1.3",
+        "version": "0.1.4",
         "news": {
+            "0.1.4": {
+                "en": "correction of type mismatch",
+                "de": "Korrektur der Typfehlanpassung",
+                "ru": "исправление несоответствия типов",
+                "pt": "correção de incompatibilidade de tipo",
+                "nl": "correctie van het type komt niet overeen",
+                "fr": "correction de l'inadéquation des types",
+                "it": "correzione del tipo non corrispondente",
+                "es": "corrección de desajuste de tipo",
+                "pl": "korekta niedopasowania typu",
+                "zh-cn": "纠正类型不匹配"
+              },
              "0.1.3": {
                 "en": "added writing for linkControl/linkAudioDelay/linkAudioQuality",
                 "de": "Schreiben für linkControl / linkAudioDelay / linkAudioQuality hinzugefügt",
