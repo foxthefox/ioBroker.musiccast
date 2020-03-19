@@ -702,7 +702,7 @@ function defineMusicDevice(type, uid, name){
         type: 'state',
         common: {
             "name": "Feedback of getDeviceInfo",
-            "type": "array",
+            "type": "object",
             "read": true,
             "write": false,
             "role": "list",
@@ -714,7 +714,7 @@ function defineMusicDevice(type, uid, name){
         type: 'state',
         common: {
             "name": "Feedback of getFeatures",
-            "type": "array",
+            "type": "object",
             "read": true,
             "write": false,
             "role": "list",
@@ -757,7 +757,7 @@ function defineMusicZoneNew(type, uid, zone, zone_arr){
         type: 'state',
         common: {
             "name": "Feedback of getStatus",
-            "type": "array",
+            "type": "object",
             "read": true,
             "write": false,
             "role": "list",
@@ -1601,7 +1601,7 @@ function defineMusicNetUsb(type, uid){
         type: 'state',
         common: {
             "name": "Feedback of getPlayInfo",
-            "type": "array",
+            "type": "object",
             "read": true,
             "write": false,
             "role": "list",
@@ -1929,7 +1929,7 @@ function defineMusicCD(type, uid){
         type: 'state',
         common: {
             "name": "Feedback of getPlayInfo",
-            "type": "array",
+            "type": "object",
             "read": true,
             "write": false,
             "role": "list",
@@ -2173,7 +2173,7 @@ function defineMusicTuner(type, uid, func_list, range_step, preset){
         type: 'state',
         common: {
             "name": "Feedback of getPlayInfo",
-            "type": "array",
+            "type": "object",
             "read": true,
             "write": false,
             "role": "list",
@@ -2635,7 +2635,7 @@ function defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num,
         type: 'state',
         common: {
             "name": "Feedback of getStatus",
-            "type": "array",
+            "type": "object",
             "read": true,
             "write": false,
             "role": "list",
@@ -3199,7 +3199,7 @@ function getMusicNetusbRecent(ip, type, uid){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got Netusb recent info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.recent_info', {val: JSON.stringify(att.recent_info), ack: true});                                      
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.recent_info', {val: att.recent_info, ack: true});                                      
                 }
                 else {adapter.log.debug('failure getting Netusb recent info from  ' + devip + ' : ' +  responseFailLog(result));}            
          });
@@ -3213,7 +3213,7 @@ function getMusicNetusbPreset(ip, type, uid){
                 var att = JSON.parse(result);
                 if (att.response_code === 0 ){
                     adapter.log.debug('got Netusb preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
-                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
+                    adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.netusb.preset_info', {val: att.preset_info, ack: true});                                      
                 }
                 else {adapter.log.debug('failure getting Netusb preset info from  ' + devip + ' : ' +  responseFailLog(result));}           
          });
