@@ -74,7 +74,7 @@ function startAdapter(options) {
 
                     yamaha.power(convertValue, zone).then(function(result) {
                         if (JSON.parse(result).response_code === 0 ){
-                            adapter.log.debug('sent power succesfully to ' + zone + ' with ' + state.val);
+                            adapter.log.debug('sent power succesfully to ' + zone + ' with ' + convertValue + '('+state.val+')');
                             //adapter.setForeignState(id, true, true);
                         }
                         else {adapter.log.debug('failure setting power' +  responseFailLog(result));}
