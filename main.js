@@ -74,7 +74,7 @@ function startAdapter(options) {
 
                     yamaha.power(convertValue, zone).then(function(result) {
                         if (JSON.parse(result).response_code === 0 ){
-                            adapter.log.debug('sent power succesfully to ' + zone + ' with ' + state.val);
+                            adapter.log.debug('sent power succesfully to ' + zone + ' with ' + convertValue + '('+state.val+')');
                             //adapter.setForeignState(id, true, true);
                         }
                         else {adapter.log.debug('failure setting power' +  responseFailLog(result));}
@@ -3277,18 +3277,18 @@ function getMusicTunerInfo(ip, type, uid){
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.getPlayInfo', {val: att, ack: true});
 
                     adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.band', {val: att.band, ack: true});
-                    if (att.band = 'am'){
+                    if (att.band == 'am'){
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.am.preset', {val: att.am.preset, ack: true});                 
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.am.freq', {val: att.am.freq, ack: true});
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.am.tuned', {val: att.am.tuned, ack: true});
                     }
-                    if (att.band = 'fm'){
+                    if (att.band == 'fm'){
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.preset', {val: att.fm.preset, ack: true});                 
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.freq', {val: att.fm.freq, ack: true});
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.tuned', {val: att.fm.tuned, ack: true});
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.fm.audio_mode', {val: att.fm.audio_mode, ack: true});
                     }
-                    if (att.band = 'dab'){
+                    if (att.band == 'dab'){
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.preset', {val: att.dab.preset, ack: true});                 
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.id', {val: att.dab.id, ack: true});
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.status', {val: att.dab.status, ack: true});
@@ -3308,7 +3308,7 @@ function getMusicTunerInfo(ip, type, uid){
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.initial_scan_progress', {val: att.dab.initial_scan_progress, ack: true});
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.dab.total_station_num', {val: att.dab.total_station_num, ack: true});
                     }
-                    if (att.band = 'rds'){
+                    if (att.band == 'rds'){
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.rds.program_type', {val: att.rds.program_type, ack: true});                 
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.rds.program_service', {val: att.rds.program_service, ack: true});
                         adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.rds.radio_text_a', {val: att.rds.radio_text_a, ack: true});
