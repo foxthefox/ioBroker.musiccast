@@ -3041,6 +3041,12 @@ function getMusicDeviceInfo(ip, type, uid) {
         }
         else { adapter.log.debug('failure getting device info from  ' + devip + ' : ' + responseFailLog(result)); }
 
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicDeviceInfo] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 function getMusicZoneInfo(ip, type, uid, zone) {
@@ -3102,6 +3108,12 @@ function getMusicZoneInfo(ip, type, uid, zone) {
         }
         else { adapter.log.debug('failure getting status info from  ' + devip + ' : ' + responseFailLog(result)); }
 
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicZoneInfo] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 function getMusicZoneLists(ip, type, uid) {
@@ -3145,6 +3157,12 @@ function getMusicZoneLists(ip, type, uid) {
         }
         else { adapter.log.debug('failure getting status info from  ' + devip + ' : ' + responseFailLog(result)); }
 
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicZoneLists] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 function getMusicNetusbInfo(ip, type, uid) {
@@ -3188,8 +3206,15 @@ function getMusicNetusbInfo(ip, type, uid) {
             }
         }
         else { adapter.log.debug('failure getting Netusb playinfo from  ' + devip + ' : ' + responseFailLog(result)); }
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicNetusbInfo] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
+
 function getMusicNetusbRecent(ip, type, uid) {
     var devip = ip;
     var devtype = type;
@@ -3202,8 +3227,15 @@ function getMusicNetusbRecent(ip, type, uid) {
             adapter.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.recent_info', { val: att.recent_info, ack: true });
         }
         else { adapter.log.debug('failure getting Netusb recent info from  ' + devip + ' : ' + responseFailLog(result)); }
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicNetusbRecent] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
+
 function getMusicNetusbPreset(ip, type, uid) {
     var devip = ip;
     var devtype = type;
@@ -3216,6 +3248,12 @@ function getMusicNetusbPreset(ip, type, uid) {
             adapter.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.preset_info', { val: att.preset_info, ack: true });
         }
         else { adapter.log.debug('failure getting Netusb preset info from  ' + devip + ' : ' + responseFailLog(result)); }
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicNetusbPreset] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 function getMusicCdInfo(ip, type, uid) {
@@ -3260,6 +3298,12 @@ function getMusicCdInfo(ip, type, uid) {
         }
         else { adapter.log.debug('failure getting CD playinfo from  ' + devip + ' : ' + responseFailLog(result)); }
 
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicCdInfo] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 function getMusicTunerInfo(ip, type, uid) {
@@ -3317,6 +3361,12 @@ function getMusicTunerInfo(ip, type, uid) {
         }
         else { adapter.log.debug('failure getting Tuner playinfo from  ' + devip + ' : ' + responseFailLog(result)); }
 
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicTunerInfo] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 function getMusicTunerPreset(ip, type, uid) {
@@ -3337,6 +3387,12 @@ function getMusicTunerPreset(ip, type, uid) {
             //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
         }
         else { adapter.log.debug('failure getting Common Tuner preset info from  ' + devip + ' : ' + responseFailLog(result)); }
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicTunerPreset] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
     //if (FM)
     yamaha.getTunerPresetInfo(fm).then(function (result) {
@@ -3347,6 +3403,12 @@ function getMusicTunerPreset(ip, type, uid) {
             //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
         }
         else { adapter.log.debug('failure getting FM Tuner preset info from  ' + devip + ' : ' + responseFailLog(result)); }
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
+        }
     });
     //if (AM)
     yamaha.getTunerPresetInfo(am).then(function (result) {
@@ -3357,6 +3419,12 @@ function getMusicTunerPreset(ip, type, uid) {
             //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
         }
         else { adapter.log.debug('failure getting AM Tuner preset info from  ' + devip + ' : ' + responseFailLog(result)); }
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
+        }
     });
     //if (DAB)    
     yamaha.getTunerPresetInfo(dab).then(function (result) {
@@ -3367,6 +3435,12 @@ function getMusicTunerPreset(ip, type, uid) {
             //adapter.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});                                      
         }
         else { adapter.log.debug('failure getting DAB Tuner preset info from  ' + devip + ' : ' + responseFailLog(result)); }
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 function getMusicClockSettings(ip, type, uid) {
@@ -3496,6 +3570,12 @@ function getMusicClockSettings(ip, type, uid) {
         }
         else { adapter.log.debug('failure getting Clock settings from  ' + devip + ' : ' + responseFailLog(result)); }
 
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicClockSettings] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 function getMusicDistInfo(ip, type, uid) {
@@ -3521,6 +3601,12 @@ function getMusicDistInfo(ip, type, uid) {
         }
         else { adapter.log.debug('failure getting Distibution info from  ' + devip + ' : ' + responseFailLog(result)); }
 
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[getMusicDistInfo] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 // init of device
@@ -3597,6 +3683,12 @@ function defineMusicDeviceFeatures(ip, type, uid) {
 
         }
         else { adapter.log.debug('failure getting features from  ' + devip + ' : ' + responseFailLog(result)); }
+    }).catch(function (err) {
+        if (err.message.includes('connect EHOSTUNREACH')) {
+            adapter.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!')
+        } else {
+            adapter.log.error(`[defineMusicDeviceFeatures] error: ${err.message}, stack: ${err.stack}`);
+        }
     });
 }
 //UDP update
