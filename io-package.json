@@ -4,6 +4,18 @@
         "name": "musiccast",
         "version": "0.1.4",
         "news": {
+             "0.1.5": {
+                "en": "error handling when device is not reachable",
+                "de": "Fehlerbehandlung, wenn das Gerät nicht erreichbar ist",
+                "ru": "обработка ошибок, когда устройство недоступно",
+                "pt": "tratamento de erros quando o dispositivo não está acessível",
+                "nl": "foutafhandeling wanneer het apparaat niet bereikbaar is",
+                "fr": "gestion des erreurs lorsque le périphérique n'est pas accessible",
+                "it": "gestione degli errori quando il dispositivo non è raggiungibile",
+                "es": "manejo de errores cuando el dispositivo no es accesible",
+                "pl": "obsługa błędów, gdy urządzenie jest nieosiągalne",
+                "zh-cn": "设备无法访问时的错误处理"
+              },
             "0.1.4": {
                 "en": "correction of type mismatch",
                 "de": "Korrektur der Typfehlanpassung",
