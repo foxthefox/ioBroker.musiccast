@@ -2,7 +2,7 @@
     "common": {
 
         "name": "musiccast",
-        "version": "0.1.4",
+        "version": "0.1.5",
         "news": {
              "0.1.5": {
                 "en": "error handling when device is not reachable",
