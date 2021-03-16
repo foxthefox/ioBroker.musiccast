@@ -301,7 +301,7 @@
 		}
 	},
 	{
-		"request": "netusb/getPlayInfo",
+		"request": "/netusb/getPlayInfo",
 		"responses": {
 			"response_code": 0,
 			"input": "server",
