@@ -2581,6 +2581,18 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
+		this.setObjectNotExists(type + '_' + uid + '.tuner.band', {
+			type: 'state',
+			common: {
+				name: 'Tuner band',
+				type: 'string',
+				read: true,
+				write: false,
+				role: 'text',
+				desc: 'Tuner band'
+			},
+			native: {}
+		});
 		if (func_list.indexOf('am') !== -1) {
 			this.log.info('Setting up AM Tuner of ' + type + '-' + uid);
 			this.setObjectNotExists(type + '_' + uid + '.tuner.am.preset_info', {
@@ -2711,6 +2723,18 @@ class Musiccast extends utils.Adapter {
 					write: false,
 					role: 'switch',
 					desc: 'FM tuned'
+				},
+				native: {}
+			});
+			this.setObjectNotExists(type + '_' + uid + '.tuner.fm.audio_mode', {
+				type: 'state',
+				common: {
+					name: 'FM audio_mode',
+					type: 'string',
+					read: true,
+					write: false,
+					role: 'text',
+					desc: 'FM audio_mode'
 				},
 				native: {}
 			});
