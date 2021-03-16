@@ -1,192 +1,192 @@
 {
-    "common": {
-
-        "name": "musiccast",
-        "version": "0.1.5",
-        "news": {
-             "0.1.5": {
-                "en": "error handling when device is not reachable",
-                "de": "Fehlerbehandlung, wenn das Gerät nicht erreichbar ist",
-                "ru": "обработка ошибок, когда устройство недоступно",
-                "pt": "tratamento de erros quando o dispositivo não está acessível",
-                "nl": "foutafhandeling wanneer het apparaat niet bereikbaar is",
-                "fr": "gestion des erreurs lorsque le périphérique n'est pas accessible",
-                "it": "gestione degli errori quando il dispositivo non è raggiungibile",
-                "es": "manejo de errores cuando el dispositivo no es accesible",
-                "pl": "obsługa błędów, gdy urządzenie jest nieosiągalne",
-                "zh-cn": "设备无法访问时的错误处理"
-              },
-            "0.1.4": {
-                "en": "correction of type mismatch",
-                "de": "Korrektur der Typfehlanpassung",
-                "ru": "исправление несоответствия типов",
-                "pt": "correção de incompatibilidade de tipo",
-                "nl": "correctie van het type komt niet overeen",
-                "fr": "correction de l'inadéquation des types",
-                "it": "correzione del tipo non corrispondente",
-                "es": "corrección de desajuste de tipo",
-                "pl": "korekta niedopasowania typu",
-                "zh-cn": "纠正类型不匹配"
-              },
-             "0.1.3": {
-                "en": "added writing for linkControl/linkAudioDelay/linkAudioQuality",
-                "de": "Schreiben für linkControl / linkAudioDelay / linkAudioQuality hinzugefügt",
-                "ru": "добавлена запись для linkControl / linkAudioDelay / linkAudioQuality",
-                "pt": "escrita adicionada para linkControl / linkAudioDelay / linkAudioQuality",
-                "nl": "toegevoegd schrijven voor linkControl / linkAudioDelay / linkAudioQuality",
-                "fr": "ajout d'écriture pour linkControl / linkAudioDelay / linkAudioQuality",
-                "it": "aggiunta la scrittura per linkControl / linkAudioDelay / linkAudioQuality",
-                "es": "escritura agregada para linkControl / linkAudioDelay / linkAudioQuality",
-                "pl": "dodano zapis dla linkControl / linkAudioDelay / linkAudioQuality",
-                "zh-cn": "为linkControl / linkAudioDelay / linkAudioQuality添加了写作"
-              },
-             "0.1.2": {
-                "en": "correction of type mismatch",
-                "de": "Korrektur von Typinkongruenzen",
-                "ru": "исправление несоответствия типов",
-                "pt": "correção de incompatibilidade de tipo",
-                "nl": "correctie van type mismatch",
-                "fr": "correction de l'inadéquation des types",
-                "it": "correzione del tipo non corrispondente",
-                "es": "corrección de tipo no coincidente",
-                "pl": "korekta niedopasowania typu",
-                "zh-cn": "纠正类型不匹配"
-              },
-             "0.1.1": {
-                "en": "clock oneday correction",
-                "de": "Uhr eintägige Korrektur",
-                "ru": "Коррекция часового дня",
-                "pt": "correção de relógio de um dia",
-                "nl": "klok één dag correctie",
-                "fr": "correction d'horloge d'un jour",
-                "it": "correzione oneday dell'orologio",
-                "es": "Corrección de un día de reloj",
-                "pl": "korekta oneday zegara",
-                "zh-cn": "时钟oneday校正"
-             }, 
-             "0.1.0": {
-                "en": "compact mode added",
-                "de": "Kompaktmodus hinzugefügt",
-                "ru": "добавлен компактный режим",
-                "pt": "modo compacto adicionado",
-                "nl": "compacte modus toegevoegd",
-                "fr": "mode compact ajouté",
-                "it": "modalità compatta aggiunta",
-                "es": "modo compacto agregado",
-                "pl": "dodano tryb kompaktowy"
-             },  
-             "0.0.9": {
-                "en": "adminv3 using values2table",
-                "de": "adminv3 verwendet values2table",
-                "ru": "adminv3, используя values2table",
-                "pt": "adminv3 usando values2table",
-                "nl": "adminv3 met waarden2tabel",
-                "fr": "adminv3 utilisant values2table",
-                "it": "adminv3 utilizzando valori2table",
-                "es": "adminv3 usando values2table",
-                "pl": "adminv3 using values2table"
-             },        
-            "0.0.8": {
-                "en": "Name added in object, improvements",
-                "de": "Name im Objekt hinzugefügt, Verbesserungen",
-                "ru": "Имя добавлено в объект, улучшения",
-                "pt": "Nome adicionado no objeto, melhorias",
-                "nl": "Naam toegevoegd in object, verbeteringen",
-                "fr": "Nom ajouté dans l'objet, améliorations",
-                "it": "Nome aggiunto nell'oggetto, miglioramenti",
-                "es": "Nombre agregado en el objeto, mejoras",
-                "pl": "Nazwa dodana w obiekcie, ulepszenia"
-            },
-            "0.0.7": {
-                "en": "Tuner/Clock and advanced functions added, adminv3",
-                "de": "Tuner / Clock und erweiterte Funktionen hinzugefügt, adminv3",
-                "ru": "Добавлены настройки тюнера / часов и расширенных функций, adminv3",
-                "pt": "Sintonizador / Relógio e funções avançadas adicionadas, adminv3",
-                "nl": "Tuner / klok en geavanceerde functies toegevoegd, adminv3",
-                "fr": "Syntoniseur / horloge et fonctions avancées ajoutées, adminv3",
-                "it": "Sintonizzatore / Orologio e funzioni avanzate aggiunte, adminv3",
-                "es": "Sintonizador / reloj y funciones avanzadas agregadas, adminv3",
-                "pl": "Tuner / Zegar i zaawansowane funkcje dodane, adminv3"
-              },
-            "0.0.6": {
-                "en": "subscribe to UDP message",
-                "de": "Abo auf UDP Meldungen"
-            },
-            "0.0.5": {
-                "en": "more objects, support NETUSB/CD",
-                "de": "weitere Objekte, Unterstützung NETUSB/CD"
-            },
-            "0.0.4": {
-                "en": "more objects, new functions, search",
-                "de": "weitere Objekte, neue Funktionen, Suche"
-            },
-            "0.0.3": {
-                "en": "more objects",
-                "de": "weitere Objekte"
-            },
-            "0.0.2": {
-                "en": "minor corrections",
-                "de": "kleine Korrekturen"
-            },
-            "0.0.1": {
-                "en": "initial adapter",
-                "de": "Initiale Version",
-                "ru": "Первоначальный адаптер"
-            }
-        },
-        "title": "Yamaha MusicCast",
-        "titleLang": {
-            "en": "Yamaha MusicCast adapter",
-            "de": "Yamaha MusicCast Adapter",
-            "ru": "Адаптер Yamaha MusicCast",
-            "pt": "Adaptador Yamaha MusicCast",
-            "nl": "Yamaha MusicCast-adapter",
-            "fr": "Adaptateur Yamaha MusicCast",
-            "it": "Adattatore Yamaha MusicCast",
-            "es": "Adaptador Yamaha MusicCast",
-            "pl": "Adapter Yamaha MusicCast"
-        },
-        "desc": {
-            "en": "Musiccast Adapter",
-            "de": "Musiccast Adapter",
-            "ru": "Адаптер Musiccast",
-            "pt": "Adaptador Musiccast",
-            "nl": "Musiccast-adapter",
-            "fr": "Adaptateur de Musiccast",
-            "it": "Adattatore Musiccast",
-            "es": "Adaptador de Musiccast",
-            "pl": "Adapter Musiccast"
-        },
-        "platform": "Javascript/Node.js",
-        "mode": "daemon",
-        "icon": "musiccast.png",
-        "license": "MIT",
-        "enabled": true,
-        "messagebox": true,
-        "subscribe": "messagebox",
-        "extIcon": "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
-        "keywords": [
-            "musiccast",
-            "sound",
-            "audio"
-        ],
-        "readme": "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
-        "loglevel": "debug",
-        "type": "multimedia",
-        "materialize": true,
-        "compact": true,
-        "authors": [
-            {
-                "name": "foxthefox",
-                "email": "foxthefox@wysiwis.net"
-            }
-        ]
-    },
-    "native": {
-        "netusbplaytime": false,
-        "cdplaytime": false,
-        "keepalive": false,
-        "devices": []
-    },
-    "objects": []
+	"common": {
+		"name": "musiccast",
+		"version": "0.1.5",
+		"news": {
+			"0.1.5": {
+				"en": "error handling when device is not reachable",
+				"de": "Fehlerbehandlung, wenn das Gerät nicht erreichbar ist",
+				"ru": "обработка ошибок, когда устройство недоступно",
+				"pt": "tratamento de erros quando o dispositivo não está acessível",
+				"nl": "foutafhandeling wanneer het apparaat niet bereikbaar is",
+				"fr": "gestion des erreurs lorsque le périphérique n'est pas accessible",
+				"it": "gestione degli errori quando il dispositivo non è raggiungibile",
+				"es": "manejo de errores cuando el dispositivo no es accesible",
+				"pl": "obsługa błędów, gdy urządzenie jest nieosiągalne",
+				"zh-cn": "设备无法访问时的错误处理"
+			},
+			"0.1.4": {
+				"en": "correction of type mismatch",
+				"de": "Korrektur der Typfehlanpassung",
+				"ru": "исправление несоответствия типов",
+				"pt": "correção de incompatibilidade de tipo",
+				"nl": "correctie van het type komt niet overeen",
+				"fr": "correction de l'inadéquation des types",
+				"it": "correzione del tipo non corrispondente",
+				"es": "corrección de desajuste de tipo",
+				"pl": "korekta niedopasowania typu",
+				"zh-cn": "纠正类型不匹配"
+			},
+			"0.1.3": {
+				"en": "added writing for linkControl/linkAudioDelay/linkAudioQuality",
+				"de": "Schreiben für linkControl / linkAudioDelay / linkAudioQuality hinzugefügt",
+				"ru": "добавлена запись для linkControl / linkAudioDelay / linkAudioQuality",
+				"pt": "escrita adicionada para linkControl / linkAudioDelay / linkAudioQuality",
+				"nl": "toegevoegd schrijven voor linkControl / linkAudioDelay / linkAudioQuality",
+				"fr": "ajout d'écriture pour linkControl / linkAudioDelay / linkAudioQuality",
+				"it": "aggiunta la scrittura per linkControl / linkAudioDelay / linkAudioQuality",
+				"es": "escritura agregada para linkControl / linkAudioDelay / linkAudioQuality",
+				"pl": "dodano zapis dla linkControl / linkAudioDelay / linkAudioQuality",
+				"zh-cn": "为linkControl / linkAudioDelay / linkAudioQuality添加了写作"
+			},
+			"0.1.2": {
+				"en": "correction of type mismatch",
+				"de": "Korrektur von Typinkongruenzen",
+				"ru": "исправление несоответствия типов",
+				"pt": "correção de incompatibilidade de tipo",
+				"nl": "correctie van type mismatch",
+				"fr": "correction de l'inadéquation des types",
+				"it": "correzione del tipo non corrispondente",
+				"es": "corrección de tipo no coincidente",
+				"pl": "korekta niedopasowania typu",
+				"zh-cn": "纠正类型不匹配"
+			},
+			"0.1.1": {
+				"en": "clock oneday correction",
+				"de": "Uhr eintägige Korrektur",
+				"ru": "Коррекция часового дня",
+				"pt": "correção de relógio de um dia",
+				"nl": "klok één dag correctie",
+				"fr": "correction d'horloge d'un jour",
+				"it": "correzione oneday dell'orologio",
+				"es": "Corrección de un día de reloj",
+				"pl": "korekta oneday zegara",
+				"zh-cn": "时钟oneday校正"
+			},
+			"0.1.0": {
+				"en": "compact mode added",
+				"de": "Kompaktmodus hinzugefügt",
+				"ru": "добавлен компактный режим",
+				"pt": "modo compacto adicionado",
+				"nl": "compacte modus toegevoegd",
+				"fr": "mode compact ajouté",
+				"it": "modalità compatta aggiunta",
+				"es": "modo compacto agregado",
+				"pl": "dodano tryb kompaktowy"
+			},
+			"0.0.9": {
+				"en": "adminv3 using values2table",
+				"de": "adminv3 verwendet values2table",
+				"ru": "adminv3, используя values2table",
+				"pt": "adminv3 usando values2table",
+				"nl": "adminv3 met waarden2tabel",
+				"fr": "adminv3 utilisant values2table",
+				"it": "adminv3 utilizzando valori2table",
+				"es": "adminv3 usando values2table",
+				"pl": "adminv3 using values2table"
+			},
+			"0.0.8": {
+				"en": "Name added in object, improvements",
+				"de": "Name im Objekt hinzugefügt, Verbesserungen",
+				"ru": "Имя добавлено в объект, улучшения",
+				"pt": "Nome adicionado no objeto, melhorias",
+				"nl": "Naam toegevoegd in object, verbeteringen",
+				"fr": "Nom ajouté dans l'objet, améliorations",
+				"it": "Nome aggiunto nell'oggetto, miglioramenti",
+				"es": "Nombre agregado en el objeto, mejoras",
+				"pl": "Nazwa dodana w obiekcie, ulepszenia"
+			},
+			"0.0.7": {
+				"en": "Tuner/Clock and advanced functions added, adminv3",
+				"de": "Tuner / Clock und erweiterte Funktionen hinzugefügt, adminv3",
+				"ru": "Добавлены настройки тюнера / часов и расширенных функций, adminv3",
+				"pt": "Sintonizador / Relógio e funções avançadas adicionadas, adminv3",
+				"nl": "Tuner / klok en geavanceerde functies toegevoegd, adminv3",
+				"fr": "Syntoniseur / horloge et fonctions avancées ajoutées, adminv3",
+				"it": "Sintonizzatore / Orologio e funzioni avanzate aggiunte, adminv3",
+				"es": "Sintonizador / reloj y funciones avanzadas agregadas, adminv3",
+				"pl": "Tuner / Zegar i zaawansowane funkcje dodane, adminv3"
+			},
+			"0.0.6": {
+				"en": "subscribe to UDP message",
+				"de": "Abo auf UDP Meldungen"
+			},
+			"0.0.5": {
+				"en": "more objects, support NETUSB/CD",
+				"de": "weitere Objekte, Unterstützung NETUSB/CD"
+			},
+			"0.0.4": {
+				"en": "more objects, new functions, search",
+				"de": "weitere Objekte, neue Funktionen, Suche"
+			},
+			"0.0.3": {
+				"en": "more objects",
+				"de": "weitere Objekte"
+			},
+			"0.0.2": {
+				"en": "minor corrections",
+				"de": "kleine Korrekturen"
+			},
+			"0.0.1": {
+				"en": "initial adapter",
+				"de": "Initiale Version",
+				"ru": "Первоначальный адаптер"
+			}
+		},
+		"title": "Yamaha MusicCast",
+		"titleLang": {
+			"en": "Yamaha MusicCast adapter",
+			"de": "Yamaha MusicCast Adapter",
+			"ru": "Адаптер Yamaha MusicCast",
+			"pt": "Adaptador Yamaha MusicCast",
+			"nl": "Yamaha MusicCast-adapter",
+			"fr": "Adaptateur Yamaha MusicCast",
+			"it": "Adattatore Yamaha MusicCast",
+			"es": "Adaptador Yamaha MusicCast",
+			"pl": "Adapter Yamaha MusicCast",
+			"zh-cn": "音乐广播"
+		},
+		"desc": {
+			"en": "Musiccast Adapter",
+			"de": "Musiccast Adapter",
+			"ru": "Адаптер Musiccast",
+			"pt": "Adaptador Musiccast",
+			"nl": "Musiccast-adapter",
+			"fr": "Adaptateur de Musiccast",
+			"it": "Adattatore Musiccast",
+			"es": "Adaptador de Musiccast",
+			"pl": "Adapter Musiccast",
+			"zh-cn": "雅马哈"
+		},
+		"authors": [ "foxthefox <foxthefox@wysiwis.net>" ],
+		"keywords": [ "muscicast", "yamaha", "sound", "audio" ],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "musiccast.png",
+		"enabled": true,
+		"messagebox": true,
+		"extIcon": "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
+		"readme": "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "multimedia",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"netusbplaytime": false,
+		"cdplaytime": false,
+		"keepalive": false,
+		"devices": []
+	},
+	"objects": [],
+	"instanceObjects": []
 }
