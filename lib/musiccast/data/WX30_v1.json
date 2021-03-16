@@ -1,7 +1,7 @@
 [
 	{
-		"request": "GET /YamahaExtendedControl/v1/system/getFeatures",
-		"getFeatures": {
+		"request": "/system/getFeatures",
+		"responses": {
 			"response_code": 0,
 			"system": {
 				"func_list": [
@@ -163,8 +163,8 @@
 		}
 	},
 	{
-		"request": "GET /YamahaExtendedControl/v1/system/getDeviceInfo",
-		"getDeviceInfo": {
+		"request": "/system/getDeviceInfo",
+		"responses": {
 			"response_code": 0,
 			"model_name": "WX-030",
 			"destination": "BG",
@@ -179,8 +179,8 @@
 		}
 	},
 	{
-		"request": "GET /YamahaExtendedControl/v1/netusb/getPlayinfo",
-		"getPlayinfo": {
+		"request": "/netusb/getPlayinfo",
+		"responses": {
 			"response_code": 0,
 			"input": "server",
 			"play_queue_type": "system",
@@ -202,8 +202,8 @@
 		}
 	},
 	{
-		"request": "GET /YamahaExtendedControl/v1/netusb/getRecentInfo",
-		"getRecentInfo": {
+		"request": "/netusb/getRecentInfo",
+		"responses": {
 			"response_code": 0,
 			"recent_info": [
 				{
@@ -490,8 +490,8 @@
 		}
 	},
 	{
-		"request": "GET /YamahaExtendedControl/v1/netusb/getPresetInfo",
-		"getPresetInfo": {
+		"request": "/netusb/getPresetInfo",
+		"responses": {
 			"response_code": 0,
 			"preset_info": [
 				{
@@ -666,8 +666,8 @@
 		}
 	},
 	{
-		"request": "GET /YamahaExtendedControl/v1/main/getStatus",
-		"getStatus": {
+		"request": "/main/getStatus",
+		"responses": {
 			"response_code": 0,
 			"power": "standby",
 			"sleep": 0,
