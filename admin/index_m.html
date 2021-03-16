@@ -1,135 +1,162 @@
 <html>
+
 <head>
-<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
-<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
-<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+	<!-- Load ioBroker scripts and styles-->
+	<link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+	<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
-<script type="text/javascript" src="../../js/translate.js"></script>
-<script type="text/javascript" src="../../lib/js/materialize.js"></script>
-<script type="text/javascript" src="../../js/adapter-settings.js"></script>
-<script type="text/javascript" src="words.js"></script>
+	<script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+	<script type="text/javascript" src="../../js/translate.js"></script>
+	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
+	<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+	<!-- Load our own files -->
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<script type="text/javascript" src="words.js"></script>
+
+	<script type="text/javascript">
+
+		devices = [];
+
+		function setValue(id, value, onChange) {
+			var $value = $('#' + id + '.value');
+
+			if ($value.attr('type') === 'checkbox') {
+				$value.prop('checked', value).change(function() {
+					onChange();
+				});
+			} else {
+				$value.val(value).on('change', function() {
+					onChange();
+				}).on('keyup', function() {
+					onChange();
+				});
+			}
+		}
 
 
-<!-- you have to define 2 functions in the global scope: -->
-<script type="text/javascript">
+		// This will be called by the admin adapter when the settings page loads
+		function load(settings, onChange) {
+			// example: select elements with id=key and class=value and insert value
+			if (!settings) return;
+			devices = settings.devices || [];
 
-   devices = [];
+			for (var key in settings) {
+				if (!settings.hasOwnProperty(key)) continue;
+				setValue(key, settings[key], onChange);
+			}
+			values2table('values', devices, onChange);
 
-   function setValue(id, value, onChange) {
-        var $value = $('#' + id + '.value');
+			//button inits, können nicht woanders hinverlagert werden, da sonst onChange nicht definiert ist
+			//search-button
+			$('#table-button-search').click(function () {
+				getIsAdapterAlive(function (isAlive) {
+						if (isAlive) {           
+								console.log('send browse to adapter');
+								sendTo(null, 'browse', null, function(list) {
+										console.log('browsed items are '+ JSON.stringify(list));
+										var changed = false;
+										for (var j = 0; j < list.length; j++) {
+											var isFound = false;
+											for (var i = 0; i < devices.length; i++) {
+												if (devices[i].ip === list[j].ip) {
+													isFound = true;
+													break;
+												}
+											}
+											if (!isFound) {
+												changed = true;
+												devices.push({
+													ip: list[j].ip,
+													type: list[j].type,
+													uid: list[j].uid,
+													name: list[j].name
+												});
+											}
+										}
+										if (changed) {
+											console.log('devices now '+ JSON.stringify(devices));
+											onChange();
+											//showDevice(devices);
+											values2table('values', devices, onChange);
+										}
+								});
+						} else {
+						showMessage(_('Start or enable adapter first'));
+						}
+					});
+			}).attr('title', _('update adapter information'));
+			$('#table-button-json').click(function () {
+				getIsAdapterAlive(function (isAlive) {
+					if (isAlive) {           
+						console.log('send jsonreq to adapter');
+						sendTo(null, 'jsonreq', null, function(list) {
+							console.log('json items are '+ JSON.stringify(list));
+							showMessage(JSON.stringify(list));
+						});
+					} else {
+					showMessage(_('Start or enable adapter first'));
+					}
+				});
+			}).attr('title', _('got JSON responses'));
 
-        if ($value.attr('type') === 'checkbox') {
-            $value.prop('checked', value).change(function() {
-                onChange();
-            });
-        } else {
-            $value.val(value).on('change', function() {
-                onChange();
-            }).on('keyup', function() {
-                onChange();
-            });
-        }
-    }
 
+			$('.value').each(function () {
+				var $key = $(this);
+				var id = $key.attr('id');
+				if ($key.attr('type') === 'checkbox') {
+					// do not call onChange direct, because onChange could expect some arguments
+					$key.prop('checked', settings[id])
+						.on('change', () => onChange())
+						;
+				} else {
+					// do not call onChange direct, because onChange could expect some arguments
+					$key.val(settings[id])
+						.on('change', () => onChange())
+						.on('keyup', () => onChange())
+						;
+				}
+			});
+			onChange(false);
+			// reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+			if (M) M.updateTextFields();
+		}
 
-    // the function loadSettings has to exist ...
-    function load(settings, onChange) {
-        if (!settings) return;
+		// This will be called by the admin adapter when the user presses the save button
+		function save(callback) {
+			// example: select elements with class=value and build settings object
+			var obj = {};
+			$('.value').each(function () {
+				var $this = $(this);
+				if ($this.attr('type') === 'checkbox') {
+					obj[$this.attr('id')] = $this.prop('checked');
+				} else if ($this.attr('type') === 'number') {
+					obj[$this.attr('id')] = parseFloat($this.val());
+				} else {
+					obj[$this.attr('id')] = $this.val();
+				}
+			});
+			obj.devices = table2values('values'); //es wird nicht devices abgespeichert, sondern der Inhalt der Tabelle (all Zeilen müssen value="" haben)
+			callback(obj);
+		}
+	</script>
 
-        devices = settings.devices || [];
+	<style>
+		.sub-title {
+			margin-top: 2rem!important;
+			padding: 0.5rem;
+			background: #64b5f6;
+			color: white;
+		}
+	</style>
 
-        for (var key in settings) {
-            if (!settings.hasOwnProperty(key)) continue;
-            setValue(key, settings[key], onChange);
-        }
-        values2table('values', devices, onChange);
+</head>
 
-        //button inits, können nicht woanders hinverlagert werden, da sonst onChange nicht definiert ist
-        //search-button
-        $('#table-button-search').click(function () {
-            getIsAdapterAlive(function (isAlive) {
-                    if (isAlive) {           
-                            console.log('send browse to adapter');
-                            sendTo(null, 'browse', null, function(list) {
-                                    console.log('browsed items are '+ JSON.stringify(list));
-                                    var changed = false;
-                                    for (var j = 0; j < list.length; j++) {
-                                        var isFound = false;
-                                        for (var i = 0; i < devices.length; i++) {
-                                            if (devices[i].ip === list[j].ip) {
-                                                isFound = true;
-                                                break;
-                                            }
-                                        }
-                                        if (!isFound) {
-                                            changed = true;
-                                            devices.push({
-                                                ip: list[j].ip,
-                                                type: list[j].type,
-                                                uid: list[j].uid,
-                                                name: list[j].name
-                                            });
-                                        }
-                                    }
-                                    if (changed) {
-                                        console.log('devices now '+ JSON.stringify(devices));
-                                        onChange();
-                                        //showDevice(devices);
-                                        values2table('values', devices, onChange);
-                                    }
-                            });
-                    } else {
-                    showMessage(_('Start or enable adapter first'));
-                    }
-                });
-        }).attr('title', _('update adapter information'));
-        $('#table-button-json').click(function () {
-            getIsAdapterAlive(function (isAlive) {
-                if (isAlive) {           
-                    console.log('send jsonreq to adapter');
-                    sendTo(null, 'jsonreq', null, function(list) {
-                        console.log('json items are '+ JSON.stringify(list));
-                        showMessage(JSON.stringify(list));
-                    });
-                } else {
-                showMessage(_('Start or enable adapter first'));
-                }
-            });
-        }).attr('title', _('got JSON responses'));
-       
-        onChange(false);
-
-    }
-
-    function save(callback) {
-        var obj = {};
-        $('.value').each(function () {
-            var $this = $(this);
-            if ($this.attr('type') === 'checkbox') {
-                obj[$this.attr('id')] = $this.prop('checked');
-            } else {
-                obj[$this.attr('id')] = $this.val();
-            }
-        });
-        // Get edited table
-        obj.devices = table2values('values'); //es wird nicht devices abgespeichert, sondern der Inhalt der Tabelle (all Zeilen müssen value="" haben)
-        callback(obj);
-    }
-
-   
-</script>
-        <style>
-                .sub-title {
-                    margin-top: 2rem!important;
-                    padding: 0.5rem;
-                    background: #64b5f6;
-                    color: white;
-                }
-            </style>
-        </head>
 <body>
+
     <div class="m adapter-container">
         <div class="section">
             <div class="row">
@@ -203,5 +230,7 @@
 
         </div>
     </div>
+
 </body>
+
 </html>
