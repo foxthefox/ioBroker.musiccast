@@ -147,16 +147,16 @@
 		},
 		"title": "Yamaha MusicCast",
 		"titleLang": {
-		    "en": "Yamaha MusicCast adapter for iobroker",
-		    "de": "Yamaha MusicCast Adapter für iobroker",
-		    "ru": "Адаптер Yamaha MusicCast для iobroker",
-		    "pt": "Adaptador Yamaha MusicCast para iobroker",
-		    "nl": "Yamaha MusicCast adapter voor iobroker",
-		    "fr": "Adaptateur Yamaha MusicCast pour iobroker",
-		    "it": "Adattatore Yamaha MusicCast per iobroker",
-		    "es": "Adaptador Yamaha MusicCast para iobroker",
-		    "pl": "Adapter Yamaha MusicCast do iobrokera",
-		    "zh-cn": "适用于iobroker的Yamaha MusicCast适配器"
+		    "en": "Yamaha MusicCast",
+		    "de": "Yamaha MusicCast",
+		    "ru": "Yamaha MusicCast",
+		    "pt": "Yamaha MusicCast",
+		    "nl": "Yamaha MusicCast",
+		    "fr": "Yamaha MusicCast",
+		    "it": "Yamaha MusicCastr",
+		    "es": "Yamaha MusicCast",
+		    "pl": "Yamaha MusicCast",
+		    "zh-cn": "Yamaha MusicCast"
 		},
 		"desc": {
 			"en": "Musiccast Adapter",
