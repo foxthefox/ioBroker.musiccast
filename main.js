@@ -1971,6 +1971,12 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
+		}
+	}
+	async gotMusicSystemInputs(type, uid, sysinputs) {
+		for (let i = 0; i < sysinputs.length; i++) {
+			this.log.info(type + ' actual value filling up input : ' + sysinputs[i].id);
+			//setindef
 			this.setForeignState(
 				'musiccast.0.' + type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.distribution_enable',
 				{ val: sysinputs[i].distribution_enable, ack: true }
@@ -1985,6 +1991,7 @@ class Musiccast extends utils.Adapter {
 			);
 		}
 	}
+
 	async defineMusicNetUsb(type, uid) {
 		this.setObjectNotExists(type + '_' + uid + '.netusb', {
 			type: 'channel',
@@ -4706,7 +4713,7 @@ class Musiccast extends utils.Adapter {
 					});
 
 					for (let i = 0; i < att.zone.length; i++) {
-						this.log.debug(' setup loop # ' + i + ' name ' + JSON.stringify(att.zone[i]));
+						this.log.debug(' zone setup loop # ' + i + ' name ' + JSON.stringify(att.zone[i]));
 
 						const zone_name = att.zone[i].id;
 						await this.defineMusicZoneNew(devtype, devuid, zone_name, att.zone[i]);
@@ -4785,6 +4792,7 @@ class Musiccast extends utils.Adapter {
 					}
 					// input services and their attributes
 					await this.defineMusicSystemInputs(devtype, devuid, att.system.input_list);
+					await this.gotMusicSystemInputs(devtype, devuid, att.system.input_list);
 
 					//CD player objects
 					if (att.zone[0].input_list.indexOf('cd') !== -1) {
