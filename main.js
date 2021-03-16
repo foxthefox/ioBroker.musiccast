@@ -116,7 +116,7 @@ class Musiccast extends utils.Adapter {
 				const foundip = this.getConfigObjects(this.config.devices, 'ip', rinfo.address);
 				if (foundip.length === 0 || foundip.length !== 1) {
 					//nix oder mehr als eine Zuordnung
-					this.log.error('received telegram can not be processed, no config for this IP');
+					this.log.error('received telegram can not be processed, no config for this IP'+ rinfo.address);
 				} else {
 					//try catch
 					this.gotUpdate(JSON.parse(msg.toString()), rinfo.address); //erstmal noch IP, device_id ist eine andere als die in ssdp übermittelte (letze Teil von UDN)
