@@ -4809,7 +4809,6 @@ class Musiccast extends utils.Adapter {
 					}
 					// input services and their attributes
 					await this.defineMusicSystemInputs(devtype, devuid, att.system.input_list);
-					await this.gotMusicSystemInputs(devtype, devuid, att.system.input_list);
 
 					//CD player objects
 					if (att.zone[0].input_list.indexOf('cd') !== -1) {
