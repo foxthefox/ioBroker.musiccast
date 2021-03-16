@@ -116,7 +116,7 @@ class Musiccast extends utils.Adapter {
 				const foundip = this.getConfigObjects(this.config.devices, 'ip', rinfo.address);
 				if (foundip.length === 0 || foundip.length !== 1) {
 					//nix oder mehr als eine Zuordnung
-					this.log.error('received telegram can not be processed, no config for this IP'+ rinfo.address);
+					this.log.error('received telegram can not be processed, no config for this IP' + rinfo.address);
 				} else {
 					//try catch
 					this.gotUpdate(JSON.parse(msg.toString()), rinfo.address); //erstmal noch IP, device_id ist eine andere als die in ssdp übermittelte (letze Teil von UDN)
@@ -3771,7 +3771,7 @@ class Musiccast extends utils.Adapter {
 					}
 					this.log.debug('got Netusb playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
-					const resp = { device: type, request: '/netusb/getPlayInfo', responses: att };
+					const resp = { device: devtype + '_' + devuid, request: '/netusb/getPlayInfo', responses: att };
 					if (
 						!responses.find(
 							(o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getPlayInfo'
@@ -3843,6 +3843,13 @@ class Musiccast extends utils.Adapter {
 					this.log.debug(
 						'got Netusb recent info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
 					);
+					const resp = { device: devtype + '_' + devuid, request: '/netusb/getRecentInfo', responses: att };
+					if (
+						!responses.find(
+							(o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getRecentInfo'
+						)
+					)
+						responses.push(resp);
 					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.recent_info', {
 						val: att.recent_info,
 						ack: true
@@ -3875,6 +3882,13 @@ class Musiccast extends utils.Adapter {
 					this.log.debug(
 						'got Netusb preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
 					);
+					const resp = { device: devtype + '_' + devuid, request: '/netusb/getPresetInfo', responses: att };
+					if (
+						!responses.find(
+							(o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getPresetInfo'
+						)
+					)
+						responses.push(resp);
 					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.preset_info', {
 						val: att.preset_info,
 						ack: true
@@ -4137,10 +4151,15 @@ class Musiccast extends utils.Adapter {
 						'got Common Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
 					);
 
-					const resp = { device: devtype + '_' + devuid, request: '/tuner/getPresetInfo', responses: att };
+					const resp = {
+						device: devtype + '_' + devuid,
+						request: '/tuner/getPresetInfo?band=common',
+						responses: att
+					};
 					if (
 						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo'
+							(o) =>
+								o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=common'
 						)
 					)
 						responses.push(resp);
@@ -4172,6 +4191,17 @@ class Musiccast extends utils.Adapter {
 					this.log.debug(
 						'got FM Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
 					);
+					const resp = {
+						device: devtype + '_' + devuid,
+						request: '/tuner/getPresetInfo?band=fm',
+						responses: att
+					};
+					if (
+						!responses.find(
+							(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=fm'
+						)
+					)
+						responses.push(resp);
 					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.preset_info', {
 						val: att.preset_info,
 						ack: true
@@ -4199,6 +4229,17 @@ class Musiccast extends utils.Adapter {
 					this.log.debug(
 						'got AM Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
 					);
+					const resp = {
+						device: devtype + '_' + devuid,
+						request: '/tuner/getPresetInfo?band=am',
+						responses: att
+					};
+					if (
+						!responses.find(
+							(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=am'
+						)
+					)
+						responses.push(resp);
 					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.preset_info', {
 						val: att.preset_info,
 						ack: true
@@ -4226,6 +4267,17 @@ class Musiccast extends utils.Adapter {
 					this.log.debug(
 						'got DAB Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
 					);
+					const resp = {
+						device: devtype + '_' + devuid,
+						request: '/tuner/getPresetInfo?band=dab',
+						responses: att
+					};
+					if (
+						!responses.find(
+							(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=dab'
+						)
+					)
+						responses.push(resp);
 					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.preset_info', {
 						val: att.preset_info,
 						ack: true
