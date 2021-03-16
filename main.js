@@ -53,15 +53,15 @@ class Musiccast extends utils.Adapter {
 				await this.defineMusicNetUsb(obj[anz].type, obj[anz].uid); //all devices are supporting netusb
 				//defineMClink basic structure
 
-				//some reading from the devices
-				// get system data
-				await this.getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
-
 				//get the inout list and create object
 				await this.defineMusicDeviceFeatures(obj[anz].ip, obj[anz].type, obj[anz].uid);
 				//yamaha.getNameText() evtl. um enum_room für die Zone zu setzen oder über setNameText enum_room aus admin setzen
 
 				//yamaha.getStatus('main'); initial status of device
+
+				//some reading from the devices
+				// get system data
+				this.getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
 
 				// get main status
 				this.getMusicZoneInfo(obj[anz].ip, obj[anz].type, obj[anz].uid, 'main'); //must be looped if more than main zone
@@ -3594,6 +3594,8 @@ class Musiccast extends utils.Adapter {
 								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + key,
 								{ val: convertValue, ack: true }
 							);
+						} else if (key == 'response_code') {
+							// prevent writing on non existing object
 						} else {
 							this.log.debug('Zone Status Update ' + key + '  at ' + att[key]);
 							this.setForeignState(
@@ -3778,6 +3780,10 @@ class Musiccast extends utils.Adapter {
 								val: att[key],
 								ack: true
 							});
+						} else if (key == 'response_code') {
+							// prevent writing on non existing object
+						} else if (key == 'albumart_id') {
+							// prevent writing on non existing object
 						} else {
 							this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb' + '.' + key, {
 								val: att[key],
