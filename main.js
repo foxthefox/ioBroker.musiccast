@@ -3709,8 +3709,8 @@ class Musiccast extends utils.Adapter {
 						}
 					}
 					//die inputs in system befüllen
-					for (let i = 0; i < att.input_list.length; i++) {
-						this.log.info(type + ' actual value filling up input : ' + att.input_list[i].id);
+					for (let i = 0; i < att.system.input_list.length; i++) {
+						this.log.info(type + ' actual value filling up input : ' + att.system.input_list[i].id);
 						//setindef
 						this.setForeignState(
 							'musiccast.0.' +
@@ -3718,9 +3718,9 @@ class Musiccast extends utils.Adapter {
 								'_' +
 								devuid +
 								'.system.inputs.' +
-								att.input_list[i].id +
+								att.system.input_list[i].id +
 								'.distribution_enable',
-							{ val: att.input_list[i].distribution_enable, ack: true }
+							{ val: att.system.input_list[i].distribution_enable, ack: true }
 						);
 						this.setForeignState(
 							'musiccast.0.' +
@@ -3728,9 +3728,9 @@ class Musiccast extends utils.Adapter {
 								'_' +
 								devuid +
 								'.system.inputs.' +
-								att.input_list[i].id +
+								att.system.input_list[i].id +
 								'.account_enable',
-							{ val: att.input_list[i].account_enable, ack: true }
+							{ val: att.system.input_list[i].account_enable, ack: true }
 						);
 						this.setForeignState(
 							'musiccast.0.' +
@@ -3738,9 +3738,9 @@ class Musiccast extends utils.Adapter {
 								'_' +
 								devuid +
 								'.system.inputs.' +
-								att.input_list[i].id +
+								att.system.input_list[i].id +
 								'.play_info_type',
-							{ val: att.input_list[i].play_info_type, ack: true }
+							{ val: att.system.input_list[i].play_info_type, ack: true }
 						);
 					}
 				} else {
