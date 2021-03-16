@@ -1973,25 +1973,6 @@ class Musiccast extends utils.Adapter {
 			});
 		}
 	}
-	async gotMusicSystemInputs(type, uid, sysinputs) {
-		for (let i = 0; i < sysinputs.length; i++) {
-			this.log.info(type + ' actual value filling up input : ' + sysinputs[i].id);
-			//setindef
-			this.setForeignState(
-				'musiccast.0.' + type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.distribution_enable',
-				{ val: sysinputs[i].distribution_enable, ack: true }
-			);
-			this.setForeignState(
-				'musiccast.0.' + type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.account_enable',
-				{ val: sysinputs[i].account_enable, ack: true }
-			);
-			this.setForeignState(
-				'musiccast.0.' + type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.play_info_type',
-				{ val: sysinputs[i].play_info_type, ack: true }
-			);
-		}
-	}
-
 	async defineMusicNetUsb(type, uid) {
 		this.setObjectNotExists(type + '_' + uid + '.netusb', {
 			type: 'channel',
@@ -3633,6 +3614,7 @@ class Musiccast extends utils.Adapter {
 				}
 			});
 	}
+	//mehr als Liste, auch die inputs mit ihren werten
 	getMusicZoneLists(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
@@ -3699,6 +3681,41 @@ class Musiccast extends utils.Adapter {
 								{ val: att.zone[i].actual_volume_mode_list, ack: true }
 							);
 						}
+					}
+					//die inputs in system befüllen
+					for (let i = 0; i < att.input_list.length; i++) {
+						this.log.info(type + ' actual value filling up input : ' + att.input_list[i].id);
+						//setindef
+						this.setForeignState(
+							'musiccast.0.' +
+								devtype +
+								'_' +
+								devuid +
+								'.system.inputs.' +
+								att.input_list[i].id +
+								'.distribution_enable',
+							{ val: att.input_list[i].distribution_enable, ack: true }
+						);
+						this.setForeignState(
+							'musiccast.0.' +
+								devtype +
+								'_' +
+								devuid +
+								'.system.inputs.' +
+								att.input_list[i].id +
+								'.account_enable',
+							{ val: att.input_list[i].account_enable, ack: true }
+						);
+						this.setForeignState(
+							'musiccast.0.' +
+								devtype +
+								'_' +
+								devuid +
+								'.system.inputs.' +
+								att.input_list[i].id +
+								'.play_info_type',
+							{ val: att.input_list[i].play_info_type, ack: true }
+						);
 					}
 				} else {
 					this.log.debug('failure getting status info from  ' + devip + ' : ' + this.responseFailLog(result));
