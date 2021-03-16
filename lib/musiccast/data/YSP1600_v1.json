@@ -1,7 +1,7 @@
 [
 	{
 		"request": "GET /YamahaExtendedControl/v1/system/getFeatures",
-		"getFeatures": {
+		"responses": {
 			"response_code": 0,
 			"system": {
 				"func_list": [
@@ -286,7 +286,7 @@
 	},
 	{
 		"request": "GET /YamahaExtendedControl/v1/system/getDeviceInfo",
-		"getDeviceInfo": {
+		"responses": {
 			"response_code": 0,
 			"model_name": "YSP-1600",
 			"destination": "BG",
@@ -302,7 +302,7 @@
 	},
 	{
 		"request": "GET /YamahaExtendedControl/v1/netusb/getPlayInfo",
-		"getPlayInfo": {
+		"responses": {
 			"response_code": 0,
 			"input": "server",
 			"play_queue_type": "system",
@@ -323,7 +323,7 @@
 	},
 	{
 		"request": "GET /YamahaExtendedControl/v1/netusb/getRecentInfo",
-		"getRecentInfo": {
+		"responses": {
 			"response_code": 0,
 			"recent_info": [
 				{
@@ -611,7 +611,7 @@
 	},
 	{
 		"request": "GET /YamahaExtendedControl/v1/netusb/getPresetInfo",
-		"getPresetInfo": {
+		"responses": {
 			"response_code": 0,
 			"preset_info": [
 				{
@@ -785,7 +785,7 @@
 	},
 	{
 		"request": "GET /YamahaExtendedControl/v1/main/getStatus",
-		"getStatus": {
+		"responses": {
 			"response_code": 0,
 			"power": "on",
 			"volume": 67,
