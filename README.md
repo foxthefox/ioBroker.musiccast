@@ -199,7 +199,7 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
-### 0.2.0
+#### 0.2.0
 * refactoring with "create adaptor"
 * async/await
 
