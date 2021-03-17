@@ -4938,7 +4938,7 @@ class Musiccast extends utils.Adapter {
 			this.log.debug('processing update from: ' + dev + ' with ' + JSON.stringify(msg));
 			if (msg.netusb) {
 				if (msg.netusb.play_time && this.config.netusbplaytime) {
-					this.setForeignState('musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.netusb.playtime', {
+					this.setForeignState('musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.netusb.play_time', {
 						val: msg.netusb.play_time,
 						ack: true
 					});
@@ -4992,7 +4992,7 @@ class Musiccast extends utils.Adapter {
 			if (msg.cd) {
 				//if device_status
 				if (msg.cd.play_time && this.config.cdplaytime) {
-					this.setForeignState('musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.cd.playtime', {
+					this.setForeignState('musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.cd.play_time', {
 						val: msg.cd.play_time,
 						ack: true
 					});
