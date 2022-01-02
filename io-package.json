@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "0.2.1",
+		"version": "0.2.2",
 		"news": {
+			"0.2.2": {
+				"en": "yamaha_yxc 0.0.14",
+				"de": "yamaha_yxc 0.0.14",
+				"ru": "yamaha_yxc 0.0.14",
+				"pt": "yamaha_yxc 0.0.14",
+				"nl": "yamaha_yxc 0.0.14",
+				"fr": "yamaha_yxc 0.0.14",
+				"it": "yamaha_yxc 0.0.14",
+				"es": "yamaha_yxc 0.0.14",
+				"pl": "yamaha_yxc 0.0.14",
+				"zh-cn": "雅马哈_yxc 0.0.14"
+			},
 			"0.2.1": {
 				"en": "license 2022, dependencies",
 				"de": "Lizenz 2022, Abhängigkeiten",
