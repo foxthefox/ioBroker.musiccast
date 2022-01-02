@@ -1,19 +1,31 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "0.2.0",
+		"version": "0.2.1",
 		"news": {
+			"0.2.1": {
+				"en": "license 2022, dependencies",
+				"de": "Lizenz 2022, Abhängigkeiten",
+				"ru": "лицензия 2022, зависимости",
+				"pt": "licença 2022, dependências",
+				"nl": "licentie 2022, afhankelijkheden",
+				"fr": "licence 2022, dépendances",
+				"it": "licenza 2022, dipendenze",
+				"es": "licencia 2022, dependencias",
+				"pl": "licencja 2022, zależności",
+				"zh-cn": "许可证 2022，依赖项"
+			},
 			"0.2.0": {
-			    "en": "refactoring with \"create adaptor\" and async/await",
-			    "de": "Refactoring mit \"Adapter erstellen\" und async / await",
-			    "ru": "рефакторинг с \"создать адаптер\" и async / await",
-			    "pt": "refatoração com \"criar adaptador\" e assíncrono / esperar",
-			    "nl": "refactoring met \"create adapter\" en async / await",
-			    "fr": "refactoring avec \"create adapter\" et async / await",
-			    "it": "refactoring con \"create adapter\" e async / await",
-			    "es": "refactorización con \"crear adaptador\" y async / await",
-			    "pl": "refaktoryzacja za pomocą „create adapter” i async / await",
-			    "zh-cn": "使用“创建适配器”和异步/等待进行重构"
+				"en": "refactoring with \"create adaptor\" and async/await",
+				"de": "Refactoring mit \"Adapter erstellen\" und async / await",
+				"ru": "рефакторинг с \"создать адаптер\" и async / await",
+				"pt": "refatoração com \"criar adaptador\" e assíncrono / esperar",
+				"nl": "refactoring met \"create adapter\" en async / await",
+				"fr": "refactoring avec \"create adapter\" et async / await",
+				"it": "refactoring con \"create adapter\" e async / await",
+				"es": "refactorización con \"crear adaptador\" y async / await",
+				"pl": "refaktoryzacja za pomocą „create adapter” i async / await",
+				"zh-cn": "使用“创建适配器”和异步/等待进行重构"
 			},
 			"0.1.5": {
 				"en": "error handling when device is not reachable",
@@ -147,16 +159,16 @@
 		},
 		"title": "Yamaha MusicCast",
 		"titleLang": {
-		    "en": "Yamaha MusicCast",
-		    "de": "Yamaha MusicCast",
-		    "ru": "Yamaha MusicCast",
-		    "pt": "Yamaha MusicCast",
-		    "nl": "Yamaha MusicCast",
-		    "fr": "Yamaha MusicCast",
-		    "it": "Yamaha MusicCastr",
-		    "es": "Yamaha MusicCast",
-		    "pl": "Yamaha MusicCast",
-		    "zh-cn": "Yamaha MusicCast"
+			"en": "Yamaha MusicCast",
+			"de": "Yamaha MusicCast",
+			"ru": "Yamaha MusicCast",
+			"pt": "Yamaha MusicCast",
+			"nl": "Yamaha MusicCast",
+			"fr": "Yamaha MusicCast",
+			"it": "Yamaha MusicCastr",
+			"es": "Yamaha MusicCast",
+			"pl": "Yamaha MusicCast",
+			"zh-cn": "Yamaha MusicCast"
 		},
 		"desc": {
 			"en": "Musiccast Adapter",
