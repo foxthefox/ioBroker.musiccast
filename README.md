@@ -199,6 +199,9 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+#### 0.2.2
+* musiccast API 0.0.14
+
 #### 0.2.1
 * license 2022
 * dependency correction
