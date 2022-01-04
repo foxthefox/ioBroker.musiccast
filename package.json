@@ -1,6 +1,6 @@
 {
 	"name": "iobroker.musiccast",
-	"version": "0.2.2",
+	"version": "1.0.0",
 	"description": "ioBroker MusicCast Adapter",
 	"author": {
 		"name": "foxthefox",
@@ -8,15 +8,20 @@
 	},
 	"homepage": "https://github.com/foxthefox/ioBroker.musiccast",
 	"license": "MIT",
-	"keywords": [ "Yamaha", "MusicCast", "Smart Home", "Sound" ],
+	"keywords": [
+		"Yamaha",
+		"MusicCast",
+		"Smart Home",
+		"Sound"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/foxthefox/ioBroker.musiccast"
 	},
 	"dependencies": {
 		"@iobroker/adapter-core": "^2.5.1",
-		"yamaha-yxc-nodejs": "0.0.14",
-		"md5": "^2.2.1"
+		"md5": "^2.2.1",
+		"yamaha-yxc-nodejs": "git+https://github.com/foxthefox/yamaha-yxc-nodejs.git"
 	},
 	"devDependencies": {
 		"@iobroker/testing": "^2.5.2",

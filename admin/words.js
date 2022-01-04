@@ -82,6 +82,18 @@ systemDictionary = {
 		es: 'modelo',
 		pl: 'Model'
 	},
+	sid: {
+		en: 'System ID',
+		de: 'System-ID',
+		ru: 'Системный ID',
+		pt: 'ID do sistema',
+		nl: 'Systeem-ID',
+		fr: 'Identifiant système',
+		it: 'ID di sistema',
+		es: 'ID del sistema',
+		pl: 'Identyfikator systemu',
+		'zh-cn': '系统标识'
+	},
 	uid: {
 		en: 'DeviceID',
 		de: 'Geräte ID',

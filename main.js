@@ -61,10 +61,10 @@ class Musiccast extends utils.Adapter {
 
 				//some reading from the devices
 				// get system data
-				this.getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
+				await this.getMusicDeviceInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
 
 				// get main status
-				this.getMusicZoneInfo(obj[anz].ip, obj[anz].type, obj[anz].uid, 'main'); //must be looped if more than main zone
+				await this.getMusicZoneInfo(obj[anz].ip, obj[anz].type, obj[anz].uid, 'main'); //must be looped if more than main zone
 
 				/*
 				adapter.getStatesOf(adapter.namespace + "." + obj[anz].type + "_" + obj[anz].uid + ".zone2",function (err, channel) {
@@ -92,11 +92,11 @@ class Musiccast extends utils.Adapter {
 				*/
 
 				// get main lists status
-				this.getMusicZoneLists(obj[anz].ip, obj[anz].type, obj[anz].uid); //
+				await this.getMusicZoneLists(obj[anz].ip, obj[anz].type, obj[anz].uid); //
 				// get netusb status
-				this.getMusicNetusbInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
-				this.getMusicNetusbRecent(obj[anz].ip, obj[anz].type, obj[anz].uid);
-				this.getMusicNetusbPreset(obj[anz].ip, obj[anz].type, obj[anz].uid);
+				await this.getMusicNetusbInfo(obj[anz].ip, obj[anz].type, obj[anz].uid);
+				await this.getMusicNetusbRecent(obj[anz].ip, obj[anz].type, obj[anz].uid);
+				await this.getMusicNetusbPreset(obj[anz].ip, obj[anz].type, obj[anz].uid);
 
 				//get CD initially
 				//get Clock initially
@@ -203,7 +203,7 @@ class Musiccast extends utils.Adapter {
 	 * @param {string} id
 	 * @param {ioBroker.State | null | undefined} state
 	 */
-	onStateChange(id, state) {
+	async onStateChange(id, state) {
 		if (state) {
 			// The state was changed
 			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
@@ -235,7 +235,7 @@ class Musiccast extends utils.Adapter {
 							this.log.debug(
 								'sent power succesfully to ' + zone + ' with ' + convertValue + '(' + state.val + ')'
 							);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting power' + this.responseFailLog(result));
 						}
@@ -245,7 +245,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.mute(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent mute succesfully to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure mute cmd' + this.responseFailLog(result));
 						}
@@ -255,7 +255,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.surround(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent surround succesfully to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting surround' + this.responseFailLog(result));
 						}
@@ -265,7 +265,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setVolumeTo(Math.round(state.val), zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent volume succesfully  to ' + zone + ' with ' + Math.round(state.val));
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure sending volume ' + this.responseFailLog(result));
 						}
@@ -275,7 +275,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setInput(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set input succesfully  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting input ' + this.responseFailLog(result));
 						}
@@ -285,7 +285,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setEqualizer(state.val, '', '', zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set equalizer LOW succesfully  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting EQ LOW ' + this.responseFailLog(result));
 						}
@@ -295,7 +295,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setEqualizer('', state.val, '', zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set equalizer MID succesfully  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting EQ MID ' + this.responseFailLog(result));
 						}
@@ -305,7 +305,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setEqualizer('', '', state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set equalizer High succesfully  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting EQ HIGH' + this.responseFailLog(result));
 						}
@@ -315,7 +315,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setSubwooferVolumeTo(state.val).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set subwoofer volume succesfully  to ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting subwoofer volume' + this.responseFailLog(result));
 						}
@@ -325,7 +325,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setBassExtension(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set Bass Extension  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting Bass Extension' + this.responseFailLog(result));
 						}
@@ -335,17 +335,17 @@ class Musiccast extends utils.Adapter {
 					yamaha.setEnhancer(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set Enhancer  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting Enhancer' + this.responseFailLog(result));
 						}
 					});
 				}
 				if (dp === 'direct') {
-					yamaha.setDirect(state.val, zone).then((result) => {
+					await yamaha.setDirect(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set Direct  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting Direct' + this.responseFailLog(result));
 						}
@@ -355,7 +355,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setPureDirect(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set Pure Direct  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting Pure Direct' + this.responseFailLog(result));
 						}
@@ -365,7 +365,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setSound(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set sound program  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting sound program' + this.responseFailLog(result));
 						}
@@ -375,7 +375,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setBassTo(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set Bass to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting Bass' + this.responseFailLog(result));
 						}
@@ -385,7 +385,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setTrebleTo(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set Treble to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting Treble' + this.responseFailLog(result));
 						}
@@ -395,7 +395,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setBalance(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set Balance to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting Balance' + this.responseFailLog(result));
 						}
@@ -405,7 +405,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.sleep(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set sleep succesfully  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting sleep' + this.responseFailLog(result));
 						}
@@ -415,7 +415,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setClearVoice(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('set ClearVoice succesfully  to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting ClearVoice' + this.responseFailLog(result));
 						}
@@ -426,7 +426,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setLinkControl(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent link control to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting link control ' + this.responseFailLog(result));
 						}
@@ -437,7 +437,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setLinkAudioDelay(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent audio delay succesfully to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting audio delay ' + this.responseFailLog(result));
 						}
@@ -448,7 +448,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setLinkAudioQuality(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent audio quality succesfully to ' + zone + ' with ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure setting audio quality ' + this.responseFailLog(result));
 						}
@@ -460,7 +460,7 @@ class Musiccast extends utils.Adapter {
                     yamaha.recallPreset(state.val, zone).then((result) => {
                         if (JSON.parse(result).response_code === 0 ){
                             this.log.debug('recalled the Preset succesfully in zone  ' + zone + ' to ' + state.val);
-                            //this.setForeignState(id, true, true);
+                            //await this.setStateAsync(id, true, true);
                         }
                         else {this.log.debug('failure recalling Preset' +  this.responseFailLog(result));}
                     });
@@ -470,7 +470,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.recallPreset(state.val).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('recalled the Preset succesfully to ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure recalling Preset' + this.responseFailLog(result));
 						}
@@ -481,7 +481,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.prevNet().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent PREV  to netusb ');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending PREV to NETUSB' + this.responseFailLog(result));
 							}
@@ -491,7 +491,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.prevCD().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent PREV  to CD ');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending PREV to CD' + this.responseFailLog(result));
 							}
@@ -503,7 +503,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.nextNet().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent NEXT  to netusb ');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending NEXT to NETUSB' + this.responseFailLog(result));
 							}
@@ -513,7 +513,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.nextCD().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent NEXT  to CD ');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending NEXT to CD' + this.responseFailLog(result));
 							}
@@ -525,7 +525,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.toggleNetRepeat().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent Repeat  to netusb ');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending Repeat to NETUSB' + this.responseFailLog(result));
 							}
@@ -535,7 +535,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.toggleCDRepeat().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent Repeat  to CD ');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending Repeat to CD' + this.responseFailLog(result));
 							}
@@ -544,12 +544,12 @@ class Musiccast extends utils.Adapter {
 				}
 				if (dp === 'playPause') {
 					if (idx === 'netusb') {
-						this.getForeignState(id.replace('playPause', 'playback'), (err, state) => {
+						await this.getStateAsync(id.replace('playPause', 'playback'), (err, state) => {
 							if (state.val === 'stop') {
 								yamaha.playNet().then((result) => {
 									if (JSON.parse(result).response_code === 0) {
 										this.log.debug('set NETUSB Play succesfully  to ' + state.val);
-										//this.setForeignState(id, true, true);
+										//await this.setStateAsync(id, true, true);
 									} else {
 										this.log.debug('failure setting NETUSB Play' + this.responseFailLog(result));
 									}
@@ -558,7 +558,7 @@ class Musiccast extends utils.Adapter {
 								yamaha.stopNet().then((result) => {
 									if (JSON.parse(result).response_code === 0) {
 										this.log.debug('set NETUSB Stop succesfully  to ' + state.val);
-										//this.setForeignState(id, true, true);
+										//await this.setStateAsync(id, true, true);
 									} else {
 										this.log.debug('failure setting NETUSB Stop' + this.responseFailLog(result));
 									}
@@ -571,7 +571,7 @@ class Musiccast extends utils.Adapter {
 							yamaha.playCD().then((result) => {
 								if (JSON.parse(result).response_code === 0) {
 									this.log.debug('set CD Play succesfully  to ' + state.val);
-									//this.setForeignState(id, true, true);
+									//await this.setStateAsync(id, true, true);
 								} else {
 									this.log.debug('failure setting CD Play' + this.responseFailLog(result));
 								}
@@ -580,7 +580,7 @@ class Musiccast extends utils.Adapter {
 							yamaha.stopCD().then((result) => {
 								if (JSON.parse(result).response_code === 0) {
 									this.log.debug('set CD Stop succesfully  to ' + state.val);
-									//this.setForeignState(id, true, true);
+									//await this.setStateAsync(id, true, true);
 								} else {
 									this.log.debug('failure setting CD Stop' + this.responseFailLog(result));
 								}
@@ -593,7 +593,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.stopNet().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('set NETUSB Stop succesfully  to ' + state.val);
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure setting NETUSB Stop' + this.responseFailLog(result));
 							}
@@ -603,7 +603,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.stopCD().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('set CD Stop succesfully  to ' + state.val);
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure setting CD Stop' + this.responseFailLog(result));
 							}
@@ -615,7 +615,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.toggleNetShuffle().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent Shuffle  to netusb ');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending Shuffle to NETUSB' + this.responseFailLog(result));
 							}
@@ -625,7 +625,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.toggleCDShuffle().then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent Shuffle to CD ');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending Shuffle to CD' + this.responseFailLog(result));
 							}
@@ -640,7 +640,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.startDistribution(num).then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent Start Distribution');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending Start Distribution' + this.responseFailLog(result));
 							}
@@ -650,7 +650,7 @@ class Musiccast extends utils.Adapter {
 						yamaha.stopDistribution(num).then((result) => {
 							if (JSON.parse(result).response_code === 0) {
 								this.log.debug('sent Stop Distribution');
-								//this.setForeignState(id, true, true);
+								//await this.setStateAsync(id, true, true);
 							} else {
 								this.log.debug('failure sending Stop Distribution' + this.responseFailLog(result));
 							}
@@ -672,7 +672,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent ClientInfo : ' + clientIP);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure sending ClientInfo' + this.responseFailLog(result));
 						}
@@ -681,7 +681,7 @@ class Musiccast extends utils.Adapter {
 					yamaha2.setServerInfo(JSON.stringify(masterpayload)).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent ServerInfo ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
 						}
@@ -690,7 +690,7 @@ class Musiccast extends utils.Adapter {
 					yamaha2.startDistribution('0').then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent start ServerInfo ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
 						}
@@ -710,7 +710,7 @@ class Musiccast extends utils.Adapter {
 					yamaha2.stopDistribution(num).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent Stop Distribution');
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure sending Stop Distribution' + this.responseFailLog(result));
 						}
@@ -719,7 +719,7 @@ class Musiccast extends utils.Adapter {
 					yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent Client disconnect to : ' + clientIP);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure sending disconnect' + this.responseFailLog(result));
 						}
@@ -728,7 +728,7 @@ class Musiccast extends utils.Adapter {
 					yamaha2.setServerInfo(JSON.stringify(masterpayload)).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
 							this.log.debug('sent ServerInfo to ' + state.val);
-							//this.setForeignState(id, true, true);
+							//await this.setStateAsync(id, true, true);
 						} else {
 							this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
 						}
@@ -747,7 +747,7 @@ class Musiccast extends utils.Adapter {
 	//  * Using this method requires "common.messagebox" property to be set to true in io-package.json
 	//  * @param {ioBroker.Message} obj
 	//  */
-	onMessage(obj) {
+	async onMessage(obj) {
 		let wait = false;
 		this.log.debug('messagebox received ' + JSON.stringify(obj));
 		if (typeof obj === 'object' && obj.message) {
@@ -759,14 +759,15 @@ class Musiccast extends utils.Adapter {
 				if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
 			}
 		} else if (obj) {
-			const result = [];
+			let result = [];
 			switch (obj.command) {
 				case 'browse':
 					yamaha = new YamahaYXC();
 					yamaha
 						.discover()
 						.then((res) => {
-							result.push({ ip: res[0], name: res[1], type: res[2], uid: res[3] });
+							result = res;
+							//result.push({ ip: res[0], name: res[1], type: res[2], uid: res[3] });
 							this.log.debug('result ' + JSON.stringify(result));
 						})
 						.done(() => {
@@ -903,7 +904,7 @@ class Musiccast extends utils.Adapter {
 
 	async defineMusicDevice(type, uid, name) {
 		this.log.info('Setting up System :' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid, {
+		await this.setObjectNotExistsAsync(type + '_' + uid, {
 			type: 'device',
 			common: {
 				name: 'MusicCast ' + type + ' ' + name,
@@ -913,7 +914,7 @@ class Musiccast extends utils.Adapter {
 				addr: uid
 			}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.system', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.system', {
 			type: 'channel',
 			common: {
 				name: 'MusicCast System Info',
@@ -923,7 +924,7 @@ class Musiccast extends utils.Adapter {
 				addr: uid
 			}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.system.api_version', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.system.api_version', {
 			type: 'state',
 			common: {
 				name: 'API Version',
@@ -935,7 +936,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.system.system_version', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.system.system_version', {
 			type: 'state',
 			common: {
 				name: 'System Version',
@@ -947,7 +948,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.system.system_id', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.system.system_id', {
 			type: 'state',
 			common: {
 				name: 'System ID',
@@ -959,7 +960,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.system.device_id', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.system.device_id', {
 			type: 'state',
 			common: {
 				name: 'Device ID',
@@ -971,7 +972,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.system.getDeviceInfo', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.system.getDeviceInfo', {
 			type: 'state',
 			common: {
 				name: 'Feedback of getDeviceInfo',
@@ -983,7 +984,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.system.getFeatures', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.system.getFeatures', {
 			type: 'state',
 			common: {
 				name: 'Feedback of getFeatures',
@@ -998,7 +999,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicZoneNew(type, uid, zone, zone_arr) {
 		this.log.info('Setting up Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone, {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone, {
 			type: 'channel',
 			common: {
 				name: 'MusicCast Zone ' + type,
@@ -1012,7 +1013,7 @@ class Musiccast extends utils.Adapter {
 		/*
 		if (zone_arr.zone_b){
 			this.log.debug('zone b dabei');
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.zone_b', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.zone_b', {
 				type: 'state',
 				common: {
 					"name": "Zone B",
@@ -1026,7 +1027,7 @@ class Musiccast extends utils.Adapter {
 			});
 		} else this.log.debug('zone b nicht dabei');
 		*/
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.getStatus', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.getStatus', {
 			type: 'state',
 			common: {
 				name: 'Feedback of getStatus',
@@ -1038,7 +1039,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.disable_flags', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.disable_flags', {
 			type: 'state',
 			common: {
 				name: 'disable_flags',
@@ -1051,7 +1052,7 @@ class Musiccast extends utils.Adapter {
 			native: {}
 		});
 		if (zone_arr.func_list.indexOf('volume') !== -1) {
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.volume', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.volume', {
 				type: 'state',
 				common: {
 					name: 'Volume',
@@ -1075,7 +1076,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.max_volume', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.max_volume', {
 				type: 'state',
 				common: {
 					name: 'max Volume',
@@ -1095,7 +1096,7 @@ class Musiccast extends utils.Adapter {
 			});
 		}
 		if (zone_arr.func_list.indexOf('mute') !== -1) {
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.mute', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.mute', {
 				type: 'state',
 				common: {
 					name: 'Mute',
@@ -1109,7 +1110,7 @@ class Musiccast extends utils.Adapter {
 			});
 		}
 		if (zone_arr.func_list.indexOf('power') !== -1) {
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.power', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.power', {
 				type: 'state',
 				common: {
 					name: 'Power ON/OFF(Standby)',
@@ -1124,7 +1125,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('equalizer') !== -1) {
 			this.log.info('Setting up Equalizer in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.low', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.low', {
 				type: 'state',
 				common: {
 					name: 'EQ Low',
@@ -1148,7 +1149,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.mid', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.mid', {
 				type: 'state',
 				common: {
 					name: 'EQ Mid',
@@ -1172,7 +1173,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.high', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.high', {
 				type: 'state',
 				common: {
 					name: 'EQ High',
@@ -1196,7 +1197,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.eq_mode', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.eq_mode', {
 				type: 'state',
 				common: {
 					name: 'EQ Mode',
@@ -1211,7 +1212,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('sleep') !== -1) {
 			this.log.info('Setting up sleep timer in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.sleep', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.sleep', {
 				type: 'state',
 				common: {
 					name: 'Sleep Timer',
@@ -1228,7 +1229,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('clear_voice') !== -1) {
 			this.log.info('Setting up Clear Voice in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.clearVoice', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.clearVoice', {
 				type: 'state',
 				common: {
 					name: 'Clear Voice cmd',
@@ -1240,7 +1241,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.clear_voice', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.clear_voice', {
 				type: 'state',
 				common: {
 					name: 'Clear Voice status',
@@ -1255,7 +1256,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('direct') !== -1) {
 			this.log.info('Setting up direct in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.direct', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.direct', {
 				type: 'state',
 				common: {
 					name: 'direct',
@@ -1270,7 +1271,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('pure_direct') !== -1) {
 			this.log.info('Setting up pure_direct in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.pure_direct', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.pure_direct', {
 				type: 'state',
 				common: {
 					name: 'pure direct',
@@ -1285,7 +1286,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('enhancer') !== -1) {
 			this.log.info('Setting up pure_direct in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.enhancer', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.enhancer', {
 				type: 'state',
 				common: {
 					name: 'enhancer',
@@ -1300,7 +1301,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('tone_control') !== -1) {
 			this.log.info('Setting up tone_control in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.treble', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.treble', {
 				type: 'state',
 				common: {
 					name: 'treble', //name from system/get Features
@@ -1324,7 +1325,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.bass', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.bass', {
 				type: 'state',
 				common: {
 					name: 'bass',
@@ -1348,7 +1349,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.tone_control_mode_list', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.tone_control_mode_list', {
 				type: 'state',
 				common: {
 					name: 'Tone Control Mode options',
@@ -1360,7 +1361,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.tone_mode', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.tone_mode', {
 				type: 'state',
 				common: {
 					name: 'Tone control mode',
@@ -1376,7 +1377,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('balance') !== -1) {
 			this.log.info('Setting up balance in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.balance', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.balance', {
 				type: 'state',
 				common: {
 					name: 'balance',
@@ -1403,7 +1404,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('dialogue_level') !== -1) {
 			this.log.info('Setting up dialogue_level in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.dialogue_level', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.dialogue_level', {
 				type: 'state',
 				common: {
 					name: 'dialogue_level',
@@ -1430,7 +1431,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('dialogue_lift') !== -1) {
 			this.log.info('Setting up dialogue_lift in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.dialogue_lift', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.dialogue_lift', {
 				type: 'state',
 				common: {
 					name: 'dialogue_lift',
@@ -1457,7 +1458,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('subwoofer_volume') !== -1) {
 			this.log.info('Setting up subwoofer_volume in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.subwoofer_volume', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.subwoofer_volume', {
 				type: 'state',
 				common: {
 					name: 'subwoofer_volume',
@@ -1484,7 +1485,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('bass_extension') !== -1) {
 			this.log.info('Setting up bass_extension in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.bass_extension', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.bass_extension', {
 				type: 'state',
 				common: {
 					name: 'bass_extension',
@@ -1499,7 +1500,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (zone_arr.func_list.indexOf('scene') !== -1) {
 			this.log.info('Setting up scene in Zone:' + zone + ' of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.scene_num', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.scene_num', {
 				type: 'state',
 				common: {
 					name: 'scene #',
@@ -1511,13 +1512,13 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setForeignState('musiccast.0.' + type + '_' + uid + '.' + zone + '.scene_num', {
+			await this.setStateAsync('musiccast.0.' + type + '_' + uid + '.' + zone + '.scene_num', {
 				val: zone_arr.scene_num,
 				ack: true
 			});
 		}
 		if (zone_arr.func_list.indexOf('contents_display') !== -1) {
-			this.setObjectNotExists(type + '_' + uid + '.' + zone + '.contents_display', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.contents_display', {
 				type: 'state',
 				common: {
 					name: 'contents_display',
@@ -1536,7 +1537,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicInputs(type, uid, zone, inputs) {
 		this.log.info('Setting up Inputs in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.input_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.input_list', {
 			type: 'state',
 			common: {
 				name: 'list of inputs',
@@ -1548,7 +1549,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.input', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.input', {
 			type: 'state',
 			common: {
 				name: 'Input selection',
@@ -1564,7 +1565,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicLinkCtrl(type, uid, zone, ctrl) {
 		this.log.info('Setting up Link Control in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_control_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.link_control_list', {
 			type: 'state',
 			common: {
 				name: 'link control options',
@@ -1576,7 +1577,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_control', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.link_control', {
 			type: 'state',
 			common: {
 				name: 'link control selection',
@@ -1589,7 +1590,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.distribution_enable', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.distribution_enable', {
 			type: 'state',
 			common: {
 				name: 'distribution enable',
@@ -1603,7 +1604,7 @@ class Musiccast extends utils.Adapter {
 		});
 		/**zusatzobjekte für mc_link
 		*/
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.group_id', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.group_id', {
 			type: 'state',
 			common: {
 				name: 'MC Link group ID',
@@ -1615,7 +1616,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.group_name', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.group_name', {
 			type: 'state',
 			common: {
 				name: 'MC Link group name',
@@ -1627,7 +1628,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.role', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.role', {
 			type: 'state',
 			common: {
 				name: 'MC Link group role',
@@ -1639,7 +1640,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.server_zone', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.server_zone', {
 			type: 'state',
 			common: {
 				name: 'MC Link server zone',
@@ -1651,7 +1652,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.client_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.client_list', {
 			type: 'state',
 			common: {
 				name: 'MC Link client list',
@@ -1663,7 +1664,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.add_to_group', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.add_to_group', {
 			type: 'state',
 			common: {
 				name: 'MC Link add client',
@@ -1675,7 +1676,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.remove_from_group', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.remove_from_group', {
 			type: 'state',
 			common: {
 				name: 'MC Link remove client',
@@ -1687,7 +1688,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.distr_state', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.distr_state', {
 			type: 'state',
 			common: {
 				name: 'MC Link distribution start/stop',
@@ -1702,7 +1703,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicSoundProg(type, uid, zone, func_list, soundoptions) {
 		this.log.info('Setting up SoundProgramm in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.sound_program_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.sound_program_list', {
 			type: 'state',
 			common: {
 				name: 'Sound Program options',
@@ -1714,7 +1715,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.sound_program', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.sound_program', {
 			type: 'state',
 			common: {
 				name: 'Sound Program selection',
@@ -1730,7 +1731,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicSurroundDec(type, uid, zone, func_list, surroundoptions) {
 		this.log.info('Setting up Surround in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.surr_decoder_type_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.surr_decoder_type_list', {
 			type: 'state',
 			common: {
 				name: 'Surround options',
@@ -1742,7 +1743,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.surr_decoder_type', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.surr_decoder_type', {
 			type: 'state',
 			common: {
 				name: 'Surround selection',
@@ -1758,7 +1759,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicAudioSelect(type, uid, zone, func_list, audiooptions) {
 		this.log.info('Setting up Audio Selection in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.audio_select_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.audio_select_list', {
 			type: 'state',
 			common: {
 				name: 'Audio Selcetion options',
@@ -1770,7 +1771,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.audio_select', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.audio_select', {
 			type: 'state',
 			common: {
 				name: 'Audio selection',
@@ -1786,7 +1787,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicPartyMode(type, uid, zone) {
 		this.log.info('Setting up Party Mode in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.party_enable', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.party_enable', {
 			type: 'state',
 			common: {
 				name: 'party_enable',
@@ -1802,7 +1803,7 @@ class Musiccast extends utils.Adapter {
 	async defineMusicActualVolume(type, uid, zone, func_list, actvolumeoptions, range_step) {
 		this.log.info('Setting up Actual Volume in Zone:' + zone + ' of ' + type + '-' + uid);
 		this.log.info('Setting up Actual Volume in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.actual_volume_mode_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.actual_volume_mode_list', {
 			type: 'state',
 			common: {
 				name: 'Actual volume mode options',
@@ -1814,7 +1815,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_mode', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.act_vol_mode', {
 			type: 'state',
 			common: {
 				name: 'Actual Volume Mode',
@@ -1827,7 +1828,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_val', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.act_vol_val', {
 			type: 'state',
 			common: {
 				name: 'Actual Volume db',
@@ -1852,7 +1853,7 @@ class Musiccast extends utils.Adapter {
 			native: {}
 		});
 
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.act_vol_unit', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.act_vol_unit', {
 			type: 'state',
 			common: {
 				name: 'Actual Volume Unit',
@@ -1867,7 +1868,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicLinkAudioDelay(type, uid, zone, func_list, linkaudiolist) {
 		this.log.info('Setting up link_audio_delay in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_delay', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.link_audio_delay', {
 			type: 'state',
 			common: {
 				name: 'link_audio_delay',
@@ -1880,7 +1881,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_delay_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.link_audio_delay_list', {
 			type: 'state',
 			common: {
 				name: 'link_audio_delay_list',
@@ -1895,7 +1896,7 @@ class Musiccast extends utils.Adapter {
 	}
 	async defineMusicLinkAudioQuality(type, uid, zone, func_list, linkaudiolist) {
 		this.log.info('Setting up link_audio_quality in Zone:' + zone + ' of ' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_quality', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.link_audio_quality', {
 			type: 'state',
 			common: {
 				name: 'link_audio_quality',
@@ -1908,7 +1909,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.' + zone + '.link_audio_quality_list', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.link_audio_quality_list', {
 			type: 'state',
 			common: {
 				name: 'link_audio_quality_list',
@@ -1925,7 +1926,7 @@ class Musiccast extends utils.Adapter {
 		this.log.debug(type + ' has number of system inputs : ' + sysinputs.length);
 		for (let i = 0; i < sysinputs.length; i++) {
 			this.log.info(type + ' setting up input : ' + sysinputs[i].id);
-			this.setObjectNotExists(type + '_' + uid + '.system.inputs.' + sysinputs[i].id, {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.system.inputs.' + sysinputs[i].id, {
 				type: 'channel',
 				common: {
 					name: 'Input ' + sysinputs[i].id,
@@ -1935,46 +1936,55 @@ class Musiccast extends utils.Adapter {
 					addr: uid
 				}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.distribution_enable', {
-				type: 'state',
-				common: {
-					name: 'distribution enabled',
-					type: 'boolean',
-					read: true,
-					write: false,
-					role: 'indicator',
-					desc: 'distribution enabled'
-				},
-				native: {}
-			});
-			this.setObjectNotExists(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.account_enable', {
-				type: 'state',
-				common: {
-					name: 'account to be enabled',
-					type: 'boolean',
-					read: true,
-					write: false,
-					role: 'indicator',
-					desc: 'account to be enabled'
-				},
-				native: {}
-			});
-			this.setObjectNotExists(type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.play_info_type', {
-				type: 'state',
-				common: {
-					name: 'play info type',
-					type: 'string',
-					read: true,
-					write: false,
-					role: 'indicator',
-					desc: 'play info type'
-				},
-				native: {}
-			});
+			await this.setObjectNotExistsAsync(
+				type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.distribution_enable',
+				{
+					type: 'state',
+					common: {
+						name: 'distribution enabled',
+						type: 'boolean',
+						read: true,
+						write: false,
+						role: 'indicator',
+						desc: 'distribution enabled'
+					},
+					native: {}
+				}
+			);
+			await this.setObjectNotExistsAsync(
+				type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.account_enable',
+				{
+					type: 'state',
+					common: {
+						name: 'account to be enabled',
+						type: 'boolean',
+						read: true,
+						write: false,
+						role: 'indicator',
+						desc: 'account to be enabled'
+					},
+					native: {}
+				}
+			);
+			await this.setObjectNotExistsAsync(
+				type + '_' + uid + '.system.inputs.' + sysinputs[i].id + '.play_info_type',
+				{
+					type: 'state',
+					common: {
+						name: 'play info type',
+						type: 'string',
+						read: true,
+						write: false,
+						role: 'indicator',
+						desc: 'play info type'
+					},
+					native: {}
+				}
+			);
 		}
 	}
 	async defineMusicNetUsb(type, uid) {
-		this.setObjectNotExists(type + '_' + uid + '.netusb', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb', {
 			type: 'channel',
 			common: {
 				name: 'MusicCast NetUSB ' + type,
@@ -1985,7 +1995,7 @@ class Musiccast extends utils.Adapter {
 			}
 		});
 		this.log.info('Setting up NetUSB of :' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.netusb.getPlayInfo', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.getPlayInfo', {
 			type: 'state',
 			common: {
 				name: 'Feedback of getPlayInfo',
@@ -1998,7 +2008,7 @@ class Musiccast extends utils.Adapter {
 			native: {}
 		});
 
-		this.setObjectNotExists(type + '_' + uid + '.netusb.playPause', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.playPause', {
 			type: 'state',
 			common: {
 				name: 'play',
@@ -2010,7 +2020,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.playback', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.playback', {
 			type: 'state',
 			common: {
 				name: 'playback status',
@@ -2022,7 +2032,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.stop', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.stop', {
 			type: 'state',
 			common: {
 				name: 'Stop',
@@ -2034,7 +2044,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.next', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.next', {
 			type: 'state',
 			common: {
 				name: 'next',
@@ -2046,7 +2056,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.prev', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.prev', {
 			type: 'state',
 			common: {
 				name: 'prev',
@@ -2058,7 +2068,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.shuffle', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.shuffle', {
 			type: 'state',
 			common: {
 				name: 'shuffle toggle button',
@@ -2070,7 +2080,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.shuffle_stat', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.shuffle_stat', {
 			type: 'state',
 			common: {
 				name: 'shuffle status',
@@ -2082,7 +2092,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.repeat', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.repeat', {
 			type: 'state',
 			common: {
 				name: 'repeat toggle button',
@@ -2094,7 +2104,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.repeat_stat', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.repeat_stat', {
 			type: 'state',
 			common: {
 				name: 'repeat status',
@@ -2106,7 +2116,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.artist', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.artist', {
 			type: 'state',
 			common: {
 				name: 'artist',
@@ -2118,7 +2128,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.album', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.album', {
 			type: 'state',
 			common: {
 				name: 'album',
@@ -2130,7 +2140,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.track', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.track', {
 			type: 'state',
 			common: {
 				name: 'track',
@@ -2142,7 +2152,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.albumart_url', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.albumart_url', {
 			type: 'state',
 			common: {
 				name: 'albumart url', //ip of device + albumarturl
@@ -2154,7 +2164,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.input', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.input', {
 			type: 'state',
 			common: {
 				name: 'active input netusb',
@@ -2166,7 +2176,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.play_queue_type', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.play_queue_type', {
 			type: 'state',
 			common: {
 				name: 'queue type netusb',
@@ -2178,7 +2188,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.play_time', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.play_time', {
 			type: 'state',
 			common: {
 				name: 'played  time',
@@ -2191,7 +2201,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.total_time', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.total_time', {
 			type: 'state',
 			common: {
 				name: 'total time played',
@@ -2204,7 +2214,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.recent_info', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.recent_info', {
 			type: 'state',
 			common: {
 				name: 'netusb playback history',
@@ -2216,7 +2226,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.preset_info', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.preset_info', {
 			type: 'state',
 			common: {
 				name: 'netusb favourites',
@@ -2228,7 +2238,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.presetrecallnumber', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.presetrecallnumber', {
 			type: 'state',
 			common: {
 				name: 'recall preset number',
@@ -2240,7 +2250,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.usb_devicetype', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.usb_devicetype', {
 			type: 'state',
 			common: {
 				name: 'type of USB device',
@@ -2252,7 +2262,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.attribute', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.attribute', {
 			type: 'state',
 			common: {
 				name: 'service attribute',
@@ -2264,7 +2274,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.auto_stopped', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.auto_stopped', {
 			type: 'state',
 			common: {
 				name: 'automatically stopped',
@@ -2276,7 +2286,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.repeat_available', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.repeat_available', {
 			type: 'state',
 			common: {
 				name: 'netusb array repeat',
@@ -2288,7 +2298,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.netusb.shuffle_available', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.shuffle_available', {
 			type: 'state',
 			common: {
 				name: 'netusb array shuffle',
@@ -2302,7 +2312,7 @@ class Musiccast extends utils.Adapter {
 		});
 	}
 	async defineMusicCD(type, uid) {
-		this.setObjectNotExists(type + '_' + uid + '.cd', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd', {
 			type: 'channel',
 			common: {
 				name: 'MusicCast CD ' + type,
@@ -2313,7 +2323,7 @@ class Musiccast extends utils.Adapter {
 			}
 		});
 		this.log.info('Setting up CD of :' + type + '-' + uid);
-		this.setObjectNotExists(type + '_' + uid + '.cd.getPlayInfo', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.getPlayInfo', {
 			type: 'state',
 			common: {
 				name: 'Feedback of getPlayInfo',
@@ -2326,7 +2336,7 @@ class Musiccast extends utils.Adapter {
 			native: {}
 		});
 
-		this.setObjectNotExists(type + '_' + uid + '.cd.playPause', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.playPause', {
 			type: 'state',
 			common: {
 				name: 'play',
@@ -2338,7 +2348,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.stop', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.stop', {
 			type: 'state',
 			common: {
 				name: 'Stop',
@@ -2350,7 +2360,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.next', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.next', {
 			type: 'state',
 			common: {
 				name: 'next',
@@ -2362,7 +2372,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.prev', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.prev', {
 			type: 'state',
 			common: {
 				name: 'prev',
@@ -2374,7 +2384,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.shuffle', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.shuffle', {
 			type: 'state',
 			common: {
 				name: 'shuffle',
@@ -2386,7 +2396,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.shuffle_stat', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.shuffle_stat', {
 			type: 'state',
 			common: {
 				name: 'shuffle status',
@@ -2398,7 +2408,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.repeat', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.repeat', {
 			type: 'state',
 			common: {
 				name: 'repeat toggle button',
@@ -2410,7 +2420,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.repeat_stat', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.repeat_stat', {
 			type: 'state',
 			common: {
 				name: 'repeat status',
@@ -2422,7 +2432,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.device_status', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.device_status', {
 			type: 'state',
 			common: {
 				name: 'device status',
@@ -2434,7 +2444,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.playback', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.playback', {
 			type: 'state',
 			common: {
 				name: 'playback status',
@@ -2446,7 +2456,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.play_time', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.play_time', {
 			type: 'state',
 			common: {
 				name: 'current playback time',
@@ -2459,7 +2469,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.total_time', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.total_time', {
 			type: 'state',
 			common: {
 				name: 'total track playback time',
@@ -2472,7 +2482,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.disc_time', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.disc_time', {
 			type: 'state',
 			common: {
 				name: 'CD total playback time',
@@ -2485,7 +2495,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.track_number', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.track_number', {
 			type: 'state',
 			common: {
 				name: 'track current in playback',
@@ -2497,7 +2507,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.total_tracks', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.total_tracks', {
 			type: 'state',
 			common: {
 				name: 'total CD tracks',
@@ -2509,7 +2519,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.artist', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.artist', {
 			type: 'state',
 			common: {
 				name: 'CD artist name',
@@ -2521,7 +2531,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.album', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.album', {
 			type: 'state',
 			common: {
 				name: 'CD album title',
@@ -2533,7 +2543,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.cd.track', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.cd.track', {
 			type: 'state',
 			common: {
 				name: 'CD track title',
@@ -2547,7 +2557,7 @@ class Musiccast extends utils.Adapter {
 		});
 	}
 	async defineMusicTuner(type, uid, func_list, range_step, preset) {
-		this.setObjectNotExists(type + '_' + uid + '.tuner', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner', {
 			type: 'channel',
 			common: {
 				name: 'MusicCast Tuner ' + type,
@@ -2557,7 +2567,7 @@ class Musiccast extends utils.Adapter {
 				addr: uid
 			}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.tuner.getPlayInfo', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.getPlayInfo', {
 			type: 'state',
 			common: {
 				name: 'Feedback of getPlayInfo',
@@ -2569,7 +2579,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.tuner.common_preset_info', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.common_preset_info', {
 			type: 'state',
 			common: {
 				name: 'Tuner Common favourites',
@@ -2581,7 +2591,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.tuner.band', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.band', {
 			type: 'state',
 			common: {
 				name: 'Tuner band',
@@ -2595,7 +2605,7 @@ class Musiccast extends utils.Adapter {
 		});
 		if (func_list.indexOf('am') !== -1) {
 			this.log.info('Setting up AM Tuner of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.tuner.am.preset_info', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.am.preset_info', {
 				type: 'state',
 				common: {
 					name: 'Tuner AM favourites',
@@ -2607,7 +2617,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.am.preset', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.am.preset', {
 				type: 'state',
 				common: {
 					name: 'AM Preset number',
@@ -2621,7 +2631,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.am.freq', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.am.freq', {
 				type: 'state',
 				common: {
 					name: 'AM Frequency',
@@ -2647,7 +2657,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.am.tuned', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.am.tuned', {
 				type: 'state',
 				common: {
 					name: 'AM tuned',
@@ -2662,7 +2672,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (func_list.indexOf('fm') !== -1) {
 			this.log.info('Setting up FM Tuner of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.tuner.fm.preset_info', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.fm.preset_info', {
 				type: 'state',
 				common: {
 					name: 'Tuner FM favourites',
@@ -2674,7 +2684,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.fm.preset', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.fm.preset', {
 				type: 'state',
 				common: {
 					name: 'FM Preset number',
@@ -2688,7 +2698,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.fm.freq', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.fm.freq', {
 				type: 'state',
 				common: {
 					name: 'FM Frequency',
@@ -2714,7 +2724,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.fm.tuned', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.fm.tuned', {
 				type: 'state',
 				common: {
 					name: 'FM tuned',
@@ -2726,7 +2736,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.fm.audio_mode', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.fm.audio_mode', {
 				type: 'state',
 				common: {
 					name: 'FM audio_mode',
@@ -2741,7 +2751,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (func_list.indexOf('rds') !== -1) {
 			this.log.info('Setting up RDS Tuner of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.tuner.rds.program_type', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.rds.program_type', {
 				type: 'state',
 				common: {
 					name: 'RDS program type',
@@ -2753,7 +2763,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.rds.program_service', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.rds.program_service', {
 				type: 'state',
 				common: {
 					name: 'RDS program_service',
@@ -2765,7 +2775,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.rds.radio_text_a', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.rds.radio_text_a', {
 				type: 'state',
 				common: {
 					name: 'RDS Radio Text A',
@@ -2777,7 +2787,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.rds.radio_text_b', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.rds.radio_text_b', {
 				type: 'state',
 				common: {
 					name: 'RDS Radio Text B',
@@ -2792,7 +2802,7 @@ class Musiccast extends utils.Adapter {
 		}
 		if (func_list.indexOf('dab') !== -1) {
 			this.log.info('Setting up DAB Tuner of ' + type + '-' + uid);
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.preset_info', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.preset_info', {
 				type: 'state',
 				common: {
 					name: 'Tuner DAB favourites',
@@ -2804,7 +2814,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.preset', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.preset', {
 				type: 'state',
 				common: {
 					name: 'DAB Preset number',
@@ -2818,7 +2828,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.id', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.id', {
 				type: 'state',
 				common: {
 					name: 'DAB Station ID',
@@ -2830,7 +2840,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.status', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.status', {
 				type: 'state',
 				common: {
 					name: 'DAB Status',
@@ -2842,7 +2852,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.freq', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.freq', {
 				type: 'state',
 				common: {
 					name: 'DAB Frequency',
@@ -2857,7 +2867,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.category', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.category', {
 				type: 'state',
 				common: {
 					name: 'DAB Category',
@@ -2869,7 +2879,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.audio_mode', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.audio_mode', {
 				type: 'state',
 				common: {
 					name: 'DAB audio_mode',
@@ -2881,7 +2891,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.bit_rate', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.bit_rate', {
 				type: 'state',
 				common: {
 					name: 'DAB Bit Rate',
@@ -2896,7 +2906,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.quality', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.quality', {
 				type: 'state',
 				common: {
 					name: 'DAB quality',
@@ -2910,7 +2920,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.tune_aid', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.tune_aid', {
 				type: 'state',
 				common: {
 					name: 'DAB signal strength',
@@ -2924,7 +2934,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.off_air', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.off_air', {
 				type: 'state',
 				common: {
 					name: 'DAB Off Air Status',
@@ -2936,7 +2946,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.dab_plus', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.dab_plus', {
 				type: 'state',
 				common: {
 					name: 'DAB+ Status',
@@ -2948,7 +2958,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.audio_mode', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.audio_mode', {
 				type: 'state',
 				common: {
 					name: 'DAB Audio Mode', //mono/stereo
@@ -2960,7 +2970,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.program_type', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.program_type', {
 				type: 'state',
 				common: {
 					name: 'DAB Program Type',
@@ -2972,7 +2982,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.ch_label', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.ch_label', {
 				type: 'state',
 				common: {
 					name: 'DAB CH label',
@@ -2984,7 +2994,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.service_label', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.service_label', {
 				type: 'state',
 				common: {
 					name: 'DAB Service label',
@@ -2996,7 +3006,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.dls', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.dls', {
 				type: 'state',
 				common: {
 					name: 'DAB DLS',
@@ -3008,7 +3018,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.ensemble_label', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.ensemble_label', {
 				type: 'state',
 				common: {
 					name: 'DAB ensemble label',
@@ -3020,7 +3030,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.initial_scan_progress', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.initial_scan_progress', {
 				type: 'state',
 				common: {
 					name: 'DAB initial scan progress',
@@ -3034,7 +3044,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.tuner.dab.total_station_num', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner.dab.total_station_num', {
 				type: 'state',
 				common: {
 					name: 'DAB total station number',
@@ -3060,7 +3070,7 @@ class Musiccast extends utils.Adapter {
 		alarm_input_list,
 		alarm_preset_list
 	) {
-		this.setObjectNotExists(type + '_' + uid + '.clock', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock', {
 			type: 'channel',
 			common: {
 				name: 'MusicCast Clock ' + type,
@@ -3072,7 +3082,7 @@ class Musiccast extends utils.Adapter {
 		});
 		this.log.info('Setting up Clock of :' + type + '-' + uid);
 		//generic clock objects
-		this.setObjectNotExists(type + '_' + uid + '.clock.getSettings', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.getSettings', {
 			type: 'state',
 			common: {
 				name: 'Feedback of getStatus',
@@ -3084,7 +3094,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.clock.auto_sync', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.auto_sync', {
 			type: 'state',
 			common: {
 				name: 'Clock time auto sync',
@@ -3096,7 +3106,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.clock.format', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.format', {
 			type: 'state',
 			common: {
 				name: 'Clock format time display',
@@ -3108,7 +3118,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.clock.alarm_on', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.alarm_on', {
 			type: 'state',
 			common: {
 				name: 'Clock Alarm function on/off',
@@ -3120,7 +3130,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.clock.volume', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.volume', {
 			type: 'state',
 			common: {
 				name: 'Clock Alarm volume',
@@ -3145,7 +3155,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.clock.fade_interval', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.fade_interval', {
 			type: 'state',
 			common: {
 				name: 'Clock Alarm Fade Interval',
@@ -3169,7 +3179,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.clock.fade_type', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.fade_type', {
 			type: 'state',
 			common: {
 				name: 'Clock Fade Type',
@@ -3183,7 +3193,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
-		this.setObjectNotExists(type + '_' + uid + '.clock.mode', {
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.mode', {
 			type: 'state',
 			common: {
 				name: 'Clock Alarm Mode', // oneday/weekly
@@ -3198,7 +3208,7 @@ class Musiccast extends utils.Adapter {
 
 		//day related clock objects
 		if (alarm_mode_list.indexOf('oneday') !== -1) {
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.enable', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.enable', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Enable',
@@ -3210,7 +3220,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.time', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.time', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Time',
@@ -3222,7 +3232,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.beep', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.beep', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Beep',
@@ -3234,7 +3244,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.playback_type', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.playback_type', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Playback Type',
@@ -3246,7 +3256,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.resume_input', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.resume_input', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Resume Input',
@@ -3258,7 +3268,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_type', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.preset_type', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Preset Type',
@@ -3270,7 +3280,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_num', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.preset_num', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Preset Number',
@@ -3284,7 +3294,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_netusb_input', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.preset_netusb_input', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Netusb input ID',
@@ -3296,7 +3306,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_netusb_text', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.preset_netusb_text', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Netusb input text',
@@ -3308,7 +3318,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_tuner_band', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.preset_tuner_band', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Tuner Band',
@@ -3320,7 +3330,7 @@ class Musiccast extends utils.Adapter {
 				},
 				native: {}
 			});
-			this.setObjectNotExists(type + '_' + uid + '.clock.oneday.preset_tuner_number', {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.oneday.preset_tuner_number', {
 				type: 'state',
 				common: {
 					name: 'Clock Oneday Alarm Preset Tuner Freq od ID',
@@ -3340,7 +3350,7 @@ class Musiccast extends utils.Adapter {
 			const days = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
 			for (const anz in days) {
 				//loop days[anz]
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.enable', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.enable', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Enable',
@@ -3352,7 +3362,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.time', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.time', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Time',
@@ -3364,7 +3374,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.beep', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.beep', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Beep',
@@ -3376,7 +3386,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.playback_type', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.playback_type', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Playback Type',
@@ -3388,7 +3398,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.resume_input', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.resume_input', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Resume Input',
@@ -3400,7 +3410,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.preset_type', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.preset_type', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Preset Type',
@@ -3412,7 +3422,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.preset_num', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.preset_num', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Preset Number',
@@ -3426,7 +3436,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.preset_netusb_input', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.preset_netusb_input', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Netusb input ID',
@@ -3438,7 +3448,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.preset_netusb_text', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.preset_netusb_text', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Netusb input text',
@@ -3450,7 +3460,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.preset_tuner_band', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.preset_tuner_band', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Tuner Band',
@@ -3462,7 +3472,7 @@ class Musiccast extends utils.Adapter {
 					},
 					native: {}
 				});
-				this.setObjectNotExists(type + '_' + uid + '.clock.' + days[anz] + '.preset_tuner_number', {
+				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.preset_tuner_number', {
 					type: 'state',
 					common: {
 						name: 'Clock' + days[anz] + 'Alarm Preset Tuner Freq od ID',
@@ -3480,1310 +3490,1252 @@ class Musiccast extends utils.Adapter {
 		}
 	}
 	// status requests
-	getMusicDeviceInfo(ip, type, uid) {
+	async getMusicDeviceInfo(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getDeviceInfo()
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug('got device info succesfully from ' + devip);
+		try {
+			const result = await yamaha.getDeviceInfo();
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got device info succesfully from ' + devip);
 
-					const resp = { device: devtype + '_' + devuid, request: '/system/getDeviceInfo', responses: att };
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/system/getDeviceInfo'
-						)
-					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.system.getDeviceInfo', {
-						val: att,
-						ack: true
-					});
+				const resp = { device: devtype + '_' + devuid, request: '/system/getDeviceInfo', responses: att };
+				if (
+					!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/system/getDeviceInfo')
+				)
+					responses.push(resp);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.system.api_version', {
-						val: att.api_version,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.system.system_version', {
-						val: att.system_version,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.system.system_id', {
-						val: att.system_id,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.system.device_id', {
-						val: att.device_id,
-						ack: true
-					});
-				} else {
-					this.log.debug('failure getting device info from  ' + devip + ' : ' + this.responseFailLog(result));
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicDeviceInfo] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.system.getDeviceInfo', {
+					val: att,
+					ack: true
+				});
+
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.system.api_version', {
+					val: att.api_version,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.system.system_version', {
+					val: att.system_version,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.system.system_id', {
+					val: att.system_id,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.system.device_id', {
+					val: att.device_id,
+					ack: true
+				});
+			} else {
+				this.log.debug('failure getting device info from  ' + devip + ' : ' + this.responseFailLog(result));
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicDeviceInfo] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
-	getMusicZoneInfo(ip, type, uid, zone) {
+	async getMusicZoneInfo(ip, type, uid, zone) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		const zone_name = zone || 'main';
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getStatus(zone_name)
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug('got status info succesfully from ' + devip + ' for ' + zone_name);
+		try {
+			const result = await yamaha.getStatus(zone_name);
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got status info succesfully from ' + devip + ' for ' + zone_name);
 
-					const resp = {
-						device: devtype + '_' + devuid,
-						request: '/' + zone_name + '/getStatus',
-						responses: att
-					};
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/' + zone_name + '/getStatus'
-						)
+				const resp = {
+					device: devtype + '_' + devuid,
+					request: '/' + zone_name + '/getStatus',
+					responses: att
+				};
+				if (
+					!responses.find(
+						(o) => o.device === devtype + '_' + devuid && o.request === '/' + zone_name + '/getStatus'
 					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.getStatus', {
-						val: att,
-						ack: true
-					});
+				)
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.getStatus', {
+					val: JSON.stringify(att),
+					ack: true
+				});
 
-					for (const key in att) {
-						if (key == 'tone_control') {
-							const tone = att[key];
-							for (var id in tone) {
-								this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + tone[id]);
-								if (id == 'mode') {
-									this.setForeignState(
-										'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.tone_mode',
-										{ val: tone[id], ack: true }
-									);
-								} else {
-									this.setForeignState(
-										'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + id,
-										{ val: tone[id], ack: true }
-									);
-								}
+				for (const key in att) {
+					if (key == 'tone_control') {
+						const tone = att[key];
+						for (var id in tone) {
+							this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + tone[id]);
+							if (id == 'mode') {
+								await this.setStateAsync(
+									'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.tone_mode',
+									{ val: tone[id], ack: true }
+								);
+							} else {
+								await this.setStateAsync(
+									'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + id,
+									{ val: tone[id], ack: true }
+								);
 							}
-						} else if (key == 'equalizer') {
-							const eq = att[key];
-							for (var id in eq) {
-								this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + eq[id]);
-								if (id == 'mode') {
-									this.setForeignState(
-										'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.eq_mode',
-										{ val: eq[id], ack: true }
-									);
-								} else {
-									this.setForeignState(
-										'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + id,
-										{ val: eq[id], ack: true }
-									);
-								}
-							}
-						} else if (key == 'actual_volume') {
-							this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + att[key]);
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.act_vol_mode',
-								{ val: att[key].mode, ack: true }
-							);
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.act_vol_val',
-								{ val: att[key].value, ack: true }
-							);
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.act_vol_unit',
-								{ val: att[key].unit, ack: true }
-							);
-						} else if (key == 'power') {
-							const convertValue = att[key] === 'on' ? true : false;
-
-							this.log.debug(
-								'Zone Status Update ' + key + '  at ' + att[key] + ' (' + convertValue + ')'
-							);
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + key,
-								{ val: convertValue, ack: true }
-							);
-						} else if (key == 'response_code') {
-							// prevent writing on non existing object
-						} else {
-							this.log.debug('Zone Status Update ' + key + '  at ' + att[key]);
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + key,
-								{ val: att[key], ack: true }
-							);
 						}
+					} else if (key == 'equalizer') {
+						const eq = att[key];
+						for (var id in eq) {
+							this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + eq[id]);
+							if (id == 'mode') {
+								await this.setStateAsync(
+									'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.eq_mode',
+									{ val: eq[id], ack: true }
+								);
+							} else {
+								await this.setStateAsync(
+									'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + id,
+									{ val: eq[id], ack: true }
+								);
+							}
+						}
+					} else if (key == 'actual_volume') {
+						this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + att[key]);
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.act_vol_mode',
+							{ val: att[key].mode, ack: true }
+						);
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.act_vol_val',
+							{ val: att[key].value, ack: true }
+						);
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.act_vol_unit',
+							{ val: att[key].unit, ack: true }
+						);
+					} else if (key == 'power') {
+						const convertValue = att[key] === 'on' ? true : false;
+
+						this.log.debug('Zone Status Update ' + key + '  at ' + att[key] + ' (' + convertValue + ')');
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + key,
+							{ val: convertValue, ack: true }
+						);
+					} else if (key == 'response_code') {
+						// prevent writing on non existing object
+					} else {
+						this.log.debug('Zone Status Update ' + key + '  at ' + att[key]);
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.' + key,
+							{ val: att[key], ack: true }
+						);
 					}
-				} else {
-					this.log.debug('failure getting status info from  ' + devip + ' : ' + this.responseFailLog(result));
 				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicZoneInfo] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+			} else {
+				this.log.debug('failure getting status info from  ' + devip + ' : ' + this.responseFailLog(result));
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicZoneInfo] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
 	//mehr als Liste, auch die inputs mit ihren werten
-	getMusicZoneLists(ip, type, uid) {
+	async getMusicZoneLists(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getFeatures()
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					for (let i = 0; i < att.system.zone_num; i++) {
-						const zone_name = att.zone[i].id;
-						//inputs gibts immer
-						this.setForeignState(
-							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.input_list',
-							{ val: att.zone[i].input_list, ack: true }
-						);
+		try {
+			const result = await yamaha.getFeatures();
+			const att = result;
+			if (att.response_code === 0) {
+				for (let i = 0; i < att.system.zone_num; i++) {
+					const zone_name = att.zone[i].id;
+					//inputs gibts immer
+					await this.setStateAsync(
+						'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.input_list',
+						{ val: JSON.stringify(att.zone[i].input_list), ack: true }
+					);
 
-						if (att.zone[i].func_list.indexOf('tone_control') !== -1) {
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.tone_control_mode_list',
-								{ val: att.zone[i].tone_control_mode_list, ack: true }
-							);
-						}
-						if (att.zone[i].func_list.indexOf('link_control') !== -1) {
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.link_control_list',
-								{ val: att.zone[i].link_control_list, ack: true }
-							);
-						}
-						if (att.zone[i].func_list.indexOf('link_audio_delay') !== -1) {
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.link_audio_delay_list',
-								{ val: att.zone[i].link_audio_delay_list, ack: true }
-							);
-						}
-						if (att.zone[i].func_list.indexOf('link_audio_quality') !== -1) {
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.link_audio_quality_list',
-								{ val: att.zone[i].link_audio_quality_list, ack: true }
-							);
-						}
-						if (att.zone[i].func_list.indexOf('sound_program') !== -1) {
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.sound_program_list',
-								{ val: att.zone[i].sound_program_list, ack: true }
-							);
-						}
-						if (att.zone[i].func_list.indexOf('audio_select') !== -1) {
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.audio_select_list',
-								{ val: att.zone[i].audio_select_list, ack: true }
-							);
-						}
-						if (att.zone[i].func_list.indexOf('surr_decoder_type') !== -1) {
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.surr_decoder_type_list',
-								{ val: att.zone[i].surr_decoder_type_list, ack: true }
-							);
-						}
-						if (att.zone[i].func_list.indexOf('actual_volume') !== -1) {
-							this.setForeignState(
-								'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.actual_volume_mode_list',
-								{ val: att.zone[i].actual_volume_mode_list, ack: true }
-							);
-						}
-					}
-					//die inputs in system befüllen
-					for (let i = 0; i < att.system.input_list.length; i++) {
-						this.log.info(type + ' actual value filling up input : ' + att.system.input_list[i].id);
-						//setindef
-						this.setForeignState(
-							'musiccast.0.' +
-								devtype +
-								'_' +
-								devuid +
-								'.system.inputs.' +
-								att.system.input_list[i].id +
-								'.distribution_enable',
-							{ val: att.system.input_list[i].distribution_enable, ack: true }
-						);
-						this.setForeignState(
-							'musiccast.0.' +
-								devtype +
-								'_' +
-								devuid +
-								'.system.inputs.' +
-								att.system.input_list[i].id +
-								'.account_enable',
-							{ val: att.system.input_list[i].account_enable, ack: true }
-						);
-						this.setForeignState(
-							'musiccast.0.' +
-								devtype +
-								'_' +
-								devuid +
-								'.system.inputs.' +
-								att.system.input_list[i].id +
-								'.play_info_type',
-							{ val: att.system.input_list[i].play_info_type, ack: true }
+					if (att.zone[i].func_list.indexOf('tone_control') !== -1) {
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.tone_control_mode_list',
+							{ val: JSON.stringify(att.zone[i].tone_control_mode_list), ack: true }
 						);
 					}
-				} else {
-					this.log.debug('failure getting status info from  ' + devip + ' : ' + this.responseFailLog(result));
+					if (att.zone[i].func_list.indexOf('link_control') !== -1) {
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.link_control_list',
+							{ val: JSON.stringify(att.zone[i].link_control_list), ack: true }
+						);
+					}
+					if (att.zone[i].func_list.indexOf('link_audio_delay') !== -1) {
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.link_audio_delay_list',
+							{ val: JSON.stringify(att.zone[i].link_audio_delay_list), ack: true }
+						);
+					}
+					if (att.zone[i].func_list.indexOf('link_audio_quality') !== -1) {
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.link_audio_quality_list',
+							{ val: JSON.stringify(att.zone[i].link_audio_quality_list), ack: true }
+						);
+					}
+					if (att.zone[i].func_list.indexOf('sound_program') !== -1) {
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.sound_program_list',
+							{ val: JSON.stringify(att.zone[i].sound_program_list), ack: true }
+						);
+					}
+					if (att.zone[i].func_list.indexOf('audio_select') !== -1) {
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.audio_select_list',
+							{ val: JSON.stringify(att.zone[i].audio_select_list), ack: true }
+						);
+					}
+					if (att.zone[i].func_list.indexOf('surr_decoder_type') !== -1) {
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.surr_decoder_type_list',
+							{ val: JSON.stringify(att.zone[i].surr_decoder_type_list), ack: true }
+						);
+					}
+					if (att.zone[i].func_list.indexOf('actual_volume') !== -1) {
+						await this.setStateAsync(
+							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.actual_volume_mode_list',
+							{ val: JSON.stringify(att.zone[i].actual_volume_mode_list), ack: true }
+						);
+					}
 				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicZoneLists] error: ${err.message}, stack: ${err.stack}`);
+				//die inputs in system befüllen
+				for (let i = 0; i < att.system.input_list.length; i++) {
+					this.log.info(type + ' actual value filling up input : ' + att.system.input_list[i].id);
+					//setindef
+					await this.setStateAsync(
+						'musiccast.0.' +
+							devtype +
+							'_' +
+							devuid +
+							'.system.inputs.' +
+							att.system.input_list[i].id +
+							'.distribution_enable',
+						{ val: att.system.input_list[i].distribution_enable, ack: true }
+					);
+					await this.setStateAsync(
+						'musiccast.0.' +
+							devtype +
+							'_' +
+							devuid +
+							'.system.inputs.' +
+							att.system.input_list[i].id +
+							'.account_enable',
+						{ val: att.system.input_list[i].account_enable, ack: true }
+					);
+					await this.setStateAsync(
+						'musiccast.0.' +
+							devtype +
+							'_' +
+							devuid +
+							'.system.inputs.' +
+							att.system.input_list[i].id +
+							'.play_info_type',
+						{ val: att.system.input_list[i].play_info_type, ack: true }
+					);
 				}
-			});
+			} else {
+				this.log.debug('failure getting status info from  ' + devip + ' : ' + this.responseFailLog(result));
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicZoneLists] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
-	getMusicNetusbInfo(ip, type, uid) {
+	async getMusicNetusbInfo(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getPlayInfo()
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					let albumurl = att.albumart_url;
-					if (albumurl.substr(0, 20) === '/YamahaRemoteControl') {
-						albumurl = 'http://' + devip + att.albumart_url;
-					}
-					this.log.debug('got Netusb playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+		try {
+			const result = await yamaha.getPlayInfo();
+			const att = result;
+			if (att.response_code === 0) {
+				let albumurl = att.albumart_url;
+				if (albumurl.substr(0, 20) === '/YamahaRemoteControl') {
+					albumurl = 'http://' + devip + att.albumart_url;
+				}
+				this.log.debug('got Netusb playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
-					const resp = { device: devtype + '_' + devuid, request: '/netusb/getPlayInfo', responses: att };
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getPlayInfo'
-						)
-					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.getPlayInfo', {
-						val: att,
-						ack: true
-					});
+				const resp = { device: devtype + '_' + devuid, request: '/netusb/getPlayInfo', responses: att };
+				if (!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getPlayInfo'))
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.netusb.getPlayInfo', {
+					val: JSON.stringify(att),
+					ack: true
+				});
 
-					for (const key in att) {
-						if (key == 'albumart_url') {
-							let albumurl = att.albumart_url;
-							if (albumurl.substr(0, 20) === '/YamahaRemoteControl') {
-								albumurl = 'http://' + devip + att.albumart_url;
-							}
-							this.log.debug('albumart ' + albumurl);
-							this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb' + '.' + key, {
-								val: albumurl,
-								ack: true
-							});
-						} else if (key == 'repeat') {
-							this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.repeat_stat', {
-								val: att[key],
-								ack: true
-							});
-						} else if (key == 'shuffle') {
-							this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.shuffle_stat', {
-								val: att[key],
-								ack: true
-							});
-						} else if (key == 'response_code') {
-							// prevent writing on non existing object
-						} else if (key == 'albumart_id') {
-							// prevent writing on non existing object
-						} else {
-							this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb' + '.' + key, {
-								val: att[key],
-								ack: true
-							});
+				for (const key in att) {
+					if (key == 'albumart_url') {
+						let albumurl = att.albumart_url;
+						if (albumurl.substr(0, 20) === '/YamahaRemoteControl') {
+							albumurl = 'http://' + devip + att.albumart_url;
 						}
+						this.log.debug('albumart ' + albumurl);
+						await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.netusb' + '.' + key, {
+							val: albumurl,
+							ack: true
+						});
+					} else if (key == 'repeat') {
+						await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.netusb.repeat_stat', {
+							val: att[key],
+							ack: true
+						});
+					} else if (key == 'shuffle') {
+						await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.netusb.shuffle_stat', {
+							val: att[key],
+							ack: true
+						});
+					} else if (key == 'response_code') {
+						// prevent writing on non existing object
+					} else if (key == 'albumart_id') {
+						// prevent writing on non existing object
+					} else {
+						await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.netusb' + '.' + key, {
+							val: att[key],
+							ack: true
+						});
 					}
-				} else {
-					this.log.debug(
-						'failure getting Netusb playinfo from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
 				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicNetusbInfo] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+			} else {
+				this.log.debug('failure getting Netusb playinfo from  ' + devip + ' : ' + this.responseFailLog(result));
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicNetusbInfo] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
 
-	getMusicNetusbRecent(ip, type, uid) {
+	async getMusicNetusbRecent(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getRecentInfo()
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug(
-						'got Netusb recent info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
-					);
-					const resp = { device: devtype + '_' + devuid, request: '/netusb/getRecentInfo', responses: att };
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getRecentInfo'
-						)
-					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.recent_info', {
-						val: att.recent_info,
-						ack: true
-					});
-				} else {
-					this.log.debug(
-						'failure getting Netusb recent info from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicNetusbRecent] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+		try {
+			const result = await yamaha.getRecentInfo();
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got Netusb recent info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+				const resp = { device: devtype + '_' + devuid, request: '/netusb/getRecentInfo', responses: att };
+				if (
+					!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getRecentInfo')
+				)
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.netusb.recent_info', {
+					val: JSON.stringify(att.recent_info),
+					ack: true
+				});
+			} else {
+				this.log.debug(
+					'failure getting Netusb recent info from  ' + devip + ' : ' + this.responseFailLog(result)
+				);
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicNetusbRecent] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
 
-	getMusicNetusbPreset(ip, type, uid) {
+	async getMusicNetusbPreset(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getPresetInfo()
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug(
-						'got Netusb preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
-					);
-					const resp = { device: devtype + '_' + devuid, request: '/netusb/getPresetInfo', responses: att };
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getPresetInfo'
-						)
-					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.netusb.preset_info', {
-						val: att.preset_info,
-						ack: true
-					});
-				} else {
-					this.log.debug(
-						'failure getting Netusb preset info from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicNetusbPreset] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+		try {
+			const result = await yamaha.getPresetInfo();
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got Netusb preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+				const resp = { device: devtype + '_' + devuid, request: '/netusb/getPresetInfo', responses: att };
+				if (
+					!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/netusb/getPresetInfo')
+				)
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.netusb.preset_info', {
+					val: JSON.stringify(att.preset_info),
+					ack: true
+				});
+			} else {
+				this.log.debug(
+					'failure getting Netusb preset info from  ' + devip + ' : ' + this.responseFailLog(result)
+				);
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicNetusbPreset] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
-	getMusicCdInfo(ip, type, uid) {
+	async getMusicCdInfo(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getPlayInfo('cd')
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+		try {
+			const result = await yamaha.getPlayInfo('cd');
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got CD playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
-					const resp = { device: devtype + '_' + devuid, request: '/cd/getPlayInfo', responses: att };
-					if (!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/cd/getPlayInfo'))
-						responses.push(resp);
+				const resp = { device: devtype + '_' + devuid, request: '/cd/getPlayInfo', responses: att };
+				if (!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/cd/getPlayInfo'))
+					responses.push(resp);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.cd.getPlayInfo', {
-						val: att,
-						ack: true
-					});
-					for (const key in att) {
-						if (key == 'repeat') {
-							this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.cd.repeat_stat', {
-								val: att[key],
-								ack: true
-							});
-						} else if (key == 'shuffle') {
-							this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.cd.shuffle_stat', {
-								val: att[key],
-								ack: true
-							});
-						} else
-							this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.cd' + '.' + key, {
-								val: att[key],
-								ack: true
-							});
-					}
-					/*
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.device_status', {val: att.device_status, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.playback', {val: att.playback, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.repeat_stat', {val: att.repeat, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.shuffle_stat', {val: att.shuffle, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.playtime', {val: att.play_time, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.totaltime', {val: att.total_time, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.disctime', {val: att.disc_time, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.tracknumber', {val: att.track_number, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.totaltracks', {val: att.total_tracks, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.artist', {val: att.artist, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.album', {val: att.album, ack: true});
-				this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.cd.track', {val: att.track, ack: true});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.cd.getPlayInfo', {
+					val: JSON.stringify(att),
+					ack: true
+				});
+				for (const key in att) {
+					if (key == 'repeat') {
+						await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.cd.repeat_stat', {
+							val: att[key],
+							ack: true
+						});
+					} else if (key == 'shuffle') {
+						await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.cd.shuffle_stat', {
+							val: att[key],
+							ack: true
+						});
+					} else
+						await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.cd' + '.' + key, {
+							val: att[key],
+							ack: true
+						});
+				}
+				/*
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.device_status', {val: att.device_status, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.playback', {val: att.playback, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.repeat_stat', {val: att.repeat, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.shuffle_stat', {val: att.shuffle, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.playtime', {val: att.play_time, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.totaltime', {val: att.total_time, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.disctime', {val: att.disc_time, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.tracknumber', {val: att.track_number, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.totaltracks', {val: att.total_tracks, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.artist', {val: att.artist, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.album', {val: att.album, ack: true});
+				await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.cd.track', {val: att.track, ack: true});
 				*/
-				} else {
-					this.log.debug('failure getting CD playinfo from  ' + devip + ' : ' + this.responseFailLog(result));
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicCdInfo] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+			} else {
+				this.log.debug('failure getting CD playinfo from  ' + devip + ' : ' + this.responseFailLog(result));
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicCdInfo] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
-	getMusicTunerInfo(ip, type, uid) {
+	async getMusicTunerInfo(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getTunerPlayInfo()
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug('got Tuner playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+		try {
+			const result = await yamaha.getTunerPlayInfo();
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got Tuner playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
 
-					const resp = { device: devtype + '_' + devuid, request: '/tuner/getPlayInfo', responses: att };
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPlayInfo'
-						)
-					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.getPlayInfo', {
-						val: att,
+				const resp = { device: devtype + '_' + devuid, request: '/tuner/getPlayInfo', responses: att };
+				if (!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPlayInfo'))
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.getPlayInfo', {
+					val: JSON.stringify(att),
+					ack: true
+				});
+
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.band', {
+					val: att.band,
+					ack: true
+				});
+				if (att.band == 'am') {
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.preset', {
+						val: att.am.preset,
 						ack: true
 					});
-
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.band', {
-						val: att.band,
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.freq', {
+						val: att.am.freq,
 						ack: true
 					});
-					if (att.band == 'am') {
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.preset', {
-							val: att.am.preset,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.freq', {
-							val: att.am.freq,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.tuned', {
-							val: att.am.tuned,
-							ack: true
-						});
-					}
-					if (att.band == 'fm') {
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.preset', {
-							val: att.fm.preset,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.freq', {
-							val: att.fm.freq,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.tuned', {
-							val: att.fm.tuned,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.audio_mode', {
-							val: att.fm.audio_mode,
-							ack: true
-						});
-					}
-					if (att.band == 'dab') {
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.preset', {
-							val: att.dab.preset,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.id', {
-							val: att.dab.id,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.status', {
-							val: att.dab.status,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.freq', {
-							val: att.dab.freq,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.category', {
-							val: att.dab.category,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.audio_mode', {
-							val: att.dab.audio_mode,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.bit_rate', {
-							val: att.dab.bit_rate,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.quality', {
-							val: att.dab.quality,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.tune_aid', {
-							val: att.dab.tune_aid,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.off_air', {
-							val: att.dab.off_air,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.dab_plus', {
-							val: att.dab.dab_plus,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.program_type', {
-							val: att.dab.program_type,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.ch_label', {
-							val: att.dab.ch_label,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.service_label', {
-							val: att.dab.service_label,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.dls', {
-							val: att.dab.dls,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.ensemble_label', {
-							val: att.dab.ensemble_label,
-							ack: true
-						});
-						this.setForeignState(
-							'musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.initial_scan_progress',
-							{ val: att.dab.initial_scan_progress, ack: true }
-						);
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.total_station_num', {
-							val: att.dab.total_station_num,
-							ack: true
-						});
-					}
-					if (att.band == 'rds') {
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.rds.program_type', {
-							val: att.rds.program_type,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.rds.program_service', {
-							val: att.rds.program_service,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.rds.radio_text_a', {
-							val: att.rds.radio_text_a,
-							ack: true
-						});
-						this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.rds.radio_text_b', {
-							val: att.rds.radio_text_b,
-							ack: true
-						});
-					}
-				} else {
-					this.log.debug(
-						'failure getting Tuner playinfo from  ' + devip + ' : ' + this.responseFailLog(result)
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.tuned', {
+						val: att.am.tuned,
+						ack: true
+					});
+				}
+				if (att.band == 'fm') {
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.preset', {
+						val: att.fm.preset,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.freq', {
+						val: att.fm.freq,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.tuned', {
+						val: att.fm.tuned,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.audio_mode', {
+						val: att.fm.audio_mode,
+						ack: true
+					});
+				}
+				if (att.band == 'dab') {
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.preset', {
+						val: att.dab.preset,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.id', {
+						val: att.dab.id,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.status', {
+						val: att.dab.status,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.freq', {
+						val: att.dab.freq,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.category', {
+						val: att.dab.category,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.audio_mode', {
+						val: att.dab.audio_mode,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.bit_rate', {
+						val: att.dab.bit_rate,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.quality', {
+						val: att.dab.quality,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.tune_aid', {
+						val: att.dab.tune_aid,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.off_air', {
+						val: att.dab.off_air,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.dab_plus', {
+						val: att.dab.dab_plus,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.program_type', {
+						val: att.dab.program_type,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.ch_label', {
+						val: att.dab.ch_label,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.service_label', {
+						val: att.dab.service_label,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.dls', {
+						val: att.dab.dls,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.ensemble_label', {
+						val: att.dab.ensemble_label,
+						ack: true
+					});
+					await this.setStateAsync(
+						'musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.initial_scan_progress',
+						{ val: att.dab.initial_scan_progress, ack: true }
 					);
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.total_station_num', {
+						val: att.dab.total_station_num,
+						ack: true
+					});
 				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicTunerInfo] error: ${err.message}, stack: ${err.stack}`);
+				if (att.band == 'rds') {
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.rds.program_type', {
+						val: att.rds.program_type,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.rds.program_service', {
+						val: att.rds.program_service,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.rds.radio_text_a', {
+						val: att.rds.radio_text_a,
+						ack: true
+					});
+					await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.rds.radio_text_b', {
+						val: att.rds.radio_text_b,
+						ack: true
+					});
 				}
-			});
+			} else {
+				this.log.debug('failure getting Tuner playinfo from  ' + devip + ' : ' + this.responseFailLog(result));
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicTunerInfo] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
-	getMusicTunerPreset(ip, type, uid) {
+	async getMusicTunerPreset(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
+		try {
+			const result = yamaha.getTunerPresetInfo('common');
 
-		yamaha
-			.getTunerPresetInfo('common')
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug(
-						'got Common Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
-					);
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug(
+					'got Common Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
+				);
 
-					const resp = {
-						device: devtype + '_' + devuid,
-						request: '/tuner/getPresetInfo?band=common',
-						responses: att
-					};
-					if (
-						!responses.find(
-							(o) =>
-								o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=common'
-						)
+				const resp = {
+					device: devtype + '_' + devuid,
+					request: '/tuner/getPresetInfo?band=common',
+					responses: att
+				};
+				if (
+					!responses.find(
+						(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=common'
 					)
-						responses.push(resp);
+				)
+					responses.push(resp);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.common_preset_info', {
-						val: att.preset_info,
-						ack: true
-					});
-					//this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});
-				} else {
-					this.log.debug(
-						'failure getting Common Tuner preset info from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicTunerPreset] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.common_preset_info', {
+					val: JSON.stringify(att.preset_info),
+					ack: true
+				});
+				//await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});
+			} else {
+				this.log.debug(
+					'failure getting Common Tuner preset info from  ' + devip + ' : ' + this.responseFailLog(result)
+				);
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicTunerPreset] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 		//if (FM)
-		yamaha
-			.getTunerPresetInfo('fm')
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug(
-						'got FM Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
-					);
-					const resp = {
-						device: devtype + '_' + devuid,
-						request: '/tuner/getPresetInfo?band=fm',
-						responses: att
-					};
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=fm'
-						)
+		try {
+			const result1 = await yamaha.getTunerPresetInfo('fm');
+
+			const att = result1;
+			if (att.response_code === 0) {
+				this.log.debug(
+					'got FM Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result1)
+				);
+				const resp = {
+					device: devtype + '_' + devuid,
+					request: '/tuner/getPresetInfo?band=fm',
+					responses: att
+				};
+				if (
+					!responses.find(
+						(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=fm'
 					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.preset_info', {
-						val: att.preset_info,
-						ack: true
-					});
-					//this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});
-				} else {
-					this.log.debug(
-						'failure getting FM Tuner preset info from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+				)
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.fm.preset_info', {
+					val: JSON.stringify(att.preset_info),
+					ack: true
+				});
+				//await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});
+			} else {
+				this.log.debug(
+					'failure getting FM Tuner preset info from  ' + devip + ' : ' + this.responseFailLog(result1)
+				);
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 		//if (AM)
-		yamaha
-			.getTunerPresetInfo('am')
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug(
-						'got AM Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
-					);
-					const resp = {
-						device: devtype + '_' + devuid,
-						request: '/tuner/getPresetInfo?band=am',
-						responses: att
-					};
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=am'
-						)
+		try {
+			const result2 = await yamaha.getTunerPresetInfo('am');
+			const att = result2;
+			if (att.response_code === 0) {
+				this.log.debug(
+					'got AM Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result2)
+				);
+				const resp = {
+					device: devtype + '_' + devuid,
+					request: '/tuner/getPresetInfo?band=am',
+					responses: att
+				};
+				if (
+					!responses.find(
+						(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=am'
 					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.preset_info', {
-						val: att.preset_info,
-						ack: true
-					});
-					//this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});
-				} else {
-					this.log.debug(
-						'failure getting AM Tuner preset info from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+				)
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.am.preset_info', {
+					val: JSON.stringify(att.preset_info),
+					ack: true
+				});
+				//await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});
+			} else {
+				this.log.debug(
+					'failure getting AM Tuner preset info from  ' + devip + ' : ' + this.responseFailLog(result2)
+				);
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 		//if (DAB)
-		yamaha
-			.getTunerPresetInfo('dab')
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug(
-						'got DAB Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
-					);
-					const resp = {
-						device: devtype + '_' + devuid,
-						request: '/tuner/getPresetInfo?band=dab',
-						responses: att
-					};
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=dab'
-						)
+		try {
+			const result3 = await yamaha.getTunerPresetInfo('dab');
+			const att = result3;
+			if (att.response_code === 0) {
+				this.log.debug(
+					'got DAB Tuner preset info succesfully from ' + devip + 'with  ' + JSON.stringify(result3)
+				);
+				const resp = {
+					device: devtype + '_' + devuid,
+					request: '/tuner/getPresetInfo?band=dab',
+					responses: att
+				};
+				if (
+					!responses.find(
+						(o) => o.device === devtype + '_' + devuid && o.request === '/tuner/getPresetInfo?band=dab'
 					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.preset_info', {
-						val: att.preset_info,
-						ack: true
-					});
-					//this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});
-				} else {
-					this.log.debug(
-						'failure getting DAB Tuner preset info from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+				)
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.tuner.dab.preset_info', {
+					val: JSON.stringify(att.preset_info),
+					ack: true
+				});
+				//await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.tuner.preset_info', {val: JSON.stringify(att.preset_info), ack: true});
+			} else {
+				this.log.debug(
+					'failure getting DAB Tuner preset info from  ' + devip + ' : ' + this.responseFailLog(result3)
+				);
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
-	getMusicClockSettings(ip, type, uid) {
+	async getMusicClockSettings(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getClockSettings()
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug('got Clock settings succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+		try {
+			const result = await yamaha.getClockSettings();
 
-					const resp = { device: devtype + '_' + devuid, request: '/clock/getSettings', responses: att };
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/clock/getSettings'
-						)
-					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.getSettings', {
-						val: att,
-						ack: true
-					});
-					/*
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got Clock settings succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+
+				const resp = { device: devtype + '_' + devuid, request: '/clock/getSettings', responses: att };
+				if (!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/clock/getSettings'))
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.getSettings', {
+					val: att,
+					ack: true
+				});
+				/*
 				for (var key in att){
 					hier muss noch die . von der Rückmeldung und die _ in objekte ausgetauscht werden
-					this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.clock' + '.'+ key, {val: att[key], ack: true});
+					await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.clock' + '.'+ key, {val: att[key], ack: true});
 				}
 				*/
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.auto_sync', {
-						val: att.auto_sync,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.format', {
-						val: att.format,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.alarm_on', {
-						val: att.alarm_on,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.volume', {
-						val: att.volume,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.fade_interval', {
-						val: att.fade_interval,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.fade_type', {
-						val: att.fade_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.mode', {
-						val: att.mode,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.repeat', {
-						val: att.repeat,
-						ack: true
-					});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.auto_sync', {
+					val: att.auto_sync,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.format', {
+					val: att.format,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.alarm_on', {
+					val: att.alarm_on,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.volume', {
+					val: att.volume,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.fade_interval', {
+					val: att.fade_interval,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.fade_type', {
+					val: att.fade_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.mode', {
+					val: att.mode,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.repeat', {
+					val: att.repeat,
+					ack: true
+				});
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.enable', {
-						val: att.oneday.enable,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.time', {
-						val: att.oneday.time,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.beep', {
-						val: att.oneday.beep,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.playback_type', {
-						val: att.oneday.playback_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.resume_input', {
-						val: att.oneday.resume.input,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_type', {
-						val: att.oneday.preset.type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_num', {
-						val: att.oneday.preset.num,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_netusb_input',
-						{ val: att.oneday.preset.netusb_info.input, ack: true }
-					);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_netusb_text', {
-						val: att.oneday.preset.netusb_info.text,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_tuner_band', {
-						val: att.oneday.preset.tuner_info.band,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_tuner_number',
-						{ val: att.oneday.preset.tuner_info.number, ack: true }
-					);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.enable', {
+					val: att.oneday.enable,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.time', {
+					val: att.oneday.time,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.beep', {
+					val: att.oneday.beep,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.playback_type', {
+					val: att.oneday.playback_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.resume_input', {
+					val: att.oneday.resume.input,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_type', {
+					val: att.oneday.preset.type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_num', {
+					val: att.oneday.preset.num,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_netusb_input',
+					{ val: att.oneday.preset.netusb_info.input, ack: true }
+				);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_netusb_text', {
+					val: att.oneday.preset.netusb_info.text,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_tuner_band', {
+					val: att.oneday.preset.tuner_info.band,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.oneday.preset_tuner_number',
+					{ val: att.oneday.preset.tuner_info.number, ack: true }
+				);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.enable', {
-						val: att.sunday.enable,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.time', {
-						val: att.sunday.time,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.beep', {
-						val: att.sunday.beep,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.playback_type', {
-						val: att.sunday.playback_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.resume_input', {
-						val: att.sunday.resume.input,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_type', {
-						val: att.sunday.preset.type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_num', {
-						val: att.sunday.preset.num,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_netusb_input',
-						{ val: att.sunday.preset.netusb_info.input, ack: true }
-					);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_netusb_text', {
-						val: att.sunday.preset.netusb_info.text,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_tuner_band', {
-						val: att.sunday.preset.tuner_info.band,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_tuner_number',
-						{ val: att.sunday.preset.tuner_info.number, ack: true }
-					);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.enable', {
+					val: att.sunday.enable,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.time', {
+					val: att.sunday.time,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.beep', {
+					val: att.sunday.beep,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.playback_type', {
+					val: att.sunday.playback_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.resume_input', {
+					val: att.sunday.resume.input,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_type', {
+					val: att.sunday.preset.type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_num', {
+					val: att.sunday.preset.num,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_netusb_input',
+					{ val: att.sunday.preset.netusb_info.input, ack: true }
+				);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_netusb_text', {
+					val: att.sunday.preset.netusb_info.text,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_tuner_band', {
+					val: att.sunday.preset.tuner_info.band,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.sunday.preset_tuner_number',
+					{ val: att.sunday.preset.tuner_info.number, ack: true }
+				);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.enable', {
-						val: att.monday.enable,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.time', {
-						val: att.monday.time,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.beep', {
-						val: att.monday.beep,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.playback_type', {
-						val: att.monday.playback_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.resume_input', {
-						val: att.monday.resume.input,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_type', {
-						val: att.monday.preset.type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_num', {
-						val: att.monday.preset.num,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_netusb_input',
-						{ val: att.monday.preset.netusb_info.input, ack: true }
-					);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_netusb_text', {
-						val: att.monday.preset.netusb_info.text,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_tuner_band', {
-						val: att.monday.preset.tuner_info.band,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_tuner_number',
-						{ val: att.monday.preset.tuner_info.number, ack: true }
-					);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.enable', {
+					val: att.monday.enable,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.time', {
+					val: att.monday.time,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.beep', {
+					val: att.monday.beep,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.playback_type', {
+					val: att.monday.playback_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.resume_input', {
+					val: att.monday.resume.input,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_type', {
+					val: att.monday.preset.type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_num', {
+					val: att.monday.preset.num,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_netusb_input',
+					{ val: att.monday.preset.netusb_info.input, ack: true }
+				);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_netusb_text', {
+					val: att.monday.preset.netusb_info.text,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_tuner_band', {
+					val: att.monday.preset.tuner_info.band,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.monday.preset_tuner_number',
+					{ val: att.monday.preset.tuner_info.number, ack: true }
+				);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.enable', {
-						val: att.tuesday.enable,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.time', {
-						val: att.tuesday.time,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.beep', {
-						val: att.tuesday.beep,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.playback_type', {
-						val: att.tuesday.playback_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.resume_input', {
-						val: att.tuesday.resume.input,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_type', {
-						val: att.tuesday.preset.type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_num', {
-						val: att.tuesday.preset.num,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_netusb_input',
-						{ val: att.tuesday.preset.netusb_info.input, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_netusb_text',
-						{ val: att.tuesday.preset.netusb_info.text, ack: true }
-					);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_tuner_band', {
-						val: att.tuesday.preset.tuner_info.band,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_tuner_number',
-						{ val: att.tuesday.preset.tuner_info.number, ack: true }
-					);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.enable', {
+					val: att.tuesday.enable,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.time', {
+					val: att.tuesday.time,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.beep', {
+					val: att.tuesday.beep,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.playback_type', {
+					val: att.tuesday.playback_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.resume_input', {
+					val: att.tuesday.resume.input,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_type', {
+					val: att.tuesday.preset.type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_num', {
+					val: att.tuesday.preset.num,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_netusb_input',
+					{ val: att.tuesday.preset.netusb_info.input, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_netusb_text',
+					{ val: att.tuesday.preset.netusb_info.text, ack: true }
+				);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_tuner_band', {
+					val: att.tuesday.preset.tuner_info.band,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.tuesday.preset_tuner_number',
+					{ val: att.tuesday.preset.tuner_info.number, ack: true }
+				);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.enable', {
-						val: att.wednesday.enable,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.time', {
-						val: att.wednesday.time,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.beep', {
-						val: att.wednesday.beep,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.playback_type', {
-						val: att.wednesday.playback_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.resume_input', {
-						val: att.wednesday.resume.input,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_type', {
-						val: att.wednesday.preset.type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_num', {
-						val: att.wednesday.preset.num,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_netusb_input',
-						{ val: att.wednesday.preset.netusb_info.input, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_netusb_text',
-						{ val: att.wednesday.preset.netusb_info.text, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_tuner_band',
-						{ val: att.wednesday.preset.tuner_info.band, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_tuner_number',
-						{ val: att.wednesday.preset.tuner_info.number, ack: true }
-					);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.enable', {
+					val: att.wednesday.enable,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.time', {
+					val: att.wednesday.time,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.beep', {
+					val: att.wednesday.beep,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.playback_type', {
+					val: att.wednesday.playback_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.resume_input', {
+					val: att.wednesday.resume.input,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_type', {
+					val: att.wednesday.preset.type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_num', {
+					val: att.wednesday.preset.num,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_netusb_input',
+					{ val: att.wednesday.preset.netusb_info.input, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_netusb_text',
+					{ val: att.wednesday.preset.netusb_info.text, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_tuner_band',
+					{ val: att.wednesday.preset.tuner_info.band, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.wednesday.preset_tuner_number',
+					{ val: att.wednesday.preset.tuner_info.number, ack: true }
+				);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.enable', {
-						val: att.thursday.enable,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.time', {
-						val: att.thursday.time,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.beep', {
-						val: att.thursday.beep,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.playback_type', {
-						val: att.thursday.playback_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.resume_input', {
-						val: att.thursday.resume.input,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_type', {
-						val: att.thursday.preset.type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_num', {
-						val: att.thursday.preset.num,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_netusb_input',
-						{ val: att.thursday.preset.netusb_info.input, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_netusb_text',
-						{ val: att.thursday.preset.netusb_info.text, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_tuner_band',
-						{ val: att.thursday.preset.tuner_info.band, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_tuner_number',
-						{ val: att.thursday.preset.tuner_info.number, ack: true }
-					);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.enable', {
+					val: att.thursday.enable,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.time', {
+					val: att.thursday.time,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.beep', {
+					val: att.thursday.beep,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.playback_type', {
+					val: att.thursday.playback_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.resume_input', {
+					val: att.thursday.resume.input,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_type', {
+					val: att.thursday.preset.type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_num', {
+					val: att.thursday.preset.num,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_netusb_input',
+					{ val: att.thursday.preset.netusb_info.input, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_netusb_text',
+					{ val: att.thursday.preset.netusb_info.text, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_tuner_band',
+					{ val: att.thursday.preset.tuner_info.band, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.thursday.preset_tuner_number',
+					{ val: att.thursday.preset.tuner_info.number, ack: true }
+				);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.enable', {
-						val: att.friday.enable,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.time', {
-						val: att.friday.time,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.beep', {
-						val: att.friday.beep,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.playback_type', {
-						val: att.friday.playback_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.resume_input', {
-						val: att.friday.resume.input,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_type', {
-						val: att.friday.preset.type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_num', {
-						val: att.friday.preset.num,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_netusb_input',
-						{ val: att.friday.preset.netusb_info.input, ack: true }
-					);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_netusb_text', {
-						val: att.friday.preset.netusb_info.text,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_tuner_band', {
-						val: att.friday.preset.tuner_info.band,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_tuner_number',
-						{ val: att.friday.preset.tuner_info.number, ack: true }
-					);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.enable', {
+					val: att.friday.enable,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.time', {
+					val: att.friday.time,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.beep', {
+					val: att.friday.beep,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.playback_type', {
+					val: att.friday.playback_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.resume_input', {
+					val: att.friday.resume.input,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_type', {
+					val: att.friday.preset.type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_num', {
+					val: att.friday.preset.num,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_netusb_input',
+					{ val: att.friday.preset.netusb_info.input, ack: true }
+				);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_netusb_text', {
+					val: att.friday.preset.netusb_info.text,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_tuner_band', {
+					val: att.friday.preset.tuner_info.band,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.friday.preset_tuner_number',
+					{ val: att.friday.preset.tuner_info.number, ack: true }
+				);
 
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.enable', {
-						val: att.saturday.enable,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.time', {
-						val: att.saturday.time,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.beep', {
-						val: att.saturday.beep,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.playback_type', {
-						val: att.saturday.playback_type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.resume_input', {
-						val: att.saturday.resume.input,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_type', {
-						val: att.saturday.preset.type,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_num', {
-						val: att.saturday.preset.num,
-						ack: true
-					});
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_netusb_input',
-						{ val: att.saturday.preset.netusb_info.input, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_netusb_text',
-						{ val: att.saturday.preset.netusb_info.text, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_tuner_band',
-						{ val: att.saturday.preset.tuner_info.band, ack: true }
-					);
-					this.setForeignState(
-						'musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_tuner_number',
-						{ val: att.saturday.preset.tuner_info.number, ack: true }
-					);
-				} else {
-					this.log.debug(
-						'failure getting Clock settings from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicClockSettings] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.enable', {
+					val: att.saturday.enable,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.time', {
+					val: att.saturday.time,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.beep', {
+					val: att.saturday.beep,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.playback_type', {
+					val: att.saturday.playback_type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.resume_input', {
+					val: att.saturday.resume.input,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_type', {
+					val: att.saturday.preset.type,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_num', {
+					val: att.saturday.preset.num,
+					ack: true
+				});
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_netusb_input',
+					{ val: att.saturday.preset.netusb_info.input, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_netusb_text',
+					{ val: att.saturday.preset.netusb_info.text, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_tuner_band',
+					{ val: att.saturday.preset.tuner_info.band, ack: true }
+				);
+				await this.setStateAsync(
+					'musiccast.0.' + devtype + '_' + devuid + '.clock.saturday.preset_tuner_number',
+					{ val: att.saturday.preset.tuner_info.number, ack: true }
+				);
+			} else {
+				this.log.debug('failure getting Clock settings from  ' + devip + ' : ' + this.responseFailLog(result));
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicClockSettings] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
-	getMusicDistInfo(ip, type, uid) {
+	async getMusicDistInfo(ip, type, uid) {
 		const devip = ip;
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		yamaha
-			.getDistributionInfo()
-			.then((result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug(
-						'got Distribution info succesfully from ' + devip + 'with  ' + JSON.stringify(result)
-					);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.main.group_id', {
-						val: att.group_id,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.main.group_name', {
-						val: att.group_name,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.main.role', {
-						val: att.role,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.main.server_zone', {
-						val: att.server_zone,
-						ack: true
-					});
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.main.client_list', {
-						val: att.client_list,
-						ack: true
-					}); //array ip_address and data_type
-					/*
+		try {
+			const result = await yamaha.getDistributionInfo();
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got Distribution info succesfully from ' + devip + 'with  ' + JSON.stringify(result));
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.main.group_id', {
+					val: att.group_id,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.main.group_name', {
+					val: att.group_name,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.main.role', {
+					val: att.role,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.main.server_zone', {
+					val: att.server_zone,
+					ack: true
+				});
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.main.client_list', {
+					val: att.client_list,
+					ack: true
+				}); //array ip_address and data_type
+				/*
 				if (att.group_name === "00000000000000000000000000000000")
 					{
-						this.setForeignState('musiccast.0.'+ devtype + '_' + devuid + '.main.distr_state', {val: false, ack: true});
+						await this.setStateAsync('musiccast.0.'+ devtype + '_' + devuid + '.main.distr_state', {val: false, ack: true});
 					}
 				*/
-				} else {
-					this.log.debug(
-						'failure getting Distibution info from  ' + devip + ' : ' + this.responseFailLog(result)
-					);
-				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[getMusicDistInfo] error: ${err.message}, stack: ${err.stack}`);
-				}
-			});
+			} else {
+				this.log.debug(
+					'failure getting Distibution info from  ' + devip + ' : ' + this.responseFailLog(result)
+				);
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[getMusicDistInfo] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
 	// init of device
 	async defineMusicDeviceFeatures(ip, type, uid) {
@@ -4791,172 +4743,167 @@ class Musiccast extends utils.Adapter {
 		const devtype = type;
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
-		await yamaha
-			.getFeatures()
-			.then(async (result) => {
-				const att = JSON.parse(result);
-				if (att.response_code === 0) {
-					this.log.debug('got features succesfully from ' + devip);
-					this.log.debug('number of zones ' + att.system.zone_num);
+		try {
+			const result = await yamaha.getFeatures();
 
-					const resp = { device: devtype + '_' + devuid, request: '/system/getFeatures', responses: att };
-					if (
-						!responses.find(
-							(o) => o.device === devtype + '_' + devuid && o.request === '/system/getFeatures'
-						)
-					)
-						responses.push(resp);
-					this.setForeignState('musiccast.0.' + devtype + '_' + devuid + '.system.getFeatures', {
-						val: att,
-						ack: true
-					});
+			const att = result;
+			if (att.response_code === 0) {
+				this.log.debug('got features succesfully from ' + devip);
+				this.log.debug('number of zones ' + att.system.zone_num);
 
-					for (let i = 0; i < att.zone.length; i++) {
-						this.log.debug(' zone setup loop # ' + i + ' name ' + JSON.stringify(att.zone[i]));
+				const resp = { device: devtype + '_' + devuid, request: '/system/getFeatures', responses: att };
+				if (!responses.find((o) => o.device === devtype + '_' + devuid && o.request === '/system/getFeatures'))
+					responses.push(resp);
+				await this.setStateAsync('musiccast.0.' + devtype + '_' + devuid + '.system.getFeatures', {
+					val: JSON.stringify(att),
+					ack: true
+				});
 
-						const zone_name = att.zone[i].id;
-						await this.defineMusicZoneNew(devtype, devuid, zone_name, att.zone[i]);
-						// Zone input list
-						await this.defineMusicInputs(devtype, devuid, zone_name, att.zone[i].input_list);
-						// Zone link control
-						if (att.zone[i].func_list.indexOf('link_control') !== -1) {
-							await this.defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[i].link_control_list);
-						}
-						// Zone link audio delay
-						if (att.zone[i].func_list.indexOf('link_audio_delay') !== -1) {
-							await this.defineMusicLinkAudioDelay(
-								devtype,
-								devuid,
-								zone_name,
-								att.zone[i].func_list,
-								att.zone[i].link_audio_delay_list
-							);
-						}
-						// Zone link audio quality
-						if (att.zone[i].func_list.indexOf('link_audio_quality') !== -1) {
-							await this.defineMusicLinkAudioQuality(
-								devtype,
-								devuid,
-								zone_name,
-								att.zone[i].func_list,
-								att.zone[i].link_audio_quality_list
-							);
-						}
-						// Zone Sound program
-						if (att.zone[i].func_list.indexOf('sound_program') !== -1) {
-							await this.defineMusicSoundProg(
-								devtype,
-								devuid,
-								zone_name,
-								att.zone[i].func_list,
-								att.zone[i].sound_program_list
-							);
-						}
-						// Zone Surround_decoder_type
-						if (att.zone[i].func_list.indexOf('surr_decoder_type') !== -1) {
-							await this.defineMusicSurroundDec(
-								devtype,
-								devuid,
-								zone_name,
-								att.zone[i].func_list,
-								att.zone[i].surr_decoder_type_list
-							);
-						}
-						// Zone Audio Select
-						if (att.zone[i].func_list.indexOf('audio_select') !== -1) {
-							await this.defineMusicAudioSelect(
-								devtype,
-								devuid,
-								zone_name,
-								att.zone[i].func_list,
-								att.zone[i].audio_select_list
-							);
-						}
-						// Zone Actual Volume
-						if (att.zone[i].func_list.indexOf('actual_volume') !== -1) {
-							await this.defineMusicActualVolume(
-								devtype,
-								devuid,
-								zone_name,
-								att.zone[i].func_list,
-								att.zone[i].actual_volume_mode_list,
-								att.zone[i].range_step
-							);
-						}
-						// Zone Party Mode
-						if (att.system.func_list.indexOf('party_mode') !== -1) {
-							//hier globale func_list, aber object in jeder Zone
-							await this.defineMusicPartyMode(devtype, devuid, zone_name);
-						}
+				for (let i = 0; i < att.zone.length; i++) {
+					this.log.debug(' zone setup loop # ' + i + ' name ' + JSON.stringify(att.zone[i]));
+
+					const zone_name = att.zone[i].id;
+					await this.defineMusicZoneNew(devtype, devuid, zone_name, att.zone[i]);
+					// Zone input list
+					await this.defineMusicInputs(devtype, devuid, zone_name, att.zone[i].input_list);
+					// Zone link control
+					if (att.zone[i].func_list.indexOf('link_control') !== -1) {
+						await this.defineMusicLinkCtrl(devtype, devuid, zone_name, att.zone[i].link_control_list);
 					}
-					// input services and their attributes
-					await this.defineMusicSystemInputs(devtype, devuid, att.system.input_list);
-
-					//CD player objects
-					if (att.zone[0].input_list.indexOf('cd') !== -1) {
-						await this.defineMusicCD(devtype, devuid);
-					}
-					//Tuner objects
-					if (att.tuner) {
-						await this.defineMusicTuner(
+					// Zone link audio delay
+					if (att.zone[i].func_list.indexOf('link_audio_delay') !== -1) {
+						await this.defineMusicLinkAudioDelay(
 							devtype,
 							devuid,
-							att.tuner.func_list,
-							att.tuner.range_step,
-							att.tuner.preset
+							zone_name,
+							att.zone[i].func_list,
+							att.zone[i].link_audio_delay_list
 						);
 					}
-					//Clock objects
-					if (att.clock) {
-						await this.defineMusicClock(
+					// Zone link audio quality
+					if (att.zone[i].func_list.indexOf('link_audio_quality') !== -1) {
+						await this.defineMusicLinkAudioQuality(
 							devtype,
 							devuid,
-							att.clock.func_list,
-							att.clock.range_step,
-							att.clock.alarm_fade_type_num,
-							att.clock.alarm_mode_list,
-							att.clock.alarm_input_list,
-							att.clock.alarm_preset_list
+							zone_name,
+							att.zone[i].func_list,
+							att.zone[i].link_audio_quality_list
 						);
 					}
-				} else {
-					this.log.debug('failure getting features from  ' + devip + ' : ' + this.responseFailLog(result));
+					// Zone Sound program
+					if (att.zone[i].func_list.indexOf('sound_program') !== -1) {
+						await this.defineMusicSoundProg(
+							devtype,
+							devuid,
+							zone_name,
+							att.zone[i].func_list,
+							att.zone[i].sound_program_list
+						);
+					}
+					// Zone Surround_decoder_type
+					if (att.zone[i].func_list.indexOf('surr_decoder_type') !== -1) {
+						await this.defineMusicSurroundDec(
+							devtype,
+							devuid,
+							zone_name,
+							att.zone[i].func_list,
+							att.zone[i].surr_decoder_type_list
+						);
+					}
+					// Zone Audio Select
+					if (att.zone[i].func_list.indexOf('audio_select') !== -1) {
+						await this.defineMusicAudioSelect(
+							devtype,
+							devuid,
+							zone_name,
+							att.zone[i].func_list,
+							att.zone[i].audio_select_list
+						);
+					}
+					// Zone Actual Volume
+					if (att.zone[i].func_list.indexOf('actual_volume') !== -1) {
+						await this.defineMusicActualVolume(
+							devtype,
+							devuid,
+							zone_name,
+							att.zone[i].func_list,
+							att.zone[i].actual_volume_mode_list,
+							att.zone[i].range_step
+						);
+					}
+					// Zone Party Mode
+					if (att.system.func_list.indexOf('party_mode') !== -1) {
+						//hier globale func_list, aber object in jeder Zone
+						await this.defineMusicPartyMode(devtype, devuid, zone_name);
+					}
 				}
-			})
-			.catch((err) => {
-				if (err.message.includes('connect EHOSTUNREACH')) {
-					this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
-				} else {
-					this.log.error(`[defineMusicDeviceFeatures] error: ${err.message}, stack: ${err.stack}`);
+				// input services and their attributes
+				await this.defineMusicSystemInputs(devtype, devuid, att.system.input_list);
+
+				//CD player objects
+				if (att.zone[0].input_list.indexOf('cd') !== -1) {
+					await this.defineMusicCD(devtype, devuid);
 				}
-			});
+				//Tuner objects
+				if (att.tuner) {
+					await this.defineMusicTuner(
+						devtype,
+						devuid,
+						att.tuner.func_list,
+						att.tuner.range_step,
+						att.tuner.preset
+					);
+				}
+				//Clock objects
+				if (att.clock) {
+					await this.defineMusicClock(
+						devtype,
+						devuid,
+						att.clock.func_list,
+						att.clock.range_step,
+						att.clock.alarm_fade_type_num,
+						att.clock.alarm_mode_list,
+						att.clock.alarm_input_list,
+						att.clock.alarm_preset_list
+					);
+				}
+			} else {
+				this.log.debug('failure getting features from  ' + devip + ' : ' + this.responseFailLog(result));
+			}
+		} catch (err) {
+			if (err.message.includes('connect EHOSTUNREACH')) {
+				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+			} else {
+				this.log.error(`[defineMusicDeviceFeatures] error: ${err.message}, stack: ${err.stack}`);
+			}
+		}
 	}
 	//UDP update
-	gotUpdate(msg, devIp) {
+	async gotUpdate(msg, devIp) {
 		try {
-			const dev = this.getConfigObjects(this.config.devices, 'ip', devIp);
+			const dev = await this.getConfigObjects(this.config.devices, 'ip', devIp);
 			this.log.debug('processing update from: ' + dev + ' with ' + JSON.stringify(msg));
 			if (msg.netusb) {
 				if (msg.netusb.play_time && this.config.netusbplaytime) {
-					this.setForeignState('musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.netusb.play_time', {
+					await this.setStateAsync('musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.netusb.play_time', {
 						val: msg.netusb.play_time,
 						ack: true
 					});
 				}
 				if (msg.netusb.play_info_updated) {
-					this.getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
+					await this.getMusicNetusbInfo(devIp, dev[0].type, dev[0].uid);
 				}
 				if (msg.netusb.recent_info_updated) {
-					this.getMusicNetusbRecent(devIp, dev[0].type, dev[0].uid);
+					await this.getMusicNetusbRecent(devIp, dev[0].type, dev[0].uid);
 				}
 				if (msg.netusb.preset_info_updated) {
-					this.getMusicNetusbPreset(devIp, dev[0].type, dev[0].uid);
+					await this.getMusicNetusbPreset(devIp, dev[0].type, dev[0].uid);
 				}
 				//if play_error todo
 
 				if (msg.netusb.preset_control) {
 					if (msg.netusb.preset_control.result === 'success') {
-						this.setForeignState(
+						await this.setStateAsync(
 							'musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.netusb.presetrecallnumber',
 							{ val: msg.netusb.preset_control.num, ack: true }
 						);
@@ -4966,22 +4913,22 @@ class Musiccast extends utils.Adapter {
 			if (msg.main) {
 				//if signal_info_updated /main/getSignalInfo
 				//if status_updated /main/getStatus
-				this.getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'main');
+				await this.getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'main');
 			}
 			if (msg.zone2) {
 				//if signal_info_updated /main/getSignalInfo
 				//if status_updated /main/getStatus
-				this.getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone2');
+				await this.getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone2');
 			}
 			if (msg.zone3) {
 				//if signal_info_updated /main/getSignalInfo
 				//if status_updated /main/getStatus
-				this.getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone3');
+				await this.getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone3');
 			}
 			if (msg.zone4) {
 				//if signal_info_updated /main/getSignalInfo
 				//if status_updated /main/getStatus
-				this.getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone4');
+				await this.getMusicZoneInfo(devIp, dev[0].type, dev[0].uid, 'zone4');
 			}
 			if (msg.system) {
 				//if func_status_updated
@@ -4992,34 +4939,34 @@ class Musiccast extends utils.Adapter {
 			if (msg.cd) {
 				//if device_status
 				if (msg.cd.play_time && this.config.cdplaytime) {
-					this.setForeignState('musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.cd.play_time', {
+					await this.setStateAsync('musiccast.0.' + dev[0].type + '_' + dev[0].uid + '.cd.play_time', {
 						val: msg.cd.play_time,
 						ack: true
 					});
 				}
 				if (msg.cd.play_info_updated) {
-					this.getMusicCdInfo(devIp, dev[0].type, dev[0].uid);
+					await this.getMusicCdInfo(devIp, dev[0].type, dev[0].uid);
 				}
 			}
 			if (msg.tuner) {
 				//if play_info_updated
 				if (msg.tuner.play_info_updated) {
-					this.getMusicTunerInfo(devIp, dev[0].type, dev[0].uid);
+					await this.getMusicTunerInfo(devIp, dev[0].type, dev[0].uid);
 				}
 				//if preset_info_updated
 				if (msg.tuner.preset_info_updated) {
-					this.getMusicTunerPreset(devIp, dev[0].type, dev[0].uid);
+					await this.getMusicTunerPreset(devIp, dev[0].type, dev[0].uid);
 				}
 				//if name_text_updated
 				//if location_info_updated
 			}
 			if (msg.dist) {
 				//  /dist/getDistributionInfo
-				this.getMusicDistInfo(devIp, dev[0].type, dev[0].uid);
+				await this.getMusicDistInfo(devIp, dev[0].type, dev[0].uid);
 			}
 			if (msg.clock) {
 				// /clock/getSettings
-				this.getMusicClockSettings(devIp, dev[0].type, dev[0].uid);
+				await this.getMusicClockSettings(devIp, dev[0].type, dev[0].uid);
 			}
 		} catch (err) {
 			this.log.error(`[gotUpdate] error: ${err.message}, stack: ${err.stack}`);
