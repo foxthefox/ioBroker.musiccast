@@ -764,7 +764,8 @@ class Musiccast extends utils.Adapter {
 				case 'browse':
 					yamaha = new YamahaYXC();
 					try {
-						const res = yamaha.discover();
+						const res = await yamaha.discover();
+						this.log.debug('result ' + JSON.stringify(res));
 						result = res;
 						//result.push({ ip: res[0], name: res[1], type: res[2], uid: res[3] });
 						this.log.debug('result ' + JSON.stringify(result));
@@ -778,14 +779,14 @@ class Musiccast extends utils.Adapter {
 					break;
 
 				case 'jsonreq':
-					/*
-					yamaha.getFeatures()
-					yamaha.getDeviceInfo()
-					yamaha.getPlayInfo()
-					yamaha.getRecentInfo()
-					yamaha.getPresetInfo()
-					yamaha.getStatus()
-					*/
+					try {
+						const result = await this.discoverAndGet();
+						this.log.debug('result ' + JSON.stringify(result));
+						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
+					} catch (error) {
+						this.log.info('error in sendTo jsonreq()');
+						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
+					}
 					if (obj.callback) this.sendTo(obj.from, obj.command, responses, obj.callback); //responses wird sukzessive mit den get-Aufrufen befüllt
 					wait = true;
 					break;
@@ -799,6 +800,81 @@ class Musiccast extends utils.Adapter {
 			this.sendTo(obj.from, obj.command, obj.message, obj.callback);
 		}
 		return true;
+	}
+	async discoverAndGet() {
+		let found = [];
+		try {
+			const yamahawo = new YamahaYXC();
+			const devicearray = await yamahawo.discover(10000);
+			if (devicearray) {
+				await Promise.all(
+					devicearray.map(async (device) => {
+						let data = {};
+						data[device.name] = {};
+						const yamaha = new YamahaYXC(device.ip);
+						data[device.name]['system'] = {};
+						const getDeviceInfo = await yamaha.getDeviceInfo();
+						data[device.name]['system']['getDeviceInfo'] = getDeviceInfo;
+						const getNetworkStatus = await yamaha.getNetworkStatus();
+						data[device.name]['system']['getNetworkStatus'] = getNetworkStatus;
+						const getFuncStatus = await yamaha.getFuncStatus();
+						data[device.name]['system']['getFuncStatus'] = getFuncStatus;
+						const getNameText = await yamaha.getNameText();
+						data[device.name]['system']['getNameText'] = getNameText;
+						const getLocationInfo = await yamaha.getLocationInfo();
+						data[device.name]['system']['getLocationInfo'] = getLocationInfo;
+						const getFeatures = await yamaha.getFeatures();
+						data[device.name]['system']['getFeatures'] = getFeatures;
+						if (getFeatures['netusb']) {
+							data[device.name]['netusb'] = {};
+							const getNetPlayInfo = await yamaha.getPlayInfo();
+							data[device.name]['netusb']['getPlayInfo'] = getNetPlayInfo;
+							const getPresetInfo = await yamaha.getPresetInfo();
+							data[device.name]['netusb']['getPresetInfo'] = getPresetInfo;
+							const getSettings = await yamaha.getSettings();
+							data[device.name]['netusb']['getSettings'] = getSettings;
+							const getRecentInfo = await yamaha.getRecentInfo();
+							data[device.name]['netusb']['getRecentInfo'] = getRecentInfo;
+						}
+						if (getFeatures['tuner']) {
+							data[device.name]['tuner'] = {};
+							const getTunerPlayInfo = await yamaha.getTunerPlayInfo();
+							data[device.name]['tuner']['getPlayInfo'] = getTunerPlayInfo;
+							const getTunerPresetInfo = await yamaha.getTunerPresetInfo();
+							data[device.name]['tuner']['getPresetInfo'] = getTunerPresetInfo;
+						}
+						if (getFeatures['cd']) {
+							data[device.name]['cd'] = {};
+							const getCdPlayInfo = await yamaha.getPlayInfo('cd');
+							data[device.name]['cd']['getPlayInfo'] = getCdPlayInfo;
+						}
+						if (getFeatures['clock']) {
+							data[device.name]['clock'] = {};
+							const getClockSettings = await yamaha.getClockSettings();
+							data[device.name]['clock']['getSettings'] = getClockSettings;
+						}
+						if (getFeatures['zone']) {
+							await Promise.all(
+								getFeatures['zone'].map(async (zone) => {
+									data[device.name][zone.id] = {};
+									const getStatus = await yamaha.getStatus();
+									data[device.name][zone.id]['getStatus'] = getStatus;
+									const getSoundProgramList = await yamaha.getSoundProgramList();
+									data[device.name][zone.id]['getSoundProgramList'] = getSoundProgramList;
+									const getSignalInfo = await yamaha.getSoundProgramList();
+									data[device.name][zone.id]['getSignalInfo'] = getSignalInfo;
+								})
+							);
+						}
+
+						found.push(data);
+					})
+				);
+				return Promise.resolve(found);
+			}
+		} catch (error) {
+			return Promise.reject(error);
+		}
 	}
 
 	responseFailLog(fail) {
