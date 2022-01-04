@@ -16,6 +16,14 @@ let yamaha = null;
 let yamaha2 = null;
 const responses = [ {} ];
 
+const dpZoneCommands = {
+	mute: 'mute',
+	surround: 'surround',
+	volume: 'setVolme',
+	input: 'input'
+};
+const dpCommands = {};
+
 class Musiccast extends utils.Adapter {
 	/**
 	 * @param {Partial<utils.AdapterOptions>} [options={}]
@@ -241,6 +249,33 @@ class Musiccast extends utils.Adapter {
 						}
 					});
 				}
+				/*
+				else {
+					// work with boolCMD
+					switch( dp ) {
+						case 'mute': case 'surround': case 'volume': case 'input':
+						  //command with Zone
+						  try{
+							const result = yamaha[dpZoneCommands[dp]]](state.val, zone)
+								if (JSON.parse(result).response_code === 0) {
+									this.log.debug('sent' +dp+ succesfully to ' + zone + ' with ' + state.val);
+									//await this.setStateAsync(id, true, true);
+								} else {
+									this.log.debug('failure mute cmd' + this.responseFailLog(result));
+								}
+							}
+							catch(err) {
+								this.log.debug('failure '+dp+' cmd' + this.responseFailLog(err));
+							}
+						  break;
+						case 4: case 5: case 6:
+						  //command without Zone
+						  break;
+						default:
+						  answer = "Massive or Tiny?";
+					  }
+				}
+				*/
 				if (dp === 'mute') {
 					yamaha.mute(state.val, zone).then((result) => {
 						if (JSON.parse(result).response_code === 0) {
@@ -780,7 +815,8 @@ class Musiccast extends utils.Adapter {
 
 				case 'jsonreq':
 					try {
-						const result = await this.discoverAndGet();
+						const res = await this.discoverAndGet();
+						result.push(res);
 						this.log.debug('result ' + JSON.stringify(result));
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					} catch (error) {
@@ -3678,7 +3714,7 @@ class Musiccast extends utils.Adapter {
 							}
 						}
 					} else if (key == 'actual_volume') {
-						this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + att[key]);
+						this.log.debug('Zone Status Update ' + key + '  at ' + att[key]);
 						await this.setStateAsync(
 							'musiccast.0.' + devtype + '_' + devuid + '.' + zone_name + '.act_vol_mode',
 							{ val: att[key].mode, ack: true }
