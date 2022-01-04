@@ -763,16 +763,17 @@ class Musiccast extends utils.Adapter {
 			switch (obj.command) {
 				case 'browse':
 					yamaha = new YamahaYXC();
-					yamaha
-						.discover()
-						.then((res) => {
-							result = res;
-							//result.push({ ip: res[0], name: res[1], type: res[2], uid: res[3] });
-							this.log.debug('result ' + JSON.stringify(result));
-						})
-						.done(() => {
-							if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
-						});
+					try {
+						const res = yamaha.discover();
+						result = res;
+						//result.push({ ip: res[0], name: res[1], type: res[2], uid: res[3] });
+						this.log.debug('result ' + JSON.stringify(result));
+
+						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
+					} catch (error) {
+						this.log.info('error in sendTo discover()');
+						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
+					}
 					wait = true;
 					break;
 
