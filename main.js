@@ -17,6 +17,7 @@ let yamaha2 = null;
 const responses = [ {} ];
 
 const dpZoneCommands = {
+	power: 'power',
 	mute: 'mute',
 	surround: 'surround',
 	volume: 'setVolmeTo',
@@ -244,69 +245,61 @@ class Musiccast extends utils.Adapter {
 
 				const zone = idx;
 
-				if (dp === 'power') {
-					const convertValue = state.val ? 'on' : 'standby';
-
-					yamaha.power(convertValue, zone).then((result) => {
-						if (JSON.parse(result).response_code === 0) {
-							this.log.debug(
-								'sent power succesfully to ' + zone + ' with ' + convertValue + '(' + state.val + ')'
-							);
-							//await this.setStateAsync(id, true, true);
-						} else {
-							this.log.debug('failure setting power' + this.responseFailLog(result));
-						}
-					});
-				} else {
-					// work with boolCMD
-					switch (dp) {
-						// calls with zone
-						case 'mute':
-						case 'surround':
-						case 'volume':
-						case 'input':
-						case 'bass_extension':
-						case 'enhancer':
-						case 'direct':
-						case 'pure_direct':
-						case 'sound_program':
-						case 'bass':
-						case 'treble':
-						case 'balance':
-						case 'sleep':
-						case 'clearVoice':
-						case 'link_control':
-						case 'link_audio_delay':
-						case 'link_audio_quality':
-							//command with Zone
-							try {
-								let value = state.val;
-								if (dp === 'volume') value = Math.round(state.val); //notwendig?
-								const result = await yamaha[dpZoneCommands[dp]](state.val, zone);
-								if (result.response_code === 0) {
-									this.log.debug('sent' + dp + ' succesfully to ' + zone + ' with ' + value);
-									//await this.setStateAsync(id, true, true);
-								} else {
-									this.log.debug('failure ' + dp + '  cmd' + this.responseFailLog(result));
-								}
-							} catch (err) {
-								this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
-							}
-							break;
-						//calls without zone
-						case 'subwoofer_volume':
+				// work with boolCMD
+				switch (dp) {
+					// calls with zone
+					case 'power':
+					case 'mute':
+					case 'surround':
+					case 'volume':
+					case 'input':
+					case 'bass_extension':
+					case 'enhancer':
+					case 'direct':
+					case 'pure_direct':
+					case 'sound_program':
+					case 'bass':
+					case 'treble':
+					case 'balance':
+					case 'sleep':
+					case 'clearVoice':
+					case 'link_control':
+					case 'link_audio_delay':
+					case 'link_audio_quality':
+						//command with Zone
+						try {
 							let value = state.val;
-							//value = Math.round(state.val); //notwendig?
-							yamaha.setSubwooferVolumeTo(state.val).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
-									this.log.debug('set ' + dp + '  succesfully  to ' + state.val);
-									//await this.setStateAsync(id, true, true);
-								} else {
-									this.log.debug('failure setting subwoofer volume' + this.responseFailLog(result));
-								}
-							});
-						case 'presetrecallnumber':
-							/* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
+							if (dp === 'volume') value = Math.round(state.val); //notwendig?
+							if (dp === 'power') {
+								const value = state.val ? 'on' : 'standby';
+							}
+							const result = await yamaha[dpZoneCommands[dp]](value, zone);
+							if (result.response_code === 0) {
+								this.log.debug('sent' + dp + ' succesfully to ' + zone + ' with ' + value);
+								//await this.setStateAsync(id, true, true);
+							} else {
+								this.log.debug('failure ' + dp + '  cmd' + this.responseFailLog(result));
+							}
+						} catch (err) {
+							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+						}
+						break;
+					//calls without zone
+					case 'subwoofer_volume':
+						try {
+							let value = state.val;
+							const result = await yamaha[dpZoneCommands[dp]](value);
+							if (result.response_code === 0) {
+								this.log.debug('sent' + dp + ' succesfully with ' + value);
+								//await this.setStateAsync(id, true, true);
+							} else {
+								this.log.debug('failure ' + dp + '  cmd' + this.responseFailLog(result));
+							}
+						} catch (err) {
+							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+						}
+					case 'presetrecallnumber':
+						/* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
 
 								yamaha.recallPreset(state.val, zone).then((result) => {
 									if (JSON.parse(result).response_code === 0 ){
@@ -317,222 +310,221 @@ class Musiccast extends utils.Adapter {
 								});
 							
 							*/
-							try {
-								const result = await yamaha[dpCommands[dp]](state.val);
-								if (result.response_code === 0) {
-									this.log.debug('sent' + dp + ' succesfully with ' + state.val);
-									//await this.setStateAsync(id, true, true);
-								} else {
-									this.log.debug('failure ' + dp + '  cmd' + this.responseFailLog(result));
-								}
-							} catch (err) {
-								this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+						try {
+							const result = await yamaha[dpCommands[dp]](state.val);
+							if (result.response_code === 0) {
+								this.log.debug('sent' + dp + ' succesfully with ' + state.val);
+								//await this.setStateAsync(id, true, true);
+							} else {
+								this.log.debug('failure ' + dp + '  cmd' + this.responseFailLog(result));
 							}
-							break;
-						case 'low':
-							yamaha.setEqualizer(state.val, '', '', zone).then((result) => {
+						} catch (err) {
+							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+						}
+						break;
+					case 'low':
+						try {
+							const result = await yamaha.setEqualizer(state.val, '', '', zone);
+							if (result.response_code === 0) {
+								this.log.debug('set equalizer LOW succesfully  to ' + zone + ' with ' + state.val);
+								//await this.setStateAsync(id, true, true);
+							} else {
+								this.log.debug('failure setting EQ LOW ' + this.responseFailLog(result));
+							}
+						} catch (err) {
+							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+						}
+						break;
+					case 'mid':
+						try {
+							const result = await yamaha.setEqualizer('', state.val, '', zone);
+							if (result.response_code === 0) {
+								this.log.debug('set equalizer MID succesfully  to ' + zone + ' with ' + state.val);
+								//await this.setStateAsync(id, true, true);
+							} else {
+								this.log.debug('failure setting EQ MID ' + this.responseFailLog(result));
+							}
+						} catch (err) {
+							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+						}
+						break;
+					case 'high':
+						try {
+							const result = await yamaha.setEqualizer('', '', state.val, zone);
+							if (result.response_code === 0) {
+								this.log.debug('set equalizer HIGH succesfully  to ' + zone + ' with ' + state.val);
+								//await this.setStateAsync(id, true, true);
+							} else {
+								this.log.debug('failure setting EQ HIGH ' + this.responseFailLog(result));
+							}
+						} catch (err) {
+							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+						}
+						break;
+					//playback calls with netusb or cd and the action
+					case 'prev':
+					case 'next':
+					case 'stop':
+					case 'play':
+					case 'pause':
+					case 'playPause':
+						try {
+							let action = dp;
+							if (dp === 'prev') action = 'previous';
+							if (dp === 'playPause') {
+								//ppstate can be 'stop' or 'play'
+								const ppstate = await this.getStateAsync(id.replace('playPause', 'playback'));
+								if (ppstate.val == 'stop') {
+									action = 'play';
+								} else {
+									action = 'stop';
+								}
+							}
+							const result = await yamaha.setPlayback(action, idx);
+							if (result.response_code === 0) {
+								this.log.debug('sent' + dp + ' succesfully to ' + idx);
+								//await this.setStateAsync(id, true, true); at playback
+							} else {
+								this.log.debug('failure ' + dp + ' ' + action + ' cmd' + this.responseFailLog(result));
+							}
+						} catch (err) {
+							this.log.debug('failure ' + dp + ' cmd' + this.responseFailLog(err));
+						}
+						break;
+					// calls with with netusb or cd
+					case 'repeat':
+					case 'shuffle':
+						try {
+							const result = await yamaha[dpToggleCommands[dp]](state.val, zone);
+							if (result.response_code === 0) {
+								this.log.debug('sent' + dp + ' succesfully to ' + zone + ' with ' + state.val);
+								//await this.setStateAsync(id, true, true);
+							} else {
+								this.log.debug('failure mute cmd' + this.responseFailLog(result));
+							}
+						} catch (err) {
+							this.log.debug('failure ' + dp + ' cmd' + this.responseFailLog(err));
+						}
+						break;
+					//distribution
+					case 'distr_state':
+						//Start/Stop distribution
+						//startDistribution(num) als Funktion aufrufen oder hier als
+						if (state.val === true || state.val === 'true' || state.val === 'on') {
+							var num = 0;
+							await yamaha.startDistribution(num).then((result) => {
 								if (JSON.parse(result).response_code === 0) {
-									this.log.debug('set equalizer LOW succesfully  to ' + zone + ' with ' + state.val);
+									this.log.debug('sent Start Distribution');
 									//await this.setStateAsync(id, true, true);
 								} else {
-									this.log.debug('failure setting EQ LOW ' + this.responseFailLog(result));
+									this.log.debug('failure sending Start Distribution' + this.responseFailLog(result));
 								}
 							});
-							break;
-						case 'mid':
-							yamaha.setEqualizer('', state.val, '', zone).then((result) => {
+						}
+						if (state.val === false || state.val === 'false' || state.val === 'off') {
+							var num = 0;
+							await yamaha.stopDistribution(num).then((result) => {
 								if (JSON.parse(result).response_code === 0) {
-									this.log.debug('set equalizer MID succesfully  to ' + zone + ' with ' + state.val);
+									this.log.debug('sent Stop Distribution');
 									//await this.setStateAsync(id, true, true);
 								} else {
-									this.log.debug('failure setting EQ MID ' + this.responseFailLog(result));
+									this.log.debug('failure sending Stop Distribution' + this.responseFailLog(result));
 								}
 							});
-							break;
-						case 'high':
-							yamaha.setEqualizer('', '', state.val, zone).then((result) => {
+						}
+						break;
+					case 'add_to_group':
+					case 'remove_from_group':
+						//state.val enthält die IP des Masters
+						const groupID = md5(state.val);
+						var clientIP = null;
+						let clientpayload = null;
+						let masterpayload = null;
+						if (dp === 'add_to_group') {
+							//addToGroup(state.val, IP[0].ip);
+							clientIP = IP[0].ip;
+							this.log.debug('clientIP ' + clientIP + 'ID ' + groupID);
+
+							clientpayload = { group_id: groupID, zone: [ 'main' ] };
+							masterpayload = {
+								group_id: groupID,
+								zone: 'main',
+								type: 'add',
+								client_list: [ clientIP ]
+							};
+							yamaha2 = new YamahaYXC(state.val);
+
+							await yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
 								if (JSON.parse(result).response_code === 0) {
-									this.log.debug('set equalizer High succesfully  to ' + zone + ' with ' + state.val);
+									this.log.debug('sent ClientInfo : ' + clientIP);
 									//await this.setStateAsync(id, true, true);
 								} else {
-									this.log.debug('failure setting EQ HIGH' + this.responseFailLog(result));
+									this.log.debug('failure sending ClientInfo' + this.responseFailLog(result));
 								}
 							});
 
-							break;
-						//playback calls with netusb or cd and the action
-						case 'prev':
-						case 'next':
-						case 'stop':
-						case 'play':
-						case 'pause':
-						case 'playPause':
-							try {
-								let action = dp;
-								if (dp === 'prev') action = 'previous';
-								if (dp === 'playPause') {
-									//ppstate can be 'stop' or 'play'
-									const ppstate = await this.getStateAsync(id.replace('playPause', 'playback'));
-									if (ppstate.val == 'stop') {
-										action = 'play';
-									} else {
-										action = 'stop';
-									}
-								}
-								const result = await yamaha.setPlayback(action, idx);
-								if (result.response_code === 0) {
-									this.log.debug('sent' + dp + ' succesfully to ' + idx);
-									//await this.setStateAsync(id, true, true); at playback
-								} else {
-									this.log.debug(
-										'failure ' + dp + ' ' + action + ' cmd' + this.responseFailLog(result)
-									);
-								}
-							} catch (err) {
-								this.log.debug('failure ' + dp + ' cmd' + this.responseFailLog(err));
-							}
-							break;
-						// calls with with netusb or cd
-						case 'repeat':
-						case 'shuffle':
-							try {
-								const result = await yamaha[dpToggleCommands[dp]](state.val, zone);
-								if (result.response_code === 0) {
-									this.log.debug('sent' + dp + ' succesfully to ' + zone + ' with ' + state.val);
+							await yamaha2.setServerInfo(JSON.stringify(masterpayload)).then((result) => {
+								if (JSON.parse(result).response_code === 0) {
+									this.log.debug('sent ServerInfo ' + state.val);
 									//await this.setStateAsync(id, true, true);
 								} else {
-									this.log.debug('failure mute cmd' + this.responseFailLog(result));
+									this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
 								}
-							} catch (err) {
-								this.log.debug('failure ' + dp + ' cmd' + this.responseFailLog(err));
-							}
-							break;
-						//distribution
-						case 'distr_state':
-							//Start/Stop distribution
-							//startDistribution(num) als Funktion aufrufen oder hier als
-							if (state.val === true || state.val === 'true' || state.val === 'on') {
-								var num = 0;
-								yamaha.startDistribution(num).then((result) => {
-									if (JSON.parse(result).response_code === 0) {
-										this.log.debug('sent Start Distribution');
-										//await this.setStateAsync(id, true, true);
-									} else {
-										this.log.debug(
-											'failure sending Start Distribution' + this.responseFailLog(result)
-										);
-									}
-								});
-							}
-							if (state.val === false || state.val === 'false' || state.val === 'off') {
-								var num = 0;
-								yamaha.stopDistribution(num).then((result) => {
-									if (JSON.parse(result).response_code === 0) {
-										this.log.debug('sent Stop Distribution');
-										//await this.setStateAsync(id, true, true);
-									} else {
-										this.log.debug(
-											'failure sending Stop Distribution' + this.responseFailLog(result)
-										);
-									}
-								});
-							}
-							break;
-						case 'add_to_group':
-						case 'remove_from_group':
-							//state.val enthält die IP des Masters
-							const groupID = md5(state.val);
-							var clientIP = null;
-							let clientpayload = null;
-							let masterpayload = null;
-							if (dp === 'add_to_group') {
-								//addToGroup(state.val, IP[0].ip);
-								clientIP = IP[0].ip;
-								this.log.debug('clientIP ' + clientIP + 'ID ' + groupID);
+							});
+							//Übergabewert soll der Nummer des links entsprechen?!
+							await yamaha2.startDistribution(0).then((result) => {
+								if (JSON.parse(result).response_code === 0) {
+									this.log.debug('sent start ServerInfo ' + state.val);
+									//await this.setStateAsync(id, true, true);
+								} else {
+									this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
+								}
+							});
+						}
+						if (dp === 'remove_from_group') {
+							//removeFromGroup(state.val, IP[0].ip);
+							clientIP = IP[0].ip;
+							this.log.debug('clientIP ' + clientIP);
+							clientpayload = { group_id: '', zone: [ 'main' ] };
+							masterpayload = {
+								group_id: groupID,
+								zone: 'main',
+								type: 'remove',
+								client_list: [ clientIP ]
+							};
 
-								clientpayload = { group_id: groupID, zone: [ 'main' ] };
-								masterpayload = {
-									group_id: groupID,
-									zone: 'main',
-									type: 'add',
-									client_list: [ clientIP ]
-								};
-								yamaha2 = new YamahaYXC(state.val);
+							yamaha2 = new YamahaYXC(state.val);
+							//Übergabewert soll der Nummer des links entsprechen?!
+							await yamaha2.stopDistribution(0).then((result) => {
+								if (JSON.parse(result).response_code === 0) {
+									this.log.debug('sent Stop Distribution');
+									//await this.setStateAsync(id, true, true);
+								} else {
+									this.log.debug('failure sending Stop Distribution' + this.responseFailLog(result));
+								}
+							});
 
-								yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
-									if (JSON.parse(result).response_code === 0) {
-										this.log.debug('sent ClientInfo : ' + clientIP);
-										//await this.setStateAsync(id, true, true);
-									} else {
-										this.log.debug('failure sending ClientInfo' + this.responseFailLog(result));
-									}
-								});
+							await yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
+								if (JSON.parse(result).response_code === 0) {
+									this.log.debug('sent Client disconnect to : ' + clientIP);
+									//await this.setStateAsync(id, true, true);
+								} else {
+									this.log.debug('failure sending disconnect' + this.responseFailLog(result));
+								}
+							});
 
-								yamaha2.setServerInfo(JSON.stringify(masterpayload)).then((result) => {
-									if (JSON.parse(result).response_code === 0) {
-										this.log.debug('sent ServerInfo ' + state.val);
-										//await this.setStateAsync(id, true, true);
-									} else {
-										this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
-									}
-								});
-								//Übergabewert soll der Nummer des links entsprechen?!
-								yamaha2.startDistribution(0).then((result) => {
-									if (JSON.parse(result).response_code === 0) {
-										this.log.debug('sent start ServerInfo ' + state.val);
-										//await this.setStateAsync(id, true, true);
-									} else {
-										this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
-									}
-								});
-							}
-							if (dp === 'remove_from_group') {
-								//removeFromGroup(state.val, IP[0].ip);
-								clientIP = IP[0].ip;
-								this.log.debug('clientIP ' + clientIP);
-								clientpayload = { group_id: '', zone: [ 'main' ] };
-								masterpayload = {
-									group_id: groupID,
-									zone: 'main',
-									type: 'remove',
-									client_list: [ clientIP ]
-								};
+							await yamaha2.setServerInfo(JSON.stringify(masterpayload)).then((result) => {
+								if (JSON.parse(result).response_code === 0) {
+									this.log.debug('sent ServerInfo to ' + state.val);
+									//await this.setStateAsync(id, true, true);
+								} else {
+									this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
+								}
+							});
+						}
 
-								yamaha2 = new YamahaYXC(state.val);
-								//Übergabewert soll der Nummer des links entsprechen?!
-								yamaha2.stopDistribution(0).then((result) => {
-									if (JSON.parse(result).response_code === 0) {
-										this.log.debug('sent Stop Distribution');
-										//await this.setStateAsync(id, true, true);
-									} else {
-										this.log.debug(
-											'failure sending Stop Distribution' + this.responseFailLog(result)
-										);
-									}
-								});
-
-								yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
-									if (JSON.parse(result).response_code === 0) {
-										this.log.debug('sent Client disconnect to : ' + clientIP);
-										//await this.setStateAsync(id, true, true);
-									} else {
-										this.log.debug('failure sending disconnect' + this.responseFailLog(result));
-									}
-								});
-
-								yamaha2.setServerInfo(JSON.stringify(masterpayload)).then((result) => {
-									if (JSON.parse(result).response_code === 0) {
-										this.log.debug('sent ServerInfo to ' + state.val);
-										//await this.setStateAsync(id, true, true);
-									} else {
-										this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
-									}
-								});
-							}
-
-						default:
-							this.log.error('Error command is not processed ' + dp);
-					}
+					default:
+						this.log.error('Error command is not processed ' + dp);
 				}
 			} //if status
 		} else {
