@@ -269,19 +269,19 @@ class Musiccast extends utils.Adapter {
 						//command with Zone
 						try {
 							let value = state.val;
-							if (dp === 'volume') value = Math.round(state.val); //notwendig?
+							if (dp === 'volume') value = parseInt(state.val); //notwendig?
 							if (dp === 'power') {
 								const value = state.val ? 'on' : 'standby';
 							}
 							const result = await yamaha[dpZoneCommands[dp]](value, zone);
 							if (result.response_code === 0) {
-								this.log.debug('sent' + dp + ' succesfully to ' + zone + ' with ' + value);
+								this.log.debug('sent ' + dp + ' succesfully to ' + zone + ' with ' + value);
 								//await this.setStateAsync(id, true, true);
 							} else {
-								this.log.debug('failure ' + dp + '  cmd' + this.responseFailLog(result));
+								this.log.debug('failure ' + dp + '  cmd ' + this.responseFailLog(result));
 							}
 						} catch (err) {
-							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 						break;
 					//calls without zone
@@ -290,13 +290,13 @@ class Musiccast extends utils.Adapter {
 							let value = state.val;
 							const result = await yamaha[dpZoneCommands[dp]](value);
 							if (result.response_code === 0) {
-								this.log.debug('sent' + dp + ' succesfully with ' + value);
+								this.log.debug('sent ' + dp + ' succesfully with ' + value);
 								//await this.setStateAsync(id, true, true);
 							} else {
-								this.log.debug('failure ' + dp + '  cmd' + this.responseFailLog(result));
+								this.log.debug('failure ' + dp + '  cmd ' + this.responseFailLog(result));
 							}
 						} catch (err) {
-							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 					case 'presetrecallnumber':
 						/* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
@@ -313,13 +313,13 @@ class Musiccast extends utils.Adapter {
 						try {
 							const result = await yamaha[dpCommands[dp]](state.val);
 							if (result.response_code === 0) {
-								this.log.debug('sent' + dp + ' succesfully with ' + state.val);
+								this.log.debug('sent ' + dp + ' succesfully with ' + state.val);
 								//await this.setStateAsync(id, true, true);
 							} else {
-								this.log.debug('failure ' + dp + '  cmd' + this.responseFailLog(result));
+								this.log.debug('failure ' + dp + '  cmd ' + this.responseFailLog(result));
 							}
 						} catch (err) {
-							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 						break;
 					case 'low':
@@ -332,7 +332,7 @@ class Musiccast extends utils.Adapter {
 								this.log.debug('failure setting EQ LOW ' + this.responseFailLog(result));
 							}
 						} catch (err) {
-							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 						break;
 					case 'mid':
@@ -345,7 +345,7 @@ class Musiccast extends utils.Adapter {
 								this.log.debug('failure setting EQ MID ' + this.responseFailLog(result));
 							}
 						} catch (err) {
-							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 						break;
 					case 'high':
@@ -358,7 +358,7 @@ class Musiccast extends utils.Adapter {
 								this.log.debug('failure setting EQ HIGH ' + this.responseFailLog(result));
 							}
 						} catch (err) {
-							this.log.debug('API call failure ' + dp + ' cmd' + this.responseFailLog(err));
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 						break;
 					//playback calls with netusb or cd and the action
@@ -382,13 +382,13 @@ class Musiccast extends utils.Adapter {
 							}
 							const result = await yamaha.setPlayback(action, idx);
 							if (result.response_code === 0) {
-								this.log.debug('sent' + dp + ' succesfully to ' + idx);
+								this.log.debug('sent ' + dp + ' succesfully to ' + idx);
 								//await this.setStateAsync(id, true, true); at playback
 							} else {
-								this.log.debug('failure ' + dp + ' ' + action + ' cmd' + this.responseFailLog(result));
+								this.log.debug('failure ' + dp + ' ' + action + ' cmd ' + this.responseFailLog(result));
 							}
 						} catch (err) {
-							this.log.debug('failure ' + dp + ' cmd' + this.responseFailLog(err));
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 						break;
 					// calls with with netusb or cd
@@ -397,13 +397,13 @@ class Musiccast extends utils.Adapter {
 						try {
 							const result = await yamaha[dpToggleCommands[dp]](state.val, zone);
 							if (result.response_code === 0) {
-								this.log.debug('sent' + dp + ' succesfully to ' + zone + ' with ' + state.val);
+								this.log.debug('sent ' + dp + ' succesfully to ' + zone + ' with ' + state.val);
 								//await this.setStateAsync(id, true, true);
 							} else {
-								this.log.debug('failure mute cmd' + this.responseFailLog(result));
+								this.log.debug('failure ' + dp + ' cmd ' + this.responseFailLog(result));
 							}
 						} catch (err) {
-							this.log.debug('failure ' + dp + ' cmd' + this.responseFailLog(err));
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 						break;
 					//distribution
@@ -673,96 +673,88 @@ class Musiccast extends utils.Adapter {
 
 	responseFailLog(fail) {
 		let errcode = '';
-		try {
-			let fault = JSON.parse(fail);
-			if (fault.hasProperty('response_code')) {
-				switch (JSON.parse(fail).response_code) {
-					case 1:
-						errcode = 'Response : 1 Initializing';
-						break;
-					case 2:
-						errcode = 'Response : 2 Internal Error';
-						break;
-					case 3:
-						errcode =
-							'Response : 3 Invalid Request (A method did not exist, a method wasn’t appropriate etc.)';
-						break;
-					case 4:
-						errcode = 'Response : 4 Invalid Parameter (Out of range, invalid characters etc.)';
-						break;
-					case 5:
-						errcode = 'Response : 5 Guarded (Unable to setup in current status etc.)';
-						break;
-					case 6:
-						errcode = 'Response : 6 Time Out';
-						break;
-					case 99:
-						errcode = 'Response : 99 Firmware Updating';
-						break;
-					//Streaming Service Errors
-					case 100:
-						errcode = 'Response : 100 Access Error Streaming Service';
-						break;
-					case 101:
-						errcode = 'Response : 101 Other Errors Streaming Service';
-						break;
-					case 102:
-						errcode = 'Response : 102 Wrong User Name Streaming Service';
-						break;
-					case 103:
-						errcode = 'Response : 103 Wrong Password Streaming Service';
-						break;
-					case 104:
-						errcode = 'Response : 104 Account Expired Streaming Service';
-						break;
-					case 105:
-						errcode = 'Response : 105 Account Disconnected/Gone Off/Shut Down Streaming Service';
-						break;
-					case 106:
-						errcode = 'Response : 106 Account Number Reached to the Limit Streaming Service';
-						break;
-					case 107:
-						errcode = 'Response : 107 Server Maintenance Streaming Service';
-						break;
-					case 108:
-						errcode = 'Response : 108 Invalid Account Streaming Service';
-						break;
-					case 109:
-						errcode = 'Response : 109 License Error Streaming Service';
-						break;
-					case 110:
-						errcode = 'Response : 110 Read Only Mode Streaming Service';
-						break;
-					case 111:
-						errcode = 'Response : 111 Max Stations Streaming Service';
-						break;
-					case 112:
-						errcode = 'Response : 112 Access Denied Streaming Service';
-						break;
-					case 113:
-						errcode = 'Response : 113 There is a need to specify the additional destination Playlist';
-						break;
-					case 114:
-						errcode = 'Response : 114 There is a need to create a new Playlist';
-						break;
-					case 115:
-						errcode = 'Response : 115 Simultaneous logins has reached the upper limit';
-						break;
-					case 200:
-						errcode = 'Response : 200 Linking in progress';
-						break;
-					case 201:
-						errcode = 'Response : 115 Unlinking in progress';
-						break;
-					default:
-						errcode = 'unknown code';
-				}
-			} else {
-				errcode = fail;
-			}
-		} catch (error) {
-			errcode = error;
+
+		switch (JSON.parse(fail).response_code) {
+			case 1:
+				errcode = 'Response : 1 Initializing';
+				break;
+			case 2:
+				errcode = 'Response : 2 Internal Error';
+				break;
+			case 3:
+				errcode = 'Response : 3 Invalid Request (A method did not exist, a method wasn’t appropriate etc.)';
+				break;
+			case 4:
+				errcode = 'Response : 4 Invalid Parameter (Out of range, invalid characters etc.)';
+				break;
+			case 5:
+				errcode = 'Response : 5 Guarded (Unable to setup in current status etc.)';
+				break;
+			case 6:
+				errcode = 'Response : 6 Time Out';
+				break;
+			case 99:
+				errcode = 'Response : 99 Firmware Updating';
+				break;
+			//Streaming Service Errors
+			case 100:
+				errcode = 'Response : 100 Access Error Streaming Service';
+				break;
+			case 101:
+				errcode = 'Response : 101 Other Errors Streaming Service';
+				break;
+			case 102:
+				errcode = 'Response : 102 Wrong User Name Streaming Service';
+				break;
+			case 103:
+				errcode = 'Response : 103 Wrong Password Streaming Service';
+				break;
+			case 104:
+				errcode = 'Response : 104 Account Expired Streaming Service';
+				break;
+			case 105:
+				errcode = 'Response : 105 Account Disconnected/Gone Off/Shut Down Streaming Service';
+				break;
+			case 106:
+				errcode = 'Response : 106 Account Number Reached to the Limit Streaming Service';
+				break;
+			case 107:
+				errcode = 'Response : 107 Server Maintenance Streaming Service';
+				break;
+			case 108:
+				errcode = 'Response : 108 Invalid Account Streaming Service';
+				break;
+			case 109:
+				errcode = 'Response : 109 License Error Streaming Service';
+				break;
+			case 110:
+				errcode = 'Response : 110 Read Only Mode Streaming Service';
+				break;
+			case 111:
+				errcode = 'Response : 111 Max Stations Streaming Service';
+				break;
+			case 112:
+				errcode = 'Response : 112 Access Denied Streaming Service';
+				break;
+			case 113:
+				errcode = 'Response : 113 There is a need to specify the additional destination Playlist';
+				break;
+			case 114:
+				errcode = 'Response : 114 There is a need to create a new Playlist';
+				break;
+			case 115:
+				errcode = 'Response : 115 Simultaneous logins has reached the upper limit';
+				break;
+			case 200:
+				errcode = 'Response : 200 Linking in progress';
+				break;
+			case 201:
+				errcode = 'Response : 115 Unlinking in progress';
+				break;
+			default:
+				errcode = 'unknown code';
 		}
+
 		return errcode;
 	}
 	/*
