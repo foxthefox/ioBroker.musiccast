@@ -523,7 +523,7 @@ class Musiccast extends utils.Adapter {
 						}
 
 					default:
-						this.log.error('Error command is not processed ' + dp);
+						this.log.warn('Warning command is not processed (no case created for it) ' + dp);
 				}
 			} //if status
 		} else {
