@@ -20,7 +20,7 @@ const dpZoneCommands = {
 	power: 'power',
 	mute: 'mute',
 	surround: 'surround',
-	volume: 'setVolmeTo',
+	volume: 'setVolumeTo',
 	input: 'input',
 	bass_extension: 'setBassExtension',
 	enhancer: 'setEnhancer',
@@ -269,9 +269,8 @@ class Musiccast extends utils.Adapter {
 						//command with Zone
 						try {
 							let value = state.val;
-							if (dp === 'volume') value = parseInt(state.val); //notwendig?
 							if (dp === 'power') {
-								const value = state.val ? 'on' : 'standby';
+								value = state.val ? 'on' : 'standby';
 							}
 							const result = await yamaha[dpZoneCommands[dp]](value, zone);
 							if (result.response_code === 0) {
