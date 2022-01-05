@@ -25,13 +25,13 @@
 			var $value = $('#' + id + '.value');
 
 			if ($value.attr('type') === 'checkbox') {
-				$value.prop('checked', value).change(function() {
+				$value.prop('checked', value).change(function () {
 					onChange();
 				});
 			} else {
-				$value.val(value).on('change', function() {
+				$value.val(value).on('change', function () {
 					onChange();
-				}).on('keyup', function() {
+				}).on('keyup', function () {
 					onChange();
 				});
 			}
@@ -54,51 +54,52 @@
 			//search-button
 			$('#table-button-search').click(function () {
 				getIsAdapterAlive(function (isAlive) {
-						if (isAlive) {           
-								console.log('send browse to adapter');
-								sendTo(null, 'browse', null, function(list) {
-										console.log('browsed items are '+ JSON.stringify(list));
-										var changed = false;
-										for (var j = 0; j < list.length; j++) {
-											var isFound = false;
-											for (var i = 0; i < devices.length; i++) {
-												if (devices[i].ip === list[j].ip) {
-													isFound = true;
-													break;
-												}
-											}
-											if (!isFound) {
-												changed = true;
-												devices.push({
-													ip: list[j].ip,
-													type: list[j].type,
-													uid: list[j].uid,
-													name: list[j].name
-												});
-											}
-										}
-										if (changed) {
-											console.log('devices now '+ JSON.stringify(devices));
-											onChange();
-											//showDevice(devices);
-											values2table('values', devices, onChange);
-										}
-								});
-						} else {
+					if (isAlive) {
+						console.log('send browse to adapter');
+						sendTo(null, 'browse', null, function (list) {
+							console.log('browsed items are ' + JSON.stringify(list));
+							var changed = false;
+							for (var j = 0; j < list.length; j++) {
+								var isFound = false;
+								for (var i = 0; i < devices.length; i++) {
+									if (devices[i].ip === list[j].ip) {
+										isFound = true;
+										break;
+									}
+								}
+								if (!isFound) {
+									changed = true;
+									devices.push({
+										ip: list[j].ip,
+										type: list[j].name,
+										uid: list[j].deviceId,
+										sid: list[j].systemId,
+										name: list[j].model
+									});
+								}
+							}
+							if (changed) {
+								console.log('devices now ' + JSON.stringify(devices));
+								onChange();
+								//showDevice(devices);
+								values2table('values', devices, onChange);
+							}
+						});
+					} else {
 						showMessage(_('Start or enable adapter first'));
-						}
-					});
+					}
+				});
 			}).attr('title', _('update adapter information'));
 			$('#table-button-json').click(function () {
 				getIsAdapterAlive(function (isAlive) {
-					if (isAlive) {           
+					if (isAlive) {
 						console.log('send jsonreq to adapter');
-						sendTo(null, 'jsonreq', null, function(list) {
-							console.log('json items are '+ JSON.stringify(list));
+						sendTo(null, 'jsonreq', null, function (list) {
+							console.log('json items are ' + JSON.stringify(list));
 							showMessage(JSON.stringify(list));
 						});
 					} else {
-					showMessage(_('Start or enable adapter first'));
+						showMessage(_('Start or enable adapter first'));
 					}
 				});
 			}).attr('title', _('got JSON responses'));
@@ -146,7 +147,7 @@
 
 	<style>
 		.sub-title {
-			margin-top: 2rem!important;
+			margin-top: 2rem !important;
 			padding: 0.5rem;
 			background: #64b5f6;
 			color: white;
@@ -157,79 +158,89 @@
 
 <body>
 
-    <div class="m adapter-container">
-        <div class="section">
-            <div class="row">
-                <div class="col s12 m4 l2">
-                    <img src="musiccast.png" style="height:7em; width: 7em;" class="logo">
-                </div>
-            </div>
-        </div>
-        <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <h6 class="translate sub-title">Yamaha MusicCast settings</h6>
-                </div>
-                <div class="col s6">
-                        <input class="value" id="netusbplaytime" type="checkbox"/><span class="translate">update playtime NET (USB/RADIO)</span>
-                        <p>unchecked => no update / checked => update (more traffic)</p></td>
-                    <!-- Important: label must come directly after input. Label is important. -->
-                </div>
-                <div class="col s6">
-                        <input class="value" id="cdplaytime" type="checkbox"/><span class="translate">update playtime CD</span>
-                        <p>unchecked => no update / checked => update (more traffic)</p>
-                    <!-- Important: label must come directly after input. Label is important. -->
-                </div>
-            </div>
-        </div>
-        <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <h6 class="translate sub-title">Troubleshooting</h6>
-                    <p>press this button if you are asked by the developer and give him by copy/paste the output of pop-up window</p>
-                </div>
-                <div class="col s6">
-                    <a id="table-button-json" class=" btn translate">JSON for Developer<span></span></a>
-                </div>
-            </div>
-        </div>
-        <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <h6 class="translate sub-title">Yamaha MusicCast devices</h6>
-                    <p class="translate">Try to push the Search Button until you find the amount of MusicCast devices in your home.</p>
-                    <p class="translate">If you see blue delete buttons, save settings first and open again the page.</p>
-                </div>            
-            </div>
+	<div class="m adapter-container">
+		<div class="section">
+			<div class="row">
+				<div class="col s12 m4 l2">
+					<img src="musiccast.png" style="height:7em; width: 7em;" class="logo">
+				</div>
+			</div>
+		</div>
+		<div class="section">
+			<div class="row">
+				<div class="col s12">
+					<h6 class="translate sub-title">Yamaha MusicCast settings</h6>
+				</div>
+				<div class="col s6">
+					<input class="value" id="netusbplaytime" type="checkbox" /><span class="translate">update playtime
+						NET (USB/RADIO)</span>
+					<p>unchecked => no update / checked => update (more traffic)</p>
+					</td>
+					<!-- Important: label must come directly after input. Label is important. -->
+				</div>
+				<div class="col s6">
+					<input class="value" id="cdplaytime" type="checkbox" /><span class="translate">update playtime
+						CD</span>
+					<p>unchecked => no update / checked => update (more traffic)</p>
+					<!-- Important: label must come directly after input. Label is important. -->
+				</div>
+			</div>
+		</div>
+		<div class="section">
+			<div class="row">
+				<div class="col s12">
+					<h6 class="translate sub-title">Troubleshooting</h6>
+					<p>press this button if you are asked by the developer and give him by copy/paste the output of
+						pop-up window</p>
+				</div>
+				<div class="col s6">
+					<a id="table-button-json" class=" btn translate">JSON for Developer<span></span></a>
+				</div>
+			</div>
+		</div>
+		<div class="section">
+			<div class="row">
+				<div class="col s12">
+					<h6 class="translate sub-title">Yamaha MusicCast devices</h6>
+					<p class="translate">Try to push the Search Button until you find the amount of MusicCast devices in
+						your home.</p>
+					<p class="translate">Search is active for 5s. Be patient!</p>
+					<p class="translate">If you see blue delete buttons, save settings first and open again the page.
+					</p>
+				</div>
+			</div>
 
-            <div class="col s12" id="values">
-                <div class="row">
-                    <div class="col s2 m1 l1 center">
-                        <button title="Add device" class="table-button-add btn-floating waves-effect waves-light btn-small"><i class=" material-icons">add</i></button>
-                    </div>
+			<div class="col s12" id="values">
+				<div class="row">
+					<div class="col s2 m1 l1 center">
+						<button title="Add device"
+							class="table-button-add btn-floating waves-effect waves-light btn-small"><i
+								class=" material-icons">add</i></button>
+					</div>
 
-                    <div class="col s2 m1 l1">
-                        <a id="table-button-search" class=" btn-small translate">Search<span></span></a>
-                    </div>
-                </div>
-                <div class="col s12 m12 l12">
-                    <table class="table-values" style="width: 100%; margin-top: 8px">
-                        <thead>
-                            <tr>
-                                <th data-name="_index" style="width: 40px" class="translate"></th>
-                                <th data-name="ip"       style="width: 150px"class="translate">IP address</th>
-                                <th data-name="type"     style="width: 150px" class="translate">model</th>
-                                <th data-name="uid"     style="width: 150px" class="translate">uid</th>
-                                <th data-name="name"     style="width: 200px" class="translate">name</th>
-                                <th data-buttons="delete" style="width: 40px"></th>                             
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-            </div>
+					<div class="col s2 m1 l1">
+						<a id="table-button-search" class=" btn-small translate">Search<span></span></a>
+					</div>
+				</div>
+				<div class="col s12 m12 l12">
+					<table class="table-values" style="width: 100%; margin-top: 8px">
+						<thead>
+							<tr>
+								<th data-name="_index" style="width: 40px" class="translate"></th>
+								<th data-name="ip" style="width: 150px" class="translate">IP address</th>
+								<th data-name="type" style="width: 150px" class="translate">model</th>
+								<th data-name="uid" style="width: 150px" class="translate">uid</th>
+								<th data-name="sid" style="width: 150px" class="translate">sid</th>
+								<th data-name="name" style="width: 200px" class="translate">name</th>
+								<th data-buttons="delete" style="width: 40px"></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
 
-        </div>
-    </div>
+		</div>
+	</div>
 
 </body>
 

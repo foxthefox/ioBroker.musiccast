@@ -46,7 +46,13 @@ tests.integration(path.join(__dirname, '..'), {
 					//this refers to https://github.com/ioBroker/testing/issues/218
 					harness._objects.getObject('system.adapter.musiccast.0', async (err, obj) => {
 						obj.native.devices = [
-							{ ip: 'localhost:3311', type: 'YSP-1600', uid: '00112233', name: 'TestGerät' }
+							{
+								ip: 'localhost:3311',
+								type: 'YSP-1600',
+								uid: '00112233',
+								sid: '00A0FED15025',
+								name: 'TestGerät'
+							}
 						];
 						await harness._objects.setObjectAsync(obj._id, obj);
 

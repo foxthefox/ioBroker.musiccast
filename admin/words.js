@@ -82,6 +82,18 @@ systemDictionary = {
 		es: 'modelo',
 		pl: 'Model'
 	},
+	sid: {
+		en: 'System ID',
+		de: 'System-ID',
+		ru: 'Системный ID',
+		pt: 'ID do sistema',
+		nl: 'Systeem-ID',
+		fr: 'Identifiant système',
+		it: 'ID di sistema',
+		es: 'ID del sistema',
+		pl: 'Identyfikator systemu',
+		'zh-cn': '系统标识'
+	},
 	uid: {
 		en: 'DeviceID',
 		de: 'Geräte ID',
@@ -136,6 +148,18 @@ systemDictionary = {
 		it: 'aggiornare il CD di riproduzione',
 		es: 'actualizar playtime CD',
 		pl: 'zaktualizuj płytę CD z grą'
+	},
+	'Search is active for 5s. Be patient!': {
+		en: 'Search is active for 5s. Be patient!',
+		de: 'Die Suche ist für 5s aktiv. Sei geduldig!',
+		ru: 'Поиск активен 5 сек. Потерпи!',
+		pt: 'A pesquisa fica ativa por 5s. Seja paciente!',
+		nl: 'Zoeken is actief voor 5s. Wees geduldig!',
+		fr: 'La recherche est active pendant 5s. Être patient!',
+		it: 'La ricerca è attiva per 5s. Essere pazientare!',
+		es: 'La búsqueda está activa durante 5 segundos. ¡Se paciente!',
+		pl: 'Wyszukiwanie jest aktywne przez 5s. Bądź cierpliwy!',
+		'zh-cn': '搜索处于活动状态 5 秒。要有耐心！'
 	},
 	'If you see blue delete buttons, save settings first and open again the page.': {
 		en: 'If you see blue delete buttons, save settings first and open again the page.',

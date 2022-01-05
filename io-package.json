@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "0.2.2",
+		"version": "1.0.0",
 		"news": {
+			"1.0.0": {
+				"en": "Breaking Change, correction mismatch device/systemid for object tree, yamaha_yxc 2.0.0, async/await",
+				"de": "Breaking Change, Korrektur der Nichtübereinstimmung von Gerät/System-ID für Objektbaum, yamaha_yxc 2.0.0, async/await",
+				"ru": "Критическое изменение, исправление несоответствия устройства / системного идентификатора для дерева объектов, yamaha_yxc 2.0.0, async / await",
+				"pt": "Breaking Change, dispositivo / systemid de correção de incompatibilidade para árvore de objetos, yamaha_yxc 2.0.0, async / await",
+				"nl": "Breaking Change, correctie mismatch device/system-id voor object tree, yamaha_yxc 2.0.0, async/wait",
+				"fr": "Breaking Change, correction de l'incompatibilité périphérique/systemid pour l'arborescence d'objets, yamaha_yxc 2.0.0, async/await",
+				"it": "Breaking Change, correzione mancata corrispondenza dispositivo/systemid per l'albero degli oggetti, yamaha_yxc 2.0.0, async/await",
+				"es": "Breaking Change, corrección de discordancia de dispositivo / systemid para árbol de objetos, yamaha_yxc 2.0.0, async / await",
+				"pl": "Breaking Change, korekta niezgodności urządzenia/systemid dla drzewa obiektów, yamaha_yxc 2.0.0, async/await",
+				"zh-cn": "重大变化，更正对象树的设备/系统ID 不匹配，yamaha_yxc 2.0.0，async/await"
+			},
 			"0.2.2": {
 				"en": "yamaha_yxc 0.0.14",
 				"de": "yamaha_yxc 0.0.14",
@@ -210,6 +222,7 @@
 		"compact": true,
 		"connectionType": "local",
 		"dataSource": "poll",
+		"adminUI": { "config": "materialize" },
 		"materialize": true,
 		"dependencies": [
 			{
