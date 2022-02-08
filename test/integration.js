@@ -29,167 +29,167 @@ tests.integration(path.join(__dirname, '..'), {
 				server.setupHttpServer(function() {});
 			});
 			it('YSP1600 should be created', () => {
-				return new Promise((resolve) => {
+				return new Promise(async (resolve) => {
 					// Create a fresh harness instance each test!
 					const harness = getHarness();
 					// modification of some starting values
 
-					//schon Teil des iobroker/testing :-)
-					//config.common.enabled = true;
-					//config.common.loglevel = 'debug';
-					// systemConfig.native.secret ='Zgfr56gFe87jJOM'
-
-					//await delay (15000);
-
-					//man könnte auch je device ein json array der datenpunkte und der erwarteten Werte anlegen und dann eine loop
-
-					//this refers to https://github.com/ioBroker/testing/issues/218
-					harness._objects.getObject('system.adapter.musiccast.0', async (err, obj) => {
-						obj.native.devices = [
-							{
-								ip: 'localhost:3311',
-								type: 'YSP-1600',
-								uid: '00112233',
-								sid: '00A0FED15025',
-								name: 'TestGerät'
-							}
-						];
-						await harness._objects.setObjectAsync(obj._id, obj);
-
+					const obj = {
+						native: {
+							devices: [
+								{
+									ip: 'localhost:3311',
+									type: 'WX-030',
+									uid: '00A0FED15025',
+									sid: '0E257883',
+									name: 'TestGerät'
+								}
+							]
+						}
+					};
+					await harness.changeAdapterConfig('musiccast', obj);
+					harness.objects.getObject('system.adapter.musiccast.0', async (err, obj) => {
+						console.log(' ADAPTER SETTINGS ', JSON.stringify(obj));
 						// Start the adapter and wait until it has started
 						await harness.startAdapterAndWait();
 						await delay(5000);
 
-						harness.states.getState('musiccast.0.YSP-1600_00112233.system.device_id', function(err, state) {
+						harness.states.getState('musiccast.0.WX-030_00A0FED15025.system.device_id', function(
+							err,
+							state
+						) {
 							if (err) console.error(err);
 							expect(state).to.exist;
 							if (!state) {
-								console.error('state "musiccast.0.YSP-1600_00112233.system.device_id" not set');
+								console.error('state "musiccast.0.WX-030_00A0FED15025.system.device_id" not set');
 							} else {
-								console.log('musiccast.0.YSP-1600_00112233.system.device_id      ... ' + state.val);
+								console.log('musiccast.0.WX-030_00A0FED15025.system.device_id      ... ' + state.val);
 							}
 							expect(state.val).to.exist;
 							expect(state.val).to.be.equal('00A0DED15025');
-							harness.states.getState('musiccast.0.YSP-1600_00112233.main.volume', function(err, state) {
+							harness.states.getState('musiccast.0.WX-030_00A0FED15025.main.volume', function(
+								err,
+								state
+							) {
 								if (err) console.error(err);
 								expect(state).to.exist;
 								if (!state) {
-									console.error('state "musiccast.0.YSP-1600_00112233.main.volume" not set');
+									console.error('state "musiccast.0.WX-030_00A0FED15025.main.volume" not set');
 								} else {
-									console.log('musiccast.0.YSP-1600_00112233.main.volume  ... ' + state.val);
+									console.log('musiccast.0.WX-030_00A0FED15025.main.volume  ... ' + state.val);
 								}
 								expect(state.val).to.exist;
 								expect(state.val).to.be.equal(67);
-								harness.states.getState('musiccast.0.YSP-1600_00112233.main.input', function(
+								harness.states.getState('musiccast.0.WX-030_00A0FED15025.main.input', function(
 									err,
 									state
 								) {
 									if (err) console.error(err);
 									expect(state).to.exist;
 									if (!state) {
-										console.error('state "musiccast.0.YSP-1600_00112233.main.input" not set');
+										console.error('state "musiccast.0.WX-030_00A0FED15025.main.input" not set');
 									} else {
-										console.log('musiccast.0.YSP-1600_00112233.main.input    ... ' + state.val);
+										console.log('musiccast.0.WX-030_00A0FED15025.main.input    ... ' + state.val);
 									}
 									expect(state.val).to.exist;
 									expect(state.val).to.be.equal('hdmi');
 									harness.states.getState(
-										'musiccast.0.YSP-1600_00112233.main.sound_program',
+										'musiccast.0.WX-030_00A0FED15025.main.sound_program',
 										function(err, state) {
 											if (err) console.error(err);
 											expect(state).to.exist;
 											if (!state) {
 												console.error(
-													'state "musiccast.0.YSP-1600_00112233.main.sound_program" not set'
+													'state "musiccast.0.WX-030_00A0FED15025.main.sound_program" not set'
 												);
 											} else {
 												console.log(
-													'musiccast.0.YSP-1600_00112233.main.sound_program           ... ' +
+													'musiccast.0.WX-030_00A0FED15025.main.sound_program           ... ' +
 														state.val
 												);
 											}
 											expect(state.val).to.exist;
 											expect(state.val).to.be.equal('movie');
 											harness.states.getState(
-												'musiccast.0.YSP-1600_00112233.main.clear_voice',
+												'musiccast.0.WX-030_00A0FED15025.main.clear_voice',
 												function(err, state) {
 													if (err) console.error(err);
 													expect(state).to.exist;
 													if (!state) {
 														console.error(
-															'state "musiccast.0.YSP-1600_00112233.main.clear_voice" not set'
+															'state "musiccast.0.WX-030_00A0FED15025.main.clear_voice" not set'
 														);
 													} else {
 														console.log(
-															'musiccast.0.YSP-1600_00112233.main.clear_voice          ... ' +
+															'musiccast.0.WX-030_00A0FED15025.main.clear_voice          ... ' +
 																state.val
 														);
 													}
 													expect(state.val).to.exist;
 													expect(state.val).to.be.equal(true);
 													harness.states.getState(
-														'musiccast.0.YSP-1600_00112233.main.power',
+														'musiccast.0.WX-030_00A0FED15025.main.power',
 														function(err, state) {
 															if (err) console.error(err);
 															expect(state).to.exist;
 															if (!state) {
 																console.error(
-																	'state "musiccast.0.YSP-1600_00112233.main.power" not set'
+																	'state "musiccast.0.WX-030_00A0FED15025.main.power" not set'
 																);
 															} else {
 																console.log(
-																	'musiccast.0.YSP-1600_00112233.main.power        ... ' +
+																	'musiccast.0.WX-030_00A0FED15025.main.power        ... ' +
 																		state.val
 																);
 															}
 															expect(state.val).to.exist;
 															expect(state.val).to.be.equal(true);
 															harness.states.getState(
-																'musiccast.0.YSP-1600_00112233.main.mute',
+																'musiccast.0.WX-030_00A0FED15025.main.mute',
 																function(err, state) {
 																	if (err) console.error(err);
 																	expect(state).to.exist;
 																	if (!state) {
 																		console.error(
-																			'state "musiccast.0.YSP-1600_00112233.main.mute" not set'
+																			'state "musiccast.0.WX-030_00A0FED15025.main.mute" not set'
 																		);
 																	} else {
 																		console.log(
-																			'musiccast.0.YSP-1600_00112233.main.mute         ... ' +
+																			'musiccast.0.WX-030_00A0FED15025.main.mute         ... ' +
 																				state.val
 																		);
 																	}
 																	expect(state.val).to.exist;
 																	expect(state.val).to.be.equal(false);
 																	harness.states.getState(
-																		'musiccast.0.YSP-1600_00112233.netusb.input',
+																		'musiccast.0.WX-030_00A0FED15025.netusb.input',
 																		function(err, state) {
 																			if (err) console.error(err);
 																			expect(state).to.exist;
 																			if (!state) {
 																				console.error(
-																					'state "musiccast.0.YSP-1600_00112233.netusb.input" not set'
+																					'state "musiccast.0.WX-030_00A0FED15025.netusb.input" not set'
 																				);
 																			} else {
 																				console.log(
-																					'musiccast.0.YSP-1600_00112233.netusb.input      ... ' +
+																					'musiccast.0.WX-030_00A0FED15025.netusb.input      ... ' +
 																						state.val
 																				);
 																			}
 																			expect(state.val).to.exist;
 																			expect(state.val).to.be.equal('server');
 																			harness.states.getState(
-																				'musiccast.0.YSP-1600_00112233.netusb.playback',
+																				'musiccast.0.WX-030_00A0FED15025.netusb.playback',
 																				function(err, state) {
 																					if (err) console.error(err);
 																					expect(state).to.exist;
 																					if (!state) {
 																						console.error(
-																							'state "musiccast.0.YSP-1600_00112233.netusb.playback" not set'
+																							'state "musiccast.0.WX-030_00A0FED15025.netusb.playback" not set'
 																						);
 																					} else {
 																						console.log(
-																							'musiccast.0.YSP-1600_00112233.netusb.playback        ... ' +
+																							'musiccast.0.WX-030_00A0FED15025.netusb.playback        ... ' +
 																								state.val
 																						);
 																					}
@@ -198,17 +198,17 @@ tests.integration(path.join(__dirname, '..'), {
 																						'stop'
 																					);
 																					harness.states.getState(
-																						'musiccast.0.YSP-1600_00112233.netusb.play_time',
+																						'musiccast.0.WX-030_00A0FED15025.netusb.play_time',
 																						function(err, state) {
 																							if (err) console.error(err);
 																							expect(state).to.exist;
 																							if (!state) {
 																								console.error(
-																									'state "musiccast.0.YSP-1600_00112233.netusb.play_time" not set'
+																									'state "musiccast.0.WX-030_00A0FED15025.netusb.play_time" not set'
 																								);
 																							} else {
 																								console.log(
-																									'musiccast.0.YSP-1600_00112233.netusb.play_time       ... ' +
+																									'musiccast.0.WX-030_00A0FED15025.netusb.play_time       ... ' +
 																										state.val
 																								);
 																								expect(state.val).to
