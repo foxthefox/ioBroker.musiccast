@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.0.0",
+		"version": "1.0.1",
 		"news": {
+			"1.0.1": {
+				"en": "changed algorithm for developer support ",
+				"de": "geänderter Algorithmus für Entwicklerunterstützung",
+				"ru": "изменен алгоритм поддержки разработчиков",
+				"pt": "algoritmo alterado para suporte ao desenvolvedor",
+				"nl": "gewijzigd algoritme voor ondersteuning van ontwikkelaars",
+				"fr": "algorithme modifié pour le support des développeurs",
+				"it": "algoritmo modificato per il supporto degli sviluppatori",
+				"es": "Algoritmo modificado para el soporte del desarrollador.",
+				"pl": "zmieniony algorytm wsparcia dla programistów",
+				"zh-cn": "更改了开发人员支持的算法"
+			},
 			"1.0.0": {
 				"en": "Breaking Change, correction mismatch device/systemid for object tree, yamaha_yxc 2.0.0, async/await",
 				"de": "Breaking Change, Korrektur der Nichtübereinstimmung von Gerät/System-ID für Objektbaum, yamaha_yxc 2.0.0, async/await",

@@ -571,7 +571,9 @@ class Musiccast extends utils.Adapter {
 
 				case 'jsonreq':
 					try {
-						const res = await this.discoverAndGet();
+						this.log.info('Message SendTo: jsonreq');
+						const devarray = this.config.devices;
+						const res = await this.discoverAndGet(devarray);
 						result.push(res);
 						this.log.debug('result ' + JSON.stringify(result));
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
@@ -593,11 +595,9 @@ class Musiccast extends utils.Adapter {
 		}
 		return true;
 	}
-	async discoverAndGet() {
+	async discoverAndGet(devicearray) {
 		let found = [];
 		try {
-			const yamahawo = new YamahaYXC();
-			const devicearray = await yamahawo.discover(10000);
 			if (devicearray) {
 				await Promise.all(
 					devicearray.map(async (device) => {
@@ -650,11 +650,11 @@ class Musiccast extends utils.Adapter {
 							await Promise.all(
 								getFeatures['zone'].map(async (zone) => {
 									data[device.name][zone.id] = {};
-									const getStatus = await yamaha.getStatus();
+									const getStatus = await yamaha.getStatus(zone.id);
 									data[device.name][zone.id]['getStatus'] = getStatus;
-									const getSoundProgramList = await yamaha.getSoundProgramList();
+									const getSoundProgramList = await yamaha.getSoundProgramList(zone.id);
 									data[device.name][zone.id]['getSoundProgramList'] = getSoundProgramList;
-									const getSignalInfo = await yamaha.getSoundProgramList();
+									const getSignalInfo = await yamaha.getSignalInfo(zone.id);
 									data[device.name][zone.id]['getSignalInfo'] = getSignalInfo;
 								})
 							);
@@ -3508,7 +3508,7 @@ class Musiccast extends utils.Adapter {
 				this.log.debug('failure getting status info from  ' + devip + ' : ' + this.responseFailLog(result));
 			}
 		} catch (err) {
-			if (err.message.includes('connect EHOSTUNREACH')) {
+			if (err.message.includes('connect EHOSTUNREACH') || err.message.includes('connect ETIMEDOUT')) {
 				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
 			} else {
 				this.log.error(`[getMusicZoneInfo] error: ${err.message}, stack: ${err.stack}`);
@@ -3608,7 +3608,7 @@ class Musiccast extends utils.Adapter {
 				this.log.debug('failure getting status info from  ' + devip + ' : ' + this.responseFailLog(result));
 			}
 		} catch (err) {
-			if (err.message.includes('connect EHOSTUNREACH')) {
+			if (err.message.includes('connect EHOSTUNREACH') || err.message.includes('connect ETIMEDOUT')) {
 				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
 			} else {
 				this.log.error(`[getMusicZoneLists] error: ${err.message}, stack: ${err.stack}`);
