@@ -1434,6 +1434,18 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.input_text', {
+			type: 'state',
+			common: {
+				name: 'Input selection as text',
+				type: 'string',
+				read: true,
+				write: false,
+				role: 'text',
+				desc: 'Input selection as text'
+			},
+			native: {}
+		});
 	}
 	async defineMusicLinkCtrl(type, uid, zone, ctrl) {
 		this.log.info('Setting up Link Control in Zone:' + zone + ' of ' + type + '-' + uid);

@@ -47,6 +47,7 @@ The following objects are currently implemented:
 |{zone}.act_vol_mode_list|text|-|actual volume in dB modes|
 |{zone}.input|text|x|inputs depending on device|
 |{zone}.input_list|text|-|possible inputs|
+|{zone}.input_text|text|-|selected input as text|
 |{zone}.sound_program|text|x|set sound program|
 |{zone}.sound_program_list|text|-|possible sound programs|
 |{zone}.surr_decoder_type|text|?|set surround type|
@@ -200,7 +201,10 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
-### 1.0.01
+### 1.0.2
+* new datapoint "input_text"
+
+### 1.0.1
 * changed algorithm for developer support 
 
 ## 1.0.0 BREAKING CHANGES
