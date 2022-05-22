@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.0.1",
+		"version": "1.0.2",
 		"news": {
+			"1.0.2": {
+				"en": "new datapoint \"input_text\"",
+				"de": "neuer Datenpunkt \"input_text\"",
+				"ru": "новая точка данных \"input_text\"",
+				"pt": "novo ponto de dados \"input_text\"",
+				"nl": "nieuw datapunt \"input_text\"",
+				"fr": "nouveau point de données \"input_text\"",
+				"it": "nuovo punto dati \"input_text\"",
+				"es": "nuevo punto de datos \"texto_de_entrada\"",
+				"pl": "nowy punkt danych „tekst_wejściowy”",
+				"zh-cn": "新数据点“input_text”"
+			},
 			"1.0.1": {
 				"en": "changed algorithm for developer support ",
 				"de": "geänderter Algorithmus für Entwicklerunterstützung",
