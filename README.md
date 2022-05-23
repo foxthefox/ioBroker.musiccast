@@ -72,6 +72,14 @@ The following objects are currently implemented:
 |{zone}.bass_extension|boolean|x|set bass extension|
 |{zone}.sleep|value|x|sleep timer|
 
+|{zone}.disable_flags|boolean|x|set disable_flags|
+|{zone}.contents_display|boolean|x|set contents_display|
+|{zone}.party_enable|boolean|x|set party_enable|
+|{zone}.extra_bass|boolean|x|set extra_bass|
+|{zone}.adaptive_drc|boolean|x|set adaptive_drc|
+|{zone}.dts_dialogue_control|value|x|set dts_dialogue_control|
+|{zone}.adaptive_dsp_level|boolean|x|set adaptive_dsp_level|
+
 ### netusb
 |Object|Value|settable|Description|
 |--------|-------|:-:|--------|
@@ -201,6 +209,13 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+### 1.0.3
+* new datapoint "extra_bass"
+* new datapoint "adaptive_drc"
+* new datapoint "dts_dialogue_control"
+* new datapoint "adaptive_dsp_level"
+* these are only read in, most likely they are commands, but the API is unknown
+
 ### 1.0.2
 * new datapoint "input_text"
 
