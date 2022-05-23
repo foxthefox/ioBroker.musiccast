@@ -244,6 +244,11 @@ class Musiccast extends utils.Adapter {
 				yamaha = new YamahaYXC(IP[0].ip);
 
 				const zone = idx;
+				// possible commands not yet implemented
+				//			"extra_bass",
+				//			"adaptive_drc",
+				//			"dts_dialogue_control",
+				//			"adaptive_dsp_level"
 
 				// work with boolCMD
 				switch (dp) {
@@ -1406,6 +1411,62 @@ class Musiccast extends utils.Adapter {
 		if (zone_arr.func_list.indexOf('signal_info') !== -1) {
 			// signal info audio ....
 		}
+		if (zone_arr.func_list.indexOf('extra_bass') !== -1) {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.extra_bass', {
+				type: 'state',
+				common: {
+					name: 'extra_bass',
+					type: 'boolean',
+					read: true,
+					write: true,
+					role: 'media.extra_bass',
+					desc: 'extra_bass'
+				},
+				native: {}
+			});
+		}
+		if (zone_arr.func_list.indexOf('adaptive_drc') !== -1) {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.adaptive_drc', {
+				type: 'state',
+				common: {
+					name: 'adaptive_drce',
+					type: 'boolean',
+					read: true,
+					write: true,
+					role: 'media.adaptive_drc',
+					desc: 'adaptive_drc'
+				},
+				native: {}
+			});
+		}
+		if (zone_arr.func_list.indexOf('adaptive_dsp_level') !== -1) {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.adaptive_dsp_level', {
+				type: 'state',
+				common: {
+					name: 'adaptive_dsp_level',
+					type: 'boolean',
+					read: true,
+					write: true,
+					role: 'media.adaptive_dsp_level',
+					desc: 'adaptive_dsp_level'
+				},
+				native: {}
+			});
+		}
+		if (zone_arr.func_list.indexOf('dts_dialogue_control') !== -1) {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.dts_dialogue_control', {
+				type: 'state',
+				common: {
+					name: 'dts_dialogue_control',
+					type: 'number',
+					read: true,
+					write: true,
+					role: 'level',
+					desc: 'dts_dialogue_control'
+				},
+				native: {}
+			});
+		}
 	}
 	async defineMusicInputs(type, uid, zone, inputs) {
 		this.log.info('Setting up Inputs in Zone:' + zone + ' of ' + type + '-' + uid);
@@ -1434,6 +1495,7 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
+		// evtl. muss das zu getStatus
 		await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.input_text', {
 			type: 'state',
 			common: {
