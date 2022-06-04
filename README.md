@@ -209,6 +209,9 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+#### 1.0.5
+* usage of new IOB test library
+
 #### 1.0.4
 * correction for setting the input ("setInput")
 
