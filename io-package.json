@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.0.3",
+		"version": "1.0.4",
 		"news": {
+			"1.0.4": {
+				"en": "correction for setting the input (\"setInput\")",
+				"de": "Korrektur zum Setzen des Eingangs (\"setInput\")",
+				"ru": "коррекция настройки входа (\"setInput\")",
+				"pt": "correção para definir a entrada (\"setInput\")",
+				"nl": "correctie voor het instellen van de ingang (\"setInput\")",
+				"fr": "correction pour le réglage de l'entrée (\"setInput\")",
+				"it": "correzione per l'impostazione dell'ingresso (\"setInput\")",
+				"es": "corrección para configurar la entrada (\"setInput\")",
+				"pl": "poprawka ustawienia wejścia („setInput”)",
+				"zh-cn": "更正设置输入（“setInput”）"
+			},
 			"1.0.3": {
 				"en": "new datapoints",
 				"de": "neue Datenpunkte",
@@ -50,42 +62,6 @@
 				"es": "Breaking Change, corrección de discordancia de dispositivo / systemid para árbol de objetos, yamaha_yxc 2.0.0, async / await",
 				"pl": "Breaking Change, korekta niezgodności urządzenia/systemid dla drzewa obiektów, yamaha_yxc 2.0.0, async/await",
 				"zh-cn": "重大变化，更正对象树的设备/系统ID 不匹配，yamaha_yxc 2.0.0，async/await"
-			},
-			"0.2.2": {
-				"en": "yamaha_yxc 0.0.14",
-				"de": "yamaha_yxc 0.0.14",
-				"ru": "yamaha_yxc 0.0.14",
-				"pt": "yamaha_yxc 0.0.14",
-				"nl": "yamaha_yxc 0.0.14",
-				"fr": "yamaha_yxc 0.0.14",
-				"it": "yamaha_yxc 0.0.14",
-				"es": "yamaha_yxc 0.0.14",
-				"pl": "yamaha_yxc 0.0.14",
-				"zh-cn": "雅马哈_yxc 0.0.14"
-			},
-			"0.2.1": {
-				"en": "license 2022, dependencies",
-				"de": "Lizenz 2022, Abhängigkeiten",
-				"ru": "лицензия 2022, зависимости",
-				"pt": "licença 2022, dependências",
-				"nl": "licentie 2022, afhankelijkheden",
-				"fr": "licence 2022, dépendances",
-				"it": "licenza 2022, dipendenze",
-				"es": "licencia 2022, dependencias",
-				"pl": "licencja 2022, zależności",
-				"zh-cn": "许可证 2022，依赖项"
-			},
-			"0.2.0": {
-				"en": "refactoring with \"create adaptor\" and async/await",
-				"de": "Refactoring mit \"Adapter erstellen\" und async / await",
-				"ru": "рефакторинг с \"создать адаптер\" и async / await",
-				"pt": "refatoração com \"criar adaptador\" e assíncrono / esperar",
-				"nl": "refactoring met \"create adapter\" en async / await",
-				"fr": "refactoring avec \"create adapter\" et async / await",
-				"it": "refactoring con \"create adapter\" e async / await",
-				"es": "refactorización con \"crear adaptador\" y async / await",
-				"pl": "refaktoryzacja za pomocą „create adapter” i async / await",
-				"zh-cn": "使用“创建适配器”和异步/等待进行重构"
 			}
 		},
 		"title": "Yamaha MusicCast",

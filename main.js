@@ -21,7 +21,7 @@ const dpZoneCommands = {
 	mute: 'mute',
 	surround: 'surround',
 	volume: 'setVolumeTo',
-	input: 'input',
+	input: 'setInput',
 	bass_extension: 'setBassExtension',
 	enhancer: 'setEnhancer',
 	direct: 'setDirect',

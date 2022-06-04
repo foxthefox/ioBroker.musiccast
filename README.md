@@ -209,17 +209,20 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
-### 1.0.3
+#### 1.0.4
+* correction for setting the input ("setInput")
+
+#### 1.0.3
 * new datapoint "extra_bass"
 * new datapoint "adaptive_drc"
 * new datapoint "dts_dialogue_control"
 * new datapoint "adaptive_dsp_level"
 * these are only read in, most likely they are commands, but the API is unknown
 
-### 1.0.2
+#### 1.0.2
 * new datapoint "input_text"
 
-### 1.0.1
+#### 1.0.1
 * changed algorithm for developer support 
 
 ## 1.0.0 BREAKING CHANGES
