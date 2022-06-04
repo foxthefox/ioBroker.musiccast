@@ -1,6 +1,6 @@
 {
 	"name": "iobroker.musiccast",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "ioBroker MusicCast Adapter",
 	"author": {
 		"name": "foxthefox",
