@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.0.4",
+		"version": "1.0.5",
 		"news": {
+			"1.0.5": {
+				"en": "usage of new IOB test library",
+				"de": "Nutzung der neuen IOB-Testbibliothek",
+				"ru": "использование новой тестовой библиотеки IOB",
+				"pt": "uso da nova biblioteca de teste IOB",
+				"nl": "gebruik van nieuwe IOB-testbibliotheek",
+				"fr": "utilisation de la nouvelle bibliothèque de tests IOB",
+				"it": "utilizzo della nuova libreria di test IOB",
+				"es": "uso de la nueva biblioteca de pruebas IOB",
+				"pl": "wykorzystanie nowej biblioteki testowej IOB",
+				"zh-cn": "使用新的 IOB 测试库"
+			},
 			"1.0.4": {
 				"en": "correction for setting the input (\"setInput\")",
 				"de": "Korrektur zum Setzen des Eingangs (\"setInput\")",
