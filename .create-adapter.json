@@ -1,0 +1,38 @@
+{
+	"cli": true,
+	"adapterName": "musiccast",
+	"title": "musiccast",
+	"description": "yamaha",
+	"keywords": [
+		"muscicast",
+		"yamaha"
+	],
+	"expert": "yes",
+	"features": [
+		"adapter"
+	],
+	"adminFeatures": [],
+	"type": "multimedia",
+	"startMode": "daemon",
+	"connectionType": "local",
+	"dataSource": "poll",
+	"connectionIndicator": "no",
+	"language": "JavaScript",
+	"adminReact": "no",
+	"tools": [
+		"ESLint",
+		"type checking"
+	],
+	"indentation": "Tab",
+	"quotes": "single",
+	"es6class": "yes",
+	"authorName": "foxthefox",
+	"authorGithub": "foxthefox",
+	"authorEmail": "foxthefox@wysiwis.net",
+	"gitRemoteProtocol": "HTTPS",
+	"gitCommit": "no",
+	"license": "MIT License",
+	"ci": "gh-actions",
+	"dependabot": "yes",
+	"creatorVersion": "1.31.0"
+}

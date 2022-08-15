@@ -1,8 +1,8 @@
 .git
 .idea
+*.code-workspace
 node_modules
 nbproject
-scripts
 
 # npm package files
 iobroker.*.tgz
@@ -12,7 +12,7 @@ Thumbs.db
 # i18n intermediate files
 admin/i18n/flat.txt
 admin/i18n/*/flat.txt
-/linkeddevices.code-workspace
-/wordsFromAdmin.js
-system.config.json
-*.code-workspace
+
+
+# ioBroker dev-server
+.dev-server/
