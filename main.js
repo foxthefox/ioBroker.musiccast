@@ -14,7 +14,7 @@ const md5 = require('md5');
 const YamahaYXC = require('yamaha-yxc-nodejs');
 let yamaha = null;
 let yamaha2 = null;
-const responses = [ {} ];
+const responses = [{}];
 
 const dpZoneCommands = {
 	power: 'power',
@@ -38,7 +38,8 @@ const dpZoneCommands = {
 };
 const dpCommands = {
 	subwoofer_volume: 'setSubwooferVolumeTo',
-	presetrecallnumber: 'recallPreset'
+	presetrecallnumber: 'recallPreset',
+	recallRecentItem: 'recallRecentItem',
 };
 
 const dpToggleCommands = {
@@ -326,6 +327,20 @@ class Musiccast extends utils.Adapter {
 							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
 						break;
+					case 'recallRecentItem':
+						try {
+							const result = await yamaha[dpCommands[dp]](state.val);
+
+							if (result.response_code === 0) {
+								this.log.debug('sent ' + dp + ' succesfully with ' + state.val);
+								//await this.setStateAsync(id, true, true);
+							} else {
+								this.log.debug('failure ' + dp + '  cmd ' + this.responseFailLog(result));
+							}
+						} catch (err) {
+							this.log.debug('API call failure ' + dp + ' cmd ' + err);
+						}
+						break;
 					case 'low':
 						try {
 							const result = await yamaha.setEqualizer(state.val, '', '', zone);
@@ -449,12 +464,12 @@ class Musiccast extends utils.Adapter {
 							clientIP = IP[0].ip;
 							this.log.debug('clientIP ' + clientIP + 'ID ' + groupID);
 
-							clientpayload = { group_id: groupID, zone: [ 'main' ] };
+							clientpayload = { group_id: groupID, zone: ['main'] };
 							masterpayload = {
 								group_id: groupID,
 								zone: 'main',
 								type: 'add',
-								client_list: [ clientIP ]
+								client_list: [clientIP]
 							};
 							yamaha2 = new YamahaYXC(state.val);
 
@@ -489,12 +504,12 @@ class Musiccast extends utils.Adapter {
 							//removeFromGroup(state.val, IP[0].ip);
 							clientIP = IP[0].ip;
 							this.log.debug('clientIP ' + clientIP);
-							clientpayload = { group_id: '', zone: [ 'main' ] };
+							clientpayload = { group_id: '', zone: ['main'] };
 							masterpayload = {
 								group_id: groupID,
 								zone: 'main',
 								type: 'remove',
-								client_list: [ clientIP ]
+								client_list: [clientIP]
 							};
 
 							yamaha2 = new YamahaYXC(state.val);
@@ -936,13 +951,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'volume';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'volume';
 							})
 						].max,
@@ -960,7 +975,7 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'volume';
 							})
 						].max,
@@ -1009,13 +1024,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'equalizer';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'equalizer';
 							})
 						].max,
@@ -1033,13 +1048,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'equalizer';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'equalizer';
 							})
 						].max,
@@ -1057,13 +1072,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'equalizer';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'equalizer';
 							})
 						].max,
@@ -1185,13 +1200,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'tone_control';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'tone_control';
 							})
 						].max,
@@ -1209,13 +1224,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'tone_control';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'tone_control';
 							})
 						].max,
@@ -1261,13 +1276,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'balance';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'balance';
 							})
 						].max,
@@ -1288,13 +1303,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'dialogue_level';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'dialogue_level';
 							})
 						].max,
@@ -1315,13 +1330,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'dialogue_lift';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'dialogue_lift';
 							})
 						].max,
@@ -1342,13 +1357,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'subwoofer_volume';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function(row) {
+							zone_arr.range_step.findIndex(function (row) {
 								return row.id == 'subwoofer_volume';
 							})
 						].max,
@@ -1781,13 +1796,13 @@ class Musiccast extends utils.Adapter {
 				type: 'number',
 				min:
 					range_step[
-						range_step.findIndex(function(row) {
+						range_step.findIndex(function (row) {
 							return row.id == 'actual_volume_db';
 						})
 					].min,
 				max:
 					range_step[
-						range_step.findIndex(function(row) {
+						range_step.findIndex(function (row) {
 							return row.id == 'actual_volume_db';
 						})
 					].max,
@@ -2196,6 +2211,19 @@ class Musiccast extends utils.Adapter {
 			},
 			native: {}
 		});
+		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.recallRecentItem', {
+			type: 'state',
+			common: {
+				name: 'recall recent number',
+				type: 'number',
+				read: true,
+				write: true,
+				role: 'level',
+				desc: 'recall recent number', //wie wird die zone abgeleitet, wenn mehr als main?
+				def: 0
+			},
+			native: {}
+		});
 		await this.setObjectNotExistsAsync(type + '_' + uid + '.netusb.usb_devicetype', {
 			type: 'state',
 			common: {
@@ -2584,13 +2612,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						range_step[
-							range_step.findIndex(function(row) {
+							range_step.findIndex(function (row) {
 								return row.id == 'am';
 							})
 						].min,
 					max:
 						range_step[
-							range_step.findIndex(function(row) {
+							range_step.findIndex(function (row) {
 								return row.id == 'am';
 							})
 						].max,
@@ -2651,13 +2679,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						range_step[
-							range_step.findIndex(function(row) {
+							range_step.findIndex(function (row) {
 								return row.id == 'fm';
 							})
 						].min,
 					max:
 						range_step[
-							range_step.findIndex(function(row) {
+							range_step.findIndex(function (row) {
 								return row.id == 'fm';
 							})
 						].max,
@@ -3083,13 +3111,13 @@ class Musiccast extends utils.Adapter {
 				type: 'number',
 				min:
 					range_step[
-						range_step.findIndex(function(row) {
+						range_step.findIndex(function (row) {
 							return row.id == 'alarm_volume';
 						})
 					].min,
 				max:
 					range_step[
-						range_step.findIndex(function(row) {
+						range_step.findIndex(function (row) {
 							return row.id == 'alarm_volume';
 						})
 					].max,
@@ -3108,13 +3136,13 @@ class Musiccast extends utils.Adapter {
 				type: 'number',
 				min:
 					range_step[
-						range_step.findIndex(function(row) {
+						range_step.findIndex(function (row) {
 							return row.id == 'alarm_fade';
 						})
 					].min,
 				max:
 					range_step[
-						range_step.findIndex(function(row) {
+						range_step.findIndex(function (row) {
 							return row.id == 'alarm_fade';
 						})
 					].max,
@@ -3293,7 +3321,7 @@ class Musiccast extends utils.Adapter {
 		}
 
 		if (alarm_mode_list.indexOf('weekly') !== -1) {
-			const days = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
+			const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 			for (const anz in days) {
 				//loop days[anz]
 				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.enable', {
@@ -3662,11 +3690,11 @@ class Musiccast extends utils.Adapter {
 					//setindef
 					await this.setStateAsync(
 						devtype +
-							'_' +
-							devuid +
-							'.system.inputs.' +
-							att.system.input_list[i].id +
-							'.distribution_enable',
+						'_' +
+						devuid +
+						'.system.inputs.' +
+						att.system.input_list[i].id +
+						'.distribution_enable',
 						{ val: att.system.input_list[i].distribution_enable, ack: true }
 					);
 					await this.setStateAsync(
