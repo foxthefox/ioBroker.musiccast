@@ -1,180 +1,136 @@
 {
-    "common": {
-
-        "name": "musiccast",
-        "version": "0.1.4",
-        "news": {
-            "0.1.4": {
-                "en": "correction of type mismatch",
-                "de": "Korrektur der Typfehlanpassung",
-                "ru": "исправление несоответствия типов",
-                "pt": "correção de incompatibilidade de tipo",
-                "nl": "correctie van het type komt niet overeen",
-                "fr": "correction de l'inadéquation des types",
-                "it": "correzione del tipo non corrispondente",
-                "es": "corrección de desajuste de tipo",
-                "pl": "korekta niedopasowania typu",
-                "zh-cn": "纠正类型不匹配"
-              },
-             "0.1.3": {
-                "en": "added writing for linkControl/linkAudioDelay/linkAudioQuality",
-                "de": "Schreiben für linkControl / linkAudioDelay / linkAudioQuality hinzugefügt",
-                "ru": "добавлена запись для linkControl / linkAudioDelay / linkAudioQuality",
-                "pt": "escrita adicionada para linkControl / linkAudioDelay / linkAudioQuality",
-                "nl": "toegevoegd schrijven voor linkControl / linkAudioDelay / linkAudioQuality",
-                "fr": "ajout d'écriture pour linkControl / linkAudioDelay / linkAudioQuality",
-                "it": "aggiunta la scrittura per linkControl / linkAudioDelay / linkAudioQuality",
-                "es": "escritura agregada para linkControl / linkAudioDelay / linkAudioQuality",
-                "pl": "dodano zapis dla linkControl / linkAudioDelay / linkAudioQuality",
-                "zh-cn": "为linkControl / linkAudioDelay / linkAudioQuality添加了写作"
-              },
-             "0.1.2": {
-                "en": "correction of type mismatch",
-                "de": "Korrektur von Typinkongruenzen",
-                "ru": "исправление несоответствия типов",
-                "pt": "correção de incompatibilidade de tipo",
-                "nl": "correctie van type mismatch",
-                "fr": "correction de l'inadéquation des types",
-                "it": "correzione del tipo non corrispondente",
-                "es": "corrección de tipo no coincidente",
-                "pl": "korekta niedopasowania typu",
-                "zh-cn": "纠正类型不匹配"
-              },
-             "0.1.1": {
-                "en": "clock oneday correction",
-                "de": "Uhr eintägige Korrektur",
-                "ru": "Коррекция часового дня",
-                "pt": "correção de relógio de um dia",
-                "nl": "klok één dag correctie",
-                "fr": "correction d'horloge d'un jour",
-                "it": "correzione oneday dell'orologio",
-                "es": "Corrección de un día de reloj",
-                "pl": "korekta oneday zegara",
-                "zh-cn": "时钟oneday校正"
-             }, 
-             "0.1.0": {
-                "en": "compact mode added",
-                "de": "Kompaktmodus hinzugefügt",
-                "ru": "добавлен компактный режим",
-                "pt": "modo compacto adicionado",
-                "nl": "compacte modus toegevoegd",
-                "fr": "mode compact ajouté",
-                "it": "modalità compatta aggiunta",
-                "es": "modo compacto agregado",
-                "pl": "dodano tryb kompaktowy"
-             },  
-             "0.0.9": {
-                "en": "adminv3 using values2table",
-                "de": "adminv3 verwendet values2table",
-                "ru": "adminv3, используя values2table",
-                "pt": "adminv3 usando values2table",
-                "nl": "adminv3 met waarden2tabel",
-                "fr": "adminv3 utilisant values2table",
-                "it": "adminv3 utilizzando valori2table",
-                "es": "adminv3 usando values2table",
-                "pl": "adminv3 using values2table"
-             },        
-            "0.0.8": {
-                "en": "Name added in object, improvements",
-                "de": "Name im Objekt hinzugefügt, Verbesserungen",
-                "ru": "Имя добавлено в объект, улучшения",
-                "pt": "Nome adicionado no objeto, melhorias",
-                "nl": "Naam toegevoegd in object, verbeteringen",
-                "fr": "Nom ajouté dans l'objet, améliorations",
-                "it": "Nome aggiunto nell'oggetto, miglioramenti",
-                "es": "Nombre agregado en el objeto, mejoras",
-                "pl": "Nazwa dodana w obiekcie, ulepszenia"
-            },
-            "0.0.7": {
-                "en": "Tuner/Clock and advanced functions added, adminv3",
-                "de": "Tuner / Clock und erweiterte Funktionen hinzugefügt, adminv3",
-                "ru": "Добавлены настройки тюнера / часов и расширенных функций, adminv3",
-                "pt": "Sintonizador / Relógio e funções avançadas adicionadas, adminv3",
-                "nl": "Tuner / klok en geavanceerde functies toegevoegd, adminv3",
-                "fr": "Syntoniseur / horloge et fonctions avancées ajoutées, adminv3",
-                "it": "Sintonizzatore / Orologio e funzioni avanzate aggiunte, adminv3",
-                "es": "Sintonizador / reloj y funciones avanzadas agregadas, adminv3",
-                "pl": "Tuner / Zegar i zaawansowane funkcje dodane, adminv3"
-              },
-            "0.0.6": {
-                "en": "subscribe to UDP message",
-                "de": "Abo auf UDP Meldungen"
-            },
-            "0.0.5": {
-                "en": "more objects, support NETUSB/CD",
-                "de": "weitere Objekte, Unterstützung NETUSB/CD"
-            },
-            "0.0.4": {
-                "en": "more objects, new functions, search",
-                "de": "weitere Objekte, neue Funktionen, Suche"
-            },
-            "0.0.3": {
-                "en": "more objects",
-                "de": "weitere Objekte"
-            },
-            "0.0.2": {
-                "en": "minor corrections",
-                "de": "kleine Korrekturen"
-            },
-            "0.0.1": {
-                "en": "initial adapter",
-                "de": "Initiale Version",
-                "ru": "Первоначальный адаптер"
-            }
-        },
-        "title": "Yamaha MusicCast",
-        "titleLang": {
-            "en": "Yamaha MusicCast adapter",
-            "de": "Yamaha MusicCast Adapter",
-            "ru": "Адаптер Yamaha MusicCast",
-            "pt": "Adaptador Yamaha MusicCast",
-            "nl": "Yamaha MusicCast-adapter",
-            "fr": "Adaptateur Yamaha MusicCast",
-            "it": "Adattatore Yamaha MusicCast",
-            "es": "Adaptador Yamaha MusicCast",
-            "pl": "Adapter Yamaha MusicCast"
-        },
-        "desc": {
-            "en": "Musiccast Adapter",
-            "de": "Musiccast Adapter",
-            "ru": "Адаптер Musiccast",
-            "pt": "Adaptador Musiccast",
-            "nl": "Musiccast-adapter",
-            "fr": "Adaptateur de Musiccast",
-            "it": "Adattatore Musiccast",
-            "es": "Adaptador de Musiccast",
-            "pl": "Adapter Musiccast"
-        },
-        "platform": "Javascript/Node.js",
-        "mode": "daemon",
-        "icon": "musiccast.png",
-        "license": "MIT",
-        "enabled": true,
-        "messagebox": true,
-        "subscribe": "messagebox",
-        "extIcon": "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
-        "keywords": [
-            "musiccast",
-            "sound",
-            "audio"
-        ],
-        "readme": "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
-        "loglevel": "debug",
-        "type": "multimedia",
-        "materialize": true,
-        "compact": true,
-        "authors": [
-            {
-                "name": "foxthefox",
-                "email": "foxthefox@wysiwis.net"
-            }
-        ]
-    },
-    "native": {
-        "netusbplaytime": false,
-        "cdplaytime": false,
-        "keepalive": false,
-        "devices": []
-    },
-    "objects": []
+	"common": {
+		"name": "musiccast",
+		"version": "1.0.5",
+		"news": {
+			"1.0.5": {
+				"en": "usage of new IOB test library",
+				"de": "Nutzung der neuen IOB-Testbibliothek",
+				"ru": "использование новой тестовой библиотеки IOB",
+				"pt": "uso da nova biblioteca de teste IOB",
+				"nl": "gebruik van nieuwe IOB-testbibliotheek",
+				"fr": "utilisation de la nouvelle bibliothèque de tests IOB",
+				"it": "utilizzo della nuova libreria di test IOB",
+				"es": "uso de la nueva biblioteca de pruebas IOB",
+				"pl": "wykorzystanie nowej biblioteki testowej IOB",
+				"zh-cn": "使用新的 IOB 测试库"
+			},
+			"1.0.4": {
+				"en": "correction for setting the input (\"setInput\")",
+				"de": "Korrektur zum Setzen des Eingangs (\"setInput\")",
+				"ru": "коррекция настройки входа (\"setInput\")",
+				"pt": "correção para definir a entrada (\"setInput\")",
+				"nl": "correctie voor het instellen van de ingang (\"setInput\")",
+				"fr": "correction pour le réglage de l'entrée (\"setInput\")",
+				"it": "correzione per l'impostazione dell'ingresso (\"setInput\")",
+				"es": "corrección para configurar la entrada (\"setInput\")",
+				"pl": "poprawka ustawienia wejścia („setInput”)",
+				"zh-cn": "更正设置输入（“setInput”）"
+			},
+			"1.0.3": {
+				"en": "new datapoints",
+				"de": "neue Datenpunkte",
+				"ru": "новые точки данных",
+				"pt": "novos pontos de dados",
+				"nl": "nieuwe datapunten",
+				"fr": "nouveaux points de données",
+				"it": "nuovi punti dati",
+				"es": "nuevos puntos de datos",
+				"pl": "nowe punkty danych",
+				"zh-cn": "新数据点"
+			},
+			"1.0.2": {
+				"en": "new datapoint \"input_text\"",
+				"de": "neuer Datenpunkt \"input_text\"",
+				"ru": "новая точка данных \"input_text\"",
+				"pt": "novo ponto de dados \"input_text\"",
+				"nl": "nieuw datapunt \"input_text\"",
+				"fr": "nouveau point de données \"input_text\"",
+				"it": "nuovo punto dati \"input_text\"",
+				"es": "nuevo punto de datos \"texto_de_entrada\"",
+				"pl": "nowy punkt danych „tekst_wejściowy”",
+				"zh-cn": "新数据点“input_text”"
+			},
+			"1.0.1": {
+				"en": "changed algorithm for developer support ",
+				"de": "geänderter Algorithmus für Entwicklerunterstützung",
+				"ru": "изменен алгоритм поддержки разработчиков",
+				"pt": "algoritmo alterado para suporte ao desenvolvedor",
+				"nl": "gewijzigd algoritme voor ondersteuning van ontwikkelaars",
+				"fr": "algorithme modifié pour le support des développeurs",
+				"it": "algoritmo modificato per il supporto degli sviluppatori",
+				"es": "Algoritmo modificado para el soporte del desarrollador.",
+				"pl": "zmieniony algorytm wsparcia dla programistów",
+				"zh-cn": "更改了开发人员支持的算法"
+			},
+			"1.0.0": {
+				"en": "Breaking Change, correction mismatch device/systemid for object tree, yamaha_yxc 2.0.0, async/await",
+				"de": "Breaking Change, Korrektur der Nichtübereinstimmung von Gerät/System-ID für Objektbaum, yamaha_yxc 2.0.0, async/await",
+				"ru": "Критическое изменение, исправление несоответствия устройства / системного идентификатора для дерева объектов, yamaha_yxc 2.0.0, async / await",
+				"pt": "Breaking Change, dispositivo / systemid de correção de incompatibilidade para árvore de objetos, yamaha_yxc 2.0.0, async / await",
+				"nl": "Breaking Change, correctie mismatch device/system-id voor object tree, yamaha_yxc 2.0.0, async/wait",
+				"fr": "Breaking Change, correction de l'incompatibilité périphérique/systemid pour l'arborescence d'objets, yamaha_yxc 2.0.0, async/await",
+				"it": "Breaking Change, correzione mancata corrispondenza dispositivo/systemid per l'albero degli oggetti, yamaha_yxc 2.0.0, async/await",
+				"es": "Breaking Change, corrección de discordancia de dispositivo / systemid para árbol de objetos, yamaha_yxc 2.0.0, async / await",
+				"pl": "Breaking Change, korekta niezgodności urządzenia/systemid dla drzewa obiektów, yamaha_yxc 2.0.0, async/await",
+				"zh-cn": "重大变化，更正对象树的设备/系统ID 不匹配，yamaha_yxc 2.0.0，async/await"
+			}
+		},
+		"title": "Yamaha MusicCast",
+		"titleLang": {
+			"en": "Yamaha MusicCast",
+			"de": "Yamaha MusicCast",
+			"ru": "Yamaha MusicCast",
+			"pt": "Yamaha MusicCast",
+			"nl": "Yamaha MusicCast",
+			"fr": "Yamaha MusicCast",
+			"it": "Yamaha MusicCastr",
+			"es": "Yamaha MusicCast",
+			"pl": "Yamaha MusicCast",
+			"zh-cn": "Yamaha MusicCast"
+		},
+		"desc": {
+			"en": "Musiccast Adapter",
+			"de": "Musiccast Adapter",
+			"ru": "Адаптер Musiccast",
+			"pt": "Adaptador Musiccast",
+			"nl": "Musiccast-adapter",
+			"fr": "Adaptateur de Musiccast",
+			"it": "Adattatore Musiccast",
+			"es": "Adaptador de Musiccast",
+			"pl": "Adapter Musiccast",
+			"zh-cn": "雅马哈"
+		},
+		"authors": [ "foxthefox <foxthefox@wysiwis.net>" ],
+		"keywords": [ "muscicast", "yamaha", "sound", "audio" ],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "musiccast.png",
+		"enabled": true,
+		"messagebox": true,
+		"extIcon": "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
+		"readme": "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "multimedia",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"adminUI": { "config": "materialize" },
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=2.0.0"
+			}
+		]
+	},
+	"native": {
+		"netusbplaytime": false,
+		"cdplaytime": false,
+		"keepalive": false,
+		"devices": []
+	},
+	"objects": [],
+	"instanceObjects": []
 }

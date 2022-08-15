@@ -1,17 +1,18 @@
 ![Logo](admin/musiccast.png)
 # ioBroker.musiccast
 
-![Number of Installations](http://iobroker.live/badges/musiccast-installed.svg) ![Number of Installations](http://iobroker.live/badges/musiccast-stable.svg) [![NPM version](http://img.shields.io/npm/v/iobroker.musiccast.svg)](https://www.npmjs.com/package/iobroker.musiccast)
+![Number of Installations](http://iobroker.live/badges/musiccast-installed.svg) 
+![Number of Installations](http://iobroker.live/badges/musiccast-stable.svg) 
+[![NPM version](http://img.shields.io/npm/v/iobroker.musiccast.svg)](https://www.npmjs.com/package/iobroker.musiccast)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.musiccast.svg)](https://www.npmjs.com/package/iobroker.musiccast)
-[![Build Status](https://travis-ci.org/foxthefox/ioBroker.musiccast.svg?branch=master)](https://travis-ci.org/foxthefox/ioBroker.musiccast)
 
+**Tests:** ![Test and Release](https://github.com/foxthefox/ioBroker.musiccast/workflows/Test%20and%20Release/badge.svg)
 
-[![NPM](https://nodei.co/npm/iobroker.musiccast.png?downloads=true)](https://nodei.co/npm/iobroker.musiccast/)
 
 adapter for Yamaha MusicCast devices like WX-010/030, YSP-1600
 
 ## Installation:
-Installation requires nodejs v4 at minimum
+Installation requires nodejs v10 at minimum
 
 from npm
 ```javascript
@@ -46,6 +47,7 @@ The following objects are currently implemented:
 |{zone}.act_vol_mode_list|text|-|actual volume in dB modes|
 |{zone}.input|text|x|inputs depending on device|
 |{zone}.input_list|text|-|possible inputs|
+|{zone}.input_text|text|-|selected input as text|
 |{zone}.sound_program|text|x|set sound program|
 |{zone}.sound_program_list|text|-|possible sound programs|
 |{zone}.surr_decoder_type|text|?|set surround type|
@@ -69,6 +71,14 @@ The following objects are currently implemented:
 |{zone}.enhancer|boolean|x|set enhancer|
 |{zone}.bass_extension|boolean|x|set bass extension|
 |{zone}.sleep|value|x|sleep timer|
+
+|{zone}.disable_flags|boolean|x|set disable_flags|
+|{zone}.contents_display|boolean|x|set contents_display|
+|{zone}.party_enable|boolean|x|set party_enable|
+|{zone}.extra_bass|boolean|x|set extra_bass|
+|{zone}.adaptive_drc|boolean|x|set adaptive_drc|
+|{zone}.dts_dialogue_control|value|x|set dts_dialogue_control|
+|{zone}.adaptive_dsp_level|boolean|x|set adaptive_dsp_level|
 
 ### netusb
 |Object|Value|settable|Description|
@@ -199,6 +209,47 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+#### 1.0.5
+* usage of new IOB test library
+
+#### 1.0.4
+* correction for setting the input ("setInput")
+
+#### 1.0.3
+* new datapoint "extra_bass"
+* new datapoint "adaptive_drc"
+* new datapoint "dts_dialogue_control"
+* new datapoint "adaptive_dsp_level"
+* these are only read in, most likely they are commands, but the API is unknown
+
+#### 1.0.2
+* new datapoint "input_text"
+
+#### 1.0.1
+* changed algorithm for developer support 
+
+## 1.0.0 BREAKING CHANGES
+* the deviceId was previously the systemId, which is not unique. Now the deviceId is used, this is changing the object tree
+* musiccast API 2.0.0
+* device search can now returns more than 1 device
+* new output for developer in the the admin panel
+* more async/await
+* corrected testing
+
+#### 0.2.2
+* musiccast API 0.0.14
+
+#### 0.2.1
+* license 2022
+* dependency correction
+
+#### 0.2.0
+* refactoring with "create adaptor"
+* async/await
+
+#### 0.1.5
+* (Scrounger) error handling when device is not reachable
+
 #### 0.1.4
 * (Scrounger) correction of type mismatch (array object)
 
@@ -266,4 +317,4 @@ The following objects are currently implemented:
 
 The MIT License (MIT)
 
-Copyright (c) 2017 - 2020 foxthefox <foxthefox@wysiwis.net>
+Copyright (c) 2017 - 2022 foxthefox <foxthefox@wysiwis.net>
