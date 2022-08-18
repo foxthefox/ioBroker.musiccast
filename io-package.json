@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.0.5",
+		"version": "1.0.6",
 		"news": {
+			"1.0.6": {
+				"en": " recallRecentItem as new datapoint added",
+				"de": "recallRecentItem als neuer datenpunkt hinzugefügt",
+				"ru": "recallRecentItem как добавлена новая точка данных",
+				"pt": "recallRecentItem como novo datapoint adicionado",
+				"nl": "recallRecentItemals nieuwe datapoint toegevoegd",
+				"fr": "recallRecentItem nouveau datapoint ajouté",
+				"it": "recallRecentItem come nuovo datapoint aggiunto",
+				"es": "recallRecentItem como nuevo punto de datos añadido",
+				"pl": "recallRecentItem nowy punkt dostępu do danych",
+				"zh-cn": "recallRecentItem 新的数据点"
+			},
 			"1.0.5": {
 				"en": "usage of new IOB test library",
 				"de": "Nutzung der neuen IOB-Testbibliothek",
