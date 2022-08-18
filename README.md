@@ -106,7 +106,8 @@ The following objects are currently implemented:
 |netusb.preset_info|json|-|saved presets/favourites|
 |netusb.presetrecallnumber|value|x|recall the # in the favourite list|
 |netusb.usb_devicetype|text|-|type of connected USB device|
-|netusb.attribute|value|-|which possibiolites has the service, to be decoded|
+|netusb.attribute|value|-|which possibilites has the service, to be decoded|
+|netusb.recallRecentItem|value|x|which possibiolites has the service, to be decoded|
 
 ### system
 |Object|Value|settable|Description|
@@ -209,6 +210,9 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+### 1.0.6
+* (scrounger) recallRecentItem added
+
 #### 1.0.5
 * usage of new IOB test library
 
