@@ -14,7 +14,7 @@
 		"url": "https://github.com/foxthefox/ioBroker.musiccast"
 	},
 	"dependencies": {
-		"@iobroker/adapter-core": "^2.6.0",
+		"@iobroker/adapter-core": "^2.6.6",
 		"md5": "^2.2.1",
 		"yamaha-yxc-nodejs": "^2.0.4"
 	},
