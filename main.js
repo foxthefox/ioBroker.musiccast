@@ -432,7 +432,7 @@ class Musiccast extends utils.Adapter {
 						if (state.val === true || state.val === 'true' || state.val === 'on') {
 							var num = 0;
 							await yamaha.startDistribution(num).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
+								if (result.response_code === 0) {
 									this.log.debug('sent Start Distribution');
 									//await this.setStateAsync(id, true, true);
 								} else {
@@ -443,7 +443,7 @@ class Musiccast extends utils.Adapter {
 						if (state.val === false || state.val === 'false' || state.val === 'off') {
 							var num = 0;
 							await yamaha.stopDistribution(num).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
+								if (result.response_code === 0) {
 									this.log.debug('sent Stop Distribution');
 									//await this.setStateAsync(id, true, true);
 								} else {
@@ -474,7 +474,7 @@ class Musiccast extends utils.Adapter {
 							yamaha2 = new YamahaYXC(state.val);
 
 							await yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
+								if (result.response_code === 0) {
 									this.log.debug('sent ClientInfo : ' + clientIP);
 									//await this.setStateAsync(id, true, true);
 								} else {
@@ -483,7 +483,7 @@ class Musiccast extends utils.Adapter {
 							});
 
 							await yamaha2.setServerInfo(JSON.stringify(masterpayload)).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
+								if (result.response_code === 0) {
 									this.log.debug('sent ServerInfo ' + state.val);
 									//await this.setStateAsync(id, true, true);
 								} else {
@@ -492,7 +492,7 @@ class Musiccast extends utils.Adapter {
 							});
 							//Übergabewert soll der Nummer des links entsprechen?!
 							await yamaha2.startDistribution(0).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
+								if (result.response_code === 0) {
 									this.log.debug('sent start ServerInfo ' + state.val);
 									//await this.setStateAsync(id, true, true);
 								} else {
@@ -515,7 +515,7 @@ class Musiccast extends utils.Adapter {
 							yamaha2 = new YamahaYXC(state.val);
 							//Übergabewert soll der Nummer des links entsprechen?!
 							await yamaha2.stopDistribution(0).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
+								if (result.response_code === 0) {
 									this.log.debug('sent Stop Distribution');
 									//await this.setStateAsync(id, true, true);
 								} else {
@@ -524,7 +524,7 @@ class Musiccast extends utils.Adapter {
 							});
 
 							await yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
+								if (result.response_code === 0) {
 									this.log.debug('sent Client disconnect to : ' + clientIP);
 									//await this.setStateAsync(id, true, true);
 								} else {
@@ -533,7 +533,7 @@ class Musiccast extends utils.Adapter {
 							});
 
 							await yamaha2.setServerInfo(JSON.stringify(masterpayload)).then((result) => {
-								if (JSON.parse(result).response_code === 0) {
+								if (result.response_code === 0) {
 									this.log.debug('sent ServerInfo to ' + state.val);
 									//await this.setStateAsync(id, true, true);
 								} else {
