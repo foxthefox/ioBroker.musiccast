@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.0.6",
+		"version": "1.0.7",
 		"news": {
+			"1.0.7": {
+				"en": "error correction in link/unlink/distribution",
+				"de": "fehlerkorrektur in link/unlink/distribution",
+				"ru": "исправление ошибки в link/unlink/distribution",
+				"pt": "correção de erro no link/unlink/distribuição",
+				"nl": "vergissing van link/unlink/distribu",
+				"fr": "correction d'erreur dans link/unlink/distribution",
+				"it": "correzione errore nel link/unlink/distribuzione",
+				"es": "corrección de errores en el enlace/unlink/distribución",
+				"pl": "korekta błędu w połączeniu/unlink/distribution",
+				"uk": "корекція помилок в посилання / посилання / розподіл",
+				"zh-cn": "联系/无联系/分配办法的更正"
+			},
 			"1.0.6": {
 				"en": " recallRecentItem as new datapoint added",
 				"de": "recallRecentItem als neuer datenpunkt hinzugefügt",

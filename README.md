@@ -210,6 +210,9 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+### 1.0.7
+* error correction in link/unlink/distribution
+
 ### 1.0.6
 * (scrounger) recallRecentItem added
 
