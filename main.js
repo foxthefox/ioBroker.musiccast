@@ -306,7 +306,7 @@ class Musiccast extends utils.Adapter {
 						/* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
 
 								yamaha.recallPreset(state.val, zone).then((result) => {
-									if (JSON.parse(result).response_code === 0 ){
+									if (result.response_code === 0 ){
 										this.log.debug('recalled the Preset succesfully in zone  ' + zone + ' to ' + state.val);
 										//await this.setStateAsync(id, true, true);
 									}
@@ -498,6 +498,7 @@ class Musiccast extends utils.Adapter {
 							};
 
 							yamaha2 = new YamahaYXC(state.val);
+							/* stop distribution scheint zuviel
 							//Übergabewert soll der Nummer des links entsprechen?!
 							await yamaha2.stopDistribution(0).then((result) => {
 								if (result.response_code === 0) {
@@ -507,7 +508,7 @@ class Musiccast extends utils.Adapter {
 									this.log.debug('failure sending Stop Distribution' + this.responseFailLog(result));
 								}
 							});
-
+							*/
 							await yamaha.setClientInfo(JSON.stringify(clientpayload)).then((result) => {
 								if (result.response_code === 0) {
 									this.log.debug('sent Client disconnect to : ' + clientIP);
@@ -525,8 +526,18 @@ class Musiccast extends utils.Adapter {
 									this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
 								}
 							});
-						}
 
+							//Übergabewert soll der Nummer des links entsprechen?!
+							await yamaha2.startDistribution(0).then((result) => {
+								if (result.response_code === 0) {
+									this.log.debug('sent start ServerInfo ' + state.val);
+									//await this.setStateAsync(id, true, true);
+								} else {
+									this.log.debug('failure sending ServerInfo' + this.responseFailLog(result));
+								}
+							});
+						}
+						break;
 					default:
 						this.log.warn('Warning command is not processed (no case created for it) ' + dp);
 				}
@@ -678,7 +689,7 @@ class Musiccast extends utils.Adapter {
 	responseFailLog(fail) {
 		let errcode = '';
 
-		switch (JSON.parse(fail).response_code) {
+		switch (fail.response_code) {
 			case 1:
 				errcode = 'Response : 1 Initializing';
 				break;
