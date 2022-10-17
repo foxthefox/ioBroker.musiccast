@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.0.7",
+		"version": "1.0.8",
 		"news": {
+			"1.0.8": {
+				"en": "error correction add_to_group/remove_from_group",
+				"de": "fehlerkorrektur add_to_group/remove_from_group",
+				"ru": "исправление ошибки add_to_group/remove_from_group",
+				"pt": "correção de erro add_to_group/remove_from_group",
+				"nl": "vertaling:",
+				"fr": "correction d'erreur add_to_group/remove_from_group",
+				"it": "correzione errore add_to_group/remove_from_group",
+				"es": "corrección de errores add_to_group/remove_from_group",
+				"pl": "kodowanie błędów dodaje do grupy/remove_group/od",
+				"uk": "виправлення помилок add_to_group/remove_from_group"
+			},
 			"1.0.7": {
 				"en": "error correction in link/unlink/distribution",
 				"de": "fehlerkorrektur in link/unlink/distribution",
