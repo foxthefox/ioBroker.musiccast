@@ -1,8 +1,21 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.0.8",
+		"version": "1.1.0",
 		"news": {
+			"1.1.0": {
+				"en": "improved testing",
+				"de": "verbesserte prüfung",
+				"ru": "улучшенное тестирование",
+				"pt": "testes melhorados",
+				"nl": "verbeterde testen",
+				"fr": "essais améliorés",
+				"it": "test migliorati",
+				"es": "mejores pruebas",
+				"pl": "poprawić",
+				"uk": "поліпшення тестування",
+				"zh-cn": "改进试验"
+			},
 			"1.0.8": {
 				"en": "error correction add_to_group/remove_from_group",
 				"de": "fehlerkorrektur add_to_group/remove_from_group",
