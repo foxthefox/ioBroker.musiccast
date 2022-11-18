@@ -8,10 +8,13 @@
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
 
+// https://techsparx.com/nodejs/esnext/esm-to-cjs.html
+
 // Load your modules here, e.g.:
 // const fs = require("fs");
 const md5 = require('md5');
-const YamahaYXC = require('yamaha-yxc-nodejs');
+const YamahaYXC = require('yamaha-yxc-nodejs').YamahaYXC;
+
 let yamaha = null;
 let yamaha2 = null;
 const responses = [ {} ];
@@ -82,6 +85,9 @@ class Musiccast extends utils.Adapter {
 				await this.defineMusicDevice(obj[anz].type, obj[anz].uid, obj[anz].name); //contains also the structure to musiccast.0._id_type_.
 				await this.defineMusicNetUsb(obj[anz].type, obj[anz].uid); //all devices are supporting netusb
 				//defineMClink basic structure
+				this.log.info('--------------------');
+				this.log.info(JSON.stringify(YamahaYXC));
+				this.log.info('--------------------');
 
 				//get the inout list and create object
 				await this.defineMusicDeviceFeatures(obj[anz].ip, obj[anz].type, obj[anz].uid);
