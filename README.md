@@ -210,6 +210,9 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+### 1.1.0 (npm)
+* improved testing
+
 ### 1.0.8
 * error correction add_to_group/remove_from_group
 
