@@ -3524,7 +3524,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicDeviceInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicDeviceInfo] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3628,7 +3628,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH') || err.message.includes('connect ETIMEDOUT')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicZoneInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicZoneInfo] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3728,7 +3728,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH') || err.message.includes('connect ETIMEDOUT')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicZoneLists] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicZoneLists] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3794,7 +3794,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicNetusbInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicNetusbInfo] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3827,7 +3827,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicNetusbRecent] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicNetusbRecent] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3860,7 +3860,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicNetusbPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicNetusbPreset] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3921,7 +3921,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicCdInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicCdInfo] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4079,7 +4079,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicTunerInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicTunerInfo] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4123,7 +4123,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicTunerPreset] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4160,7 +4160,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4196,7 +4196,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4232,7 +4232,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4657,7 +4657,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicClockSettings] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicClockSettings] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4706,7 +4706,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[getMusicDistInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[getMusicDistInfo] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4847,7 +4847,7 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.warn(err.message.replace('connect EHOSTUNREACH', '') + ' not reachable!');
+				this.log.warn(`[defineMusicDeviceFeatures] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
 			} else {
 				this.log.error(`[defineMusicDeviceFeatures] error: ${err.message}, stack: ${err.stack}`);
 			}
