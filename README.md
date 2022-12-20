@@ -210,8 +210,11 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
-#### 1.0.9
+#### 1.1.1
 * (scrounger) added datapoint isOnline, used by ioBroker.device-watcher
+
+#### 1.1.0
+* improved testing
 
 #### 1.0.8
 * error correction add_to_group/remove_from_group
