@@ -1,7 +1,16 @@
-const path = require('path');
 const { tests } = require('@iobroker/testing');
 
 const YamahaYXCEmu = require('yamaha-yxc-nodejs').YamahaYXCEmu;
+
+const fs = require('fs');
+const path = require('path');
+console.log('PATH ist ' + path.join(__dirname, './data/'));
+
+let port = 3311;
+let testfile = 'YSP1600_312_208.json';
+let testdevice = 'YSP-1600';
+const YXCresponses = fs.readFileSync(path.join(__dirname, './data/') + testfile);
+const deviceresp = JSON.parse(String(YXCresponses))[testdevice];
 
 const expect = require('chai').expect;
 
@@ -27,10 +36,8 @@ tests.integration(path.join(__dirname, '..'), {
 		suite('Test creation of devices', (getHarness) => {
 			let harness;
 			let port = 3311;
-			let testfile = 'YSP1600_312_208.json';
-			let testdevice = 'YSP-1600';
 			before('start the emulation', async () => {
-				const emulation = new YamahaYXCEmu(testfile, testdevice, port, false);
+				const emulation = new YamahaYXCEmu(deviceresp, port, false);
 				emulation.setupHttpServer(function() {});
 				harness = getHarness();
 				// modification of some starting values
