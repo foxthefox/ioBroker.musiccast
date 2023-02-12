@@ -1,8 +1,34 @@
 {
 	"common": {
 		"name": "musiccast",
-		"version": "1.1.0",
+		"version": "1.1.2",
 		"news": {
+			"1.1.2": {
+				"en": "new version yamahe-yxc library",
+				"de": "neue version yamahe-yxc bibliothek",
+				"ru": "новая версия yamahe-yxc library",
+				"pt": "nova versão yamahe-yxc biblioteca",
+				"nl": "nieuwe versie yamahe-yxc bibliotheek",
+				"fr": "nouvelle bibliothèque yamahe-yxc",
+				"it": "nuova versione yamahe-yxc libreria",
+				"es": "nueva versión yamahe-yxc biblioteca",
+				"pl": "nowa wersja biblioteki yamahe-yxc",
+				"uk": "русскийукраїнськабеларускаяoʻzbek tilienglish",
+				"zh-cn": "新的版本"
+			},
+			"1.1.1": {
+				"en": "added datapoint isOnline, used by ioBroker.device-watcher",
+				"de": "add datapoint isOnline, verwendet von ioBroker.device-watcher",
+				"ru": "добавленная дата точка isOnline, используемая ioBroker.device-watcher",
+				"pt": "adicionado datapoint isOnline, usado por ioBroker.device-watcher",
+				"nl": "voegde datapoint isOnline, gebruikt door ioBroker",
+				"fr": "le point de données ajouté estOnline, utilisé par ioBroker.device-watcher",
+				"it": "datapoint aggiunto èOnline, utilizzato da ioBroker.device-watcher",
+				"es": "datapoint añadido isOnline, utilizado por ioBroker.device-watcher",
+				"pl": "dodany punkt danych jestOnline, używany przez ioBrokera",
+				"uk": "додана точка даних онлайн, використовується ioBroker.device-watcher",
+				"zh-cn": "加的数据点是线线,由OioBroker使用。"
+			},
 			"1.1.0": {
 				"en": "improved testing",
 				"de": "verbesserte prüfung",
