@@ -1,0 +1,18 @@
+{
+    "IP address": "IP地址",
+    "If you see blue delete buttons, save settings first and open again the page.": "如果您看到蓝色删除按钮，请先保存设置，然后再次打开页面。",
+    "Name": "姓名",
+    "Search is active for 5s. Be patient!": "搜索处于活动状态 5 秒。要有耐心！",
+    "Try to push the Search Button until you find the amount of MusicCast devices in your home.": "尝试按下搜索按钮，直到找到家中的 MusicCast 设备数量。",
+    "Yamaha MusicCast adapter": "雅马哈 MusicCast 适配器",
+    "Yamaha MusicCast devices": "雅马哈 MusicCast 设备",
+    "Yamaha MusicCast settings": "雅马哈 MusicCast 设置",
+    "delete": "删除",
+    "model": "模型",
+    "on save adapter restarts with new config immediately": "保存适配器后立即使用新配置重新启动",
+    "sid": "系统标识",
+    "uid": "设备ID",
+    "unchecked => no update / checked => update (more traffic)": "未选中=>没有更新/选中=>更新（更多流量）",
+    "update playtime CD": "更新播放时间 CD",
+    "update playtime NET (USB/RADIO)": "更新播放时间 NET (USB/RADIO)"
+}

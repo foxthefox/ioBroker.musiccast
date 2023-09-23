@@ -17,7 +17,7 @@ const YamahaYXC = require('yamaha-yxc-nodejs').YamahaYXC;
 
 let yamaha = null;
 let yamaha2 = null;
-const responses = [{}];
+const responses = [ {} ];
 let onlineCheckTimer = null;
 const onlineCheckInterval = 30;
 
@@ -44,7 +44,7 @@ const dpZoneCommands = {
 const dpCommands = {
 	subwoofer_volume: 'setSubwooferVolumeTo',
 	presetrecallnumber: 'recallPreset',
-	recallRecentItem: 'recallRecentItem',
+	recallRecentItem: 'recallRecentItem'
 };
 
 const dpToggleCommands = {
@@ -91,10 +91,9 @@ class Musiccast extends utils.Adapter {
 				await this.defineMusicNetUsb(obj[anz].type, obj[anz].uid); //all devices are supporting netusb
 				//defineMClink basic structure
 				this.log.info('--------------------');
+				// undefined, what should it be?
 				this.log.info(JSON.stringify(YamahaYXC));
 				this.log.info('--------------------');
-
-
 
 				//get the inout list and create object
 				await this.defineMusicDeviceFeatures(obj[anz].ip, obj[anz].type, obj[anz].uid);
@@ -476,12 +475,12 @@ class Musiccast extends utils.Adapter {
 							clientIP = IP[0].ip;
 							this.log.debug('clientIP ' + clientIP + 'ID ' + groupID);
 
-							clientpayload = { group_id: groupID, zone: ['main'] };
+							clientpayload = { group_id: groupID, zone: [ 'main' ] };
 							masterpayload = {
 								group_id: groupID,
 								zone: 'main',
 								type: 'add',
-								client_list: [clientIP]
+								client_list: [ clientIP ]
 							};
 							yamaha2 = new YamahaYXC(state.val);
 
@@ -516,12 +515,12 @@ class Musiccast extends utils.Adapter {
 							//removeFromGroup(state.val, IP[0].ip);
 							clientIP = IP[0].ip;
 							this.log.debug('clientIP ' + clientIP);
-							clientpayload = { group_id: '', zone: ['main'] };
+							clientpayload = { group_id: '', zone: [ 'main' ] };
 							masterpayload = {
 								group_id: groupID,
 								zone: 'main',
 								type: 'remove',
-								client_list: [clientIP]
+								client_list: [ clientIP ]
 							};
 
 							yamaha2 = new YamahaYXC(state.val);
@@ -674,7 +673,7 @@ class Musiccast extends utils.Adapter {
 						}
 						if (getFeatures['tuner']) {
 							data[device.name]['tuner'] = {};
-							const getTunerPlayInfo = await yamaha.getTunerPlayInfo();
+							const getTunerPlayInfo = await yamaha.getPlayInfo('tuner');
 							data[device.name]['tuner']['getPlayInfo'] = getTunerPlayInfo;
 							const getTunerPresetInfo = await yamaha.getTunerPresetInfo();
 							data[device.name]['tuner']['getPresetInfo'] = getTunerPresetInfo;
@@ -987,13 +986,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'volume';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'volume';
 							})
 						].max,
@@ -1011,7 +1010,7 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'volume';
 							})
 						].max,
@@ -1060,13 +1059,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'equalizer';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'equalizer';
 							})
 						].max,
@@ -1084,13 +1083,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'equalizer';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'equalizer';
 							})
 						].max,
@@ -1108,13 +1107,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'equalizer';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'equalizer';
 							})
 						].max,
@@ -1236,13 +1235,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'tone_control';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'tone_control';
 							})
 						].max,
@@ -1260,13 +1259,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'tone_control';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'tone_control';
 							})
 						].max,
@@ -1312,13 +1311,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'balance';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'balance';
 							})
 						].max,
@@ -1339,13 +1338,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'dialogue_level';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'dialogue_level';
 							})
 						].max,
@@ -1366,13 +1365,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'dialogue_lift';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'dialogue_lift';
 							})
 						].max,
@@ -1393,13 +1392,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'subwoofer_volume';
 							})
 						].min,
 					max:
 						zone_arr.range_step[
-							zone_arr.range_step.findIndex(function (row) {
+							zone_arr.range_step.findIndex(function(row) {
 								return row.id == 'subwoofer_volume';
 							})
 						].max,
@@ -1832,13 +1831,13 @@ class Musiccast extends utils.Adapter {
 				type: 'number',
 				min:
 					range_step[
-						range_step.findIndex(function (row) {
+						range_step.findIndex(function(row) {
 							return row.id == 'actual_volume_db';
 						})
 					].min,
 				max:
 					range_step[
-						range_step.findIndex(function (row) {
+						range_step.findIndex(function(row) {
 							return row.id == 'actual_volume_db';
 						})
 					].max,
@@ -2648,13 +2647,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						range_step[
-							range_step.findIndex(function (row) {
+							range_step.findIndex(function(row) {
 								return row.id == 'am';
 							})
 						].min,
 					max:
 						range_step[
-							range_step.findIndex(function (row) {
+							range_step.findIndex(function(row) {
 								return row.id == 'am';
 							})
 						].max,
@@ -2715,13 +2714,13 @@ class Musiccast extends utils.Adapter {
 					type: 'number',
 					min:
 						range_step[
-							range_step.findIndex(function (row) {
+							range_step.findIndex(function(row) {
 								return row.id == 'fm';
 							})
 						].min,
 					max:
 						range_step[
-							range_step.findIndex(function (row) {
+							range_step.findIndex(function(row) {
 								return row.id == 'fm';
 							})
 						].max,
@@ -3147,13 +3146,13 @@ class Musiccast extends utils.Adapter {
 				type: 'number',
 				min:
 					range_step[
-						range_step.findIndex(function (row) {
+						range_step.findIndex(function(row) {
 							return row.id == 'alarm_volume';
 						})
 					].min,
 				max:
 					range_step[
-						range_step.findIndex(function (row) {
+						range_step.findIndex(function(row) {
 							return row.id == 'alarm_volume';
 						})
 					].max,
@@ -3172,13 +3171,13 @@ class Musiccast extends utils.Adapter {
 				type: 'number',
 				min:
 					range_step[
-						range_step.findIndex(function (row) {
+						range_step.findIndex(function(row) {
 							return row.id == 'alarm_fade';
 						})
 					].min,
 				max:
 					range_step[
-						range_step.findIndex(function (row) {
+						range_step.findIndex(function(row) {
 							return row.id == 'alarm_fade';
 						})
 					].max,
@@ -3357,7 +3356,7 @@ class Musiccast extends utils.Adapter {
 		}
 
 		if (alarm_mode_list.indexOf('weekly') !== -1) {
-			const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+			const days = [ 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday' ];
 			for (const anz in days) {
 				//loop days[anz]
 				await this.setObjectNotExistsAsync(type + '_' + uid + '.clock.' + days[anz] + '.enable', {
@@ -3543,7 +3542,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicDeviceInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicDeviceInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicDeviceInfo] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3726,11 +3727,11 @@ class Musiccast extends utils.Adapter {
 					//setindef
 					await this.setStateAsync(
 						devtype +
-						'_' +
-						devuid +
-						'.system.inputs.' +
-						att.system.input_list[i].id +
-						'.distribution_enable',
+							'_' +
+							devuid +
+							'.system.inputs.' +
+							att.system.input_list[i].id +
+							'.distribution_enable',
 						{ val: att.system.input_list[i].distribution_enable, ack: true }
 					);
 					await this.setStateAsync(
@@ -3813,7 +3814,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicNetusbInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicNetusbInfo] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicNetusbInfo] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3846,7 +3849,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicNetusbRecent] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicNetusbRecent] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicNetusbRecent] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3879,7 +3884,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicNetusbPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicNetusbPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicNetusbPreset] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -3952,7 +3959,7 @@ class Musiccast extends utils.Adapter {
 		const devuid = uid;
 		yamaha = new YamahaYXC(ip);
 		try {
-			const result = await yamaha.getTunerPlayInfo();
+			const result = await yamaha.getPlayInfo('tuner');
 			const att = result;
 			if (att.response_code === 0) {
 				this.log.debug('got Tuner playinfo succesfully from ' + devip + 'with  ' + JSON.stringify(result));
@@ -4142,7 +4149,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicTunerPreset] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4179,7 +4188,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4215,7 +4226,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4251,7 +4264,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicTunerPreset] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicTunerPreset error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4676,7 +4691,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[getMusicClockSettings] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[getMusicClockSettings] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[getMusicClockSettings] error: ${err.message}, stack: ${err.stack}`);
 			}
@@ -4733,6 +4750,7 @@ class Musiccast extends utils.Adapter {
 	}
 
 	async isOnline(onReady) {
+		// is called before of object creation and causes warning messages that the datapoint is not defined yet
 
 		try {
 			const obj = this.config.devices;
@@ -4763,8 +4781,13 @@ class Musiccast extends utils.Adapter {
 						}
 					}
 				} catch (err) {
-					if (err.message.includes('connect EHOSTUNREACH') || err.message.includes('connect ETIMEDOUT') ) {
-						this.log.debug(`[isOnline - ${devuid} (${devip})] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+					if (err.message.includes('connect EHOSTUNREACH') || err.message.includes('connect ETIMEDOUT')) {
+						this.log.debug(
+							`[isOnline - ${devuid} (${devip})] ${err.message.replace(
+								'connect EHOSTUNREACH',
+								''
+							)} not reachable!`
+						);
 					} else {
 						this.log.error(`[isOnline] - ${devuid} (${devip}) error: ${err.message}, stack: ${err.stack}`);
 					}
@@ -4780,7 +4803,6 @@ class Musiccast extends utils.Adapter {
 			onlineCheckTimer = setTimeout(async () => {
 				this.isOnline(false);
 			}, onlineCheckInterval * 1000);
-
 		} catch (error) {
 			this.log.error(`[isOnline] error: ${error.message}, stack: ${error.stack}`);
 		}
@@ -4921,7 +4943,9 @@ class Musiccast extends utils.Adapter {
 			}
 		} catch (err) {
 			if (err.message.includes('connect EHOSTUNREACH')) {
-				this.log.debug(`[defineMusicDeviceFeatures] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`);
+				this.log.debug(
+					`[defineMusicDeviceFeatures] ${err.message.replace('connect EHOSTUNREACH', '')} not reachable!`
+				);
 			} else {
 				this.log.error(`[defineMusicDeviceFeatures] error: ${err.message}, stack: ${err.stack}`);
 			}
