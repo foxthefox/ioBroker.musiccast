@@ -1,0 +1,18 @@
+{
+    "IP address": "айпи адрес",
+    "If you see blue delete buttons, save settings first and open again the page.": "Если вы видите синие кнопки удаления, сначала сохраните настройки и снова откройте страницу.",
+    "Name": "имя",
+    "Search is active for 5s. Be patient!": "Поиск активен 5 сек. Потерпи!",
+    "Try to push the Search Button until you find the amount of MusicCast devices in your home.": "Попробуйте нажать кнопку «Поиск», пока не найдете количество устройств MusicCast в вашем доме.",
+    "Yamaha MusicCast adapter": "Адаптер Yamaha MusicCast",
+    "Yamaha MusicCast devices": "Yamaha MusicCast устройства",
+    "Yamaha MusicCast settings": "Настройки Yamaha MusicCast",
+    "delete": "Удалить",
+    "model": "модель",
+    "on save adapter restarts with new config immediately": "на перезаписываемом адаптере перезагружается с новой конфигурацией немедленно",
+    "sid": "Системный ID",
+    "uid": "Идентификатор устройства",
+    "unchecked => no update / checked => update (more traffic)": "unchecked => no update / checked => update (больше трафика)",
+    "update playtime CD": "обновить компакт-диск воспроизведения",
+    "update playtime NET (USB/RADIO)": "обновление playtime NET (USB / RADIO)"
+}

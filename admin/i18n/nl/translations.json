@@ -1,0 +1,18 @@
+{
+    "IP address": "IP adres",
+    "If you see blue delete buttons, save settings first and open again the page.": "Als u blauwe wisknoppen ziet, slaat u eerst de instellingen op en opent u de pagina opnieuw.",
+    "Name": "Naam",
+    "Search is active for 5s. Be patient!": "Zoeken is actief voor 5s. Wees geduldig!",
+    "Try to push the Search Button until you find the amount of MusicCast devices in your home.": "Probeer op de zoekknop te drukken totdat je het aantal MusicCast-apparaten in huis hebt gevonden.",
+    "Yamaha MusicCast adapter": "Yamaha MusicCast-adapter",
+    "Yamaha MusicCast devices": "Yamaha MusicCast-apparaten",
+    "Yamaha MusicCast settings": "Yamaha MusicCast-instellingen",
+    "delete": "verwijderen",
+    "model": "model",
+    "on save adapter restarts with new config immediately": "on save-adapter wordt onmiddellijk opnieuw opgestart met nieuwe config",
+    "sid": "Systeem-ID",
+    "uid": "Apparaat ID",
+    "unchecked => no update / checked => update (more traffic)": "niet aangevinkt => geen update / aangevinkt => update (meer verkeer)",
+    "update playtime CD": "update playtime CD",
+    "update playtime NET (USB/RADIO)": "update playtime NET (USB / RADIO)"
+}

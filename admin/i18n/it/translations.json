@@ -1,0 +1,18 @@
+{
+    "IP address": "indirizzo IP",
+    "If you see blue delete buttons, save settings first and open again the page.": "Se vedi i pulsanti di cancellazione blu, salva prima le impostazioni e riapri la pagina.",
+    "Name": "Nome",
+    "Search is active for 5s. Be patient!": "La ricerca è attiva per 5s. Essere pazientare!",
+    "Try to push the Search Button until you find the amount of MusicCast devices in your home.": "Prova a premere il pulsante Cerca fino a trovare la quantità di dispositivi MusicCast nella tua casa.",
+    "Yamaha MusicCast adapter": "Adattatore Yamaha MusicCast",
+    "Yamaha MusicCast devices": "Dispositivi Yamaha MusicCast",
+    "Yamaha MusicCast settings": "Impostazioni Yamaha MusicCast",
+    "delete": "Elimina",
+    "model": "modello",
+    "on save adapter restarts with new config immediately": "su save adapter si riavvia immediatamente con la nuova configurazione",
+    "sid": "ID di sistema",
+    "uid": "ID del dispositivo",
+    "unchecked => no update / checked => update (more traffic)": "deselezionato => nessun aggiornamento / verificato => aggiornamento (più traffico)",
+    "update playtime CD": "aggiornare il CD di riproduzione",
+    "update playtime NET (USB/RADIO)": "aggiorna il tempo di gioco NET (USB / RADIO)"
+}
