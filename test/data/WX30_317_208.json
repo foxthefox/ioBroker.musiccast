@@ -1,0 +1,481 @@
+{
+	"WX-30": {
+		"system": {
+			"getDeviceInfo": {
+				"response_code": 0,
+				"model_name": "WX-030",
+				"destination": "BG",
+				"device_id": "00A0DED3BF60",
+				"system_id": "0AF57963",
+				"system_version": 3.17,
+				"api_version": 2.08,
+				"netmodule_generation": 1,
+				"netmodule_version": "1924 ",
+				"netmodule_checksum": "EAD51507",
+				"operation_mode": "normal",
+				"update_error_code": "00000000"
+			},
+			"getNetworkStatus": {
+				"response_code": 0,
+				"network_name": "Küche",
+				"connection": "wireless_lan",
+				"dhcp": false,
+				"ip_address": "192.168.2.18",
+				"subnet_mask": "255.255.255.0",
+				"default_gateway": "192.168.2.1",
+				"dns_server_1": "192.168.2.1",
+				"dns_server_2": "0.0.0.0",
+				"wireless_lan": {
+					"ssid": "McR@Home_Wlan",
+					"type": "wpa2-psk(aes)",
+					"key": "",
+					"ch": 1,
+					"strength": 100
+				},
+				"wireless_direct": { "ssid": "WX-030 D3BF60", "type": "none", "key": "" },
+				"musiccast_network": {
+					"ready": true,
+					"device_type": "standard",
+					"child_num": 0,
+					"ch": 0,
+					"initial_join_running": false
+				},
+				"mac_address": {
+					"wired_lan": "00A0DED3BF60",
+					"wireless_lan": "7CEC7956BC7C",
+					"wireless_direct": "7CEC7956BC7D"
+				},
+				"airplay_pin": "dennis"
+			},
+			"getFuncStatus": { "response_code": 0, "auto_power_standby": true },
+			"getLocationInfo": {
+				"response_code": 0,
+				"id": "c09614bed24444fdb45fa3d8f1ca17b6",
+				"name": "Essen",
+				"stereo_pair_status": "none",
+				"zone_list": { "main": true }
+			},
+			"getFeatures": {
+				"response_code": 0,
+				"system": {
+					"func_list": [
+						"wired_lan",
+						"wireless_lan",
+						"wireless_direct",
+						"network_standby",
+						"auto_power_standby",
+						"bluetooth_tx_setting",
+						"airplay",
+						"stereo_pair",
+						"network_reboot"
+					],
+					"zone_num": 1,
+					"input_list": [
+						{
+							"id": "napster",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "spotify",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "juke",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "tidal",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "deezer",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "airplay",
+							"distribution_enable": false,
+							"rename_enable": false,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "mc_link",
+							"distribution_enable": false,
+							"rename_enable": true,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "server",
+							"distribution_enable": true,
+							"rename_enable": true,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "net_radio",
+							"distribution_enable": true,
+							"rename_enable": true,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "bluetooth",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						}
+					]
+				},
+				"zone": [
+					{
+						"id": "main",
+						"func_list": [
+							"power",
+							"sleep",
+							"volume",
+							"mute",
+							"equalizer",
+							"signal_info",
+							"prepare_input_change",
+							"link_control",
+							"link_audio_quality"
+						],
+						"input_list": [
+							"napster",
+							"spotify",
+							"juke",
+							"tidal",
+							"deezer",
+							"airplay",
+							"mc_link",
+							"server",
+							"net_radio",
+							"bluetooth"
+						],
+						"equalizer_mode_list": [ "manual" ],
+						"link_control_list": [ "speed", "standard", "stability" ],
+						"link_audio_quality_list": [ "compressed", "uncompressed" ],
+						"range_step": [
+							{ "id": "volume", "min": 0, "max": 60, "step": 1 },
+							{ "id": "equalizer", "min": -10, "max": 10, "step": 1 }
+						]
+					}
+				],
+				"netusb": {
+					"func_list": [ "recent_info", "play_queue", "mc_playlist", "streaming_service_use" ],
+					"preset": { "num": 40 },
+					"recent_info": { "num": 40 },
+					"play_queue": { "size": 200 },
+					"mc_playlist": { "size": 200, "num": 5 },
+					"net_radio_type": "airable",
+					"pandora": { "sort_option_list": [ "date", "alphabet" ] },
+					"siriusxm": { "api_type": "everest" }
+				},
+				"distribution": {
+					"version": 2,
+					"compatible_client": [ 2 ],
+					"client_max": 9,
+					"server_zone_list": [ "main" ]
+				},
+				"ccs": { "supported": true }
+			}
+		},
+		"dist": {
+			"getFeatures": {
+				"response_code": 0,
+				"group_id": "00000000000000000000000000000000",
+				"group_name": "(Linked) Küche",
+				"role": "client",
+				"server_zone": "main",
+				"client_list": []
+			}
+		},
+		"netusb": {
+			"getPlayInfo": {
+				"response_code": 0,
+				"input": "mc_link",
+				"play_queue_type": "system",
+				"playback": "stop",
+				"repeat": "off",
+				"shuffle": "off",
+				"play_time": 0,
+				"total_time": 0,
+				"artist": "",
+				"album": "",
+				"track": "",
+				"albumart_url": "",
+				"albumart_id": 3279,
+				"usb_devicetype": "unknown",
+				"auto_stopped": false,
+				"attribute": 0,
+				"repeat_available": [],
+				"shuffle_available": []
+			},
+			"getPresetInfo": {
+				"response_code": 0,
+				"preset_info": [
+					{ "input": "net_radio", "text": "1LIVE", "attribute": 0 },
+					{ "input": "net_radio", "text": "N-JOY", "attribute": 0 },
+					{ "input": "net_radio", "text": "Radio Essen 102.2 FM", "attribute": 0 },
+					{ "input": "net_radio", "text": "bigFM Dance", "attribute": 0 },
+					{ "input": "net_radio", "text": "Technobase FM", "attribute": 0 },
+					{ "input": "net_radio", "text": "Sunshine Live High Quality", "attribute": 0 },
+					{ "input": "net_radio", "text": "98.8 KISS FM", "attribute": 0 },
+					{ "input": "deezer", "text": "Not Tonight", "attribute": 30 },
+					{ "input": "deezer", "text": "Dominique", "attribute": 30 },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" }
+				],
+				"func_list": [ "clear", "move" ]
+			},
+			"getSettings": { "response_code": 0 },
+			"getRecentInfo": {
+				"response_code": 0,
+				"recent_info": [
+					{
+						"input": "net_radio",
+						"text": "1LIVE (Cologne/German)",
+						"albumart_url": "http://static.airable.io:80/94/58/127685.png",
+						"play_count": 1,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "1LIVE",
+						"albumart_url": "http://item.radio456.com:80/007452/logo/logo-531.jpg",
+						"play_count": 11,
+						"attribute": 0
+					},
+					{
+						"input": "deezer",
+						"text": "Dominique",
+						"albumart_url": "https://cdns-images.dzcdn.net:443/images/cover/2c4f5f0bab8fdad549f303e9d3ddf4bc/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 2,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Dominique",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/2c4f5f0bab8fdad549f303e9d3ddf4bc/500x500-000000-80-0-0.jpg",
+						"play_count": 2,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Schwung in die Kiste",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/28bcec4ed47533d48c6e41f146242578/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "net_radio",
+						"text": "N-JOY",
+						"albumart_url": "",
+						"play_count": 21,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "98.8 KISS FM",
+						"albumart_url": "",
+						"play_count": 2,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "MDR JUMP",
+						"albumart_url": "",
+						"play_count": 3,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "sunshine live",
+						"albumart_url": "",
+						"play_count": 20,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "bigFM Dance",
+						"albumart_url": "",
+						"play_count": 16,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "Radio Essen 102.2 FM",
+						"albumart_url": "",
+						"play_count": 10,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "Technobase FM",
+						"albumart_url": "http://item.radio456.com:80/007452/logo/logo-21637.jpg",
+						"play_count": 21,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "Kick! FM Essen",
+						"albumart_url": "http://logo.vtuner.net:80/007452/logo/logo-77136.jpg",
+						"play_count": 3,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "Defjay Germany",
+						"albumart_url": "http://logo.vtuner.net:80/007452/logo/logo-28153.jpg",
+						"play_count": 2,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "Energy22 laut.fm",
+						"albumart_url": "http://logo.vtuner.net:80/007452/logo/logo-67685.jpg",
+						"play_count": 2,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "MDR SPUTNIK Club Channel",
+						"albumart_url": "http://logo.vtuner.net:80/007452/logo/logo-14109.jpg",
+						"play_count": 4,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "cityradioessen laut.fm",
+						"albumart_url": "http://logo.vtuner.net:80/007452/logo/logo-71919.jpg",
+						"play_count": 1,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "Sunshine Live Classics",
+						"albumart_url": "http://logo.vtuner.net:80/007452/logo/logo-44882.jpg",
+						"play_count": 1,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "N-JOY In The Mix",
+						"albumart_url": "http://logo.vtuner.net:80/007452/logo/logo-28631.jpg",
+						"play_count": 1,
+						"attribute": 0
+					},
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 },
+					{ "input": "unknown", "text": "", "albumart_url": "", "play_count": 0, "attribute": 0 }
+				]
+			}
+		},
+		"main": {
+			"getStatus": {
+				"response_code": 0,
+				"power": "standby",
+				"sleep": 0,
+				"volume": 17,
+				"mute": false,
+				"max_volume": 60,
+				"input": "mc_link",
+				"distribution_enable": false,
+				"equalizer": { "mode": "manual", "low": 0, "mid": 3, "high": 7 },
+				"link_control": "standard",
+				"link_audio_quality": "uncompressed",
+				"disable_flags": 0
+			},
+			"getSoundProgramList": { "response_code": 0, "sound_program_list": [] },
+			"getSignalInfo": { "response_code": 0, "audio": { "error": 0, "format": "", "fs": "" } }
+		}
+	}
+}

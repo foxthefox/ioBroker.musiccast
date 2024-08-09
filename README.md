@@ -209,6 +209,11 @@ The following objects are currently implemented:
 * dialog level
 
 ## Changelog
+
+### 1.1.4
+* fixed main.surround_ai
+* update devDeps
+
 ### 1.1.3
 * translation with adapter-dev
 

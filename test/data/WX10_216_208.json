@@ -1,0 +1,604 @@
+{
+	"Badezimmer": {
+		"system": {
+			"getDeviceInfo": {
+				"response_code": 0,
+				"model_name": "WX-010",
+				"destination": "BG",
+				"device_id": "00A0DEF67013",
+				"system_id": "035C5413",
+				"system_version": 2.16,
+				"api_version": 2.08,
+				"netmodule_generation": 1,
+				"netmodule_version": "1925 ",
+				"netmodule_checksum": "F73506B6",
+				"operation_mode": "normal",
+				"update_error_code": "00000000"
+			},
+			"getNetworkStatus": {
+				"response_code": 0,
+				"network_name": "Badezimmer",
+				"connection": "wireless_lan",
+				"dhcp": false,
+				"ip_address": "192.168.2.17",
+				"subnet_mask": "255.255.255.0",
+				"default_gateway": "192.168.2.1",
+				"dns_server_1": "192.168.2.1",
+				"dns_server_2": "0.0.0.0",
+				"wireless_lan": {
+					"ssid": "McR@Home_Wlan",
+					"type": "wpa2-psk(aes)",
+					"key": "",
+					"ch": 11,
+					"strength": 84
+				},
+				"wireless_direct": { "ssid": "WX-010 F67013", "type": "none", "key": "" },
+				"musiccast_network": {
+					"ready": true,
+					"device_type": "standard",
+					"child_num": 0,
+					"ch": 0,
+					"initial_join_running": false
+				},
+				"mac_address": {
+					"wired_lan": "00A0DEF67013",
+					"wireless_lan": "884AEA316025",
+					"wireless_direct": "884AEA316026"
+				},
+				"airplay_pin": "dennis"
+			},
+			"getFuncStatus": { "response_code": 0, "auto_power_standby": true },
+			"getLocationInfo": {
+				"response_code": 0,
+				"id": "c09614bed24444fdb45fa3d8f1ca17b6",
+				"name": "Essen",
+				"stereo_pair_status": "none",
+				"zone_list": { "main": true }
+			},
+			"getFeatures": {
+				"response_code": 0,
+				"system": {
+					"func_list": [
+						"wired_lan",
+						"wireless_lan",
+						"wireless_direct",
+						"network_standby",
+						"auto_power_standby",
+						"bluetooth_tx_setting",
+						"airplay",
+						"stereo_pair",
+						"network_reboot"
+					],
+					"zone_num": 1,
+					"input_list": [
+						{
+							"id": "napster",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "spotify",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "juke",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "qobuz",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "tidal",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "deezer",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": true,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "airplay",
+							"distribution_enable": false,
+							"rename_enable": false,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "mc_link",
+							"distribution_enable": false,
+							"rename_enable": true,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "server",
+							"distribution_enable": true,
+							"rename_enable": true,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "net_radio",
+							"distribution_enable": true,
+							"rename_enable": true,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						},
+						{
+							"id": "bluetooth",
+							"distribution_enable": true,
+							"rename_enable": false,
+							"account_enable": false,
+							"play_info_type": "netusb"
+						}
+					]
+				},
+				"zone": [
+					{
+						"id": "main",
+						"func_list": [
+							"power",
+							"sleep",
+							"volume",
+							"mute",
+							"equalizer",
+							"signal_info",
+							"prepare_input_change",
+							"link_control",
+							"link_audio_quality"
+						],
+						"input_list": [
+							"napster",
+							"spotify",
+							"juke",
+							"qobuz",
+							"tidal",
+							"deezer",
+							"airplay",
+							"mc_link",
+							"server",
+							"net_radio",
+							"bluetooth"
+						],
+						"equalizer_mode_list": [ "manual" ],
+						"link_control_list": [ "speed", "standard", "stability" ],
+						"link_audio_quality_list": [ "compressed", "uncompressed" ],
+						"range_step": [
+							{ "id": "volume", "min": 0, "max": 60, "step": 1 },
+							{ "id": "equalizer", "min": -10, "max": 10, "step": 1 }
+						]
+					}
+				],
+				"netusb": {
+					"func_list": [ "recent_info", "play_queue", "mc_playlist", "streaming_service_use" ],
+					"preset": { "num": 40 },
+					"recent_info": { "num": 40 },
+					"play_queue": { "size": 200 },
+					"mc_playlist": { "size": 200, "num": 5 },
+					"net_radio_type": "airable",
+					"pandora": { "sort_option_list": [ "date", "alphabet" ] },
+					"siriusxm": { "api_type": "everest" }
+				},
+				"distribution": {
+					"version": 2,
+					"compatible_client": [ 2 ],
+					"client_max": 9,
+					"server_zone_list": [ "main" ]
+				},
+				"ccs": { "supported": true }
+			}
+		},
+		"dist": {
+			"getFeatures": {
+				"response_code": 0,
+				"group_id": "00000000000000000000000000000000",
+				"group_name": "(Linked) Badezimmer",
+				"role": "none",
+				"server_zone": "main",
+				"client_list": []
+			}
+		},
+		"netusb": {
+			"getPlayInfo": {
+				"response_code": 0,
+				"input": "spotify",
+				"play_queue_type": "system",
+				"playback": "stop",
+				"repeat": "off",
+				"shuffle": "on",
+				"play_time": -60000,
+				"total_time": 0,
+				"artist": "",
+				"album": "",
+				"track": "",
+				"albumart_url": "",
+				"albumart_id": 5753,
+				"usb_devicetype": "unknown",
+				"auto_stopped": false,
+				"attribute": 16777631,
+				"repeat_available": [ "off", "one", "all" ],
+				"shuffle_available": []
+			},
+			"getPresetInfo": {
+				"response_code": 0,
+				"preset_info": [
+					{ "input": "net_radio", "text": "1LIVE", "attribute": 0 },
+					{ "input": "net_radio", "text": "N-JOY", "attribute": 0 },
+					{ "input": "net_radio", "text": "Radio Essen 102.2 FM", "attribute": 0 },
+					{ "input": "net_radio", "text": "bigFM - Deutschlands biggste Beats", "attribute": 0 },
+					{ "input": "net_radio", "text": "Technobase FM", "attribute": 0 },
+					{ "input": "net_radio", "text": "sunshine live", "attribute": 0 },
+					{ "input": "deezer", "text": "Not Tonight", "attribute": 30 },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" },
+					{ "input": "unknown", "text": "" }
+				],
+				"func_list": [ "clear", "move" ]
+			},
+			"getSettings": {
+				"response_code": 0,
+				"qobuz": {
+					"quality": {
+						"value": "hr_192_24",
+						"value_list": [
+							{ "value": "mp3_320", "attribute": 1 },
+							{ "value": "cd_44_16", "attribute": 1 },
+							{ "value": "hr_96_24", "attribute": 0 },
+							{ "value": "hr_192_24", "attribute": 0 }
+						]
+					}
+				}
+			},
+			"getRecentInfo": {
+				"response_code": 0,
+				"recent_info": [
+					{
+						"input": "net_radio",
+						"text": "1LIVE (Cologne/German)",
+						"albumart_url": "http://static.airable.io:80/94/58/127685.png",
+						"play_count": 1,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "bigFM",
+						"albumart_url": "http://item.radio456.com:80/007452/logo/logo-25219.jpg",
+						"play_count": 1,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "N-JOY",
+						"albumart_url": "http://item.radio456.com:80/007452/logo/logo-5061.jpg",
+						"play_count": 1,
+						"attribute": 0
+					},
+					{
+						"input": "net_radio",
+						"text": "1LIVE",
+						"albumart_url": "http://item.radio456.com:80/007452/logo/logo-531.jpg",
+						"play_count": 2,
+						"attribute": 0
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Not Tonight",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 2,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Killin Game",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/3f251e2a9ee4056eb47fef28f9bcae41/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Latinos Stand Up (feat. Temperamento)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/3f251e2a9ee4056eb47fef28f9bcae41/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Look But Don't Touch",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/3f251e2a9ee4056eb47fef28f9bcae41/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Uh Uh (feat. Sho Killa)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/3f251e2a9ee4056eb47fef28f9bcae41/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Money Talks (feat. Tum Tum)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/3f251e2a9ee4056eb47fef28f9bcae41/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Ain't Working Out",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/492e2a13bb58dd6c0c6ded4de84f46da/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Party Girl",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/492e2a13bb58dd6c0c6ded4de84f46da/500x500-000000-80-0-0.jpg",
+						"play_count": 2,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Waste of Time",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/f97879c9613e33da20b6cfbc9a8298b6/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Mami Go",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/492e2a13bb58dd6c0c6ded4de84f46da/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Nuestra Cancion (Play n Skillz Remix)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e8917b48750ecc88c653c9adc0195d00/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Nuestra Cancion",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Too Much To Take (Interlude)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Alright (feat. PnB Rock)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Get Down Low (feat. Ohana Bam)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Too Much (Interlude)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "Nights (feat. W. Darling)",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "deezer",
+						"text": "No Cut",
+						"albumart_url": "https://e-cdns-images.dzcdn.net:443/images/cover/e670334d761dc16f21c5bf26e4688871/500x500-000000-80-0-0.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Shape of You",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63267.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Bon Voyage",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63266.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Be Mine",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63265.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Attention",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63264.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Your Song",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63263.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "2U (feat. Justin Bieber)",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63262.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Wohin willst du",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63261.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Strip That Down (feat. Quavo)",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63260.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Millionar",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63258.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Feels (feat. Pharrell Williams, Katy Perry & Big Sean)",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63257.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Wild Thoughts (feat. Rihanna & Bryson Tiller)",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63256.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Unforgettable (feat. Swae Lee)",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63255.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "Mama",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63254.jpg",
+						"play_count": 1,
+						"attribute": 30
+					},
+					{
+						"input": "server",
+						"text": "OK (feat. James Blunt)",
+						"albumart_url": "http://192.168.2.2:50002/transcoder/jpegtnscaler.cgi/ebdart/63253.jpg",
+						"play_count": 1,
+						"attribute": 30
+					}
+				]
+			}
+		},
+		"main": {
+			"getStatus": {
+				"response_code": 0,
+				"power": "standby",
+				"sleep": 0,
+				"volume": 23,
+				"mute": false,
+				"max_volume": 60,
+				"input": "spotify",
+				"distribution_enable": true,
+				"equalizer": { "mode": "manual", "low": 1, "mid": 3, "high": 4 },
+				"link_control": "standard",
+				"link_audio_quality": "uncompressed",
+				"disable_flags": 0
+			},
+			"getSoundProgramList": { "response_code": 0, "sound_program_list": [] },
+			"getSignalInfo": { "response_code": 0, "audio": { "error": 0, "format": "", "fs": "" } }
+		}
+	}
+}

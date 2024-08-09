@@ -1517,6 +1517,20 @@ class Musiccast extends utils.Adapter {
 				native: {}
 			});
 		}
+		if (zone_arr.func_list.indexOf('surround_ai') !== -1) {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.surround_ai', {
+				type: 'state',
+				common: {
+					name: 'surround_ai',
+					type: 'boolean',
+					read: true,
+					write: false, //future command?
+					role: 'media.surround_ai',
+					desc: 'surround_ai'
+				},
+				native: {}
+			});
+		}
 	}
 	async defineMusicInputs(type, uid, zone, inputs) {
 		this.log.info('Setting up Inputs in Zone:' + zone + ' of ' + type + '-' + uid);
