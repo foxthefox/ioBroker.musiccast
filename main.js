@@ -314,6 +314,7 @@ class Musiccast extends utils.Adapter {
 						} catch (err) {
 							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
+						break;
 					case 'presetrecallnumber':
 						/* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
 
@@ -440,8 +441,8 @@ class Musiccast extends utils.Adapter {
 					case 'distr_state':
 						//Start/Stop distribution
 						//startDistribution(num) als Funktion aufrufen oder hier als
+						var num = 0;
 						if (state.val === true || state.val === 'true' || state.val === 'on') {
-							var num = 0;
 							await yamaha.startDistribution(num).then((result) => {
 								if (result.response_code === 0) {
 									this.log.debug('sent Start Distribution');
@@ -452,7 +453,6 @@ class Musiccast extends utils.Adapter {
 							});
 						}
 						if (state.val === false || state.val === 'false' || state.val === 'off') {
-							var num = 0;
 							await yamaha.stopDistribution(num).then((result) => {
 								if (result.response_code === 0) {
 									this.log.debug('sent Stop Distribution');
@@ -3595,7 +3595,7 @@ class Musiccast extends utils.Adapter {
 				for (const key in att) {
 					if (key == 'tone_control') {
 						const tone = att[key];
-						for (var id in tone) {
+						for (let id in tone) {
 							this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + tone[id]);
 							if (id == 'mode') {
 								await this.setStateAsync(devtype + '_' + devuid + '.' + zone_name + '.tone_mode', {
@@ -3611,7 +3611,7 @@ class Musiccast extends utils.Adapter {
 						}
 					} else if (key == 'equalizer') {
 						const eq = att[key];
-						for (var id in eq) {
+						for (let id in eq) {
 							this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + eq[id]);
 							if (id == 'mode') {
 								await this.setStateAsync(devtype + '_' + devuid + '.' + zone_name + '.eq_mode', {
