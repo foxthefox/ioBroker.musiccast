@@ -207,6 +207,7 @@ class Musiccast extends utils.Adapter {
 
 			callback();
 		} catch (e) {
+			this.log.error(e);
 			callback();
 		}
 	}
@@ -263,6 +264,13 @@ class Musiccast extends utils.Adapter {
 				//			"adaptive_dsp_level"
 
 				// work with boolCMD
+
+				//eslint, defs hier für case 'add_to_group', 'remove_from_group':
+				const groupID = md5(state.val);
+				var clientIP = null;
+				let clientpayload = null;
+				let masterpayload = null;
+
 				switch (dp) {
 					// calls with zone
 					case 'power':
@@ -314,6 +322,7 @@ class Musiccast extends utils.Adapter {
 						} catch (err) {
 							this.log.debug('API call failure ' + dp + ' cmd ' + err);
 						}
+						break;
 					case 'presetrecallnumber':
 						/* angeblich soll mit zone der Aufruf gehen, dann muß der Datenpunkt aber in die zonen, ansonsten hat zone=netusb
 
@@ -440,8 +449,8 @@ class Musiccast extends utils.Adapter {
 					case 'distr_state':
 						//Start/Stop distribution
 						//startDistribution(num) als Funktion aufrufen oder hier als
+						var num = 0;
 						if (state.val === true || state.val === 'true' || state.val === 'on') {
-							var num = 0;
 							await yamaha.startDistribution(num).then((result) => {
 								if (result.response_code === 0) {
 									this.log.debug('sent Start Distribution');
@@ -452,7 +461,6 @@ class Musiccast extends utils.Adapter {
 							});
 						}
 						if (state.val === false || state.val === 'false' || state.val === 'off') {
-							var num = 0;
 							await yamaha.stopDistribution(num).then((result) => {
 								if (result.response_code === 0) {
 									this.log.debug('sent Stop Distribution');
@@ -466,10 +474,8 @@ class Musiccast extends utils.Adapter {
 					case 'add_to_group':
 					case 'remove_from_group':
 						//state.val enthält die IP des Masters
-						const groupID = md5(state.val);
-						var clientIP = null;
-						let clientpayload = null;
-						let masterpayload = null;
+						// variablendefinition wegen eslint vor dem switch
+
 						if (dp === 'add_to_group') {
 							//addToGroup(state.val, IP[0].ip);
 							clientIP = IP[0].ip;
@@ -605,7 +611,7 @@ class Musiccast extends utils.Adapter {
 
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					} catch (error) {
-						this.log.info('error in sendTo discover()');
+						this.log.info('error in sendTo discover() -> ' + error);
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					}
 					wait = true;
@@ -620,7 +626,7 @@ class Musiccast extends utils.Adapter {
 						this.log.debug('result ' + JSON.stringify(result));
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					} catch (error) {
-						this.log.info('error in sendTo jsonreq()');
+						this.log.info('error in sendTo jsonreq() -> ' + error);
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					}
 					if (obj.callback) this.sendTo(obj.from, obj.command, responses, obj.callback); //responses wird sukzessive mit den get-Aufrufen befüllt
@@ -1513,6 +1519,20 @@ class Musiccast extends utils.Adapter {
 					write: true,
 					role: 'level',
 					desc: 'dts_dialogue_control'
+				},
+				native: {}
+			});
+		}
+		if (zone_arr.func_list.indexOf('surround_ai') !== -1) {
+			await this.setObjectNotExistsAsync(type + '_' + uid + '.' + zone + '.surround_ai', {
+				type: 'state',
+				common: {
+					name: 'surround_ai',
+					type: 'boolean',
+					read: true,
+					write: false, //future command?
+					role: 'media.surround_ai',
+					desc: 'surround_ai'
 				},
 				native: {}
 			});
@@ -2565,7 +2585,7 @@ class Musiccast extends utils.Adapter {
 			native: {}
 		});
 	}
-	async defineMusicTuner(type, uid, func_list, range_step, preset) {
+	async defineMusicTuner(type, uid, func_list, range_step) {
 		await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner', {
 			type: 'channel',
 			common: {
@@ -3069,16 +3089,7 @@ class Musiccast extends utils.Adapter {
 			});
 		}
 	}
-	async defineMusicClock(
-		type,
-		uid,
-		func_list,
-		range_step,
-		alarm_fade_type_num,
-		alarm_mode_list,
-		alarm_input_list,
-		alarm_preset_list
-	) {
+	async defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num, alarm_mode_list) {
 		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock', {
 			type: 'channel',
 			common: {
@@ -3581,7 +3592,7 @@ class Musiccast extends utils.Adapter {
 				for (const key in att) {
 					if (key == 'tone_control') {
 						const tone = att[key];
-						for (var id in tone) {
+						for (let id in tone) {
 							this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + tone[id]);
 							if (id == 'mode') {
 								await this.setStateAsync(devtype + '_' + devuid + '.' + zone_name + '.tone_mode', {
@@ -3597,7 +3608,7 @@ class Musiccast extends utils.Adapter {
 						}
 					} else if (key == 'equalizer') {
 						const eq = att[key];
-						for (var id in eq) {
+						for (let id in eq) {
 							this.log.debug('Zone Status Update ' + key + ' ' + id + '  at ' + eq[id]);
 							if (id == 'mode') {
 								await this.setStateAsync(devtype + '_' + devuid + '.' + zone_name + '.eq_mode', {
@@ -4917,13 +4928,7 @@ class Musiccast extends utils.Adapter {
 				}
 				//Tuner objects
 				if (att.tuner) {
-					await this.defineMusicTuner(
-						devtype,
-						devuid,
-						att.tuner.func_list,
-						att.tuner.range_step,
-						att.tuner.preset
-					);
+					await this.defineMusicTuner(devtype, devuid, att.tuner.func_list, att.tuner.range_step);
 				}
 				//Clock objects
 				if (att.clock) {
@@ -4933,9 +4938,7 @@ class Musiccast extends utils.Adapter {
 						att.clock.func_list,
 						att.clock.range_step,
 						att.clock.alarm_fade_type_num,
-						att.clock.alarm_mode_list,
-						att.clock.alarm_input_list,
-						att.clock.alarm_preset_list
+						att.clock.alarm_mode_list
 					);
 				}
 			} else {

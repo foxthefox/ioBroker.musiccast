@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "musiccast",
-        "version": "1.1.3",
+        "version": "1.1.4",
         "news": {
+            "1.1.4": {
+                "en": "fixed main.surround_ai, update devDeps, eslint corrections, iob checker corrections",
+                "de": "main.surround_ai behoben, devDeps aktualisiert, Eslint-Korrekturen, IOB-Checker-Korrekturen",
+                "ru": "исправлен main.surround_ai, обновление devDeps, исправления eslint, исправления проверки iob",
+                "pt": "main.surround_ai corrigido, atualização devDeps, correções eslint, correções do verificador iob",
+                "nl": "vaste main.surround_ai, update devDeps, eslint-correcties, iob checker-correcties",
+                "fr": "correction de main.surround_ai, mise à jour devDeps, corrections eslint, corrections du vérificateur iob",
+                "it": "risolto main.surround_ai, aggiornamento devDeps, correzioni eslint, correzioni iob checker",
+                "es": "Se corrigió main.surround_ai, actualización devDeps, correcciones de eslint, correcciones de iob checker.",
+                "pl": "naprawiono main.surround_ai, aktualizację devDeps, poprawki eslint, poprawki sprawdzania iob",
+                "uk": "виправлено main.surround_ai, оновлення devDeps, виправлення eslint, виправлення iob checker",
+                "zh-cn": "修复了 main.surround_ai、更新 devDeps、eslint 更正、iob 检查器更正"
+            },
             "1.1.3": {
                 "en": "translation with adapter-dev",
                 "de": "Übersetzung mit Adapter-Dev",
@@ -28,152 +41,8 @@
                 "pl": "nowa wersja biblioteki yamahe-yxc",
                 "uk": "русскийукраїнськабеларускаяoʻzbek tilienglish",
                 "zh-cn": "新的版本"
-            },
-            "1.1.1": {
-                "en": "added datapoint isOnline, used by ioBroker.device-watcher",
-                "de": "add datapoint isOnline, verwendet von ioBroker.device-watcher",
-                "ru": "добавленная дата точка isOnline, используемая ioBroker.device-watcher",
-                "pt": "adicionado datapoint isOnline, usado por ioBroker.device-watcher",
-                "nl": "voegde datapoint isOnline, gebruikt door ioBroker",
-                "fr": "le point de données ajouté estOnline, utilisé par ioBroker.device-watcher",
-                "it": "datapoint aggiunto èOnline, utilizzato da ioBroker.device-watcher",
-                "es": "datapoint añadido isOnline, utilizado por ioBroker.device-watcher",
-                "pl": "dodany punkt danych jestOnline, używany przez ioBrokera",
-                "uk": "додана точка даних онлайн, використовується ioBroker.device-watcher",
-                "zh-cn": "加的数据点是线线,由OioBroker使用。"
-            },
-            "1.1.0": {
-                "en": "improved testing",
-                "de": "verbesserte prüfung",
-                "ru": "улучшенное тестирование",
-                "pt": "testes melhorados",
-                "nl": "verbeterde testen",
-                "fr": "essais améliorés",
-                "it": "test migliorati",
-                "es": "mejores pruebas",
-                "pl": "poprawić",
-                "uk": "поліпшення тестування",
-                "zh-cn": "改进试验"
-            },
-            "1.0.8": {
-                "en": "error correction add_to_group/remove_from_group",
-                "de": "fehlerkorrektur add_to_group/remove_from_group",
-                "ru": "исправление ошибки add_to_group/remove_from_group",
-                "pt": "correção de erro add_to_group/remove_from_group",
-                "nl": "vertaling:",
-                "fr": "correction d'erreur add_to_group/remove_from_group",
-                "it": "correzione errore add_to_group/remove_from_group",
-                "es": "corrección de errores add_to_group/remove_from_group",
-                "pl": "kodowanie błędów dodaje do grupy/remove_group/od",
-                "uk": "виправлення помилок add_to_group/remove_from_group",
-                "zh-cn": "纠错 add_to_group/remove_from_group"
-            },
-            "1.0.7": {
-                "en": "error correction in link/unlink/distribution",
-                "de": "fehlerkorrektur in link/unlink/distribution",
-                "ru": "исправление ошибки в link/unlink/distribution",
-                "pt": "correção de erro no link/unlink/distribuição",
-                "nl": "vergissing van link/unlink/distribu",
-                "fr": "correction d'erreur dans link/unlink/distribution",
-                "it": "correzione errore nel link/unlink/distribuzione",
-                "es": "corrección de errores en el enlace/unlink/distribución",
-                "pl": "korekta błędu w połączeniu/unlink/distribution",
-                "uk": "корекція помилок в посилання / посилання / розподіл",
-                "zh-cn": "联系/无联系/分配办法的更正"
-            },
-            "1.0.6": {
-                "en": " recallRecentItem as new datapoint added",
-                "de": "recallRecentItem als neuer datenpunkt hinzugefügt",
-                "ru": "recallRecentItem как добавлена новая точка данных",
-                "pt": "recallRecentItem como novo datapoint adicionado",
-                "nl": "recallRecentItemals nieuwe datapoint toegevoegd",
-                "fr": "recallRecentItem nouveau datapoint ajouté",
-                "it": "recallRecentItem come nuovo datapoint aggiunto",
-                "es": "recallRecentItem como nuevo punto de datos añadido",
-                "pl": "recallRecentItem nowy punkt dostępu do danych",
-                "zh-cn": "recallRecentItem 新的数据点",
-                "uk": "recallRecentItem як нову додану точку даних"
-            },
-            "1.0.5": {
-                "en": "usage of new IOB test library",
-                "de": "Nutzung der neuen IOB-Testbibliothek",
-                "ru": "использование новой тестовой библиотеки IOB",
-                "pt": "uso da nova biblioteca de teste IOB",
-                "nl": "gebruik van nieuwe IOB-testbibliotheek",
-                "fr": "utilisation de la nouvelle bibliothèque de tests IOB",
-                "it": "utilizzo della nuova libreria di test IOB",
-                "es": "uso de la nueva biblioteca de pruebas IOB",
-                "pl": "wykorzystanie nowej biblioteki testowej IOB",
-                "zh-cn": "使用新的 IOB 测试库",
-                "uk": "використання нової тестової бібліотеки IOB"
-            },
-            "1.0.4": {
-                "en": "correction for setting the input (\"setInput\")",
-                "de": "Korrektur zum Setzen des Eingangs (\"setInput\")",
-                "ru": "коррекция настройки входа (\"setInput\")",
-                "pt": "correção para definir a entrada (\"setInput\")",
-                "nl": "correctie voor het instellen van de ingang (\"setInput\")",
-                "fr": "correction pour le réglage de l'entrée (\"setInput\")",
-                "it": "correzione per l'impostazione dell'ingresso (\"setInput\")",
-                "es": "corrección para configurar la entrada (\"setInput\")",
-                "pl": "poprawka ustawienia wejścia („setInput”)",
-                "zh-cn": "更正设置输入（“setInput”）",
-                "uk": "виправлення для налаштування введення (\"setInput\")"
-            },
-            "1.0.3": {
-                "en": "new datapoints",
-                "de": "neue Datenpunkte",
-                "ru": "новые точки данных",
-                "pt": "novos pontos de dados",
-                "nl": "nieuwe datapunten",
-                "fr": "nouveaux points de données",
-                "it": "nuovi punti dati",
-                "es": "nuevos puntos de datos",
-                "pl": "nowe punkty danych",
-                "zh-cn": "新数据点",
-                "uk": "нові точки даних"
-            },
-            "1.0.2": {
-                "en": "new datapoint \"input_text\"",
-                "de": "neuer Datenpunkt \"input_text\"",
-                "ru": "новая точка данных \"input_text\"",
-                "pt": "novo ponto de dados \"input_text\"",
-                "nl": "nieuw datapunt \"input_text\"",
-                "fr": "nouveau point de données \"input_text\"",
-                "it": "nuovo punto dati \"input_text\"",
-                "es": "nuevo punto de datos \"texto_de_entrada\"",
-                "pl": "nowy punkt danych „tekst_wejściowy”",
-                "zh-cn": "新数据点“input_text”",
-                "uk": "нова точка даних \"input_text\""
-            },
-            "1.0.1": {
-                "en": "changed algorithm for developer support ",
-                "de": "geänderter Algorithmus für Entwicklerunterstützung",
-                "ru": "изменен алгоритм поддержки разработчиков",
-                "pt": "algoritmo alterado para suporte ao desenvolvedor",
-                "nl": "gewijzigd algoritme voor ondersteuning van ontwikkelaars",
-                "fr": "algorithme modifié pour le support des développeurs",
-                "it": "algoritmo modificato per il supporto degli sviluppatori",
-                "es": "Algoritmo modificado para el soporte del desarrollador.",
-                "pl": "zmieniony algorytm wsparcia dla programistów",
-                "zh-cn": "更改了开发人员支持的算法",
-                "uk": "змінений алгоритм підтримки розробників"
-            },
-            "1.0.0": {
-                "en": "Breaking Change, correction mismatch device/systemid for object tree, yamaha_yxc 2.0.0, async/await",
-                "de": "Breaking Change, Korrektur der Nichtübereinstimmung von Gerät/System-ID für Objektbaum, yamaha_yxc 2.0.0, async/await",
-                "ru": "Критическое изменение, исправление несоответствия устройства / системного идентификатора для дерева объектов, yamaha_yxc 2.0.0, async / await",
-                "pt": "Breaking Change, dispositivo / systemid de correção de incompatibilidade para árvore de objetos, yamaha_yxc 2.0.0, async / await",
-                "nl": "Breaking Change, correctie mismatch device/system-id voor object tree, yamaha_yxc 2.0.0, async/wait",
-                "fr": "Breaking Change, correction de l'incompatibilité périphérique/systemid pour l'arborescence d'objets, yamaha_yxc 2.0.0, async/await",
-                "it": "Breaking Change, correzione mancata corrispondenza dispositivo/systemid per l'albero degli oggetti, yamaha_yxc 2.0.0, async/await",
-                "es": "Breaking Change, corrección de discordancia de dispositivo / systemid para árbol de objetos, yamaha_yxc 2.0.0, async / await",
-                "pl": "Breaking Change, korekta niezgodności urządzenia/systemid dla drzewa obiektów, yamaha_yxc 2.0.0, async/await",
-                "zh-cn": "重大变化，更正对象树的设备/系统ID 不匹配，yamaha_yxc 2.0.0，async/await",
-                "uk": "Порушення зміни, виправлення невідповідності device/systemid для дерева об’єктів, yamaha_yxc 2.0.0, async/await"
             }
         },
-        "title": "Yamaha MusicCast",
         "titleLang": {
             "en": "Yamaha MusicCast",
             "de": "Yamaha MusicCast",
@@ -209,9 +78,12 @@
             "sound",
             "audio"
         ],
-        "license": "MIT",
+        "licenseInformation": {
+            "license": "MIT",
+            "type": "free"
+        },
         "platform": "Javascript/Node.js",
-        "main": "main.js",
+        "tier": 3,
         "icon": "musiccast.png",
         "enabled": true,
         "messagebox": true,
@@ -229,7 +101,7 @@
         "materialize": true,
         "dependencies": [
             {
-                "js-controller": ">=2.0.0"
+                "js-controller": ">=4.0.24"
             }
         ]
     },
