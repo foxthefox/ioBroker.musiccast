@@ -207,6 +207,7 @@ class Musiccast extends utils.Adapter {
 
 			callback();
 		} catch (e) {
+			this.log.error(e);
 			callback();
 		}
 	}
@@ -263,6 +264,13 @@ class Musiccast extends utils.Adapter {
 				//			"adaptive_dsp_level"
 
 				// work with boolCMD
+
+				//eslint, defs hier für case 'add_to_group', 'remove_from_group':
+				const groupID = md5(state.val);
+				var clientIP = null;
+				let clientpayload = null;
+				let masterpayload = null;
+
 				switch (dp) {
 					// calls with zone
 					case 'power':
@@ -466,10 +474,8 @@ class Musiccast extends utils.Adapter {
 					case 'add_to_group':
 					case 'remove_from_group':
 						//state.val enthält die IP des Masters
-						const groupID = md5(state.val);
-						var clientIP = null;
-						let clientpayload = null;
-						let masterpayload = null;
+						// variablendefinition wegen eslint vor dem switch
+
 						if (dp === 'add_to_group') {
 							//addToGroup(state.val, IP[0].ip);
 							clientIP = IP[0].ip;
@@ -605,7 +611,7 @@ class Musiccast extends utils.Adapter {
 
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					} catch (error) {
-						this.log.info('error in sendTo discover()');
+						this.log.info('error in sendTo discover() -> ' + error);
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					}
 					wait = true;
@@ -620,7 +626,7 @@ class Musiccast extends utils.Adapter {
 						this.log.debug('result ' + JSON.stringify(result));
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					} catch (error) {
-						this.log.info('error in sendTo jsonreq()');
+						this.log.info('error in sendTo jsonreq() -> ' + error);
 						if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 					}
 					if (obj.callback) this.sendTo(obj.from, obj.command, responses, obj.callback); //responses wird sukzessive mit den get-Aufrufen befüllt
@@ -2579,7 +2585,7 @@ class Musiccast extends utils.Adapter {
 			native: {}
 		});
 	}
-	async defineMusicTuner(type, uid, func_list, range_step, preset) {
+	async defineMusicTuner(type, uid, func_list, range_step) {
 		await this.setObjectNotExistsAsync(type + '_' + uid + '.tuner', {
 			type: 'channel',
 			common: {
@@ -3083,16 +3089,7 @@ class Musiccast extends utils.Adapter {
 			});
 		}
 	}
-	async defineMusicClock(
-		type,
-		uid,
-		func_list,
-		range_step,
-		alarm_fade_type_num,
-		alarm_mode_list,
-		alarm_input_list,
-		alarm_preset_list
-	) {
+	async defineMusicClock(type, uid, func_list, range_step, alarm_fade_type_num, alarm_mode_list) {
 		await this.setObjectNotExistsAsync(type + '_' + uid + '.clock', {
 			type: 'channel',
 			common: {
@@ -4931,13 +4928,7 @@ class Musiccast extends utils.Adapter {
 				}
 				//Tuner objects
 				if (att.tuner) {
-					await this.defineMusicTuner(
-						devtype,
-						devuid,
-						att.tuner.func_list,
-						att.tuner.range_step,
-						att.tuner.preset
-					);
+					await this.defineMusicTuner(devtype, devuid, att.tuner.func_list, att.tuner.range_step);
 				}
 				//Clock objects
 				if (att.clock) {
@@ -4947,9 +4938,7 @@ class Musiccast extends utils.Adapter {
 						att.clock.func_list,
 						att.clock.range_step,
 						att.clock.alarm_fade_type_num,
-						att.clock.alarm_mode_list,
-						att.clock.alarm_input_list,
-						att.clock.alarm_preset_list
+						att.clock.alarm_mode_list
 					);
 				}
 			} else {
