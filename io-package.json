@@ -28,19 +28,6 @@
                 "pl": "tłumaczenie za pomocą adapter-dev",
                 "uk": "переклад за допомогою adapter-dev",
                 "zh-cn": "使用适配器开发进行翻译"
-            },
-            "1.1.2": {
-                "en": "new version yamahe-yxc library",
-                "de": "neue version yamahe-yxc bibliothek",
-                "ru": "новая версия yamahe-yxc library",
-                "pt": "nova versão yamahe-yxc biblioteca",
-                "nl": "nieuwe versie yamahe-yxc bibliotheek",
-                "fr": "nouvelle bibliothèque yamahe-yxc",
-                "it": "nuova versione yamahe-yxc libreria",
-                "es": "nueva versión yamahe-yxc biblioteca",
-                "pl": "nowa wersja biblioteki yamahe-yxc",
-                "uk": "русскийукраїнськабеларускаяoʻzbek tilienglish",
-                "zh-cn": "新的版本"
             }
         },
         "titleLang": {
