@@ -1,6 +1,6 @@
 {
 	"name": "iobroker.musiccast",
-	"version": "1.1.4",
+	"version": "1.2.0",
 	"description": "ioBroker MusicCast Adapter",
 	"author": {
 		"name": "foxthefox",
@@ -23,24 +23,26 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.19.0",
+		"@alcalzone/release-script": "^3.8.0",
+		"@alcalzone/release-script-plugin-iobroker": "^3.7.2",
+		"@alcalzone/release-script-plugin-license": "^3.7.0",
+		"@alcalzone/release-script-plugin-manual-review": "^3.7.0",
 		"@iobroker/adapter-dev": "^1.3.0",
 		"@iobroker/testing": "^5.0.3",
-		"@types/chai": "^4.3.11",
+		"@types/chai": "^5.0.1",
 		"@types/chai-as-promised": "^8.0.1",
 		"@types/mocha": "^10.0.10",
 		"@types/node": "^22.13.0",
 		"@types/proxyquire": "^1.3.31",
 		"@types/sinon": "^17.0.3",
 		"@types/sinon-chai": "^3.2.12",
-		"axios": "^1.7.9",
-		"chai": "^4.5.0",
+		"chai": "^5.2.0",
 		"chai-as-promised": "^8.0.1",
 		"eslint": "^9.19.0",
-		"globals": "^15.14.0",
 		"mocha": "^11.1.0",
 		"proxyquire": "^2.1.3",
 		"sinon": "^19.0.2",
-		"sinon-chai": "^3.7.0",
+		"sinon-chai": "^4.0.0",
 		"typescript": "^5.7.3"
 	},
 	"main": "main.js",
@@ -52,7 +54,8 @@
 		"test": "npm run test:js && npm run test:package",
 		"check": "tsc --noEmit -p tsconfig.check.json",
 		"translate": "translate-adapter",
-		"lint": "eslint"
+		"lint": "eslint",
+		"release": "release-script"
 	},
 	"bugs": {
 		"url": "https://github.com/foxthefox/ioBroker.musiccast/issues"

@@ -1,8 +1,11 @@
 {
     "common": {
         "name": "musiccast",
-        "version": "1.1.4",
+        "version": "1.2.0",
         "news": {
+            "1.2.0": {
+                "en": "jsonConfig UI, "
+            },
             "1.1.4": {
                 "en": "fixed main.surround_ai, update devDeps, eslint corrections, iob checker corrections",
                 "de": "main.surround_ai behoben, devDeps aktualisiert, Eslint-Korrekturen, IOB-Checker-Korrekturen",
@@ -88,7 +91,7 @@
         "materialize": true,
         "dependencies": [
             {
-                "js-controller": ">=5.0.12"
+                "js-controller": ">=5.0.19"
             }
         ]
     },

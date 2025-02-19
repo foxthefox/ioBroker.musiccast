@@ -1,18 +1,26 @@
-const { tests } = require('@iobroker/testing');
+// const YamahaYXCEmu = require('yamaha-yxc-nodejs').YamahaYXCEmu;
 
-const YamahaYXCEmu = require('yamaha-yxc-nodejs').YamahaYXCEmu;
+import {  tests } from '@iobroker/testing';
+import  pkg from 'yamaha-yxc-nodejs';
+const { YamahaYXCEmu } = pkg; 
 
-const fs = require('fs');
-const path = require('path');
+import { expect } from "chai";
+import fs from "fs";
+
+import path from "path";
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url'; 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 console.log('PATH ist ' + path.join(__dirname, './data/'));
 
 let port = 3311;
 let testfile = 'YSP1600_312_208.json';
 let testdevice = 'YSP-1600';
-const YXCresponses = fs.readFileSync(path.join(__dirname, './data/') + testfile);
+const YXCresponses = fs.readFileSync(new URL('./data/'+ testfile, import.meta.url));
 const deviceresp = JSON.parse(String(YXCresponses))[testdevice];
 
-const expect = require('chai').expect;
+
 
 function delay(t, val) {
 	return new Promise(function(resolve) {
