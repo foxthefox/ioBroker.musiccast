@@ -198,6 +198,12 @@ The following objects are currently implemented:
 
 ## Changelog
 
+### 1.2.0
+* issue #388 dab.freq and dab.bit_rate min=0
+* dependency update
+* issue #412 dab.preset correction
+* materialize  -> jsonUI
+
 ### 1.1.4
 * fixed main.surround_ai
 * update devDeps, eslint corrections
