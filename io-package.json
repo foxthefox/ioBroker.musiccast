@@ -1,106 +1,104 @@
 {
-    "common": {
-        "name": "musiccast",
-        "version": "1.2.0",
-        "news": {
-            "1.2.0": {
-                "en": "jsonConfig UI, "
-            },
-            "1.1.4": {
-                "en": "fixed main.surround_ai, update devDeps, eslint corrections, iob checker corrections",
-                "de": "main.surround_ai behoben, devDeps aktualisiert, Eslint-Korrekturen, IOB-Checker-Korrekturen",
-                "ru": "исправлен main.surround_ai, обновление devDeps, исправления eslint, исправления проверки iob",
-                "pt": "main.surround_ai corrigido, atualização devDeps, correções eslint, correções do verificador iob",
-                "nl": "vaste main.surround_ai, update devDeps, eslint-correcties, iob checker-correcties",
-                "fr": "correction de main.surround_ai, mise à jour devDeps, corrections eslint, corrections du vérificateur iob",
-                "it": "risolto main.surround_ai, aggiornamento devDeps, correzioni eslint, correzioni iob checker",
-                "es": "Se corrigió main.surround_ai, actualización devDeps, correcciones de eslint, correcciones de iob checker.",
-                "pl": "naprawiono main.surround_ai, aktualizację devDeps, poprawki eslint, poprawki sprawdzania iob",
-                "uk": "виправлено main.surround_ai, оновлення devDeps, виправлення eslint, виправлення iob checker",
-                "zh-cn": "修复了 main.surround_ai、更新 devDeps、eslint 更正、iob 检查器更正"
-            },
-            "1.1.3": {
-                "en": "translation with adapter-dev",
-                "de": "Übersetzung mit Adapter-Dev",
-                "ru": "перевод с помощью адаптера-dev",
-                "pt": "tradução com adaptador-dev",
-                "nl": "vertaling met adapter-dev",
-                "fr": "traduction avec adapter-dev",
-                "it": "traduzione con adattatore-dev",
-                "es": "traducción con adaptador-dev",
-                "pl": "tłumaczenie za pomocą adapter-dev",
-                "uk": "переклад за допомогою adapter-dev",
-                "zh-cn": "使用适配器开发进行翻译"
-            }
-        },
-        "titleLang": {
-            "en": "Yamaha MusicCast",
-            "de": "Yamaha MusicCast",
-            "ru": "Yamaha MusicCast",
-            "pt": "Yamaha MusicCast",
-            "nl": "Yamaha MusicCast",
-            "fr": "Yamaha MusicCast",
-            "it": "Yamaha MusicCastr",
-            "es": "Yamaha MusicCast",
-            "pl": "Yamaha MusicCast",
-            "zh-cn": "Yamaha MusicCast",
-            "uk": "Yamaha MusicCast"
-        },
-        "desc": {
-            "en": "Musiccast Adapter",
-            "de": "Musiccast Adapter",
-            "ru": "Адаптер Musiccast",
-            "pt": "Adaptador Musiccast",
-            "nl": "Musiccast-adapter",
-            "fr": "Adaptateur de Musiccast",
-            "it": "Adattatore Musiccast",
-            "es": "Adaptador de Musiccast",
-            "pl": "Adapter Musiccast",
-            "zh-cn": "雅马哈",
-            "uk": "Адаптер Musiccast"
-        },
-        "authors": [
-            "foxthefox <foxthefox@wysiwis.net>"
-        ],
-        "keywords": [
-            "muscicast",
-            "yamaha",
-            "sound",
-            "audio"
-        ],
-        "licenseInformation": {
-            "license": "MIT",
-            "type": "free"
-        },
-        "platform": "Javascript/Node.js",
-        "tier": 3,
-        "icon": "musiccast.png",
-        "enabled": true,
-        "messagebox": true,
-        "extIcon": "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
-        "readme": "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
-        "loglevel": "info",
-        "mode": "daemon",
-        "type": "multimedia",
-        "compact": true,
-        "connectionType": "local",
-        "dataSource": "poll",
-        "adminUI": {
-            "config": "materialize"
-        },
-        "materialize": true,
-        "dependencies": [
-            {
-                "js-controller": ">=5.0.19"
-            }
-        ]
+  "common": {
+    "name": "musiccast",
+    "version": "1.2.0",
+    "news": {
+      "1.2.0": {
+        "en": "jsonConfig UI,corrections "
+      },
+      "1.1.4": {
+        "en": "fixed main.surround_ai, update devDeps, eslint corrections, iob checker corrections",
+        "de": "main.surround_ai behoben, devDeps aktualisiert, Eslint-Korrekturen, IOB-Checker-Korrekturen",
+        "ru": "исправлен main.surround_ai, обновление devDeps, исправления eslint, исправления проверки iob",
+        "pt": "main.surround_ai corrigido, atualização devDeps, correções eslint, correções do verificador iob",
+        "nl": "vaste main.surround_ai, update devDeps, eslint-correcties, iob checker-correcties",
+        "fr": "correction de main.surround_ai, mise à jour devDeps, corrections eslint, corrections du vérificateur iob",
+        "it": "risolto main.surround_ai, aggiornamento devDeps, correzioni eslint, correzioni iob checker",
+        "es": "Se corrigió main.surround_ai, actualización devDeps, correcciones de eslint, correcciones de iob checker.",
+        "pl": "naprawiono main.surround_ai, aktualizację devDeps, poprawki eslint, poprawki sprawdzania iob",
+        "uk": "виправлено main.surround_ai, оновлення devDeps, виправлення eslint, виправлення iob checker",
+        "zh-cn": "修复了 main.surround_ai、更新 devDeps、eslint 更正、iob 检查器更正"
+      },
+      "1.1.3": {
+        "en": "translation with adapter-dev",
+        "de": "Übersetzung mit Adapter-Dev",
+        "ru": "перевод с помощью адаптера-dev",
+        "pt": "tradução com adaptador-dev",
+        "nl": "vertaling met adapter-dev",
+        "fr": "traduction avec adapter-dev",
+        "it": "traduzione con adattatore-dev",
+        "es": "traducción con adaptador-dev",
+        "pl": "tłumaczenie za pomocą adapter-dev",
+        "uk": "переклад за допомогою adapter-dev",
+        "zh-cn": "使用适配器开发进行翻译"
+      }
     },
-    "native": {
-        "netusbplaytime": false,
-        "cdplaytime": false,
-        "keepalive": false,
-        "devices": []
+    "titleLang": {
+      "en": "Yamaha MusicCast",
+      "de": "Yamaha MusicCast",
+      "ru": "Yamaha MusicCast",
+      "pt": "Yamaha MusicCast",
+      "nl": "Yamaha MusicCast",
+      "fr": "Yamaha MusicCast",
+      "it": "Yamaha MusicCastr",
+      "es": "Yamaha MusicCast",
+      "pl": "Yamaha MusicCast",
+      "zh-cn": "Yamaha MusicCast",
+      "uk": "Yamaha MusicCast"
     },
-    "objects": [],
-    "instanceObjects": []
+    "desc": {
+      "en": "Musiccast Adapter",
+      "de": "Musiccast Adapter",
+      "ru": "Адаптер Musiccast",
+      "pt": "Adaptador Musiccast",
+      "nl": "Musiccast-adapter",
+      "fr": "Adaptateur de Musiccast",
+      "it": "Adattatore Musiccast",
+      "es": "Adaptador de Musiccast",
+      "pl": "Adapter Musiccast",
+      "zh-cn": "雅马哈",
+      "uk": "Адаптер Musiccast"
+    },
+    "authors": ["foxthefox <foxthefox@wysiwis.net>"],
+    "keywords": ["muscicast", "yamaha", "sound", "audio"],
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
+    "platform": "Javascript/Node.js",
+    "tier": 3,
+    "icon": "musiccast.png",
+    "enabled": true,
+    "messagebox": true,
+    "extIcon": "https://raw.githubusercontent.com/foxthefox/ioBroker.musiccast/master/admin/musiccast.png",
+    "readme": "https://github.com/foxthefox/ioBroker.musiccast/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "multimedia",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize"
+    },
+    "materialize": true,
+    "dependencies": [
+      {
+        "js-controller": ">=6.0.11"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=7.6.17"
+      }
+    ]
+  },
+  "native": {
+    "netusbplaytime": false,
+    "cdplaytime": false,
+    "keepalive": false,
+    "devices": []
+  },
+  "objects": [],
+  "instanceObjects": []
 }

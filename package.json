@@ -1,64 +1,69 @@
 {
-	"name": "iobroker.musiccast",
-	"version": "1.2.0",
-	"description": "ioBroker MusicCast Adapter",
-	"author": {
-		"name": "foxthefox",
-		"email": "foxthefox@wysiwis.net"
-	},
-	"homepage": "https://github.com/foxthefox/ioBroker.musiccast",
-	"license": "MIT",
-	"keywords": [ "ioBroker", "Yamaha", "MusicCast", "Smart Home", "Sound" ],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/foxthefox/ioBroker.musiccast"
-	},
-	"engines": {
-		"node": ">=18"
-	},
-	"dependencies": {
-		"@iobroker/adapter-core": "^3.2.3",
-		"md5": "^2.2.1",
-		"yamaha-yxc-nodejs": "^3.1.2"
-	},
-	"devDependencies": {
-		"@eslint/js": "^9.19.0",
-		"@alcalzone/release-script": "^3.8.0",
-		"@alcalzone/release-script-plugin-iobroker": "^3.7.2",
-		"@alcalzone/release-script-plugin-license": "^3.7.0",
-		"@alcalzone/release-script-plugin-manual-review": "^3.7.0",
-		"@iobroker/adapter-dev": "^1.3.0",
-		"@iobroker/testing": "^5.0.3",
-		"@types/chai": "^5.0.1",
-		"@types/chai-as-promised": "^8.0.1",
-		"@types/mocha": "^10.0.10",
-		"@types/node": "^22.13.0",
-		"@types/proxyquire": "^1.3.31",
-		"@types/sinon": "^17.0.3",
-		"@types/sinon-chai": "^3.2.12",
-		"chai": "^5.2.0",
-		"chai-as-promised": "^8.0.1",
-		"eslint": "^9.19.0",
-		"mocha": "^11.1.0",
-		"proxyquire": "^2.1.3",
-		"sinon": "^19.0.2",
-		"sinon-chai": "^4.0.0",
-		"typescript": "^5.7.3"
-	},
-	"main": "main.js",
-	"scripts": {
-		"test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
-		"test:package": "mocha test/package --exit",
-		"test:unit": "mocha test/unit --exit",
-		"test:integration": "mocha test/integration --exit",
-		"test": "npm run test:js && npm run test:package",
-		"check": "tsc --noEmit -p tsconfig.check.json",
-		"translate": "translate-adapter",
-		"lint": "eslint",
-		"release": "release-script"
-	},
-	"bugs": {
-		"url": "https://github.com/foxthefox/ioBroker.musiccast/issues"
-	},
-	"readmeFilename": "README.md"
+  "name": "iobroker.musiccast",
+  "version": "1.2.0",
+  "description": "ioBroker MusicCast Adapter",
+  "author": {
+    "name": "foxthefox",
+    "email": "foxthefox@wysiwis.net"
+  },
+  "homepage": "https://github.com/foxthefox/ioBroker.musiccast",
+  "license": "MIT",
+  "keywords": [
+    "ioBroker",
+    "Yamaha",
+    "MusicCast",
+    "Smart Home",
+    "Sound"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foxthefox/ioBroker.musiccast"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@iobroker/adapter-core": "^3.3.2",
+    "md5": "^2.2.1",
+    "yamaha-yxc-nodejs": "^3.1.2"
+  },
+  "devDependencies": {
+    "@alcalzone/release-script": "^3.8.0",
+    "@alcalzone/release-script-plugin-iobroker": "^3.7.2",
+    "@alcalzone/release-script-plugin-license": "^3.7.0",
+    "@alcalzone/release-script-plugin-manual-review": "^3.7.0",
+    "@iobroker/adapter-dev": "^1.3.0",
+    "@iobroker/eslint-config": "^2.1.0",
+    "@iobroker/testing": "^5.0.3",
+    "@types/chai": "^5.0.1",
+    "@types/chai-as-promised": "^8.0.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.13.0",
+    "@types/proxyquire": "^1.3.31",
+    "@types/sinon": "^17.0.3",
+    "@types/sinon-chai": "^3.2.12",
+    "chai": "^5.2.0",
+    "chai-as-promised": "^8.0.1",
+    "mocha": "^11.1.0",
+    "proxyquire": "^2.1.3",
+    "sinon": "^19.0.2",
+    "sinon-chai": "^4.0.0",
+    "typescript": "^5.7.3"
+  },
+  "main": "main.js",
+  "scripts": {
+    "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
+    "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit",
+    "test:integration": "mocha test/integration --exit",
+    "test": "npm run test:js && npm run test:package",
+    "check": "tsc --noEmit -p tsconfig.check.json",
+    "translate": "translate-adapter",
+    "lint": "eslint -c eslint.config.mjs .",
+    "release": "release-script"
+  },
+  "bugs": {
+    "url": "https://github.com/foxthefox/ioBroker.musiccast/issues"
+  },
+  "readmeFilename": "README.md"
 }
