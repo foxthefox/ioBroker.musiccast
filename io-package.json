@@ -4,7 +4,17 @@
     "version": "1.2.0",
     "news": {
       "1.2.0": {
-        "en": "jsonConfig UI,corrections "
+        "en": "jsonConfig UI,corrections ",
+        "de": "JsonConfig UI, Korrekturen",
+        "ru": "jsonConfig UI, исправления",
+        "pt": "JSONCONCONFIG UI, Correções",
+        "nl": "jsonconfig ui, correcties",
+        "fr": "jsonconfig ui, corrections",
+        "it": "JSONCONFIG UI, correzioni",
+        "es": "jsonconfig ui, correcciones",
+        "pl": "JSONCONFIG UI, poprawki",
+        "uk": "jsonconfig ui, виправлення",
+        "zh-cn": "JSONCONFIG UI，更正"
       },
       "1.1.4": {
         "en": "fixed main.surround_ai, update devDeps, eslint corrections, iob checker corrections",
@@ -59,8 +69,15 @@
       "zh-cn": "雅马哈",
       "uk": "Адаптер Musiccast"
     },
-    "authors": ["foxthefox <foxthefox@wysiwis.net>"],
-    "keywords": ["muscicast", "yamaha", "sound", "audio"],
+    "authors": [
+      "foxthefox <foxthefox@wysiwis.net>"
+    ],
+    "keywords": [
+      "muscicast",
+      "yamaha",
+      "sound",
+      "audio"
+    ],
     "licenseInformation": {
       "license": "MIT",
       "type": "free"
