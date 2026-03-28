@@ -11,7 +11,7 @@ const utils = require('@iobroker/adapter-core');
 // https://techsparx.com/nodejs/esnext/esm-to-cjs.html
 
 // Load your modules here, e.g.:
-// const fs = require("fs");
+// const fs = require("node:fs");
 const md5 = require('md5');
 const YamahaYXC = require('yamaha-yxc-nodejs').YamahaYXC;
 
@@ -144,7 +144,7 @@ class Musiccast extends utils.Adapter {
                 //get Clock initially
                 //get tuner initially
             }
-            const dgram = require('dgram');
+            const dgram = require('node:dgram');
             const server = dgram.createSocket('udp4');
 
             server.on('error', err => {
