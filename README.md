@@ -206,6 +206,9 @@ The following objects are currently implemented:
 
 ## Changelog
 
+### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22 now
+
 ### 1.2.1
 
 - materialize -> jsonUI
